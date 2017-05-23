@@ -27,6 +27,7 @@ func main() {
 	query := flag.String("q", "", "The SQL query statement to be executed")
 	database := flag.String("d", "", "The database in which the query execution occurs")
 	output := flag.String("o", "", "The location in S3 where query results are stored")
+	json := flag.Bool("json", false, "Show output as JSON instead of table")
 	flag.Parse()
 
 	sess := session.Must(session.NewSession(&aws.Config{Region: region}))
@@ -67,15 +68,19 @@ func main() {
 		return
 	}
 
-	table := tablewriter.NewWriter(os.Stdout)
-	for _, row := range rs.Rows {
-		tabRow := make([]string, len(row.Data))
-		for i, data := range row.Data {
-			tabRow[i] = *data.VarCharValue
+	if *json {
+		fmt.Printf("%#v\n", rs)
+	} else {
+		table := tablewriter.NewWriter(os.Stdout)
+		for _, row := range rs.Rows {
+			tabRow := make([]string, len(row.Data))
+			for i, data := range row.Data {
+				tabRow[i] = *data.VarCharValue
+			}
+			table.Append(tabRow)
 		}
-		table.Append(tabRow)
+		table.Render()
 	}
-	table.Render()
 
 	stats := getOutput.QueryExecution.Statistics
 	scannedBytes := uint64(*stats.DataScannedInBytes)
