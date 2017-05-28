@@ -31,6 +31,7 @@ type Query struct {
 }
 
 // NewQuery creates a new Query struct.
+// query string must be a single SQL statement rather than multiple ones joined by semicolons.
 func NewQuery(client athenaiface.AthenaAPI, query string, cfg *QueryConfig) (*Query, error) {
 	if client == nil || len(query) == 0 || cfg == nil {
 		return nil, errors.New("NewQuery(): invalid argument(s)")
@@ -45,28 +46,6 @@ func NewQuery(client athenaiface.AthenaAPI, query string, cfg *QueryConfig) (*Qu
 	log.Printf("created %#v\n", q)
 	return q, nil
 }
-
-// RunQuery runs queries.
-// func (q *Query) RunQuery(query string) ([]string, error) {
-// if q == nil {
-// return nil, errors.New("receiver *Athenai is nil")
-// }
-
-// // TODO: run multiple queries concurrently using goroutines
-
-// queries := strings.Split(query, ";")
-// ids := make([]string, len(queries))
-
-// for i, query := range queries {
-// id, err := q.RunSingleQuery(query)
-// if err != nil {
-// return nil, errors.Wrap(err, "query execution failed")
-// }
-// ids[i] = id
-// }
-
-// return ids, nil
-// }
 
 // Start starts the specified query but does not wait for it to complete.
 func (q *Query) Start() error {
@@ -118,4 +97,12 @@ func (q *Query) Wait() error {
 		log.Printf("query execution state: %s; sleeping %s\n", state, q.interval.String())
 		time.Sleep(q.interval)
 	}
+}
+
+// Run starts the specified query and waits for it to complete.
+func (q *Query) Run() error {
+	if err := q.Start(); err != nil {
+		return errors.Wrap(err, "failed to start query execution")
+	}
+	return q.Wait()
 }
