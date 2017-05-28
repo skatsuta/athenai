@@ -25,6 +25,7 @@ type QueryConfig struct {
 }
 
 // Query represents a query to be executed.
+// Query is NOT goroutine-safe so must be used in a single goroutine.
 type Query struct {
 	*QueryConfig
 	interval time.Duration
