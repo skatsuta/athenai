@@ -24,16 +24,22 @@ type QueryConfig struct {
 	Output   string
 }
 
+// Result represents a result of a query execution.
+type Result struct {
+	Info *athena.QueryExecution
+	*athena.ResultSet
+}
+
 // Query represents a query to be executed.
 // Query is NOT goroutine-safe so must be used in a single goroutine.
 type Query struct {
 	*QueryConfig
+	*Result
+
 	interval time.Duration
 	client   athenaiface.AthenaAPI
 	query    string
 	id       string
-	info     *athena.QueryExecution
-	results  *athena.ResultSet
 }
 
 // NewQuery creates a new Query struct.
@@ -45,6 +51,7 @@ func NewQuery(client athenaiface.AthenaAPI, query string, cfg *QueryConfig) (*Qu
 
 	q := &Query{
 		QueryConfig: cfg,
+		Result:      &Result{},
 		interval:    getQueryExecutionAPICallInterval,
 		client:      client,
 		query:       query,
@@ -94,7 +101,7 @@ func (q *Query) Wait() error {
 		}
 
 		qe := qeo.QueryExecution
-		q.info = qe
+		q.Info = qe
 		state := aws.StringValue(qe.Status.State)
 		switch state {
 		case athena.QueryExecutionStateSucceeded, athena.QueryExecutionStateFailed, athena.QueryExecutionStateCancelled:
@@ -109,18 +116,17 @@ func (q *Query) Wait() error {
 
 // GetResults gets the results of the query execution.
 func (q *Query) GetResults() error {
-	results := &athena.ResultSet{}
-
 	params := &athena.GetQueryResultsInput{
 		QueryExecutionId: aws.String(q.id),
 		MaxResults:       aws.Int64(getQueryResultsAPIMaxResults),
 	}
-	callback := func(page *athena.GetQueryResultsOutput, lastPage bool) bool {
-		if results.ResultSetMetadata == nil {
-			results.ResultSetMetadata = page.ResultSet.ResultSetMetadata
-		}
 
-		results.Rows = append(results.Rows, page.ResultSet.Rows...)
+	rs := &athena.ResultSet{}
+	callback := func(page *athena.GetQueryResultsOutput, lastPage bool) bool {
+		if rs.ResultSetMetadata == nil {
+			rs.ResultSetMetadata = page.ResultSet.ResultSetMetadata
+		}
+		rs.Rows = append(rs.Rows, page.ResultSet.Rows...)
 		return !lastPage
 	}
 
@@ -128,11 +134,11 @@ func (q *Query) GetResults() error {
 		return errors.Wrap(err, "GetQueryResults API error")
 	}
 
-	q.results = results
+	q.ResultSet = rs
 	return nil
 }
 
-// Run starts the specified query and waits for it to complete.
+// Run starts the specified query, waits for it to complete and fetch the results.
 func (q *Query) Run() error {
 	if err := q.Start(); err != nil {
 		return errors.Wrap(err, "failed to start query execution")

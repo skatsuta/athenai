@@ -155,6 +155,7 @@ func TestWait(t *testing.T) {
 	for _, tt := range tests {
 		q := &Query{
 			QueryConfig: cfg,
+			Result:      &Result{},
 			client: &mockedGetQueryExecution{
 				mockedStartQueryExecution: &mockedStartQueryExecution{
 					id: tt.id,
@@ -170,8 +171,8 @@ func TestWait(t *testing.T) {
 
 		err = q.Wait()
 		assert.Nil(t, err)
-		assert.Equal(t, tt.id, aws.StringValue(q.info.QueryExecutionId), "Query: %s, Id: %s", tt.query, tt.id)
-		assert.Equal(t, tt.status, aws.StringValue(q.info.Status.State), "Query: %s, Id: %s", tt.query, tt.id)
+		assert.Equal(t, tt.id, aws.StringValue(q.Info.QueryExecutionId), "Query: %s, Id: %s", tt.query, tt.id)
+		assert.Equal(t, tt.status, aws.StringValue(q.Info.Status.State), "Query: %s, Id: %s", tt.query, tt.id)
 	}
 }
 
@@ -290,12 +291,14 @@ func TestGetResults(t *testing.T) {
 			interval: 0 * time.Millisecond,
 			query:    tt.query,
 			id:       tt.id,
-			info:     tt.info,
+			Result: &Result{
+				Info: tt.info,
+			},
 		}
 
 		err := q.GetResults()
 		assert.Nil(t, err)
-		assert.Len(t, q.results.Rows, tt.numRows, "Query: %s, Id: %s", tt.query, tt.id)
+		assert.Len(t, q.ResultSet.Rows, tt.numRows, "Query: %s, Id: %s", tt.query, tt.id)
 	}
 }
 
