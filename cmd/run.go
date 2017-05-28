@@ -4,13 +4,14 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/athena"
-	"github.com/k0kubun/pp"
 	"github.com/skatsuta/athenai/athenai/exec"
+	"github.com/skatsuta/athenai/output"
 	"github.com/spf13/cobra"
 )
 
@@ -60,7 +61,7 @@ func runCmdFunc(cmd *cobra.Command, args []string) {
 
 	resultCh := make(chan *exec.Result)
 	errCh := make(chan error)
-	tick := time.Tick(500 * time.Millisecond)
+	tick := time.Tick(1000 * time.Millisecond)
 
 	q, err := exec.NewQuery(client, query, queryConfig)
 	if err != nil {
@@ -80,7 +81,8 @@ func runCmdFunc(cmd *cobra.Command, args []string) {
 	for {
 		select {
 		case r := <-resultCh:
-			pp.Println(r)
+			fmt.Println("")
+			output.NewTablePrinter(os.Stdout).Render(r)
 			return
 		case e := <-errCh:
 			fatal(e)
