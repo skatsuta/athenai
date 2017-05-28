@@ -1,6 +1,8 @@
 package exec
 
 import (
+	"time"
+
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/athena"
 	"github.com/aws/aws-sdk-go/service/athena/athenaiface"
@@ -20,6 +22,8 @@ type QueryConfig struct {
 // Query represents a query to be executed.
 type Query struct {
 	*QueryConfig
+	// sleep duration in milliseconds
+	sleep    time.Duration
 	client   athenaiface.AthenaAPI
 	query    string
 	id       string
@@ -34,6 +38,7 @@ func NewQuery(client athenaiface.AthenaAPI, query string, cfg *QueryConfig) (*Qu
 
 	q := &Query{
 		QueryConfig: cfg,
+		sleep:       sleepDuration,
 		client:      client,
 		query:       query,
 	}
@@ -85,28 +90,28 @@ func (q *Query) Start() error {
 	return nil
 }
 
-// Wait waits for the query execution to finish.
-// If the query execution fails or is cancelled, or any error occurs, an error is returned.
-// func (q *Query) Wait() error {
-// for {
-// qeo, err := q.client.GetQueryExecution(&athena.GetQueryExecutionInput{
-// QueryExecutionId: aws.String(q.id),
-// })
-// if err != nil {
-// return errors.Wrap(err, "GetQueryExecution API error")
-// }
+// Wait waits for the query execution until its state has become SUCCEEDED, FAILED or CANCELLED.
+func (q *Query) Wait() error {
+	if q.id == "" {
+		return errors.New("query has not started yet or already failed to start")
+	}
 
-// qe := qeo.QueryExecution
-// status := qe.Status
-// switch aws.StringValue(status.State) {
-// case athena.QueryExecutionStateSucceeded:
-// return qe, nil
-// case athena.QueryExecutionStateFailed:
-// return qe, errors.Errorf("query failed: %s", aws.StringValue(status.StateChangeReason))
-// case athena.QueryExecutionStateCancelled:
-// return qe, errors.Errorf("query cancelled: %s", aws.StringValue(status.StateChangeReason))
-// }
+	for {
+		qeo, err := q.client.GetQueryExecution(&athena.GetQueryExecutionInput{
+			QueryExecutionId: aws.String(q.id),
+		})
+		if err != nil {
+			return errors.Wrap(err, "GetQueryExecution API error")
+		}
 
-// time.Sleep(sleepDuration * time.Millisecond)
-// }
-// }
+		qe := qeo.QueryExecution
+		q.metadata = qe
+		state := aws.StringValue(qe.Status.State)
+		switch state {
+		case athena.QueryExecutionStateSucceeded, athena.QueryExecutionStateFailed, athena.QueryExecutionStateCancelled:
+			return nil
+		}
+
+		time.Sleep(q.sleep * time.Millisecond)
+	}
+}
