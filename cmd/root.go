@@ -9,7 +9,11 @@ import (
 	"github.com/spf13/viper"
 )
 
-var cfgFile string
+var (
+	debug   bool
+	cfgFile string
+	region  string
+)
 
 // RootCmd represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
@@ -38,7 +42,9 @@ func init() {
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
+	RootCmd.PersistentFlags().BoolVar(&debug, "debug", false, "enable debug mode")
 	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.athenai.yml)")
+	RootCmd.PersistentFlags().StringVarP(&region, "region", "r", "", "AWS region")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
