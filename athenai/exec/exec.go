@@ -12,6 +12,10 @@ import (
 
 const (
 	getQueryExecutionAPICallInterval = 500 * time.Millisecond
+
+	// The maximum number of results (rows) to return in a GetQueryResults API request.
+	// See https://docs.aws.amazon.com/ja_jp/athena/latest/APIReference/API_GetQueryResults.html#API_GetQueryResults_RequestSyntax
+	getQueryResultsAPIMaxResults = 1000
 )
 
 // QueryConfig is configurations for query executions.
@@ -28,6 +32,7 @@ type Query struct {
 	query    string
 	id       string
 	metadata *athena.QueryExecution
+	results  *athena.ResultSet
 }
 
 // NewQuery creates a new Query struct.
@@ -77,6 +82,8 @@ func (q *Query) Wait() error {
 		return errors.New("query has not started yet or already failed to start")
 	}
 
+	// TODO: timeout after 30 minutes using Context
+	// See https://docs.aws.amazon.com/athena/latest/ug/service-limits.html
 	for {
 		qeo, err := q.client.GetQueryExecution(&athena.GetQueryExecutionInput{
 			QueryExecutionId: aws.String(q.id),
@@ -99,10 +106,38 @@ func (q *Query) Wait() error {
 	}
 }
 
+// GetResults gets the results of the query execution.
+func (q *Query) GetResults() error {
+	results := &athena.ResultSet{}
+
+	params := &athena.GetQueryResultsInput{
+		QueryExecutionId: aws.String(q.id),
+		MaxResults:       aws.Int64(getQueryResultsAPIMaxResults),
+	}
+	callback := func(page *athena.GetQueryResultsOutput, lastPage bool) bool {
+		if results.ResultSetMetadata == nil {
+			results.ResultSetMetadata = page.ResultSet.ResultSetMetadata
+		}
+
+		results.Rows = append(results.Rows, page.ResultSet.Rows...)
+		return !lastPage
+	}
+
+	if err := q.client.GetQueryResultsPages(params, callback); err != nil {
+		return errors.Wrap(err, "GetQueryResults API error")
+	}
+
+	q.results = results
+	return nil
+}
+
 // Run starts the specified query and waits for it to complete.
 func (q *Query) Run() error {
 	if err := q.Start(); err != nil {
 		return errors.Wrap(err, "failed to start query execution")
 	}
-	return q.Wait()
+	if err := q.Wait(); err != nil {
+		return errors.Wrap(err, "error while waiting for the query execution")
+	}
+	return q.GetResults()
 }

@@ -216,3 +216,128 @@ func TestWaitError(t *testing.T) {
 		assert.NotNil(t, err)
 	}
 }
+
+var mockedResultSet = &athena.ResultSet{
+	ResultSetMetadata: &athena.ResultSetMetadata{},
+	Rows:              []*athena.Row{{}, {}, {}, {}, {}},
+}
+
+type mockedGetQueryResults struct {
+	athenaiface.AthenaAPI
+	page     int
+	maxPages int
+}
+
+func (m *mockedGetQueryResults) GetQueryResults(input *athena.GetQueryResultsInput) (*athena.GetQueryResultsOutput, error) {
+	m.page++
+	resp := &athena.GetQueryResultsOutput{
+		ResultSet: mockedResultSet,
+	}
+	if m.page < m.maxPages {
+		resp.NextToken = aws.String("next")
+	}
+	return resp, nil
+}
+
+func (m *mockedGetQueryResults) GetQueryResultsPages(input *athena.GetQueryResultsInput, callback func(*athena.GetQueryResultsOutput, bool) bool) error {
+	cont := true
+	for cont {
+		qr, err := m.GetQueryResults(input)
+		if err != nil {
+			return err
+		}
+
+		lastPage := qr.NextToken == nil
+		cont = callback(qr, lastPage)
+		cont = cont && !lastPage
+	}
+
+	return nil
+}
+
+func TestGetResults(t *testing.T) {
+	cfg := &QueryConfig{
+		Database: "sampledb",
+		Output:   "s3://bucket/prefix/",
+	}
+
+	tests := []struct {
+		query    string
+		id       string
+		metadata *athena.QueryExecution
+		maxPages int
+		numRows  int
+	}{
+		{
+			query: "SELECT * FROM cloudfront_logs LIMIT 10",
+			id:    "1",
+			metadata: &athena.QueryExecution{
+				Status: &athena.QueryExecutionStatus{
+					State: aws.String(athena.QueryExecutionStateSucceeded),
+				},
+			},
+			maxPages: 2,
+			numRows:  10,
+		},
+	}
+
+	for _, tt := range tests {
+		q := &Query{
+			QueryConfig: cfg,
+			client: &mockedGetQueryResults{
+				maxPages: tt.maxPages,
+			},
+			interval: 0 * time.Millisecond,
+			query:    tt.query,
+			id:       tt.id,
+			metadata: tt.metadata,
+		}
+
+		err := q.GetResults()
+		assert.Nil(t, err)
+		assert.Len(t, q.results.Rows, tt.numRows, "Query: %s, Id: %s", tt.query, tt.id)
+	}
+}
+
+type mockedGetQueryResultsError struct {
+	athenaiface.AthenaAPI
+	errMsg string
+}
+
+func (m *mockedGetQueryResultsError) GetQueryResultsPages(input *athena.GetQueryResultsInput, callback func(*athena.GetQueryResultsOutput, bool) bool) error {
+	return errors.New(m.errMsg)
+}
+
+func TestGetResultsError(t *testing.T) {
+	cfg := &QueryConfig{
+		Database: "sampledb",
+		Output:   "s3://bucket/prefix/",
+	}
+
+	tests := []struct {
+		query  string
+		id     string
+		errMsg string
+	}{
+		{
+			query:  "SELECT * FROM test_get_result_errors",
+			id:     "no_existent_id",
+			errMsg: "InvalidRequestException",
+		},
+	}
+
+	for _, tt := range tests {
+		q := &Query{
+			QueryConfig: cfg,
+			client: &mockedGetQueryResultsError{
+				errMsg: tt.errMsg,
+			},
+			interval: 0 * time.Millisecond,
+			query:    tt.query,
+			id:       tt.id,
+		}
+
+		err := q.GetResults()
+		assert.NotNil(t, err)
+	}
+}
