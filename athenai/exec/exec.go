@@ -139,12 +139,15 @@ func (q *Query) GetResults() error {
 }
 
 // Run starts the specified query, waits for it to complete and fetch the results.
-func (q *Query) Run() error {
+func (q *Query) Run() (*Result, error) {
 	if err := q.Start(); err != nil {
-		return errors.Wrap(err, "failed to start query execution")
+		return nil, errors.Wrap(err, "failed to start query execution")
 	}
 	if err := q.Wait(); err != nil {
-		return errors.Wrap(err, "error while waiting for the query execution")
+		return nil, errors.Wrap(err, "error while waiting for the query execution")
 	}
-	return q.GetResults()
+	if err := q.GetResults(); err != nil {
+		return nil, errors.Wrap(err, "failed to get query results")
+	}
+	return q.Result, nil
 }

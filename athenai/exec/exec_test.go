@@ -60,7 +60,7 @@ func TestStart(t *testing.T) {
 		id       string
 		expected string
 	}{
-		{"SELECT * FROM elb_logs", "1", "1"},
+		{"SELECT * FROM elb_logs", "TestStart1", "TestStart1"},
 	}
 
 	for _, tt := range tests {
@@ -110,7 +110,7 @@ var failedQueryStateFlow = []string{
 }
 
 type mockedGetQueryExecution struct {
-	*mockedStartQueryExecution
+	athenaiface.AthenaAPI
 	queryStateFlow []string
 	stateCnt       int
 }
@@ -128,7 +128,6 @@ func (m *mockedGetQueryExecution) GetQueryExecution(input *athena.GetQueryExecut
 
 	resp := &athena.GetQueryExecutionOutput{
 		QueryExecution: &athena.QueryExecution{
-			QueryExecutionId: aws.String(m.mockedStartQueryExecution.id),
 			Status: &athena.QueryExecutionStatus{
 				State: aws.String(state),
 			},
@@ -148,8 +147,8 @@ func TestWait(t *testing.T) {
 		id     string
 		status string
 	}{
-		{"SELECT * FROM cloudfront_logs", "1", athena.QueryExecutionStateSucceeded},
-		{"SHOW TABLES", "2", athena.QueryExecutionStateSucceeded},
+		{"SELECT * FROM cloudfront_logs", "TestWait1", athena.QueryExecutionStateSucceeded},
+		{"SHOW TABLES", "TestWait2", athena.QueryExecutionStateSucceeded},
 	}
 
 	for _, tt := range tests {
@@ -157,21 +156,15 @@ func TestWait(t *testing.T) {
 			QueryConfig: cfg,
 			Result:      &Result{},
 			client: &mockedGetQueryExecution{
-				mockedStartQueryExecution: &mockedStartQueryExecution{
-					id: tt.id,
-				},
 				queryStateFlow: successfulQueryStateFlow,
 			},
 			interval: 0 * time.Millisecond,
 			query:    tt.query,
+			id:       tt.id,
 		}
 
-		err := q.Start()
+		err := q.Wait()
 		assert.Nil(t, err)
-
-		err = q.Wait()
-		assert.Nil(t, err)
-		assert.Equal(t, tt.id, aws.StringValue(q.Info.QueryExecutionId), "Query: %s, Id: %s", tt.query, tt.id)
 		assert.Equal(t, tt.status, aws.StringValue(q.Info.Status.State), "Query: %s, Id: %s", tt.query, tt.id)
 	}
 }
@@ -271,7 +264,7 @@ func TestGetResults(t *testing.T) {
 	}{
 		{
 			query: "SELECT * FROM cloudfront_logs LIMIT 10",
-			id:    "1",
+			id:    "TestGetResults1",
 			info: &athena.QueryExecution{
 				Status: &athena.QueryExecutionStatus{
 					State: aws.String(athena.QueryExecutionStateSucceeded),
@@ -342,5 +335,73 @@ func TestGetResultsError(t *testing.T) {
 
 		err := q.GetResults()
 		assert.NotNil(t, err)
+	}
+}
+
+type mockedClient struct {
+	athenaiface.AthenaAPI
+	*mockedStartQueryExecution
+	*mockedGetQueryExecution
+	*mockedGetQueryResults
+}
+
+func (m *mockedClient) StartQueryExecution(input *athena.StartQueryExecutionInput) (*athena.StartQueryExecutionOutput, error) {
+	return m.mockedStartQueryExecution.StartQueryExecution(input)
+}
+
+func (m *mockedClient) GetQueryExecution(input *athena.GetQueryExecutionInput) (*athena.GetQueryExecutionOutput, error) {
+	return m.mockedGetQueryExecution.GetQueryExecution(input)
+}
+
+func (m *mockedClient) GetQueryResults(input *athena.GetQueryResultsInput) (*athena.GetQueryResultsOutput, error) {
+	return m.mockedGetQueryResults.GetQueryResults(input)
+}
+
+func (m *mockedClient) GetQueryResultsPages(input *athena.GetQueryResultsInput, callback func(*athena.GetQueryResultsOutput, bool) bool) error {
+	return m.mockedGetQueryResults.GetQueryResultsPages(input, callback)
+}
+
+func TestRun(t *testing.T) {
+	cfg := &QueryConfig{
+		Database: "sampledb",
+		Output:   "s3://bucket/prefix/",
+	}
+
+	tests := []struct {
+		query    string
+		id       string
+		maxPages int
+		numRows  int
+		expected *Result
+	}{
+		{
+			"SELECT * FROM cloudfront_logs LIMIT 5", "TestRun1", 1, 5,
+			&Result{
+				Info: &athena.QueryExecution{
+					Status: &athena.QueryExecutionStatus{
+						State: aws.String(athena.QueryExecutionStateSucceeded),
+					},
+				},
+				ResultSet: mockedResultSet,
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		q := &Query{
+			QueryConfig: cfg,
+			Result:      &Result{},
+			client: &mockedClient{
+				mockedStartQueryExecution: &mockedStartQueryExecution{id: tt.id},
+				mockedGetQueryExecution:   &mockedGetQueryExecution{queryStateFlow: successfulQueryStateFlow},
+				mockedGetQueryResults:     &mockedGetQueryResults{maxPages: tt.maxPages},
+			},
+			interval: 0 * time.Millisecond,
+			query:    tt.query,
+		}
+
+		r, err := q.Run()
+		assert.Nil(t, err)
+		assert.Equal(t, tt.expected, r, "Query: %#v, Id: %#v", tt.query, tt.id)
 	}
 }
