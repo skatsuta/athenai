@@ -32,7 +32,7 @@ type Query struct {
 	client   athenaiface.AthenaAPI
 	query    string
 	id       string
-	metadata *athena.QueryExecution
+	info     *athena.QueryExecution
 	results  *athena.ResultSet
 }
 
@@ -94,7 +94,7 @@ func (q *Query) Wait() error {
 		}
 
 		qe := qeo.QueryExecution
-		q.metadata = qe
+		q.info = qe
 		state := aws.StringValue(qe.Status.State)
 		switch state {
 		case athena.QueryExecutionStateSucceeded, athena.QueryExecutionStateFailed, athena.QueryExecutionStateCancelled:

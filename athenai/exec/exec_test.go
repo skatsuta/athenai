@@ -170,8 +170,8 @@ func TestWait(t *testing.T) {
 
 		err = q.Wait()
 		assert.Nil(t, err)
-		assert.Equal(t, tt.id, aws.StringValue(q.metadata.QueryExecutionId), "Query: %s, Id: %s", tt.query, tt.id)
-		assert.Equal(t, tt.status, aws.StringValue(q.metadata.Status.State), "Query: %s, Id: %s", tt.query, tt.id)
+		assert.Equal(t, tt.id, aws.StringValue(q.info.QueryExecutionId), "Query: %s, Id: %s", tt.query, tt.id)
+		assert.Equal(t, tt.status, aws.StringValue(q.info.Status.State), "Query: %s, Id: %s", tt.query, tt.id)
 	}
 }
 
@@ -264,14 +264,14 @@ func TestGetResults(t *testing.T) {
 	tests := []struct {
 		query    string
 		id       string
-		metadata *athena.QueryExecution
+		info     *athena.QueryExecution
 		maxPages int
 		numRows  int
 	}{
 		{
 			query: "SELECT * FROM cloudfront_logs LIMIT 10",
 			id:    "1",
-			metadata: &athena.QueryExecution{
+			info: &athena.QueryExecution{
 				Status: &athena.QueryExecutionStatus{
 					State: aws.String(athena.QueryExecutionStateSucceeded),
 				},
@@ -290,7 +290,7 @@ func TestGetResults(t *testing.T) {
 			interval: 0 * time.Millisecond,
 			query:    tt.query,
 			id:       tt.id,
-			metadata: tt.metadata,
+			info:     tt.info,
 		}
 
 		err := q.GetResults()
