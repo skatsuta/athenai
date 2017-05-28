@@ -3,6 +3,7 @@ package exec
 import (
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/athena"
@@ -160,8 +161,8 @@ func TestWait(t *testing.T) {
 				},
 				queryStateFlow: successfulQueryStateFlow,
 			},
-			sleep: 0,
-			query: tt.query,
+			interval: 0 * time.Millisecond,
+			query:    tt.query,
 		}
 
 		err := q.Start()
@@ -204,8 +205,8 @@ func TestWaitError(t *testing.T) {
 				mockedStartQueryExecution: &mockedStartQueryExecution{},
 				errMsg: "an internal error occurred",
 			},
-			sleep: 0,
-			query: tt.query,
+			interval: 0 * time.Millisecond,
+			query:    tt.query,
 		}
 
 		err := q.Start()

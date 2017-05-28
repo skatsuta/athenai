@@ -1,6 +1,7 @@
 package exec
 
 import (
+	"log"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -10,7 +11,7 @@ import (
 )
 
 const (
-	sleepDuration = 500 // milliseconds
+	getQueryExecutionAPICallInterval = 500 * time.Millisecond
 )
 
 // QueryConfig is configurations for query executions.
@@ -22,8 +23,7 @@ type QueryConfig struct {
 // Query represents a query to be executed.
 type Query struct {
 	*QueryConfig
-	// sleep duration in milliseconds
-	sleep    time.Duration
+	interval time.Duration
 	client   athenaiface.AthenaAPI
 	query    string
 	id       string
@@ -38,10 +38,11 @@ func NewQuery(client athenaiface.AthenaAPI, query string, cfg *QueryConfig) (*Qu
 
 	q := &Query{
 		QueryConfig: cfg,
-		sleep:       sleepDuration,
+		interval:    getQueryExecutionAPICallInterval,
 		client:      client,
 		query:       query,
 	}
+	log.Printf("created %#v\n", q)
 	return q, nil
 }
 
@@ -87,6 +88,7 @@ func (q *Query) Start() error {
 	}
 
 	q.id = aws.StringValue(qe.QueryExecutionId)
+	log.Printf("query execution id: %s\n", q.id)
 	return nil
 }
 
@@ -109,9 +111,11 @@ func (q *Query) Wait() error {
 		state := aws.StringValue(qe.Status.State)
 		switch state {
 		case athena.QueryExecutionStateSucceeded, athena.QueryExecutionStateFailed, athena.QueryExecutionStateCancelled:
+			log.Printf("query execution %s has finished: %s\n", q.id, state)
 			return nil
 		}
 
-		time.Sleep(q.sleep * time.Millisecond)
+		log.Printf("query execution state: %s; sleeping %s\n", state, q.interval.String())
+		time.Sleep(q.interval)
 	}
 }
