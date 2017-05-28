@@ -26,6 +26,6 @@ func init() {
 	RootCmd.AddCommand(runCmd)
 
 	// Define flags
-	runCmd.Flags().String("database", "d", "", "The name of the database")
-	runCmd.Flags().String("output", "o", "", "The location in S3 where query results are stored. For example, s3://bucket_name/prefix/")
+	runCmd.Flags().String("database", "", "The name of the database")
+	runCmd.Flags().String("output", "", "The location in S3 where query results are stored. For example, s3://bucket_name/prefix/")
 }
