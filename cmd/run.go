@@ -46,7 +46,7 @@ func runCmdFunc(cmd *cobra.Command, args []string) {
 
 	// Set log level
 	if debug {
-		cfg = cfg.WithLogLevel(aws.LogDebug | aws.LogDebugWithHTTPBody)
+		cfg = cfg.WithLogLevel(aws.LogDebug | aws.LogDebugWithHTTPBody | aws.LogDebugWithRequestErrors)
 	} else {
 		log.SetOutput(ioutil.Discard)
 	}
