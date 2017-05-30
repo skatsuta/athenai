@@ -11,11 +11,11 @@ import (
 )
 
 const (
-	getQueryExecutionAPICallInterval = 500 * time.Millisecond
+	waitInterval = 500 * time.Millisecond
 
 	// The maximum number of results (rows) to return in a GetQueryResults API request.
 	// See https://docs.aws.amazon.com/ja_jp/athena/latest/APIReference/API_GetQueryResults.html#API_GetQueryResults_RequestSyntax
-	getQueryResultsAPIMaxResults = 1000
+	maxResults = 1000
 )
 
 // QueryConfig is configurations for query executions.
@@ -52,7 +52,7 @@ func NewQuery(client athenaiface.AthenaAPI, query string, cfg *QueryConfig) (*Qu
 	q := &Query{
 		QueryConfig: cfg,
 		Result:      &Result{},
-		interval:    getQueryExecutionAPICallInterval,
+		interval:    waitInterval,
 		client:      client,
 		query:       query,
 	}
@@ -118,7 +118,7 @@ func (q *Query) Wait() error {
 func (q *Query) GetResults() error {
 	params := &athena.GetQueryResultsInput{
 		QueryExecutionId: aws.String(q.id),
-		MaxResults:       aws.Int64(getQueryResultsAPIMaxResults),
+		MaxResults:       aws.Int64(maxResults),
 	}
 
 	rs := &athena.ResultSet{}
