@@ -7,7 +7,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	humanize "github.com/dustin/go-humanize" // TODO: drop go-humanize dependency
 	"github.com/olekukonko/tablewriter"
-	"github.com/skatsuta/athenai/athenai/exec"
+	"github.com/skatsuta/athenai/exec"
 )
 
 // TablePrinter prints output as table format.

@@ -10,7 +10,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/athena"
-	"github.com/skatsuta/athenai/athenai/exec"
+	"github.com/skatsuta/athenai/exec"
 	"github.com/skatsuta/athenai/output"
 	"github.com/spf13/cobra"
 )
