@@ -24,12 +24,13 @@ func NewTable(w io.Writer) *Table {
 
 // Print prints the result in tabular form.
 func (t *Table) Print(r *exec.Result) {
+	tabRow := make([]string, 0, 1)
 	for _, row := range r.ResultSet.Rows {
-		tr := make([]string, len(row.Data))
-		for i, d := range row.Data {
-			tr[i] = aws.StringValue(d.VarCharValue)
+		for _, d := range row.Data {
+			tabRow = append(tabRow, aws.StringValue(d.VarCharValue))
 		}
-		t.t.Append(tr)
+		t.t.Append(tabRow)
+		tabRow = tabRow[:0] // reset
 	}
 	t.t.Render()
 
