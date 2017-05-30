@@ -56,7 +56,7 @@ func NewQuery(client athenaiface.AthenaAPI, query string, cfg *QueryConfig) (*Qu
 		client:      client,
 		query:       query,
 	}
-	log.Printf("created %#v\n", q)
+	log.Printf("Created %#v\n", q)
 	return q, nil
 }
 
@@ -80,7 +80,7 @@ func (q *Query) Start() error {
 	}
 
 	q.id = aws.StringValue(qe.QueryExecutionId)
-	log.Printf("query execution id: %s\n", q.id)
+	log.Printf("Query execution ID: %s\n", q.id)
 	return nil
 }
 
@@ -105,11 +105,11 @@ func (q *Query) Wait() error {
 		state := aws.StringValue(qe.Status.State)
 		switch state {
 		case athena.QueryExecutionStateSucceeded, athena.QueryExecutionStateFailed, athena.QueryExecutionStateCancelled:
-			log.Printf("query execution %s has finished: %s\n", q.id, state)
+			log.Printf("Query execution %s has finished: %s\n", q.id, state)
 			return nil
 		}
 
-		log.Printf("query execution state: %s; sleeping %s\n", state, q.interval.String())
+		log.Printf("Query execution state: %s; sleeping %s\n", state, q.interval.String())
 		time.Sleep(q.interval)
 	}
 }
