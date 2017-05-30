@@ -11,7 +11,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/athena"
 	"github.com/skatsuta/athenai/exec"
-	"github.com/skatsuta/athenai/output"
+	"github.com/skatsuta/athenai/print"
 	"github.com/spf13/cobra"
 )
 
@@ -82,7 +82,7 @@ func runCmdFunc(cmd *cobra.Command, args []string) {
 		select {
 		case r := <-resultCh:
 			fmt.Println("")
-			output.NewTablePrinter(os.Stdout).Render(r)
+			print.NewTable(os.Stdout).Print(r)
 			return
 		case e := <-errCh:
 			fatal(e)
