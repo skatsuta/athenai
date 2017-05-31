@@ -2,6 +2,7 @@ package exec
 
 import (
 	"log"
+	"sync"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -18,16 +19,46 @@ const (
 	maxResults = 1000
 )
 
+// Result represents results of a query execution.
+// This struct must implement print.Result interface.
+type Result struct {
+	mu   sync.RWMutex
+	info *athena.QueryExecution
+	rs   *athena.ResultSet
+}
+
+// Info returns information of a query execution.
+func (r *Result) Info() *athena.QueryExecution {
+	r.mu.RLock()
+	defer r.mu.RUnlock()
+	return r.info
+}
+
+func (r *Result) sendRows(ch chan []string) {
+	r.mu.RLock()
+	defer r.mu.RUnlock()
+
+	for _, rw := range r.rs.Rows {
+		row := make([]string, 0, len(rw.Data))
+		for _, d := range rw.Data {
+			row = append(row, aws.StringValue(d.VarCharValue))
+		}
+		ch <- row
+	}
+	close(ch)
+}
+
+// Rows returns a receive-only channel which receives each row of query results.
+func (r *Result) Rows() <-chan []string {
+	ch := make(chan []string)
+	go r.sendRows(ch)
+	return ch
+}
+
 // QueryConfig is configurations for query executions.
 type QueryConfig struct {
 	Database string
 	Output   string
-}
-
-// Result represents a result of a query execution.
-type Result struct {
-	Info *athena.QueryExecution
-	*athena.ResultSet
 }
 
 // Query represents a query to be executed.
@@ -101,7 +132,7 @@ func (q *Query) Wait() error {
 		}
 
 		qe := qeo.QueryExecution
-		q.Info = qe
+		q.info = qe
 		state := aws.StringValue(qe.Status.State)
 		switch state {
 		case athena.QueryExecutionStateSucceeded, athena.QueryExecutionStateFailed, athena.QueryExecutionStateCancelled:
@@ -134,7 +165,7 @@ func (q *Query) GetResults() error {
 		return errors.Wrap(err, "GetQueryResults API error")
 	}
 
-	q.ResultSet = rs
+	q.rs = rs
 	return nil
 }
 

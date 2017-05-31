@@ -165,7 +165,7 @@ func TestWait(t *testing.T) {
 
 		err := q.Wait()
 		assert.Nil(t, err)
-		assert.Equal(t, tt.status, aws.StringValue(q.Info.Status.State), "Query: %s, Id: %s", tt.query, tt.id)
+		assert.Equal(t, tt.status, aws.StringValue(q.Info().Status.State), "Query: %s, Id: %s", tt.query, tt.id)
 	}
 }
 
@@ -285,13 +285,13 @@ func TestGetResults(t *testing.T) {
 			query:    tt.query,
 			id:       tt.id,
 			Result: &Result{
-				Info: tt.info,
+				info: tt.info,
 			},
 		}
 
 		err := q.GetResults()
 		assert.Nil(t, err)
-		assert.Len(t, q.ResultSet.Rows, tt.numRows, "Query: %s, Id: %s", tt.query, tt.id)
+		assert.Len(t, q.rs.Rows, tt.numRows, "Query: %s, Id: %s", tt.query, tt.id)
 	}
 }
 
@@ -377,12 +377,12 @@ func TestRun(t *testing.T) {
 		{
 			"SELECT * FROM cloudfront_logs LIMIT 5", "TestRun1", 1, 5,
 			&Result{
-				Info: &athena.QueryExecution{
+				info: &athena.QueryExecution{
 					Status: &athena.QueryExecutionStatus{
 						State: aws.String(athena.QueryExecutionStateSucceeded),
 					},
 				},
-				ResultSet: mockedResultSet,
+				rs: mockedResultSet,
 			},
 		},
 	}

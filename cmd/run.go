@@ -26,7 +26,7 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
-	Run: runCmdFunc,
+	Run: runRun,
 }
 
 var (
@@ -41,7 +41,7 @@ func init() {
 	runCmd.Flags().StringVarP(&queryConfig.Output, "output", "o", "", "The location in S3 where query results are stored. For example, s3://bucket_name/prefix/")
 }
 
-func runCmdFunc(cmd *cobra.Command, args []string) {
+func runRun(cmd *cobra.Command, args []string) {
 	cfg := aws.NewConfig().WithRegion(region)
 
 	// Set log level
@@ -54,19 +54,20 @@ func runCmdFunc(cmd *cobra.Command, args []string) {
 	sess := session.Must(session.NewSession(cfg))
 	client := athena.New(sess)
 
-	query := ""
+	var query string
 	if len(args) > 0 {
 		query = args[0]
+	}
+
+	// TODO: validate query
+	q, err := exec.NewQuery(client, query, queryConfig)
+	if err != nil {
+		fatal(err)
 	}
 
 	resultCh := make(chan *exec.Result)
 	errCh := make(chan error)
 	tick := time.Tick(1000 * time.Millisecond)
-
-	q, err := exec.NewQuery(client, query, queryConfig)
-	if err != nil {
-		fatal(err)
-	}
 
 	go func(q *exec.Query, resultCh chan *exec.Result, errCh chan error) {
 		r, err := q.Run()
@@ -81,7 +82,7 @@ func runCmdFunc(cmd *cobra.Command, args []string) {
 	for {
 		select {
 		case r := <-resultCh:
-			fmt.Println("")
+			fmt.Print("\n")
 			print.NewTable(os.Stdout).Print(r)
 			return
 		case e := <-errCh:
