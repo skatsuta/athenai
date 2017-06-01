@@ -23,9 +23,13 @@ func (r *Result) Info() *athena.QueryExecution {
 }
 
 func (r *Result) sendRows(ch chan []string) {
+	if ch == nil || r.rs == nil {
+		close(ch)
+		return
+	}
+
 	r.mu.RLock()
 	defer r.mu.RUnlock()
-
 	for _, rw := range r.rs.Rows {
 		row := make([]string, 0, len(rw.Data))
 		for _, d := range rw.Data {
