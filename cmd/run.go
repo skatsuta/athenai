@@ -5,14 +5,21 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"strings"
+	"sync"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/athena"
+	"github.com/aws/aws-sdk-go/service/athena/athenaiface"
 	"github.com/skatsuta/athenai/exec"
 	"github.com/skatsuta/athenai/print"
 	"github.com/spf13/cobra"
+)
+
+const (
+	tickInterval = 1000 * time.Millisecond
 )
 
 // runCmd represents the run command
@@ -39,56 +46,85 @@ func init() {
 	// Define flags
 	runCmd.Flags().StringVarP(&queryConfig.Database, "database", "d", "", "The name of the database")
 	runCmd.Flags().StringVarP(&queryConfig.Output, "output", "o", "", "The location in S3 where query results are stored. For example, s3://bucket_name/prefix/")
+
+	// Override usage
+	// TODO: more friendly usage examples
+	runCmd.Use = `athenai run [flags] ["QUERY"]`
 }
 
 func runRun(cmd *cobra.Command, args []string) {
+	l := len(args)
+	if l < 1 || l > 1 { // TODO: run interactive mode if no argument is given
+		cmd.Help()
+		return
+	}
+
+	// Create a service configuration
 	cfg := aws.NewConfig().WithRegion(region)
 
 	// Set log level
 	if debug {
 		cfg = cfg.WithLogLevel(aws.LogDebug | aws.LogDebugWithHTTPBody | aws.LogDebugWithRequestErrors)
 	} else {
+		// Surpress log outputs
 		log.SetOutput(ioutil.Discard)
 	}
 
-	sess := session.Must(session.NewSession(cfg))
-	client := athena.New(sess)
+	// Create an Athena client
+	client := athena.New(session.Must(session.NewSession(cfg)))
 
-	var query string
-	if len(args) > 0 {
-		query = args[0]
-	}
+	// Split SQL statements by semicolons
+	stmts := strings.Split(args[0], ";")
 
-	// TODO: validate query
-	q, err := exec.NewQuery(client, query, queryConfig)
-	if err != nil {
-		fatal(err)
-	}
-
+	// Create channels
 	resultCh := make(chan *exec.Result)
 	errCh := make(chan error)
-	tick := time.Tick(1000 * time.Millisecond)
+	doneCh := make(chan struct{})
+	var wg sync.WaitGroup
 
-	go func(q *exec.Query, resultCh chan *exec.Result, errCh chan error) {
-		r, err := q.Run()
-		if err != nil {
-			errCh <- err
-			return
+	// Run each statement concurrently using goroutine
+	for _, stmt := range stmts {
+		query := stmt // capture locally
+		if strings.TrimSpace(query) == "" {
+			continue // Skip empty statements
 		}
-		resultCh <- r
-	}(q, resultCh, errCh)
+		wg.Add(1)
+		go runQuery(client, query, resultCh, errCh, &wg)
+	}
+
+	// Monitoring goroutine to notify that all the query executions have finished
+	go func() {
+		wg.Wait()
+		doneCh <- struct{}{}
+	}()
 
 	fmt.Print("Running query")
+
+	// TODO: arrange results in the order of the original statements
+	tick := time.Tick(tickInterval)
 	for {
 		select {
 		case r := <-resultCh:
 			fmt.Print("\n")
 			print.NewTable(os.Stdout).Print(r)
-			return
 		case e := <-errCh:
-			fatal(e)
+			fmt.Print("\n")
+			fmt.Fprintln(os.Stderr, e)
 		case <-tick:
 			fmt.Print(".")
+		case <-doneCh:
+			return
 		}
 	}
+}
+
+func runQuery(client athenaiface.AthenaAPI, query string, resultCh chan *exec.Result, errCh chan error, wg *sync.WaitGroup) {
+	// Run a query, and send results or an error
+	r, err := exec.NewQuery(client, query, queryConfig).Run()
+	if err != nil {
+		errCh <- err
+	} else {
+		resultCh <- r
+	}
+	wg.Done()
 }
