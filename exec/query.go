@@ -95,7 +95,11 @@ func (q *Query) Wait() error {
 		}
 
 		qe := qeo.QueryExecution
+
+		q.mu.Lock()
 		q.info = qe
+		q.mu.Unlock()
+
 		state := aws.StringValue(qe.Status.State)
 		switch state {
 		case athena.QueryExecutionStateSucceeded, athena.QueryExecutionStateFailed, athena.QueryExecutionStateCancelled:
@@ -128,7 +132,10 @@ func (q *Query) GetResults() error {
 		return errors.Wrap(err, "GetQueryResults API error")
 	}
 
+	q.mu.Lock()
 	q.rs = rs
+	q.mu.Unlock()
+
 	return nil
 }
 
