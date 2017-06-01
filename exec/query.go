@@ -38,9 +38,9 @@ type Query struct {
 
 // NewQuery creates a new Query struct.
 // query string must be a single SQL statement rather than multiple ones joined by semicolons.
-func NewQuery(client athenaiface.AthenaAPI, query string, cfg *QueryConfig) (*Query, error) {
-	if client == nil || len(query) == 0 || cfg == nil {
-		return nil, errors.New("NewQuery(): invalid argument(s)")
+func NewQuery(client athenaiface.AthenaAPI, query string, cfg *QueryConfig) *Query {
+	if client == nil || cfg == nil {
+		panic("client or cfg is nil") // it's a code bug so let's panic
 	}
 
 	q := &Query{
@@ -51,7 +51,7 @@ func NewQuery(client athenaiface.AthenaAPI, query string, cfg *QueryConfig) (*Qu
 		query:       query,
 	}
 	log.Printf("Created %#v\n", q)
-	return q, nil
+	return q
 }
 
 // Start starts the specified query but does not wait for it to complete.

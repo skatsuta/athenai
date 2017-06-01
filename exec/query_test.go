@@ -30,25 +30,6 @@ func (m *mockedStartQueryExecution) StartQueryExecution(input *athena.StartQuery
 	return nil, errors.Errorf("InvalidRequestException: %q", query)
 }
 
-func TestNewError(t *testing.T) {
-	cfg := &QueryConfig{
-		Database: "sampledb",
-		Output:   "s3://bucket/prefix/",
-	}
-
-	tests := []struct {
-		query string
-	}{
-		{""},
-	}
-
-	for _, tt := range tests {
-		q, err := NewQuery(&mockedStartQueryExecution{}, tt.query, cfg)
-		assert.NotNil(t, err, "Query: %#v", tt.query)
-		assert.Nil(t, q)
-	}
-}
-
 func TestStart(t *testing.T) {
 	cfg := &QueryConfig{
 		Database: "sampledb",
@@ -64,10 +45,9 @@ func TestStart(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		q, err := NewQuery(&mockedStartQueryExecution{id: tt.id}, tt.query, cfg)
-		assert.Nil(t, err)
+		q := NewQuery(&mockedStartQueryExecution{id: tt.id}, tt.query, cfg)
+		err := q.Start()
 
-		err = q.Start()
 		assert.Nil(t, err)
 		assert.Equal(t, tt.expected, q.id, "Query: %q", tt.query)
 	}
@@ -87,10 +67,9 @@ func TestStartError(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		q, err := NewQuery(&mockedStartQueryExecution{}, tt.query, cfg)
-		assert.Nil(t, err)
+		q := NewQuery(&mockedStartQueryExecution{}, tt.query, cfg)
+		err := q.Start()
 
-		err = q.Start()
 		if assert.NotNil(t, err) {
 			assert.Contains(t, err.Error(), tt.errCode, "Query: %q", tt.query)
 		}
