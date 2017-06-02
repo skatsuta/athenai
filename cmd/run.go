@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -55,7 +56,7 @@ func init() {
 
 func runRun(cmd *cobra.Command, args []string) {
 	l := len(args)
-	if l != 1 { // TODO: run interactive mode if no argument is given
+	if l < 1 || l > 1 { // TODO: run interactive mode if no argument is given
 		cmd.Help()
 		return
 	}
@@ -78,9 +79,10 @@ func runRun(cmd *cobra.Command, args []string) {
 	stmts := strings.Split(args[0], ";")
 
 	// Create channels
-	l = len(stmts)
-	resultChs := make([]chan *exec.Result, 0, l)
-	errChs := make([]chan error, 0, l)
+	resultCh := make(chan *exec.Result)
+	errCh := make(chan error)
+	doneCh := make(chan struct{})
+	var wg sync.WaitGroup
 
 	// Print running messages
 	if !silent {
@@ -98,37 +100,35 @@ func runRun(cmd *cobra.Command, args []string) {
 
 	// Run each statement concurrently using goroutine
 	for _, stmt := range stmts {
-		if strings.TrimSpace(stmt) == "" {
+		query := stmt // capture locally
+		if strings.TrimSpace(query) == "" {
 			continue // Skip empty statements
 		}
-
-		resultCh := make(chan *exec.Result)
-		errCh := make(chan error)
-		go runQuery(client, stmt, resultCh, errCh)
-
-		resultChs = append(resultChs, resultCh)
-		errChs = append(errChs, errCh)
+		wg.Add(1)
+		go runQuery(client, query, resultCh, errCh, &wg)
 	}
 
-	l = len(resultChs)
-	for i := 0; i < l; i++ {
-	loop:
-		for {
-			select {
-			case r := <-resultChs[i]:
-				fmt.Print("\n")
-				print.NewTable(os.Stdout).Print(r)
-				break loop
-			case e := <-errChs[i]:
-				fmt.Print("\n")
-				fmt.Fprintln(os.Stderr, e)
-				break loop
-			}
+	// Monitoring goroutine to notify that all the query executions have finished
+	go func() {
+		wg.Wait()
+		doneCh <- struct{}{}
+	}()
+
+	for {
+		select {
+		case r := <-resultCh:
+			fmt.Print("\n")
+			print.NewTable(os.Stdout).Print(r)
+		case e := <-errCh:
+			fmt.Print("\n")
+			fmt.Fprintln(os.Stderr, e)
+		case <-doneCh:
+			return
 		}
 	}
 }
 
-func runQuery(client athenaiface.AthenaAPI, query string, resultCh chan *exec.Result, errCh chan error) {
+func runQuery(client athenaiface.AthenaAPI, query string, resultCh chan *exec.Result, errCh chan error, wg *sync.WaitGroup) {
 	// Run a query, and send results or an error
 	r, err := exec.NewQuery(client, query, &queryConfig).Run()
 	if err != nil {
@@ -136,4 +136,5 @@ func runQuery(client athenaiface.AthenaAPI, query string, resultCh chan *exec.Re
 	} else {
 		resultCh <- r
 	}
+	wg.Done()
 }
