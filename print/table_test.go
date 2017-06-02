@@ -11,6 +11,7 @@ import (
 
 const (
 	showDatabasesTable = `
+SHOW DATABASES;
 +-----------------+
 | cloudfront_logs |
 | elb_logs        |
@@ -18,6 +19,7 @@ const (
 +-----------------+`
 
 	selectTable = `
+SELECT date, time, bytes FROM cloudfront_logs LIMIT 3;
 +------------+----------+-------+
 | date       | time     | bytes |
 | 2014-07-05 | 15:00:00 |  4260 |
@@ -39,6 +41,7 @@ func TestTablePrint(t *testing.T) {
 		{
 			r: &mockedResult{
 				info: &athena.QueryExecution{
+					Query:      aws.String("SHOW DATABASES"),
 					Statistics: stats,
 				},
 				data: [][]string{
@@ -52,6 +55,7 @@ func TestTablePrint(t *testing.T) {
 		{
 			r: &mockedResult{
 				info: &athena.QueryExecution{
+					Query:      aws.String("SELECT date, time, bytes FROM cloudfront_logs LIMIT 3"),
 					Statistics: stats,
 				},
 				data: [][]string{
