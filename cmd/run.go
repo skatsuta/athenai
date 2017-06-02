@@ -80,6 +80,18 @@ func runRun(cmd *cobra.Command, args []string) {
 	resultChs := make([]chan *exec.Result, 0, l)
 	errChs := make([]chan error, 0, l)
 
+	// Print running messages
+	go func() {
+		tick := time.Tick(tickInterval)
+		fmt.Print("Running query")
+		for {
+			select {
+			case <-tick:
+				fmt.Print(".")
+			}
+		}
+	}()
+
 	// Run each statement concurrently using goroutine
 	for _, stmt := range stmts {
 		if strings.TrimSpace(stmt) == "" {
@@ -94,9 +106,6 @@ func runRun(cmd *cobra.Command, args []string) {
 		errChs = append(errChs, errCh)
 	}
 
-	fmt.Print("Running query")
-
-	tick := time.Tick(tickInterval)
 	l = len(resultChs)
 	for i := 0; i < l; i++ {
 	loop:
@@ -110,8 +119,6 @@ func runRun(cmd *cobra.Command, args []string) {
 				fmt.Print("\n")
 				fmt.Fprintln(os.Stderr, e)
 				break loop
-			case <-tick:
-				fmt.Print(".")
 			}
 		}
 	}
