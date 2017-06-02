@@ -26,8 +26,6 @@ func (t *Table) Print(r Result) {
 
 func (t *Table) printTable(r Result) {
 	tw := tablewriter.NewWriter(t.w)
-	for row := range r.Rows() {
-		tw.Append(row)
-	}
+	tw.AppendBulk(r.Rows())
 	tw.Render()
 }

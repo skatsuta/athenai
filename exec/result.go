@@ -1,8 +1,6 @@
 package exec
 
 import (
-	"sync"
-
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/athena"
 )
@@ -10,39 +8,29 @@ import (
 // Result represents results of a query execution.
 // This struct must implement print.Result interface.
 type Result struct {
-	mu   sync.RWMutex
 	info *athena.QueryExecution
 	rs   *athena.ResultSet
 }
 
 // Info returns information of a query execution.
 func (r *Result) Info() *athena.QueryExecution {
-	r.mu.RLock()
-	defer r.mu.RUnlock()
 	return r.info
 }
 
-func (r *Result) sendRows(ch chan []string) {
-	if ch == nil || r.rs == nil {
-		close(ch)
-		return
+// Rows returns an array of all rows of the result which contain arrays of columns.
+func (r *Result) Rows() [][]string {
+	if r == nil || r.rs == nil {
+		return nil
 	}
 
-	r.mu.RLock()
-	defer r.mu.RUnlock()
-	for _, rw := range r.rs.Rows {
-		row := make([]string, 0, len(rw.Data))
-		for _, d := range rw.Data {
-			row = append(row, aws.StringValue(d.VarCharValue))
+	rows := make([][]string, 0, len(r.rs.Rows))
+	for _, row := range r.rs.Rows {
+		rw := make([]string, len(row.Data))
+		for i, d := range row.Data {
+			rw[i] = aws.StringValue(d.VarCharValue)
 		}
-		ch <- row
+		rows = append(rows, rw)
 	}
-	close(ch)
-}
 
-// Rows returns a receive-only channel which receives each row of query results.
-func (r *Result) Rows() <-chan []string {
-	ch := make(chan []string)
-	go r.sendRows(ch)
-	return ch
+	return rows
 }

@@ -61,14 +61,9 @@ func TestRows(t *testing.T) {
 		},
 	}
 
-	actual := make([][]string, 0, len(tests))
 	for _, tt := range tests {
-		for row := range tt.result.Rows() {
-			actual = append(actual, row)
-		}
+		actual := tt.result.Rows()
 
 		assert.Equal(t, tt.expected, actual, "Result: %#v", tt.result)
-
-		actual = actual[:0] // reset
 	}
 }
