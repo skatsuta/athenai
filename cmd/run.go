@@ -36,7 +36,8 @@ to quickly create a Cobra application.`,
 }
 
 var (
-	queryConfig = &exec.QueryConfig{}
+	queryConfig exec.QueryConfig
+	silent      bool
 )
 
 func init() {
@@ -45,6 +46,7 @@ func init() {
 	// Define flags
 	runCmd.Flags().StringVarP(&queryConfig.Database, "database", "d", "", "The name of the database")
 	runCmd.Flags().StringVarP(&queryConfig.Output, "output", "o", "", "The location in S3 where query results are stored. For example, s3://bucket_name/prefix/")
+	runCmd.Flags().BoolVarP(&silent, "silent", "s", false, "Do not show progress messages")
 
 	// Override usage
 	// TODO: more friendly usage examples
@@ -81,16 +83,18 @@ func runRun(cmd *cobra.Command, args []string) {
 	errChs := make([]chan error, 0, l)
 
 	// Print running messages
-	go func() {
-		tick := time.Tick(tickInterval)
-		fmt.Print("Running query")
-		for {
-			select {
-			case <-tick:
-				fmt.Print(".")
+	if !silent {
+		go func() {
+			tick := time.Tick(tickInterval)
+			fmt.Print("Running query")
+			for {
+				select {
+				case <-tick:
+					fmt.Print(".")
+				}
 			}
-		}
-	}()
+		}()
+	}
 
 	// Run each statement concurrently using goroutine
 	for _, stmt := range stmts {
@@ -126,7 +130,7 @@ func runRun(cmd *cobra.Command, args []string) {
 
 func runQuery(client athenaiface.AthenaAPI, query string, resultCh chan *exec.Result, errCh chan error) {
 	// Run a query, and send results or an error
-	r, err := exec.NewQuery(client, query, queryConfig).Run()
+	r, err := exec.NewQuery(client, query, &queryConfig).Run()
 	if err != nil {
 		errCh <- err
 	} else {
