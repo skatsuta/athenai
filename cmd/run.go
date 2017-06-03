@@ -25,7 +25,7 @@ const (
 // runCmd represents the run command
 var runCmd = &cobra.Command{
 	Use:   "run",
-	Short: "Run the SQL query statements.",
+	Short: "Run the SQL statements.",
 	// TODO: fix description
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
@@ -36,36 +36,28 @@ to quickly create a Cobra application.`,
 	Run: runRun,
 }
 
-var (
-	queryConfig exec.QueryConfig
-	silent      bool
-)
-
 func init() {
 	RootCmd.AddCommand(runCmd)
 
 	// Define flags
-	runCmd.Flags().StringVarP(&queryConfig.Database, "database", "d", "", "The name of the database")
-	runCmd.Flags().StringVarP(&queryConfig.Output, "output", "o", "", "The location in S3 where query results are stored. For example, s3://bucket_name/prefix/")
-	runCmd.Flags().BoolVarP(&silent, "silent", "s", false, "Do not show progress messages")
-
-	// Override usage
-	// TODO: more friendly usage examples
-	runCmd.Use = `athenai run [flags] ["QUERY"]`
+	f := runCmd.Flags()
+	f.StringVarP(&config.Database, "database", "d", "", "The name of the database")
+	f.StringVarP(&config.Output, "output", "o", "", "The location in S3 where query results are stored. For example, s3://bucket_name/prefix/")
+	f.BoolVarP(&config.Silent, "silent", "s", false, "Do not show progress messages")
 }
 
 func runRun(cmd *cobra.Command, args []string) {
 	l := len(args)
-	if l < 1 || l > 1 { // TODO: run interactive mode if no argument is given
+	if l != 1 { // TODO: run interactive mode if no argument is given
 		cmd.Help()
 		return
 	}
 
 	// Create a service configuration
-	cfg := aws.NewConfig().WithRegion(region)
+	cfg := aws.NewConfig().WithRegion(config.Region)
 
 	// Set log level
-	if debug {
+	if config.Debug {
 		cfg = cfg.WithLogLevel(aws.LogDebug | aws.LogDebugWithHTTPBody | aws.LogDebugWithRequestErrors)
 	} else {
 		// Surpress log outputs
@@ -85,7 +77,7 @@ func runRun(cmd *cobra.Command, args []string) {
 	var wg sync.WaitGroup
 
 	// Print running messages
-	if !silent {
+	if !config.Silent {
 		go func() {
 			tick := time.Tick(tickInterval)
 			fmt.Print("Running query")
@@ -130,7 +122,7 @@ func runRun(cmd *cobra.Command, args []string) {
 
 func runQuery(client athenaiface.AthenaAPI, query string, resultCh chan *exec.Result, errCh chan error, wg *sync.WaitGroup) {
 	// Run a query, and send results or an error
-	r, err := exec.NewQuery(client, query, &queryConfig).Run()
+	r, err := exec.NewQuery(client, query, &config.QueryConfig).Run()
 	if err != nil {
 		errCh <- err
 	} else {
