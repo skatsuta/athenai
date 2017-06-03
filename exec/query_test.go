@@ -317,26 +317,34 @@ func TestGetResultsError(t *testing.T) {
 	}
 }
 
-type mockedClient struct {
+type MockedClient struct {
 	athenaiface.AthenaAPI
 	*mockedStartQueryExecution
 	*mockedGetQueryExecution
 	*mockedGetQueryResults
 }
 
-func (m *mockedClient) StartQueryExecution(input *athena.StartQueryExecutionInput) (*athena.StartQueryExecutionOutput, error) {
+func NewMockedClient(id string) *MockedClient {
+	return &MockedClient{
+		mockedStartQueryExecution: &mockedStartQueryExecution{id: id},
+		mockedGetQueryExecution:   &mockedGetQueryExecution{queryStateFlow: successfulQueryStateFlow},
+		mockedGetQueryResults:     &mockedGetQueryResults{maxPages: 1},
+	}
+}
+
+func (m *MockedClient) StartQueryExecution(input *athena.StartQueryExecutionInput) (*athena.StartQueryExecutionOutput, error) {
 	return m.mockedStartQueryExecution.StartQueryExecution(input)
 }
 
-func (m *mockedClient) GetQueryExecution(input *athena.GetQueryExecutionInput) (*athena.GetQueryExecutionOutput, error) {
+func (m *MockedClient) GetQueryExecution(input *athena.GetQueryExecutionInput) (*athena.GetQueryExecutionOutput, error) {
 	return m.mockedGetQueryExecution.GetQueryExecution(input)
 }
 
-func (m *mockedClient) GetQueryResults(input *athena.GetQueryResultsInput) (*athena.GetQueryResultsOutput, error) {
+func (m *MockedClient) GetQueryResults(input *athena.GetQueryResultsInput) (*athena.GetQueryResultsOutput, error) {
 	return m.mockedGetQueryResults.GetQueryResults(input)
 }
 
-func (m *mockedClient) GetQueryResultsPages(input *athena.GetQueryResultsInput, callback func(*athena.GetQueryResultsOutput, bool) bool) error {
+func (m *MockedClient) GetQueryResultsPages(input *athena.GetQueryResultsInput, callback func(*athena.GetQueryResultsOutput, bool) bool) error {
 	return m.mockedGetQueryResults.GetQueryResultsPages(input, callback)
 }
 
@@ -370,13 +378,9 @@ func TestRun(t *testing.T) {
 		q := &Query{
 			QueryConfig: cfg,
 			Result:      &Result{},
-			client: &mockedClient{
-				mockedStartQueryExecution: &mockedStartQueryExecution{id: tt.id},
-				mockedGetQueryExecution:   &mockedGetQueryExecution{queryStateFlow: successfulQueryStateFlow},
-				mockedGetQueryResults:     &mockedGetQueryResults{maxPages: tt.maxPages},
-			},
-			interval: 0 * time.Millisecond,
-			query:    tt.query,
+			client:      NewMockedClient(tt.id),
+			interval:    0 * time.Millisecond,
+			query:       tt.query,
 		}
 
 		r, err := q.Run()
