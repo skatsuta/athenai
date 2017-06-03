@@ -76,12 +76,12 @@ func TestRunQuery(t *testing.T) {
 		{
 			query: "",
 			id:    "TestRunQuery_EmptyStmt1",
-			want:  "Nothing executed",
+			want:  "Nothing executed\n",
 		},
 		{
 			query: "  ; ;  ",
 			id:    "TestRunQuery_EmptyStmt2",
-			want:  "Nothing executed",
+			want:  "Nothing executed\n",
 		},
 		{
 			query: "SHOW DATABASES",

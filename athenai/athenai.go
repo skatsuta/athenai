@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"path/filepath"
 	"strings"
 	"sync"
 	"time"
@@ -15,6 +16,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/athena"
 	"github.com/aws/aws-sdk-go/service/athena/athenaiface"
+	"github.com/peterh/liner"
 	"github.com/skatsuta/athenai/exec"
 	"github.com/skatsuta/athenai/print"
 )
@@ -98,6 +100,10 @@ func (a *Athenai) print(x ...interface{}) {
 	fmt.Fprint(a.out, x...)
 }
 
+func (a *Athenai) println(x ...interface{}) {
+	fmt.Fprintln(a.out, x...)
+}
+
 // showProgressMsg shows progress messages while queries are being executed.
 func (a *Athenai) showProgressMsg(ctx context.Context) {
 	a.print("Running query")
@@ -136,7 +142,7 @@ func (a *Athenai) RunQuery(query string) {
 	// Split statements
 	stmts := splitStmts(query)
 	if len(stmts) == 0 {
-		a.print("Nothing executed")
+		a.println("Nothing executed")
 		return
 	}
 
@@ -176,6 +182,49 @@ func (a *Athenai) RunQuery(query string) {
 			fmt.Fprintln(os.Stderr, e)
 		case <-doneCh:
 			return
+		}
+	}
+}
+
+// RunInteractive runs interactive mode.
+func (a *Athenai) RunInteractive() {
+	line := liner.NewLiner()
+	defer line.Close()
+	line.SetCtrlCAborts(true)
+
+	// Open history file
+	histFile := filepath.Join(os.TempDir(), ".athenai_history")
+	if f, err := os.Open(histFile); err != nil {
+		fmt.Fprintln(os.Stderr, "Error opening a temp dir")
+	} else {
+		if _, e := line.ReadHistory(f); e != nil {
+			fmt.Fprintln(os.Stderr, "Error reading a history file:", e)
+		}
+		f.Close()
+	}
+
+	for {
+		// Show prompt
+		query, err := line.Prompt("athenai> ")
+		if err != nil {
+			switch err {
+			case liner.ErrPromptAborted:
+				fmt.Fprintln(os.Stderr, "Aborted")
+			default:
+				fmt.Fprintln(os.Stderr, "Error reading line:", err)
+			}
+			return
+		}
+
+		// Run query
+		a.RunQuery(query)
+
+		// Save history
+		if f, err := os.Create(histFile); err != nil {
+			fmt.Fprintln(os.Stderr, "Error writing a history file:", err)
+		} else {
+			line.WriteHistory(f)
+			f.Close()
 		}
 	}
 }

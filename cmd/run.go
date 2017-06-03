@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/skatsuta/athenai/athenai"
@@ -32,11 +33,17 @@ func init() {
 }
 
 func runRun(cmd *cobra.Command, args []string) {
+	out := os.Stdout
+
 	l := len(args)
-	if l != 1 { // TODO: run interactive mode if no argument is given
-		cmd.Help()
-		return
+	if l > 1 {
+		fmt.Fprintln(out, "WARN: Athenai takes up to 1 argument, ignoring the subsequest ones")
 	}
 
-	athenai.New(os.Stdout, config).RunQuery(args[0])
+	a := athenai.New(out, config)
+	if l == 0 {
+		a.RunInteractive()
+	} else {
+		a.RunQuery(args[0])
+	}
 }
