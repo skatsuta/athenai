@@ -51,8 +51,9 @@ func splitStmts(queries []string) []string {
 		// Filtering without allocating: https://github.com/golang/go/wiki/SliceTricks#filtering-without-allocating
 		for _, s := range splitted {
 			// Select non-empty statements
-			if strings.TrimSpace(s) != "" {
-				stmts = append(stmts, s)
+			stmt := strings.TrimSpace(s)
+			if stmt != "" {
+				stmts = append(stmts, stmt)
 			}
 		}
 	}
