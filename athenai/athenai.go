@@ -42,17 +42,18 @@ func newClient(cfg *Config) *athena.Athena {
 	return athena.New(session.Must(session.NewSession(c)))
 }
 
-// splitStmts splits SQL statements in the query by semicolons.
+// splitStmts splits SQL statements in the queries by semicolons and flatten them.
 // It drops empty statements.
-func splitStmts(query string) []string {
-	splitted := strings.Split(query, ";")
-
-	// Filtering without allocating: https://github.com/golang/go/wiki/SliceTricks#filtering-without-allocating
-	stmts := splitted[:0]
-	for _, s := range splitted {
-		// Select non-empty statements
-		if strings.TrimSpace(s) != "" {
-			stmts = append(stmts, s)
+func splitStmts(queries []string) []string {
+	stmts := make([]string, 0, len(queries))
+	for _, query := range queries {
+		splitted := strings.Split(query, ";")
+		// Filtering without allocating: https://github.com/golang/go/wiki/SliceTricks#filtering-without-allocating
+		for _, s := range splitted {
+			// Select non-empty statements
+			if strings.TrimSpace(s) != "" {
+				stmts = append(stmts, s)
+			}
 		}
 	}
 
@@ -148,9 +149,9 @@ func (a *Athenai) monitorComplete() {
 // RunQuery runs the given query.
 // It splits the query by semicolons and run each statement concurrently.
 // It skips empty statements.
-func (a *Athenai) RunQuery(query string) {
+func (a *Athenai) RunQuery(queries []string) {
 	// Split statements
-	stmts := splitStmts(query)
+	stmts := splitStmts(queries)
 	if len(stmts) == 0 {
 		a.println("Nothing executed")
 		return
@@ -251,7 +252,7 @@ func (a *Athenai) RunREPL() error {
 		}
 
 		// Run the query
-		a.RunQuery(query)
+		a.RunQuery([]string{query})
 	}
 }
 

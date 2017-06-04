@@ -16,25 +16,29 @@ import (
 
 func TestSplitStmts(t *testing.T) {
 	tests := []struct {
-		query   string
+		queries []string
 		wantLen int
 	}{
-		{"", 0},
-		{";", 0},
-		{"; ; \n \t \r   ;", 0},
-		{"   ; SELECT;   ; ", 1},
-		{`	;
+		{[]string{""}, 0},
+		{[]string{";"}, 0},
+		{[]string{"; ; \n \t \r   ;"}, 0},
+		{[]string{"   ; SELECT;   ; "}, 1},
+		{
+			[]string{`	;
 			SELECT *
 			FROM test
 			WHERE id = 1;
 			SHOW
 			TABLES;
 			   ;
-			`, 2},
+			`},
+			2,
+		},
+		{[]string{"", ";", "SELECT; SHOW; ", "; DECRIBE"}, 3},
 	}
 
 	for _, tt := range tests {
-		got := splitStmts(tt.query)
+		got := splitStmts(tt.queries)
 
 		assert.Len(t, got, tt.wantLen, "Query: %q")
 	}
@@ -113,7 +117,7 @@ func TestRunQuery(t *testing.T) {
 			SetDataScannedInBytes(tt.scanned)
 		client.QueryExecution.SetStatistics(stats).SetQuery(tt.query)
 		a.client = client
-		a.RunQuery(tt.query)
+		a.RunQuery([]string{tt.query})
 
 		assert.Contains(t, out.String(), tt.want, "Query: %q, Id: %s", tt.query, tt.id)
 

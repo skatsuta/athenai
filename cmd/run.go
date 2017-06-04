@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/skatsuta/athenai/athenai"
@@ -34,17 +33,11 @@ func init() {
 
 func runRun(cmd *cobra.Command, args []string) {
 	out := os.Stdout
-
-	l := len(args)
-	if l > 1 {
-		fmt.Fprintln(out, "WARN: Athenai takes up to 1 argument, ignoring the subsequest ones")
-	}
-
 	a := athenai.New(out, config)
 
-	// Run the given query and exit
-	if l > 0 {
-		a.RunQuery(args[0])
+	// Run the given queries
+	if len(args) > 0 {
+		a.RunQuery(args)
 		return
 	}
 
