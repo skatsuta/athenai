@@ -9,6 +9,54 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestFormatBytes(t *testing.T) {
+	tests := []struct {
+		size     int64
+		expected string
+	}{
+		{1, "1 B"},
+		{12, "12 B"},
+		{123, "123 B"},
+		{1234, "1.23 KB"},
+		{123456, "123.46 KB"},
+		{1234567, "1.23 MB"},
+		{123456789, "123.46 MB"},
+		{1234567890, "1.23 GB"},
+	}
+
+	for _, tt := range tests {
+		assert.Equal(t, tt.expected, formatBytes(tt.size), "Size: %d", tt.size)
+	}
+}
+
+func TestPrintStats(t *testing.T) {
+	tests := []struct {
+		info     *athena.QueryExecutionStatistics
+		expected string
+	}{
+		{
+			info: &athena.QueryExecutionStatistics{
+				EngineExecutionTimeInMillis: aws.Int64(1234),
+				DataScannedInBytes:          aws.Int64(987654321),
+			},
+			expected: "Run time: 1.23 seconds | Data scanned: 987.65 MB\n",
+		},
+		{
+			info: &athena.QueryExecutionStatistics{
+				EngineExecutionTimeInMillis: aws.Int64(10),
+				DataScannedInBytes:          aws.Int64(10),
+			},
+			expected: "Run time: 0.01 seconds | Data scanned: 10 B\n",
+		},
+	}
+
+	for _, tt := range tests {
+		var out bytes.Buffer
+		printStats(&out, tt.info)
+		assert.Equal(t, tt.expected, out.String(), "Info: %#v", tt.info)
+	}
+}
+
 const (
 	showDatabasesTable = `
 SHOW DATABASES;
@@ -27,6 +75,20 @@ SELECT date, time, bytes FROM cloudfront_logs LIMIT 3;
 | 2014-07-05 | 15:00:00 |  4252 |
 +------------+----------+-------+`
 )
+
+// mockedResult is a mock struct which implements Result interface for testing.
+type mockedResult struct {
+	info *athena.QueryExecution
+	data [][]string
+}
+
+func (m *mockedResult) Info() *athena.QueryExecution {
+	return m.info
+}
+
+func (m *mockedResult) Rows() [][]string {
+	return m.data
+}
 
 func TestTablePrint(t *testing.T) {
 	stats := &athena.QueryExecutionStatistics{
