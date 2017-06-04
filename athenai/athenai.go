@@ -47,13 +47,17 @@ func newClient(cfg *Config) *athena.Athena {
 // readFile reads the content of a file whose path has `file://` prefix.
 func readFile(arg string) (string, error) {
 	filename := strings.TrimPrefix(arg, filePrefix)
-	log.Println("Given file:", filename)
+	log.Println("Given file name:", filename)
 	content, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return "", errors.Wrap(err, "failed to read file")
 	}
 	c := string(content)
-	log.Printf("Content of %s:\n%s\n", filename, c)
+	log.Printf(`Content of %s:
+--------------------
+%s
+--------------------
+`, filename, c)
 	return c, nil
 }
 
@@ -69,6 +73,7 @@ func splitStmts(args []string) ([]string, []error) {
 
 	for _, arg := range args {
 		if strings.HasPrefix(arg, filePrefix) {
+			log.Printf("%q prefix found in %q, reading its contents from file\n", filePrefix, arg)
 			content, err := readFile(arg)
 			if err != nil {
 				errs = append(errs, err)
@@ -78,11 +83,10 @@ func splitStmts(args []string) ([]string, []error) {
 		}
 
 		splitted := strings.Split(arg, ";")
-		// Filtering without allocating: https://github.com/golang/go/wiki/SliceTricks#filtering-without-allocating
 		for _, s := range splitted {
-			// Select non-empty statements
 			stmt := strings.TrimSpace(s)
 			if stmt != "" {
+				// Select non-empty statements
 				stmts = append(stmts, stmt)
 			}
 		}
@@ -159,6 +163,7 @@ func (a *Athenai) showProgressMsg(ctx context.Context) {
 		case <-tick:
 			a.print(".")
 		case <-ctx.Done():
+			log.Println("Stopped showing progress messages")
 			return
 		}
 	}
@@ -167,6 +172,7 @@ func (a *Athenai) showProgressMsg(ctx context.Context) {
 // runSingleQuery runs a single query. `query` must be a single SQL statement.
 func (a *Athenai) runSingleQuery(query string) {
 	// Run a query, and send results or an error
+	log.Printf("Start running %q\n", query)
 	r, err := exec.NewQuery(a.client, query, &a.cfg.QueryConfig).Run()
 	if err != nil {
 		a.errCh <- err
@@ -186,7 +192,10 @@ func (a *Athenai) RunQuery(queries []string) {
 			printErr(err, "error splitting SQL statements")
 		}
 	}
-	if len(stmts) == 0 {
+
+	l := len(stmts)
+	log.Printf("%d SQL statements found: %#v\n", l, stmts)
+	if l == 0 {
 		a.println(noStmtFound)
 		return
 	}
@@ -224,6 +233,7 @@ func (a *Athenai) RunQuery(queries []string) {
 			a.print("\n")
 			printErr(e, "query execution failed")
 		case <-a.doneCh:
+			log.Println("All query executions have been completed")
 			return
 		}
 	}
@@ -232,12 +242,14 @@ func (a *Athenai) RunQuery(queries []string) {
 func (a *Athenai) setupREPL() error {
 	// rl is already set, no need to be setup again
 	if a.rl != nil {
+		log.Printf("REPL setup has been done already: %#v\n", a.rl)
 		return nil
 	}
 
+	historyFile := filepath.Join(os.TempDir(), ".athenai_history")
 	rl, err := readline.NewEx(&readline.Config{
 		Prompt:            "athenai> ",
-		HistoryFile:       filepath.Join(os.TempDir(), ".athenai_history"),
+		HistoryFile:       historyFile,
 		HistorySearchFold: true,
 		Stdin:             a.in,
 		Stdout:            a.out,
@@ -245,6 +257,8 @@ func (a *Athenai) setupREPL() error {
 	if err != nil {
 		return err
 	}
+
+	log.Printf("Queries given will be saved to %s\n", historyFile)
 
 	a.rl = rl
 	return nil
@@ -264,14 +278,14 @@ func (a *Athenai) RunREPL() error {
 			switch err {
 			case readline.ErrInterrupt:
 				if query == "" {
-					// Exit REPL if ^C is pressed at empty line
+					log.Println("Ctrl-C is pressed on empty line, exitting REPL")
 					return nil
 				}
-				// Show guide message to exit and continue
+				log.Println("Ctrl-C is pressed on non-empty line, continue to run REPL")
 				a.println("To exit, press Ctrl-C again or Ctrl-D")
 				continue
 			case io.EOF:
-				// Exit if ^D is pressed
+				log.Println("Ctrl-D is pressed, exitting REPL")
 				return nil
 			default:
 				printErr(err, "error reading line")
@@ -284,6 +298,7 @@ func (a *Athenai) RunREPL() error {
 		}
 
 		// Run the query
+		log.Printf("Input given: %q\n", query)
 		a.RunQuery([]string{query})
 	}
 }
