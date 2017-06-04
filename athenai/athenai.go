@@ -166,22 +166,16 @@ func (a *Athenai) RunQuery(queries []string) {
 	}
 
 	// Run each statement concurrently
-	var wg sync.WaitGroup
-	wg.Add(len(stmts))
+	a.wg.Add(len(stmts))
 	for _, stmt := range stmts {
 		go func(query string) {
 			a.runSingleQuery(query)
-			wg.Done()
-		}(stmt) // Copy stmt to use in goroutines
+			a.wg.Done()
+		}(stmt) // Capture stmt locally in order to use it in goroutines
 	}
 
-	doneCh := make(chan struct{})
-
-	// Monitoring goroutine to wait for all query executions and notifies `doneCh` when they are all complete.
-	go func() {
-		wg.Wait()
-		doneCh <- struct{}{}
-	}()
+	// Monitoring goroutine to wait for the completion of all query executions
+	go a.monitorComplete()
 
 	for {
 		select {
@@ -191,7 +185,7 @@ func (a *Athenai) RunQuery(queries []string) {
 		case e := <-a.errCh:
 			a.print("\n")
 			printErr(e)
-		case <-doneCh:
+		case <-a.doneCh:
 			return
 		}
 	}
