@@ -85,12 +85,12 @@ func TestRunQuery(t *testing.T) {
 		{
 			query: "",
 			id:    "TestRunQuery_EmptyStmt1",
-			want:  ErrNoStmtFound.Error(),
+			want:  noStmtFound,
 		},
 		{
 			query: "  ; ;  ",
 			id:    "TestRunQuery_EmptyStmt2",
-			want:  ErrNoStmtFound.Error(),
+			want:  noStmtFound,
 		},
 		{
 			query: "SHOW DATABASES;",
@@ -209,7 +209,7 @@ func TestRunREPL(t *testing.T) {
 		{
 			input: " ; ; \n",
 			id:    "TestRunREPL_EmptyStmt",
-			want:  ErrNoStmtFound.Error(),
+			want:  noStmtFound,
 		},
 		{
 			input: "SHOW DATABASES\n",

@@ -25,10 +25,8 @@ import (
 const (
 	tickInterval = 1000 * time.Millisecond
 	filePrefix   = "file://"
+	noStmtFound  = "No SQL statements found to run"
 )
-
-// ErrNoStmtFound represents an error where no statements found to run.
-var ErrNoStmtFound = errors.New("No statements found to run")
 
 // newClient creates a new Athena client.
 func newClient(cfg *Config) *athena.Athena {
@@ -189,7 +187,7 @@ func (a *Athenai) RunQuery(queries []string) {
 		}
 	}
 	if len(stmts) == 0 {
-		a.println(ErrNoStmtFound.Error())
+		a.println(noStmtFound)
 		return
 	}
 
