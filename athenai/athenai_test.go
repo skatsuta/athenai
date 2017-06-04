@@ -115,9 +115,7 @@ func TestRunQuery(t *testing.T) {
 		a := New(&out, &Config{})
 		client := stub.NewClient(tt.id)
 		client.ResultSet = tt.rs
-		stats := new(athena.QueryExecutionStatistics).
-			SetEngineExecutionTimeInMillis(tt.execTime).
-			SetDataScannedInBytes(tt.scanned)
+		stats := testhelper.CreateStats(tt.execTime, tt.scanned)
 		client.QueryExecution.SetStatistics(stats).SetQuery(strings.TrimSuffix(tt.query, ";"))
 		a.client = client
 		a.RunQuery([]string{tt.query})
@@ -166,9 +164,7 @@ func TestRunQueryFromFile(t *testing.T) {
 		a := New(&out, &Config{})
 		client := stub.NewClient(tt.id)
 		client.ResultSet = tt.rs
-		stats := new(athena.QueryExecutionStatistics).
-			SetEngineExecutionTimeInMillis(tt.execTime).
-			SetDataScannedInBytes(tt.scanned)
+		stats := testhelper.CreateStats(tt.execTime, tt.scanned)
 		client.QueryExecution.SetStatistics(stats).SetQuery(strings.TrimSuffix(tt.query, ";"))
 		a.client = client
 		a.RunQuery([]string{"file://" + tmpFile.Name()})
@@ -232,9 +228,7 @@ func TestRunREPL(t *testing.T) {
 	for _, tt := range tests {
 		client := stub.NewClient(tt.id)
 		client.ResultSet = tt.rs
-		stats := new(athena.QueryExecutionStatistics).
-			SetEngineExecutionTimeInMillis(tt.execTime).
-			SetDataScannedInBytes(tt.scanned)
+		stats := testhelper.CreateStats(tt.execTime, tt.scanned)
 		client.QueryExecution.SetStatistics(stats).SetQuery(strings.TrimSpace(tt.input))
 
 		in := strings.NewReader(tt.input)

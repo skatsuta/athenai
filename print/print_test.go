@@ -6,6 +6,7 @@ import (
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/athena"
+	"github.com/skatsuta/athenai/internal/testhelper"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -35,17 +36,11 @@ func TestPrintStats(t *testing.T) {
 		expected string
 	}{
 		{
-			info: &athena.QueryExecutionStatistics{
-				EngineExecutionTimeInMillis: aws.Int64(1234),
-				DataScannedInBytes:          aws.Int64(987654321),
-			},
+			info:     testhelper.CreateStats(1234, 987654321),
 			expected: "Run time: 1.23 seconds | Data scanned: 987.65 MB\n",
 		},
 		{
-			info: &athena.QueryExecutionStatistics{
-				EngineExecutionTimeInMillis: aws.Int64(10),
-				DataScannedInBytes:          aws.Int64(10),
-			},
+			info:     testhelper.CreateStats(10, 10),
 			expected: "Run time: 0.01 seconds | Data scanned: 10 B\n",
 		},
 	}
@@ -95,11 +90,6 @@ func (m *mockedResult) Rows() [][]string {
 }
 
 func TestTablePrint(t *testing.T) {
-	stats := &athena.QueryExecutionStatistics{
-		EngineExecutionTimeInMillis: aws.Int64(1234),
-		DataScannedInBytes:          aws.Int64(987654321),
-	}
-
 	tests := []struct {
 		r        Result
 		expected string
@@ -108,7 +98,7 @@ func TestTablePrint(t *testing.T) {
 			r: &mockedResult{
 				info: &athena.QueryExecution{
 					Query:      aws.String("SHOW DATABASES"),
-					Statistics: stats,
+					Statistics: testhelper.CreateStats(123, 0),
 				},
 				data: [][]string{
 					{"cloudfront_logs"},
@@ -122,7 +112,7 @@ func TestTablePrint(t *testing.T) {
 			r: &mockedResult{
 				info: &athena.QueryExecution{
 					Query:      aws.String("SELECT date, time, bytes FROM cloudfront_logs LIMIT 3"),
-					Statistics: stats,
+					Statistics: testhelper.CreateStats(1234, 56789),
 				},
 				data: [][]string{
 					{"date", "time", "bytes"},
