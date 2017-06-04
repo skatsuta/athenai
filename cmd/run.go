@@ -1,8 +1,12 @@
 package cmd
 
 import (
+	"fmt"
+	"io/ioutil"
+	"log"
 	"os"
 
+	"github.com/pkg/errors"
 	"github.com/skatsuta/athenai/athenai"
 	"github.com/spf13/cobra"
 )
@@ -31,9 +35,39 @@ func init() {
 	f.BoolVarP(&config.Silent, "silent", "s", false, "Do not show progress messages")
 }
 
+// hasDataOnStdin returns true if there is something to read on stdin, otherwise false.
+func hasDataOnStdin() bool {
+	// Based on https://stackoverflow.com/a/26567513
+	stat, _ := os.Stdin.Stat()
+	return (stat.Mode() & os.ModeCharDevice) == 0
+}
+
+func readStdin() (string, error) {
+	b, err := ioutil.ReadAll(os.Stdin)
+	if err != nil {
+		return "", errors.Wrap(err, "failed to read data from stdin")
+	}
+	data := string(b)
+	log.Printf(`Data found on stdin:
+--------------------
+%s
+--------------------
+`, data)
+	return data, nil
+}
+
 func runRun(cmd *cobra.Command, args []string) {
 	out := os.Stdout
 	a := athenai.New(out, config)
+
+	// Read data on stdin and add it to args
+	if hasDataOnStdin() {
+		data, err := readStdin()
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err)
+		}
+		args = append(args, data)
+	}
 
 	// Run the given queries
 	if len(args) > 0 {
