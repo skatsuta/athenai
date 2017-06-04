@@ -189,7 +189,7 @@ func (a *Athenai) RunQuery(query string) {
 			print.NewTable(a.out).Print(r)
 		case e := <-a.errCh:
 			a.print("\n")
-			fmt.Fprintln(os.Stderr, e)
+			printErr(e)
 		case <-doneCh:
 			return
 		}
@@ -241,7 +241,7 @@ func (a *Athenai) RunREPL() error {
 				// Exit if ^D is pressed
 				return nil
 			default:
-				fmt.Fprintln(os.Stderr, "Error reading line:", err)
+				printErr(errors.Wrap(err, "error reading line"))
 			}
 		}
 
@@ -253,4 +253,8 @@ func (a *Athenai) RunREPL() error {
 		// Run the query
 		a.RunQuery(query)
 	}
+}
+
+func printErr(err error) {
+	fmt.Fprintln(os.Stderr, err)
 }
