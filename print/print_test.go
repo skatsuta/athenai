@@ -74,6 +74,10 @@ SELECT date, time, bytes FROM cloudfront_logs LIMIT 3;
 | 2014-07-05 | 15:00:00 |    10 |
 | 2014-07-05 | 15:00:00 |  4252 |
 +------------+----------+-------+`
+
+	createDatabaseTable = `
+CREATE DATABASE test;
+(No output)`
 )
 
 // mockedResult is a mock struct which implements Result interface for testing.
@@ -128,6 +132,16 @@ func TestTablePrint(t *testing.T) {
 				},
 			},
 			expected: selectTable,
+		},
+		{
+			r: &mockedResult{
+				info: &athena.QueryExecution{
+					Query:      aws.String("CREATE DATABASE test"),
+					Statistics: testhelper.CreateStats(1234, 0),
+				},
+				data: [][]string{},
+			},
+			expected: createDatabaseTable,
 		},
 	}
 

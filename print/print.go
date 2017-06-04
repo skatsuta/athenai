@@ -11,6 +11,8 @@ import (
 	"github.com/olekukonko/tablewriter"
 )
 
+const noOutput = "(No output)"
+
 // Result represents an interface that holds information of a query execution and its results.
 type Result interface {
 	Info() *athena.QueryExecution
@@ -60,6 +62,14 @@ func NewTable(w io.Writer) *Table {
 	}
 }
 
+func (t *Table) printf(format string, a ...interface{}) {
+	fmt.Fprintf(t.w, format, a...)
+}
+
+func (t *Table) println(a ...interface{}) {
+	fmt.Fprintln(t.w, a...)
+}
+
 // Print prints a query executed, its results in tabular form, and the query statistics.
 func (t *Table) Print(r Result) {
 	if r.Info() == nil || r.Rows() == nil {
@@ -73,11 +83,16 @@ func (t *Table) Print(r Result) {
 
 // printQuery prints a query executed.
 func (t *Table) printQuery(query *string) {
-	fmt.Fprintf(t.w, "%s;\n", aws.StringValue(query))
+	t.printf("%s;\n", aws.StringValue(query))
 }
 
 // printTable prints the results in tabular form.
 func (t *Table) printTable(rows [][]string) {
+	if len(rows) == 0 {
+		t.println(noOutput)
+		return
+	}
+
 	tw := tablewriter.NewWriter(t.w)
 	tw.AppendBulk(rows)
 	tw.Render()
