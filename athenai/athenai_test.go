@@ -3,6 +3,8 @@ package athenai
 import (
 	"bytes"
 	"context"
+	"io/ioutil"
+	"os"
 	"strings"
 	"testing"
 	"time"
@@ -91,7 +93,7 @@ func TestRunQuery(t *testing.T) {
 			want:  ErrNoStmtFound.Error(),
 		},
 		{
-			query: "SHOW DATABASES",
+			query: "SHOW DATABASES;",
 			id:    "TestRunQuery_ShowDBs",
 			rs: athena.ResultSet{
 				Rows: testhelper.CreateRows(
@@ -116,11 +118,68 @@ func TestRunQuery(t *testing.T) {
 		stats := new(athena.QueryExecutionStatistics).
 			SetEngineExecutionTimeInMillis(tt.execTime).
 			SetDataScannedInBytes(tt.scanned)
-		client.QueryExecution.SetStatistics(stats).SetQuery(tt.query)
+		client.QueryExecution.SetStatistics(stats).SetQuery(strings.TrimSuffix(tt.query, ";"))
 		a.client = client
 		a.RunQuery([]string{tt.query})
 
 		assert.Contains(t, out.String(), tt.want, "Query: %q, Id: %s", tt.query, tt.id)
+	}
+}
+
+func TestRunQueryFromFile(t *testing.T) {
+	tests := []struct {
+		filename string
+		query    string
+		id       string
+		rs       athena.ResultSet
+		execTime int64
+		scanned  int64
+		want     string
+	}{
+		{
+			filename: "TestRunQueryFromFile1.sql",
+			query:    "SHOW DATABASES;",
+			id:       "TestRunQuery_ShowDBs",
+			rs: athena.ResultSet{
+				Rows: testhelper.CreateRows(
+					[][]string{
+						{"cloudfront_logs"},
+						{"elb_logs"},
+						{"sampledb"},
+					},
+				),
+			},
+			execTime: 12345,
+			scanned:  56789,
+			want:     showDatabasesOutput,
+		},
+	}
+
+	for _, tt := range tests {
+		// Write test SQL to a temporary file
+		tmpFile, err := ioutil.TempFile("", tt.filename)
+		assert.NoError(t, err)
+		_, err = tmpFile.WriteString(tt.query)
+		assert.NoError(t, err)
+
+		var out bytes.Buffer
+		a := New(&out, &Config{})
+		client := stub.NewClient(tt.id)
+		client.ResultSet = tt.rs
+		stats := new(athena.QueryExecutionStatistics).
+			SetEngineExecutionTimeInMillis(tt.execTime).
+			SetDataScannedInBytes(tt.scanned)
+		client.QueryExecution.SetStatistics(stats).SetQuery(strings.TrimSuffix(tt.query, ";"))
+		a.client = client
+		a.RunQuery([]string{"file://" + tmpFile.Name()})
+
+		assert.Contains(t, out.String(), tt.want, "Query: %q, Id: %s", tt.query, tt.id)
+
+		// Clean up
+		err = tmpFile.Close()
+		assert.NoError(t, err)
+		err = os.Remove(tmpFile.Name())
+		assert.NoError(t, err)
 	}
 }
 

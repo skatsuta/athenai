@@ -71,11 +71,12 @@ func splitStmts(args []string) ([]string, []error) {
 
 	for _, arg := range args {
 		if strings.HasPrefix(arg, filePrefix) {
-			arg, err := readFile(arg)
+			content, err := readFile(arg)
 			if err != nil {
 				errs = append(errs, err)
 				continue
 			}
+			arg = content
 		}
 
 		splitted := strings.Split(arg, ";")
