@@ -41,9 +41,15 @@ func runRun(cmd *cobra.Command, args []string) {
 	}
 
 	a := athenai.New(out, config)
-	if l == 0 {
-		a.RunInteractive()
-	} else {
+
+	// Run the given query and exit
+	if l > 0 {
 		a.RunQuery(args[0])
+		return
+	}
+
+	// Run REPL mode
+	if err := a.RunREPL(); err != nil {
+		fatal(err)
 	}
 }

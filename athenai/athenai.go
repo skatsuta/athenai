@@ -16,7 +16,8 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/athena"
 	"github.com/aws/aws-sdk-go/service/athena/athenaiface"
-	"github.com/peterh/liner"
+	"github.com/chzyer/readline"
+	"github.com/pkg/errors"
 	"github.com/skatsuta/athenai/exec"
 	"github.com/skatsuta/athenai/print"
 )
@@ -186,45 +187,42 @@ func (a *Athenai) RunQuery(query string) {
 	}
 }
 
-// RunInteractive runs interactive mode.
-func (a *Athenai) RunInteractive() {
-	line := liner.NewLiner()
-	defer line.Close()
-	line.SetCtrlCAborts(true)
-
-	// Open history file
-	histFile := filepath.Join(os.TempDir(), ".athenai_history")
-	if f, err := os.Open(histFile); err != nil {
-		fmt.Fprintln(os.Stderr, "Error opening a temp dir")
-	} else {
-		if _, e := line.ReadHistory(f); e != nil {
-			fmt.Fprintln(os.Stderr, "Error reading a history file:", e)
-		}
-		f.Close()
+// RunREPL runs interactive mode.
+func (a *Athenai) RunREPL() error {
+	line, err := readline.NewEx(&readline.Config{
+		Prompt:            "Athenai> ",
+		HistoryFile:       filepath.Join(os.TempDir(), ".athenai_history"),
+		HistorySearchFold: true,
+	})
+	if err != nil {
+		return errors.Wrap(err, "failed to start REPL")
 	}
+	defer line.Close()
 
 	for {
 		// Show prompt
-		query, err := line.Prompt("athenai> ")
+		query, err := line.Readline()
 		if err != nil {
 			switch err {
-			case liner.ErrPromptAborted:
-				fmt.Fprintln(os.Stderr, "Aborted")
+			case readline.ErrInterrupt:
+				if query == "" {
+					return nil
+				}
+				a.println("To exit, press Ctrl-C again or Ctrl-D")
+				continue
+			case io.EOF:
+				return nil
 			default:
 				fmt.Fprintln(os.Stderr, "Error reading line:", err)
 			}
-			return
 		}
 
-		// Run query
+		// Ignore empty input
+		if query == "" {
+			continue
+		}
+
+		// Run the query
 		a.RunQuery(query)
-
-		// Save history
-		if f, err := os.Create(histFile); err != nil {
-			fmt.Fprintln(os.Stderr, "Error writing a history file:", err)
-		} else {
-			line.WriteHistory(f)
-			f.Close()
-		}
 	}
 }
