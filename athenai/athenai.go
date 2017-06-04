@@ -176,12 +176,6 @@ func (a *Athenai) runSingleQuery(query string) {
 	}
 }
 
-// monitorComplete waits for all query executions and notifies `doneCh` when they are all complete.
-func (a *Athenai) monitorComplete() {
-	a.wg.Wait()
-	a.doneCh <- struct{}{}
-}
-
 // RunQuery runs the given queries.
 // It splits each statement by semicolons and run them concurrently.
 // It skips empty statements.
@@ -216,8 +210,12 @@ func (a *Athenai) RunQuery(queries []string) {
 	}
 
 	// Monitoring goroutine to wait for the completion of all query executions
-	go a.monitorComplete()
+	go func() {
+		a.wg.Wait()
+		a.doneCh <- struct{}{}
+	}()
 
+	// Receive results or errors until done
 	for {
 		select {
 		case r := <-a.resultCh:
