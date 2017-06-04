@@ -16,10 +16,11 @@ TODO
 
 ## Features
 
-- Easy execution: Run a query from stdin or an SQL file and output results after the execution has finished.
-- Concurrent executions support: run multiple queries in one command.
-- Several output formats: Either table, CSV, or raw JSON.
-- Query cancellation: Cancel a query if Ctrl-C is pressed while the query is running.
+- Easy to use: give queries, wait for query executions and see the results after the executions have finished.
+- Various input methods: REPL, command line arguments or an SQL file.
+- Concurrency support: run multiple queries concurrently in one command.
+- Several output formats: table, CSV, JSON, or raw file on S3.
+- Query cancellation: Cancel queries if Ctrl-C is pressed while the queries are running.
 - Named queries: Manage and run named queries easily.
 
 
@@ -27,52 +28,47 @@ TODO
 
 You need to set up AWS credentials before using this tool.
 
-Additionally, you can optionally save the default option values into `~/.athenairc` to make command line options simple.
+TODO: setup document links
+
+You can optionally save your default option values into `~/.athenai/config` to simplify every command execution.
 
 ```toml
 [default]
+region = us-east-1
 database = sampledb
 output = s3://aws-athena-query-results-123456789012-us-east-1/
 ```
 
-See config file section for more details.
+**Note**: Athenai does not read default settings in `~/.aws/config`, so you need to set the `region` option explicitly.
 
+See config file section for more details.
 
 ## Usage
 
-In this section I omit config options to describe main usage simply.
-If you want to specify config options explicitly or override default options in `.athenairc`, run commands with options like this:
+#### Note: config option flags
+
+In this section I omit config option flags to describe the main usage simply.
+If you want to specify the options explicitly or override default options in `.athenai/config.yml`, run a command like this:
 
 ```bash
-$ athenai --database sampledb --output s3://aws-athena-query-results-123456789012-us-east-1/ "SELECT date, time, bytes, requestip, method, status FROM cloudfront_logs LIMIT 5;"
+$ athenai run --region us-east-1 --database sampledb --output s3://aws-athena-query-results-123456789012-us-east-1/ "SELECT date, time, bytes, requestip, method, status FROM cloudfront_logs LIMIT 5;"
 ```
 
-### Running a single query
+#### Note: the order of query results
 
-To run a single query, pass it as an argument:
+The order of query results may be different from that of given queries, because by default Athenai makes all query execution requests concurrently to Amazon Athena, and shows the results in the order completed.
 
-```bash
-$ athenai run "SELECT date, time, bytes, requestip, method, status FROM cloudfront_logs LIMIT 5;"
-Running query...
-+------------+----------+-------+-----------+--------+--------+
-| date       | time     | bytes | requestip | method | status |
-| 2014-07-05 | 15:00:00 |  4260 | 10.0.0.15 | GET    |    200 |
-| 2014-07-05 | 15:00:00 |    10 | 10.0.0.15 | GET    |    304 |
-| 2014-07-05 | 15:00:00 |  4252 | 10.0.0.15 | GET    |    200 |
-| 2014-07-05 | 15:00:00 |  4257 | 10.0.0.8  | GET    |    200 |
-| 2014-07-05 | 15:00:03 |  4261 | 10.0.0.15 | GET    |    200 |
-+------------+----------+-------+-----------+--------+--------+
-Run time: 2.149 seconds | Data scanned: 101 kB
-```
+You can use `--order` option if you want to display the results in the same order.
 
-### Running queries interactively
+### Running queries interactively (REPL mode)
 
-To run queries interactively, run a command with no argument:
+To run queries on interactive (REPL) mode, run `athenai run` command with no arguments:
 
 ```bash
 $ athenai run
-> SELECT date, time, bytes, requestip, method, status FROM cloudfront_logs LIMIT 5;
+athenai> SELECT date, time, bytes, requestip, method, status FROM sampledb.cloudfront_logs LIMIT 5;
 Running query...
+SELECT date, time, bytes, requestip, method, status FROM sampledb.cloudfront_logs LIMIT 5;
 +------------+----------+-------+-----------+--------+--------+
 | date       | time     | bytes | requestip | method | status |
 | 2014-07-05 | 15:00:00 |  4260 | 10.0.0.15 | GET    |    200 |
@@ -81,27 +77,36 @@ Running query...
 | 2014-07-05 | 15:00:00 |  4257 | 10.0.0.8  | GET    |    200 |
 | 2014-07-05 | 15:00:03 |  4261 | 10.0.0.15 | GET    |    200 |
 +------------+----------+-------+-----------+--------+--------+
-Run time: 2.149 seconds | Data scanned: 101 kB
-> SHOW DATABASES;
-Running Query..
+Run time: 2.149 seconds | Data scanned: 101 KB
+athenai> SHOW DATABASES; SHOW TABLES;
+Running query...
+SHOW TABLES;
 +-----------------+
 | cloudfront_logs |
-| default         |
+| elb_logs        |
+| flights_parquet |
++-----------------+
+Run time: 0.38 seconds | Data scanned: 0 B
+
+SHOW DATABASES;
++-----------------+
+| cloudfront_logs |
 | elb_logs        |
 | s3_logs         |
 | sampledb        |
 +-----------------+
-Run time: 0.322 seconds | Data scanned: 0 B
+Run time: 0.35 seconds | Data scanned: 0 B
+athenai> 
 ```
 
-### Running queries from an SQL file
+Press `Ctrl-C` or `Ctrl-D` on empty line to exit.
 
-To run a query from an SQL file, pass its file path with `file://` prefix:
+### Running queries from command line arguments
+
+To run queries from command line arguments, just pass them to `athenai run` command:
 
 ```bash
-$ cat sample.sql
-SELECT date, time, bytes, requestip, method, status FROM cloudfront_logs LIMIT 5;
-$ athenai run file://sample.sql
+$ athenai run "SELECT date, time, bytes, requestip, method, status FROM sampledb.cloudfront_logs LIMIT 5;"
 Running query...
 +------------+----------+-------+-----------+--------+--------+
 | date       | time     | bytes | requestip | method | status |
@@ -111,16 +116,60 @@ Running query...
 | 2014-07-05 | 15:00:00 |  4257 | 10.0.0.8  | GET    |    200 |
 | 2014-07-05 | 15:00:03 |  4261 | 10.0.0.15 | GET    |    200 |
 +------------+----------+-------+-----------+--------+--------+
-Run time: 2.149 seconds | Data scanned: 101 kB
+Run time: 2.149 seconds | Data scanned: 101 KB
+
+$ athenai run "SHOW DATABASES; SHOW TABLES;"
+Running query..
+SHOW TABLES;
++-----------------+
+| cloudfront_logs |
+| elb_logs        |
+| flights_parquet |
++-----------------+
+Run time: 0.40 seconds | Data scanned: 0 B
+.
+SHOW DATABASES;
++-----------------+
+| cloudfront_logs |
+| elb_logs        |
+| s3_logs         |
+| sampledb        |
++-----------------+
+Run time: 0.34 seconds | Data scanned: 0 B
+```
+
+
+### Running queries from an SQL file
+
+To run queries from an SQL file, pass its file path with `file://` prefix to `athenai run` command:
+
+```bash
+$ cat sample.sql
+SELECT date, time, bytes, requestip, method, status FROM sampledb.cloudfront_logs LIMIT 5;
+
+$ athenai run file://sample.sql
+Running query...
+SELECT date, time, bytes, requestip, method, status FROM sampledb.cloudfront_logs LIMIT 5;
++------------+----------+-------+-----------+--------+--------+
+| date       | time     | bytes | requestip | method | status |
+| 2014-07-05 | 15:00:00 |  4260 | 10.0.0.15 | GET    |    200 |
+| 2014-07-05 | 15:00:00 |    10 | 10.0.0.15 | GET    |    304 |
+| 2014-07-05 | 15:00:00 |  4252 | 10.0.0.15 | GET    |    200 |
+| 2014-07-05 | 15:00:00 |  4257 | 10.0.0.8  | GET    |    200 |
+| 2014-07-05 | 15:00:03 |  4261 | 10.0.0.15 | GET    |    200 |
++------------+----------+-------+-----------+--------+--------+
+Run time: 2.149 seconds | Data scanned: 101 KB
 ```
 
 or pass its content via stdin if you can use pipe on Unix-like OS:
 
 ```bash
 $ cat sample.sql
-SELECT date, time, bytes, requestip, method, status FROM cloudfront_logs LIMIT 5;
-$ athenai < sample.sql
+SELECT date, time, bytes, requestip, method, status FROM sampledb.cloudfront_logs LIMIT 5;
+
+$ athenai run < sample.sql
 Running query...
+SELECT date, time, bytes, requestip, method, status FROM sampledb.cloudfront_logs LIMIT 5;
 +------------+----------+-------+-----------+--------+--------+
 | date       | time     | bytes | requestip | method | status |
 | 2014-07-05 | 15:00:00 |  4260 | 10.0.0.15 | GET    |    200 |
@@ -129,7 +178,7 @@ Running query...
 | 2014-07-05 | 15:00:00 |  4257 | 10.0.0.8  | GET    |    200 |
 | 2014-07-05 | 15:00:03 |  4261 | 10.0.0.15 | GET    |    200 |
 +------------+----------+-------+-----------+--------+--------+
-Run time: 2.149 seconds | Data scanned: 101 kB
+Run time: 2.149 seconds | Data scanned: 101 KB
 ```
 
 ### Manage and run named queries
@@ -148,13 +197,13 @@ Create a named query interactively:
 $ athenai named create
 > Database: sampledb
 > Name: Show the latest 5 records
-> Query: SELECT date, time, bytes, requestip, method, status FROM cloudfront_logs ORDER BY date, time DESC LIMIT 5;
+> Query: SELECT date, time, bytes, requestip, method, status FROM sampledb.cloudfront_logs ORDER BY date, time DESC LIMIT 5;
 ```
 
 or create a named query in one liner:
 
 ```bash
-$ athenai named create --database sampledb --name "Show the latest 5 records" "SELECT date, time, bytes, requestip, method, status FROM cloudfront_logs ORDER BY date, time DESC LIMIT 5;"
+$ athenai named create --database sampledb --name "Show the latest 5 records" "SELECT date, time, bytes, requestip, method, status FROM sampledb.cloudfront_logs ORDER BY date, time DESC LIMIT 5;"
 ```
 
 
@@ -176,16 +225,17 @@ $ athenai named run
 Simply download the binary and place it in `$PATH`:
 
 ```bash
-$ wget https://.../athenai.zip
+$ curl -O https://.../athenai.zip
 $ unzip athenai.zip
-$ mv athenai ~/bin/
+$ mv athenai /usr/local/bin/ # or where you like
+$ athenai --help
 ```
 
 Alternatively, you can use `go get` if you have installed Go:
 
 ```bash
 $ go get -u -v github.com/skatsuta/athenai
-$ athenai --version
+$ athenai --help
 ```
 
 
