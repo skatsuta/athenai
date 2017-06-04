@@ -50,10 +50,9 @@ func TestPrintStats(t *testing.T) {
 		},
 	}
 
-	var out bytes.Buffer
 	for _, tt := range tests {
+		var out bytes.Buffer
 		printStats(&out, tt.info)
 		assert.Equal(t, tt.expected, out.String(), "Info: %#v", tt.info)
-		out.Reset()
 	}
 }

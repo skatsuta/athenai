@@ -107,8 +107,8 @@ func TestRunQuery(t *testing.T) {
 		},
 	}
 
-	var out bytes.Buffer
 	for _, tt := range tests {
+		var out bytes.Buffer
 		a := New(&out, &Config{})
 		client := stub.NewClient(tt.id)
 		client.ResultSet = tt.rs
@@ -120,8 +120,6 @@ func TestRunQuery(t *testing.T) {
 		a.RunQuery([]string{tt.query})
 
 		assert.Contains(t, out.String(), tt.want, "Query: %q, Id: %s", tt.query, tt.id)
-
-		out.Reset()
 	}
 }
 
@@ -162,7 +160,6 @@ func TestRunREPL(t *testing.T) {
 		},
 	}
 
-	var out bytes.Buffer
 	for _, tt := range tests {
 		client := stub.NewClient(tt.id)
 		client.ResultSet = tt.rs
@@ -173,6 +170,7 @@ func TestRunREPL(t *testing.T) {
 
 		in := strings.NewReader(tt.input)
 
+		var out bytes.Buffer
 		rl, err := readline.NewEx(&readline.Config{
 			Stdin:               in,
 			Stdout:              &out,
@@ -188,7 +186,5 @@ func TestRunREPL(t *testing.T) {
 
 		assert.NoError(t, err)
 		assert.Contains(t, out.String(), tt.want, "Input: %q, Id: %s", tt.input, tt.id)
-
-		out.Reset()
 	}
 }
