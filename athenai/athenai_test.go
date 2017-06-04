@@ -123,6 +123,15 @@ func TestRunQuery(t *testing.T) {
 	}
 }
 
+func TestSetupREPL(t *testing.T) {
+	var out bytes.Buffer
+	a := New(&out, &Config{})
+	err := a.setupREPL()
+
+	assert.NoError(t, err)
+	assert.NotNil(t, a.rl)
+}
+
 func TestRunREPL(t *testing.T) {
 	tests := []struct {
 		input    string
