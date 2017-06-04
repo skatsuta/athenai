@@ -38,8 +38,9 @@ func TestSplitStmts(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		got := splitStmts(tt.queries)
+		got, errs := splitStmts(tt.queries)
 
+		assert.Len(t, errs, 0, "Query: %q")
 		assert.Len(t, got, tt.wantLen, "Query: %q")
 	}
 }
@@ -82,12 +83,12 @@ func TestRunQuery(t *testing.T) {
 		{
 			query: "",
 			id:    "TestRunQuery_EmptyStmt1",
-			want:  "Nothing executed\n",
+			want:  ErrNoStmtFound.Error(),
 		},
 		{
 			query: "  ; ;  ",
 			id:    "TestRunQuery_EmptyStmt2",
-			want:  "Nothing executed\n",
+			want:  ErrNoStmtFound.Error(),
 		},
 		{
 			query: "SHOW DATABASES",
@@ -149,7 +150,7 @@ func TestRunREPL(t *testing.T) {
 		{
 			input: " ; ; \n",
 			id:    "TestRunREPL_EmptyStmt",
-			want:  "Nothing executed",
+			want:  ErrNoStmtFound.Error(),
 		},
 		{
 			input: "SHOW DATABASES\n",

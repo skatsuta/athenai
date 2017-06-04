@@ -24,7 +24,11 @@ import (
 
 const (
 	tickInterval = 1000 * time.Millisecond
+	filePrefix   = "file://"
 )
+
+// ErrNoStmtFound represents an error where no statements found to run.
+var ErrNoStmtFound = errors.New("No statements found to run")
 
 // newClient creates a new Athena client.
 func newClient(cfg *Config) *athena.Athena {
@@ -42,12 +46,39 @@ func newClient(cfg *Config) *athena.Athena {
 	return athena.New(session.Must(session.NewSession(c)))
 }
 
+// readFile reads the content of a file whose path has `file://` prefix.
+func readFile(arg string) (string, error) {
+	filename := strings.TrimPrefix(arg, filePrefix)
+	log.Println("Given file:", filename)
+	content, err := ioutil.ReadFile(filename)
+	if err != nil {
+		return "", errors.Wrap(err, "failed to read file")
+	}
+	c := string(content)
+	log.Printf("Content of %s:\n%s\n", filename, c)
+	return c, nil
+}
+
 // splitStmts splits SQL statements in the queries by semicolons and flatten them.
 // It drops empty statements.
-func splitStmts(queries []string) []string {
-	stmts := make([]string, 0, len(queries))
-	for _, query := range queries {
-		splitted := strings.Split(query, ";")
+//
+// If an argument has `file://` prefix, splitStmts reads the file content
+// and splits each statement as well.
+// If it enconters errors while reading files, it returns the errors as the second return value.
+func splitStmts(args []string) ([]string, []error) {
+	stmts := make([]string, 0, len(args))
+	var errs []error
+
+	for _, arg := range args {
+		if strings.HasPrefix(arg, filePrefix) {
+			arg, err := readFile(arg)
+			if err != nil {
+				errs = append(errs, err)
+				continue
+			}
+		}
+
+		splitted := strings.Split(arg, ";")
 		// Filtering without allocating: https://github.com/golang/go/wiki/SliceTricks#filtering-without-allocating
 		for _, s := range splitted {
 			// Select non-empty statements
@@ -58,7 +89,7 @@ func splitStmts(queries []string) []string {
 		}
 	}
 
-	return stmts
+	return stmts, errs
 }
 
 // readlineCloser is an interface to read every line in REPL and then close it.
@@ -151,14 +182,19 @@ func (a *Athenai) monitorComplete() {
 	a.doneCh <- struct{}{}
 }
 
-// RunQuery runs the given query.
-// It splits the query by semicolons and run each statement concurrently.
+// RunQuery runs the given queries.
+// It splits each statement by semicolons and run them concurrently.
 // It skips empty statements.
 func (a *Athenai) RunQuery(queries []string) {
 	// Split statements
-	stmts := splitStmts(queries)
+	stmts, errs := splitStmts(queries)
+	if len(errs) > 0 {
+		for _, err := range errs {
+			printErr(err, "error splitting SQL statements")
+		}
+	}
 	if len(stmts) == 0 {
-		a.println("Nothing executed")
+		a.println(ErrNoStmtFound.Error())
 		return
 	}
 
@@ -189,7 +225,7 @@ func (a *Athenai) RunQuery(queries []string) {
 			print.NewTable(a.out).Print(r)
 		case e := <-a.errCh:
 			a.print("\n")
-			printErr(e)
+			printErr(e, "query execution failed")
 		case <-a.doneCh:
 			return
 		}
@@ -241,7 +277,7 @@ func (a *Athenai) RunREPL() error {
 				// Exit if ^D is pressed
 				return nil
 			default:
-				printErr(errors.Wrap(err, "error reading line"))
+				printErr(err, "error reading line")
 			}
 		}
 
@@ -255,6 +291,6 @@ func (a *Athenai) RunREPL() error {
 	}
 }
 
-func printErr(err error) {
-	fmt.Fprintln(os.Stderr, err)
+func printErr(err error, message string) {
+	fmt.Fprintf(os.Stderr, "ERROR: %s: %s\n", message, err)
 }
