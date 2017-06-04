@@ -89,6 +89,7 @@ type Athenai struct {
 	errCh    chan error
 	doneCh   chan struct{}
 	wg       sync.WaitGroup
+	mu       sync.Mutex
 }
 
 // New creates a new Athena.
@@ -108,11 +109,14 @@ func New(out io.Writer, cfg *Config) *Athenai {
 }
 
 func (a *Athenai) print(x ...interface{}) {
+	a.mu.Lock()
+	defer a.mu.Unlock()
 	fmt.Fprint(a.out, x...)
 }
 
 func (a *Athenai) println(x ...interface{}) {
-	fmt.Fprintln(a.out, x...)
+	a.print(x...)
+	a.print("\n")
 }
 
 // showProgressMsg shows progress messages while queries are being executed.

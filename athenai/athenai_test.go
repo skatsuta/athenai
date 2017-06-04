@@ -109,7 +109,7 @@ func TestRunQuery(t *testing.T) {
 
 	var out bytes.Buffer
 	for _, tt := range tests {
-		a := New(&out, &Config{Silent: true})
+		a := New(&out, &Config{})
 		client := stub.NewClient(tt.id)
 		client.ResultSet = tt.rs
 		stats := new(athena.QueryExecutionStatistics).
@@ -180,7 +180,7 @@ func TestRunREPL(t *testing.T) {
 		})
 		assert.NoError(t, err)
 
-		a := New(&out, &Config{Silent: true})
+		a := New(&out, &Config{})
 		a.in = in
 		a.client = client
 		a.rl = rl
