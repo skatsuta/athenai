@@ -59,6 +59,12 @@ func splitStmts(query string) []string {
 	return stmts
 }
 
+// readlineCloser is an interface to read every line in REPL and then close it.
+type readlineCloser interface {
+	Readline() (string, error)
+	Close() error
+}
+
 // Config is a configuration information for Athenai.
 type Config struct {
 	exec.QueryConfig
@@ -69,7 +75,9 @@ type Config struct {
 
 // Athenai is a main struct to run this app.
 type Athenai struct {
+	in  io.Reader
 	out io.Writer
+	rl  readlineCloser
 
 	cfg    *Config
 	client athenaiface.AthenaAPI
@@ -80,14 +88,15 @@ type Athenai struct {
 	errCh    chan error
 	doneCh   chan struct{}
 	wg       sync.WaitGroup
-	mu       sync.Mutex
 }
 
 // New creates a new Athena.
 func New(out io.Writer, cfg *Config) *Athenai {
 	a := &Athenai{
-		out:      out,
-		cfg:      cfg,
+		in:  os.Stdin,
+		out: out,
+		cfg: cfg,
+		// TODO: client should be passed via function arguments for easy testing
 		client:   newClient(cfg),
 		interval: tickInterval,
 		resultCh: make(chan *exec.Result, 1),
@@ -187,30 +196,49 @@ func (a *Athenai) RunQuery(query string) {
 	}
 }
 
-// RunREPL runs interactive mode.
-func (a *Athenai) RunREPL() error {
-	line, err := readline.NewEx(&readline.Config{
-		Prompt:            "Athenai> ",
+func (a *Athenai) setupREPL() error {
+	// rl already exists, no need to setup
+	if a.rl != nil {
+		return nil
+	}
+
+	rl, err := readline.NewEx(&readline.Config{
+		Prompt:            "athenai> ",
 		HistoryFile:       filepath.Join(os.TempDir(), ".athenai_history"),
 		HistorySearchFold: true,
+		Stdin:             a.in,
+		Stdout:            a.out,
 	})
 	if err != nil {
-		return errors.Wrap(err, "failed to start REPL")
+		return err
 	}
-	defer line.Close()
+
+	a.rl = rl
+	return nil
+}
+
+// RunREPL runs REPL mode (interactive mode).
+func (a *Athenai) RunREPL() error {
+	if err := a.setupREPL(); err != nil {
+		return errors.Wrap(err, "failed to setup REPL")
+	}
+	defer a.rl.Close()
 
 	for {
-		// Show prompt
-		query, err := line.Readline()
+		// Read a line from stdin
+		query, err := a.rl.Readline()
 		if err != nil {
 			switch err {
 			case readline.ErrInterrupt:
 				if query == "" {
+					// Exit REPL if ^C is pressed at empty line
 					return nil
 				}
+				// Show guide message to exit and continue
 				a.println("To exit, press Ctrl-C again or Ctrl-D")
 				continue
 			case io.EOF:
+				// Exit if ^D is pressed
 				return nil
 			default:
 				fmt.Fprintln(os.Stderr, "Error reading line:", err)
