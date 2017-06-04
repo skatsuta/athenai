@@ -196,7 +196,7 @@ func (a *Athenai) RunQuery(queries []string) {
 }
 
 func (a *Athenai) setupREPL() error {
-	// rl already exists, no need to setup
+	// rl is already set, no need to be setup again
 	if a.rl != nil {
 		return nil
 	}
