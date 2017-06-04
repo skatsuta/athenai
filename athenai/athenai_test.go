@@ -115,7 +115,7 @@ func TestRunQuery(t *testing.T) {
 		a.client = client
 		a.RunQuery(tt.query)
 
-		assert.Equal(t, tt.want, out.String(), "Query: %q, Id: %s", tt.query, tt.id)
+		assert.Contains(t, out.String(), tt.want, "Query: %q, Id: %s", tt.query, tt.id)
 
 		out.Reset()
 	}
@@ -136,12 +136,12 @@ func TestRunREPL(t *testing.T) {
 			want:  "\n",
 		},
 		{
-			input: " ; ; ",
+			input: " ; ; \n",
 			id:    "TestRunREPL_EmptyStmt",
 			want:  "Nothing executed",
 		},
 		{
-			input: "SHOW DATABASES",
+			input: "SHOW DATABASES\n",
 			id:    "TestRunREPL_ShowDBs",
 			rs: athena.ResultSet{
 				Rows: testhelper.CreateRows(
@@ -165,7 +165,7 @@ func TestRunREPL(t *testing.T) {
 		stats := new(athena.QueryExecutionStatistics).
 			SetEngineExecutionTimeInMillis(tt.execTime).
 			SetDataScannedInBytes(tt.scanned)
-		client.QueryExecution.SetStatistics(stats).SetQuery(tt.input)
+		client.QueryExecution.SetStatistics(stats).SetQuery(strings.TrimSpace(tt.input))
 
 		in := strings.NewReader(tt.input)
 
