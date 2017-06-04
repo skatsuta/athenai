@@ -33,7 +33,7 @@ func (t *Table) Print(r Result) {
 
 // printQuery prints a query executed.
 func (t *Table) printQuery(query *string) {
-	fmt.Fprintf(t.w, "%s;\n", aws.StringValue(query))
+	fmt.Fprintf(t.w, "\n%s;\n", aws.StringValue(query))
 }
 
 // printTable prints the results in tabular form.
