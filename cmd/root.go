@@ -2,6 +2,8 @@ package cmd
 
 import (
 	"fmt"
+	"io/ioutil"
+	"log"
 	"os"
 
 	homedir "github.com/mitchellh/go-homedir"
@@ -27,6 +29,12 @@ examples and usage of using your application. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		// Enable debug mode
+		if !config.Debug {
+			log.SetOutput(ioutil.Discard)
+		}
+	},
 }
 
 // Execute adds all child commands to the root command sets flags appropriately.

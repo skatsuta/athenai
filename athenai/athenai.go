@@ -244,17 +244,10 @@ func printErr(err error, message string) {
 
 // newClient creates a new Athena client.
 func newClient(cfg *Config) *athena.Athena {
-	// Create a service configuration
 	c := aws.NewConfig().WithRegion(cfg.Region)
-
-	// Set log level
 	if cfg.Debug {
 		c = c.WithLogLevel(aws.LogDebugWithHTTPBody | aws.LogDebugWithRequestErrors)
-	} else {
-		// Surpress log outputs
-		log.SetOutput(ioutil.Discard)
 	}
-
 	return athena.New(session.Must(session.NewSession(c)))
 }
 
