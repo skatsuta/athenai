@@ -21,7 +21,7 @@ const (
 // QueryConfig is configurations for query executions.
 type QueryConfig struct {
 	Database string
-	Output   string
+	Location string
 }
 
 // Query represents a query to be executed.
@@ -59,7 +59,7 @@ func (q *Query) Start() error {
 	params := &athena.StartQueryExecutionInput{
 		QueryString: aws.String(q.query),
 		ResultConfiguration: &athena.ResultConfiguration{
-			OutputLocation: aws.String(q.Output),
+			OutputLocation: aws.String(q.Location),
 		},
 	}
 	if q.Database != "" {

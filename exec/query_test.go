@@ -13,7 +13,7 @@ import (
 func TestStart(t *testing.T) {
 	cfg := &QueryConfig{
 		Database: "sampledb",
-		Output:   "s3://bucket/prefix/",
+		Location: "s3://bucket/prefix/",
 	}
 
 	tests := []struct {
@@ -37,7 +37,7 @@ func TestStart(t *testing.T) {
 func TestStartError(t *testing.T) {
 	cfg := &QueryConfig{
 		Database: "sampledb",
-		Output:   "s3://bucket/prefix/",
+		Location: "s3://bucket/prefix/",
 	}
 
 	tests := []struct {
@@ -63,7 +63,7 @@ func TestStartError(t *testing.T) {
 func TestWait(t *testing.T) {
 	cfg := &QueryConfig{
 		Database: "sampledb",
-		Output:   "s3://bucket/prefix/",
+		Location: "s3://bucket/prefix/",
 	}
 
 	tests := []struct {
@@ -95,7 +95,7 @@ func TestWait(t *testing.T) {
 func TestWaitError(t *testing.T) {
 	cfg := &QueryConfig{
 		Database: "sampledb",
-		Output:   "s3://bucket/prefix/",
+		Location: "s3://bucket/prefix/",
 	}
 
 	tests := []struct {
@@ -125,7 +125,7 @@ func TestWaitError(t *testing.T) {
 func TestGetResults(t *testing.T) {
 	cfg := &QueryConfig{
 		Database: "sampledb",
-		Output:   "s3://bucket/prefix/",
+		Location: "s3://bucket/prefix/",
 	}
 
 	tests := []struct {
@@ -175,7 +175,7 @@ func TestGetResults(t *testing.T) {
 func TestGetResultsError(t *testing.T) {
 	cfg := &QueryConfig{
 		Database: "sampledb",
-		Output:   "s3://bucket/prefix/",
+		Location: "s3://bucket/prefix/",
 	}
 
 	tests := []struct {
@@ -209,7 +209,7 @@ func TestGetResultsError(t *testing.T) {
 func TestRun(t *testing.T) {
 	cfg := &QueryConfig{
 		Database: "sampledb",
-		Output:   "s3://bucket/prefix/",
+		Location: "s3://bucket/prefix/",
 	}
 
 	tests := []struct {
