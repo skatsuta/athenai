@@ -52,9 +52,10 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 	f := RootCmd.PersistentFlags()
-	f.StringVar(&cfgFile, "config", "", "Config file (default is $HOME/.athenai.yml)")
-	f.BoolVar(&config.Debug, "debug", false, "Enable debug mode")
-	f.StringVarP(&config.Region, "region", "r", "", "AWS region")
+	f.StringVar(&cfgFile, "config", "", "Config file (default is $HOME/.athenai/config.yml)")
+	f.BoolVar(&config.Debug, "debug", false, "Turn on debug logging.")
+	f.StringVarP(&config.Region, "region", "r", "", "The AWS region to use.")
+	f.StringVarP(&config.Profile, "profile", "p", "default", "Use a specific profile from your credential file.")
 }
 
 // initConfig reads in config file and ENV variables if set.

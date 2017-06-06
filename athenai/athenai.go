@@ -39,9 +39,10 @@ type readlineCloser interface {
 // Config is a configuration information for Athenai.
 type Config struct {
 	exec.QueryConfig
-	Debug  bool
-	Region string
-	Silent bool
+	Debug   bool
+	Region  string
+	Silent  bool
+	Profile string
 }
 
 // Athenai is a main struct to run this app.
@@ -248,7 +249,10 @@ func newClient(cfg *Config) *athena.Athena {
 	if cfg.Debug {
 		c = c.WithLogLevel(aws.LogDebugWithHTTPBody | aws.LogDebugWithRequestErrors)
 	}
-	return athena.New(session.Must(session.NewSession(c)))
+	return athena.New(session.Must(session.NewSessionWithOptions(session.Options{
+		Config:  *c,
+		Profile: cfg.Profile,
+	})))
 }
 
 // readFile reads the content of a file whose path has `file://` prefix.
