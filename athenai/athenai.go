@@ -17,15 +17,18 @@ import (
 	"github.com/pkg/errors"
 	"github.com/skatsuta/athenai/exec"
 	"github.com/skatsuta/athenai/print"
+	"github.com/skatsuta/spinner"
 )
 
 const (
-	tickInterval = 1000 * time.Millisecond
+	refreshInterval = 100 * time.Millisecond
 
 	filePrefix = "file://"
 
 	noStmtFound = "No SQL statements found to run"
 )
+
+var spinnerChars = []string{"⠋", "⠙", "⠚", "⠞", "⠖", "⠦", "⠴", "⠲", "⠳", "⠓"}
 
 type safeWriter struct {
 	w  io.Writer
@@ -69,7 +72,7 @@ func New(client athenaiface.AthenaAPI, out io.Writer, cfg *Config) *Athenai {
 		out:      &safeWriter{w: out},
 		cfg:      cfg,
 		client:   client,
-		interval: tickInterval,
+		interval: refreshInterval,
 		resultCh: make(chan *exec.Result, 1),
 		errCh:    make(chan error, 1),
 		doneCh:   make(chan struct{}),
@@ -88,14 +91,14 @@ func (a *Athenai) println(x ...interface{}) {
 
 // showProgressMsg shows progress messages while queries are being executed.
 func (a *Athenai) showProgressMsg(ctx context.Context) {
-	a.print("Running query")
-	tick := time.Tick(a.interval)
+	s := spinner.New(spinnerChars, a.interval)
+	s.Writer = a.out
+	s.Suffix = " Running query..."
+	s.Start()
 	for {
 		select {
-		case <-tick:
-			a.print(".")
 		case <-ctx.Done():
-			log.Println("Stopped showing progress messages")
+			s.Stop()
 			return
 		}
 	}

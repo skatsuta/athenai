@@ -48,7 +48,7 @@ func TestSplitStmts(t *testing.T) {
 }
 
 func TestShowProgressMsg(t *testing.T) {
-	want := "Running query."
+	want := "Running query"
 
 	var out bytes.Buffer
 	a := &Athenai{
