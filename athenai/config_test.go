@@ -120,5 +120,5 @@ func TestLoadConfigFileError(t *testing.T) {
 	assert.True(t, ok)
 	assert.Equal(t, file.Name(), e.Path)
 	assert.Equal(t, section, e.Section)
-	assert.Contains(t, e.Err.Error(), "does not exist")
+	assert.Contains(t, e.Cause.Error(), "does not exist")
 }

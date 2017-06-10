@@ -40,16 +40,11 @@ func (c *Config) QueryConfig() *exec.QueryConfig {
 type SectionError struct {
 	Path    string
 	Section string
-	Err     error
+	Cause   error // Do not implement Cause() for pkg/errors
 }
 
 func (se *SectionError) Error() string {
-	return fmt.Sprintf("failed to get section '%s' in %s: %s", se.Section, se.Path, se.Err)
-}
-
-// Cause returns the underlying cause of the error.
-func (se *SectionError) Cause() error {
-	return se.Err
+	return fmt.Sprintf("failed to get section '%s' in %s: %s", se.Section, se.Path, se.Cause)
 }
 
 // LoadConfigFile loads configurations at `cfg.Section` section into `cfg` from `path`.
@@ -78,7 +73,7 @@ func LoadConfigFile(cfg *Config, path string) error {
 		return &SectionError{
 			Path:    filePath,
 			Section: cfg.Section,
-			Err:     err,
+			Cause:   err,
 		}
 	}
 
