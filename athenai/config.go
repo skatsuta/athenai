@@ -3,10 +3,10 @@ package athenai
 import (
 	"path/filepath"
 
-	"github.com/go-ini/ini"
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/pkg/errors"
 	"github.com/skatsuta/athenai/exec"
+	"gopkg.in/ini.v1"
 )
 
 const (
