@@ -49,7 +49,7 @@ func LoadFile(cfg *Config, path string) error {
 
 	sec, err := iniCfg.GetSection(cfg.Section)
 	if err != nil {
-		return errors.Wrapf(err, "failed to get section '%s' in config file", sec)
+		return errors.Wrapf(err, "failed to get section '%s' in config file", cfg.Section)
 	}
 
 	return sec.MapTo(cfg)
