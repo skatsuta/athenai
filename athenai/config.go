@@ -1,4 +1,4 @@
-package config
+package athenai
 
 import (
 	"path/filepath"
@@ -26,9 +26,9 @@ type Config struct {
 	iniCfg *ini.File `ini:"-"`
 }
 
-// LoadFile loads configurations at `cfg.Section` section into `cfg` from `path`.
+// LoadConfigFile loads configurations at `cfg.Section` section into `cfg` from `path`.
 // If `path` is empty, `$HOME/.athenai/config` is used.
-func LoadFile(cfg *Config, path string) error {
+func LoadConfigFile(cfg *Config, path string) error {
 	if cfg == nil {
 		return errors.New("cfg is nil")
 	}

@@ -1,4 +1,4 @@
-package config
+package athenai
 
 import (
 	"io/ioutil"
@@ -35,7 +35,7 @@ func createConfigFile(dir, name string, cfg *Config) (file *os.File, cleanup fun
 	return file, cleanup, err
 }
 
-func TestLoadFile(t *testing.T) {
+func TestLoadConfigFile(t *testing.T) {
 	section := "test"
 	want := &Config{
 		Debug:    true,
@@ -47,19 +47,19 @@ func TestLoadFile(t *testing.T) {
 		Location: "s3://testloadfilebucket/prefix",
 	}
 
-	file, cleanup, err := createConfigFile("", "TestLoadFile", want)
+	file, cleanup, err := createConfigFile("", "TestLoadConfigFile", want)
 	defer cleanup()
 	assert.NoError(t, err)
 
 	got := &Config{Section: section}
-	err = LoadFile(got, file.Name())
+	err = LoadConfigFile(got, file.Name())
 	got.iniCfg = nil // ignore iniCfg field
 
 	assert.NoError(t, err)
 	assert.Equal(t, want, got)
 }
 
-func TestLoadFileFromHomeDir(t *testing.T) {
+func TestLoadConfigFileFromHomeDir(t *testing.T) {
 	// Set temporary home directory to $HOME
 	tmpHomedir := os.TempDir()
 	defaultHomeDir := os.Getenv("HOME")
@@ -81,7 +81,7 @@ func TestLoadFileFromHomeDir(t *testing.T) {
 		Location: "s3://testloadfilebucket/prefix",
 	}
 
-	err = template.Must(template.New("TestLoadFileFromHomeDir").Parse(configFileTmpl)).Execute(file, want)
+	err = template.Must(template.New("TestLoadConfigFileFromHomeDir").Parse(configFileTmpl)).Execute(file, want)
 	defer func() {
 		file.Close()
 		os.Remove(file.Name())
@@ -89,8 +89,8 @@ func TestLoadFileFromHomeDir(t *testing.T) {
 	assert.NoError(t, err)
 
 	got := &Config{Section: section}
-	err = LoadFile(got, "") // if empty path is given we read config file under home dir
-	got.iniCfg = nil        // ignore iniCfg field
+	err = LoadConfigFile(got, "") // if empty path is given we read config file under home dir
+	got.iniCfg = nil              // ignore iniCfg field
 
 	assert.NoError(t, err)
 	assert.Equal(t, want, got)
@@ -100,21 +100,21 @@ func TestLoadFileFromHomeDir(t *testing.T) {
 	assert.NoError(t, err)
 }
 
-func TestLoadFileError(t *testing.T) {
-	err := LoadFile(nil, "")
+func TestLoadConfigFileError(t *testing.T) {
+	err := LoadConfigFile(nil, "")
 	assert.Error(t, err, "config is not nil")
 
-	err = LoadFile(&Config{}, "")
+	err = LoadConfigFile(&Config{}, "")
 	assert.Error(t, err, "section name is not empty")
 
 	path := "/no_existent_file"
-	err = LoadFile(&Config{Section: "default"}, path)
+	err = LoadConfigFile(&Config{Section: "default"}, path)
 	assert.Error(t, err, "config file '"+path+"' exists unexpectedly")
 	assert.IsType(t, &os.PathError{}, errors.Cause(err))
 
 	section := "no_section"
-	file, cleanup, err := createConfigFile("", "TestLoadFileError", &Config{Section: "default"})
-	err = LoadFile(&Config{Section: section}, file.Name())
+	file, cleanup, err := createConfigFile("", "TestLoadConfigFileError", &Config{Section: "default"})
+	err = LoadConfigFile(&Config{Section: section}, file.Name())
 	defer cleanup()
 	assert.Contains(t, err.Error(), "failed to get section '"+section+"' in config file")
 }
