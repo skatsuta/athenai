@@ -9,17 +9,14 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/athena"
-	homedir "github.com/mitchellh/go-homedir"
 	"github.com/skatsuta/athenai/athenai"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 var (
 	cfgFile string
+	config  = &athenai.Config{}
 )
-
-var config = &athenai.Config{}
 
 // RootCmd represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
@@ -49,47 +46,43 @@ func Execute() {
 }
 
 func init() {
-	cobra.OnInitialize(initConfig)
-
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
+	// Define global flags
 	f := RootCmd.PersistentFlags()
-	f.StringVar(&cfgFile, "config", "", "Config file (default is $HOME/.athenai/config.yml)")
+	f.StringVar(&cfgFile, "config", "", "Config file path (default is $HOME/.athenai/config)")
 	f.BoolVar(&config.Debug, "debug", false, "Turn on debug logging")
 	f.StringVar(&config.Section, "section", "s", "The section in config file to use")
 	f.StringVarP(&config.Profile, "profile", "p", "default", "Use a specific profile from your credential file")
 	f.StringVarP(&config.Region, "region", "r", "", "The AWS region to use")
 }
 
-// initConfig reads in config file and ENV variables if set.
-func initConfig() {
-	if cfgFile != "" {
-		// Use config file from the flag.
-		viper.SetConfigFile(cfgFile)
-	} else {
-		// Find home directory.
-		home, err := homedir.Dir()
-		if err != nil {
-			fatal(err)
-		}
-
-		// Search config in home directory with name ".athenai" (without extension).
-		viper.AddConfigPath(home)
-		viper.SetConfigName(".athenai")
-	}
-
-	viper.AutomaticEnv() // read in environment variables that match
-
-	// If a config file is found, read it in.
-	if err := viper.ReadInConfig(); err == nil {
-		fmt.Println("Using config file:", viper.ConfigFileUsed())
-	}
-}
-
 func fatal(err error) {
 	fmt.Fprintln(os.Stderr, "ERROR:", err)
 	os.Exit(1)
+}
+
+func printConfigFileWarning(err error) {
+	switch e := err.(type) {
+	case *os.PathError:
+		log.Println("No config file found:", e)
+		fmt.Fprintf(os.Stderr, "No config file found on %s. Using only command line flags\n", e.Path)
+	case *athenai.SectionError:
+		log.Println("Error:", e)
+		fmt.Fprintf(os.Stderr, "Section '%s' not found in %s. Please check if the '%s' section exists in the config file and add it if it does not. Using only command line flags now\n",
+			e.Section, e.Section, e.Path)
+	default:
+		log.Println("Error loading config file:", e)
+		fmt.Fprintln(os.Stderr, "Error loading config file. Use --debug flag for more details. Using only command line flags now")
+	}
+}
+
+// initConfig loads configurations from the config file and then override them by parsing flags.
+// rawArgs should be os.Args.
+func initConfig(cfg *athenai.Config, cmd *cobra.Command, rawArgs []string) error {
+	if err := athenai.LoadConfigFile(cfg, cfgFile); err != nil && !cfg.Silent {
+		printConfigFileWarning(err)
+	}
+	// Parse flags again to override configs in config file.
+	return cmd.ParseFlags(rawArgs)
 }
 
 // newClient creates a new Athena client.
