@@ -37,6 +37,24 @@ to quickly create a Cobra application.`,
 	},
 }
 
+// ValidationError represents an error that validation before command execution failed.
+type ValidationError struct {
+	// Cmd is a command name where validation failed.
+	Cmd string
+	// Name is a configuration name that is not valid. For exapmle, "location" for run command.
+	Name string
+	// Msg is a message shown to users.
+	Msg string
+}
+
+func (ve *ValidationError) Error() string {
+	return ve.Msg
+}
+
+func (ve *ValidationError) String() string {
+	return ve.Msg
+}
+
 // Execute adds all child commands to the root command sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
