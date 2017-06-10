@@ -28,6 +28,7 @@ to quickly create a Cobra application.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		return runRun(cmd, args, newClient(config), config, os.Stdin, os.Stdout)
 	},
+	// TODO: add examples
 }
 
 type stater interface {
