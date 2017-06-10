@@ -6,6 +6,9 @@ import (
 	"log"
 	"os"
 
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/athena"
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/skatsuta/athenai/athenai"
 	"github.com/spf13/cobra"
@@ -87,4 +90,16 @@ func initConfig() {
 func fatal(err error) {
 	fmt.Fprintln(os.Stderr, "ERROR:", err)
 	os.Exit(1)
+}
+
+// newClient creates a new Athena client.
+func newClient(cfg *athenai.Config) *athena.Athena {
+	c := aws.NewConfig().WithRegion(cfg.Region)
+	if cfg.Debug {
+		c = c.WithLogLevel(aws.LogDebugWithHTTPBody | aws.LogDebugWithRequestErrors)
+	}
+	return athena.New(session.Must(session.NewSessionWithOptions(session.Options{
+		Config:  *c,
+		Profile: cfg.Profile,
+	})))
 }

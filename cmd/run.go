@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/aws/aws-sdk-go/service/athena/athenaiface"
 	"github.com/skatsuta/athenai/athenai"
 	"github.com/spf13/cobra"
 )
@@ -23,7 +24,7 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		return runRun(cmd, args, config, os.Stdin, os.Stdout)
+		return runRun(cmd, args, newClient(config), config, os.Stdin, os.Stdout)
 	},
 }
 
@@ -72,8 +73,8 @@ func appendStdinData(args []string, stdin io.Reader) []string {
 	return append(args, data)
 }
 
-func runRun(cmd *cobra.Command, args []string, cfg *athenai.Config, stdin statReader, out io.Writer) error {
-	a := athenai.New(out, cfg)
+func runRun(cmd *cobra.Command, args []string, client athenaiface.AthenaAPI, cfg *athenai.Config, stdin statReader, out io.Writer) error {
+	a := athenai.New(client, out, cfg)
 
 	// Read data on stdin and add it to args
 	if hasDataOn(stdin) {

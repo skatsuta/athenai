@@ -12,9 +12,6 @@ import (
 	"sync"
 	"time"
 
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/athena"
 	"github.com/aws/aws-sdk-go/service/athena/athenaiface"
 	"github.com/chzyer/readline"
 	"github.com/pkg/errors"
@@ -55,13 +52,12 @@ type Athenai struct {
 }
 
 // New creates a new Athena.
-func New(out io.Writer, cfg *Config) *Athenai {
+func New(client athenaiface.AthenaAPI, out io.Writer, cfg *Config) *Athenai {
 	a := &Athenai{
-		in:  os.Stdin,
-		out: out,
-		cfg: cfg,
-		// TODO: client should be passed via function arguments for easy testing
-		client:   newClient(cfg),
+		in:       os.Stdin,
+		out:      out,
+		cfg:      cfg,
+		client:   client,
 		interval: tickInterval,
 		resultCh: make(chan *exec.Result, 1),
 		errCh:    make(chan error, 1),
@@ -232,18 +228,6 @@ func (a *Athenai) RunREPL() error {
 
 func printErr(err error, message string) {
 	fmt.Fprintf(os.Stderr, "ERROR: %s: %s\n", message, err)
-}
-
-// newClient creates a new Athena client.
-func newClient(cfg *Config) *athena.Athena {
-	c := aws.NewConfig().WithRegion(cfg.Region)
-	if cfg.Debug {
-		c = c.WithLogLevel(aws.LogDebugWithHTTPBody | aws.LogDebugWithRequestErrors)
-	}
-	return athena.New(session.Must(session.NewSessionWithOptions(session.Options{
-		Config:  *c,
-		Profile: cfg.Profile,
-	})))
 }
 
 // readFile reads the content of a file whose path has `file://` prefix.

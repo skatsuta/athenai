@@ -112,12 +112,11 @@ func TestRunQuery(t *testing.T) {
 
 	for _, tt := range tests {
 		var out bytes.Buffer
-		a := New(&out, &Config{})
 		client := stub.NewClient(tt.id)
 		client.ResultSet = tt.rs
 		stats := testhelper.CreateStats(tt.execTime, tt.scanned)
 		client.QueryExecution.SetStatistics(stats).SetQuery(strings.TrimSuffix(tt.query, ";"))
-		a.client = client
+		a := New(client, &out, &Config{})
 		a.RunQuery([]string{tt.query})
 
 		assert.Contains(t, out.String(), tt.want, "Query: %q, Id: %s", tt.query, tt.id)
@@ -161,12 +160,11 @@ func TestRunQueryFromFile(t *testing.T) {
 		assert.NoError(t, err)
 
 		var out bytes.Buffer
-		a := New(&out, &Config{})
 		client := stub.NewClient(tt.id)
 		client.ResultSet = tt.rs
 		stats := testhelper.CreateStats(tt.execTime, tt.scanned)
 		client.QueryExecution.SetStatistics(stats).SetQuery(strings.TrimSuffix(tt.query, ";"))
-		a.client = client
+		a := New(client, &out, &Config{})
 		a.RunQuery([]string{"file://" + tmpFile.Name()})
 
 		assert.Contains(t, out.String(), tt.want, "Query: %q, Id: %s", tt.query, tt.id)
@@ -181,7 +179,7 @@ func TestRunQueryFromFile(t *testing.T) {
 
 func TestSetupREPL(t *testing.T) {
 	var out bytes.Buffer
-	a := New(&out, &Config{})
+	a := New(stub.NewClient("TestSetupREPL"), &out, &Config{})
 	err := a.setupREPL()
 
 	assert.NoError(t, err)
@@ -241,9 +239,8 @@ func TestRunREPL(t *testing.T) {
 		})
 		assert.NoError(t, err)
 
-		a := New(&out, &Config{})
+		a := New(client, &out, &Config{})
 		a.in = in
-		a.client = client
 		a.rl = rl
 		err = a.RunREPL()
 
