@@ -50,7 +50,7 @@ func NewQuery(client athenaiface.AthenaAPI, query string, cfg *QueryConfig) *Que
 		client:      client,
 		query:       query,
 	}
-	log.Printf("Created %#v\n", q)
+	log.Printf("Created Query: %#v\n", q)
 	return q
 }
 

@@ -55,6 +55,7 @@ func validateConfigForRun(cfg *athenai.Config) error {
 	}
 
 	// For `run` command location config is required
+	log.Println("Validating output location:", cfg.Location)
 	if !strings.HasPrefix(cfg.Location, "s3://") {
 		return &ValidationError{
 			Cmd:  "run",
@@ -72,12 +73,15 @@ func hasDataOn(s stater) bool {
 	// Based on https://stackoverflow.com/a/26567513
 	stat, err := s.Stat()
 	if err != nil {
+		log.Println("Error getting stat of file:", err)
 		return false
 	}
+	log.Printf("File mode: %s (%o)\n", stat.Mode(), stat.Mode())
 	return (stat.Mode() & os.ModeCharDevice) == 0
 }
 
 func appendStdinData(args []string, stdin io.Reader) []string {
+	log.Printf("Args before appending data on stdin: %#v\n", args)
 	b, err := ioutil.ReadAll(stdin)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "Ignoring data on stdin since having failed to read:", err)
@@ -85,7 +89,7 @@ func appendStdinData(args []string, stdin io.Reader) []string {
 	}
 
 	data := string(b)
-	log.Printf(`Data read from stdin:
+	log.Printf(`Read data from stdin:
 --------------------
 %s
 --------------------
@@ -102,15 +106,19 @@ func runRun(cmd *cobra.Command, args []string, client athenaiface.AthenaAPI, cfg
 
 	// Read data on stdin and add it to args
 	if hasDataOn(stdin) {
+		log.Println("Stdin seems to have some data. Reading and appending it to args")
 		args = appendStdinData(args, stdin)
 	}
 
 	// Run the given queries
-	if len(args) > 0 {
+	l := len(args)
+	if l > 0 {
+		log.Printf("%d args provided: %#v\n", l, args)
 		a.RunQuery(args)
 		return nil
 	}
 
 	// Run REPL mode
+	log.Printf("No args provided. Starting REPL mode")
 	return a.RunREPL()
 }

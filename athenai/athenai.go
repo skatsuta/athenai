@@ -117,7 +117,7 @@ func (a *Athenai) RunQuery(queries []string) {
 	}
 
 	l := len(stmts)
-	log.Printf("%d SQL statements found: %#v\n", l, stmts)
+	log.Printf("%d SQL statements to run: %#v\n", l, stmts)
 	if l == 0 {
 		a.println(noStmtFound)
 		return
@@ -181,7 +181,7 @@ func (a *Athenai) setupREPL() error {
 		return err
 	}
 
-	log.Printf("Queries given will be saved to %s\n", historyFile)
+	log.Printf("Query history will be saved to %s\n", historyFile)
 
 	a.rl = rl
 	return nil

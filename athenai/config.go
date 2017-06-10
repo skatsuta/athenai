@@ -2,6 +2,7 @@ package athenai
 
 import (
 	"fmt"
+	"log"
 	"path/filepath"
 
 	homedir "github.com/mitchellh/go-homedir"
@@ -61,6 +62,7 @@ func LoadConfigFile(cfg *Config, path string) error {
 	if err != nil {
 		return errors.Wrap(err, "failed to find config file path")
 	}
+	log.Println("Config path normalized:", filePath)
 
 	iniCfg, err := ini.Load(filePath)
 	if err != nil {

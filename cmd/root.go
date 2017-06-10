@@ -88,7 +88,7 @@ func printConfigFileWarning(err error) {
 		log.Println("No config file found:", e)
 		fmt.Fprintf(os.Stderr, "No config file found on %s. Using only command line flags\n", e.Path)
 	case *athenai.SectionError:
-		log.Println("Error:", e)
+		log.Println("Error on section:", e)
 		fmt.Fprintf(os.Stderr, "Section '%s' not found in %s. Please check if the '%s' section exists "+
 			"in your config file and add it if it does not exist. Using only command line flags this time\n",
 			e.Section, e.Path, e.Section)
@@ -101,18 +101,22 @@ func printConfigFileWarning(err error) {
 // initConfig loads configurations from the config file and then override them by parsing flags.
 // rawArgs should be os.Args.
 func initConfig(cfg *athenai.Config, cmd *cobra.Command, rawArgs []string) error {
+	log.Printf("Primitive config: %#v\n", cfg)
 	if err := athenai.LoadConfigFile(cfg, cfgFile); err != nil && !cfg.Silent {
 		// Config file is optional so just print the error and not return it.
 		printConfigFileWarning(err)
 	}
 	// Parse flags again to override configs in config file.
+	log.Printf("Raw args: %#v\n", rawArgs)
 	return cmd.ParseFlags(rawArgs)
 }
 
 // newClient creates a new Athena client.
 func newClient(cfg *athenai.Config) *athena.Athena {
+	log.Printf("Creating Athena client: region = %s, profile = %s\n", cfg.Region, cfg.Profile)
 	c := aws.NewConfig().WithRegion(cfg.Region)
 	if cfg.Debug {
+		log.Println("Debug mode is enabled. Setting log level for AWS SDK to debug")
 		c = c.WithLogLevel(aws.LogDebugWithHTTPBody | aws.LogDebugWithRequestErrors)
 	}
 	return athena.New(session.Must(session.NewSessionWithOptions(session.Options{
