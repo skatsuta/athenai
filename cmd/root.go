@@ -50,6 +50,7 @@ func init() {
 	f := RootCmd.PersistentFlags()
 	f.StringVar(&cfgFile, "config", "", "Config file path (default is $HOME/.athenai/config)")
 	f.BoolVar(&config.Debug, "debug", false, "Turn on debug logging")
+	f.BoolVar(&config.Silent, "silent", false, "Do not show informational messages")
 	f.StringVarP(&config.Section, "section", "s", "default", "The section in config file to use")
 	f.StringVarP(&config.Profile, "profile", "p", "default", "Use a specific profile from your credential file")
 	f.StringVarP(&config.Region, "region", "r", "us-east-1", "The AWS region to use")

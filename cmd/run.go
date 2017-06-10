@@ -44,7 +44,6 @@ func init() {
 	f := runCmd.Flags()
 	f.StringVarP(&config.Database, "database", "d", "", "The name of the database")
 	f.StringVarP(&config.Location, "location", "l", "", `The location in S3 where query results are stored. For example, "s3://bucket_name/prefix/"`)
-	f.BoolVar(&config.Silent, "silent", false, "Do not show progress messages")
 }
 
 // hasDataOn returns true if there is something to read on s, otherwise false.
