@@ -116,5 +116,9 @@ func TestLoadConfigFileError(t *testing.T) {
 	file, cleanup, err := createConfigFile("", "TestLoadConfigFileError", &Config{Section: "default"})
 	err = LoadConfigFile(&Config{Section: section}, file.Name())
 	defer cleanup()
-	assert.Contains(t, err.Error(), "failed to get section '"+section+"' in config file")
+	e, ok := err.(*SectionError)
+	assert.True(t, ok)
+	assert.Equal(t, file.Name(), e.Path)
+	assert.Equal(t, section, e.Section)
+	assert.Contains(t, e.Err.Error(), "does not exist")
 }

@@ -1,6 +1,7 @@
 package athenai
 
 import (
+	"fmt"
 	"path/filepath"
 
 	homedir "github.com/mitchellh/go-homedir"
@@ -35,6 +36,22 @@ func (c *Config) QueryConfig() *exec.QueryConfig {
 	}
 }
 
+// SectionError represents an error about section in config file.
+type SectionError struct {
+	Path    string
+	Section string
+	Err     error
+}
+
+func (se *SectionError) Error() string {
+	return fmt.Sprintf("failed to get section '%s' in %s: %s", se.Section, se.Path, se.Err)
+}
+
+// Cause returns the underlying cause of the error.
+func (se *SectionError) Cause() error {
+	return se.Err
+}
+
 // LoadConfigFile loads configurations at `cfg.Section` section into `cfg` from `path`.
 // If `path` is empty, `$HOME/.athenai/config` is used.
 func LoadConfigFile(cfg *Config, path string) error {
@@ -58,7 +75,11 @@ func LoadConfigFile(cfg *Config, path string) error {
 
 	sec, err := iniCfg.GetSection(cfg.Section)
 	if err != nil {
-		return errors.Wrapf(err, "failed to get section '%s' in config file", cfg.Section)
+		return &SectionError{
+			Path:    filePath,
+			Section: cfg.Section,
+			Err:     err,
+		}
 	}
 
 	return sec.MapTo(cfg)
