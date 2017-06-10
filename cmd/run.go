@@ -25,6 +25,10 @@ to quickly create a Cobra application.`,
 	RunE: runRun,
 }
 
+type stater interface {
+	Stat() (os.FileInfo, error)
+}
+
 func init() {
 	RootCmd.AddCommand(runCmd)
 
@@ -35,10 +39,13 @@ func init() {
 	f.BoolVar(&config.Silent, "silent", false, "Do not show progress messages")
 }
 
-// hasDataOnStdin returns true if there is something to read on stdin, otherwise false.
-func hasDataOnStdin() bool {
+// hasDataOn returns true if there is something to read on s, otherwise false.
+func hasDataOn(s stater) bool {
 	// Based on https://stackoverflow.com/a/26567513
-	stat, _ := os.Stdin.Stat()
+	stat, err := s.Stat()
+	if err != nil {
+		return false
+	}
 	return (stat.Mode() & os.ModeCharDevice) == 0
 }
 
@@ -61,7 +68,7 @@ func runRun(cmd *cobra.Command, args []string) error {
 	a := athenai.New(out, config)
 
 	// Read data on stdin and add it to args
-	if hasDataOnStdin() {
+	if hasDataOn(os.Stdin) {
 		data, err := readStdin()
 		if err != nil {
 			fmt.Fprintln(os.Stderr, "error reading stdin:", err)
