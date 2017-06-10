@@ -93,6 +93,10 @@ func appendStdinData(args []string, stdin io.Reader) []string {
 }
 
 func runRun(cmd *cobra.Command, args []string, client athenaiface.AthenaAPI, cfg *athenai.Config, stdin statReader, out io.Writer) error {
+	if err := initConfig(cfg, cmd, os.Args[1:]); err != nil {
+		return errors.Wrap(err, "error initializing config")
+	}
+
 	if err := validateConfigForRun(cfg); err != nil {
 		return err
 	}
