@@ -86,7 +86,8 @@ func printConfigFileWarning(err error) {
 		fmt.Fprintf(os.Stderr, "No config file found on %s. Using only command line flags\n", e.Path)
 	case *athenai.SectionError:
 		log.Println("Error:", e)
-		fmt.Fprintf(os.Stderr, "Section '%s' not found in %s. Please check if the '%s' section exists in the config file and add it if it does not. Using only command line flags now\n",
+		fmt.Fprintf(os.Stderr, "Section '%s' not found in %s. Please check if the '%s' section exists "+
+			"in your config file and add it if it does not exist. Using only command line flags now\n",
 			e.Section, e.Section, e.Path)
 	default:
 		log.Println("Error loading config file:", e)
