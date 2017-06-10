@@ -9,6 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/athena"
+	"github.com/pkg/errors"
 	"github.com/skatsuta/athenai/athenai"
 	"github.com/spf13/cobra"
 )
@@ -80,18 +81,19 @@ func fatal(err error) {
 }
 
 func printConfigFileWarning(err error) {
-	switch e := err.(type) {
+	cause := errors.Cause(err)
+	switch e := cause.(type) {
 	case *os.PathError:
 		log.Println("No config file found:", e)
 		fmt.Fprintf(os.Stderr, "No config file found on %s. Using only command line flags\n", e.Path)
 	case *athenai.SectionError:
 		log.Println("Error:", e)
 		fmt.Fprintf(os.Stderr, "Section '%s' not found in %s. Please check if the '%s' section exists "+
-			"in your config file and add it if it does not exist. Using only command line flags now\n",
-			e.Section, e.Section, e.Path)
+			"in your config file and add it if it does not exist. Using only command line flags this time\n",
+			e.Section, e.Path, e.Section)
 	default:
 		log.Println("Error loading config file:", e)
-		fmt.Fprintln(os.Stderr, "Error loading config file. Use --debug flag for more details. Using only command line flags now")
+		fmt.Fprintln(os.Stderr, "Error loading config file. Use --debug flag for more details. Using only command line flags this time")
 	}
 }
 
@@ -99,6 +101,7 @@ func printConfigFileWarning(err error) {
 // rawArgs should be os.Args.
 func initConfig(cfg *athenai.Config, cmd *cobra.Command, rawArgs []string) error {
 	if err := athenai.LoadConfigFile(cfg, cfgFile); err != nil && !cfg.Silent {
+		// Config file is optional so just print the error and not return it.
 		printConfigFileWarning(err)
 	}
 	// Parse flags again to override configs in config file.
