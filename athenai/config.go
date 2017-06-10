@@ -6,6 +6,7 @@ import (
 	"github.com/go-ini/ini"
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/pkg/errors"
+	"github.com/skatsuta/athenai/exec"
 )
 
 const (
@@ -24,6 +25,14 @@ type Config struct {
 	Location string `ini:"location"`
 
 	iniCfg *ini.File `ini:"-"`
+}
+
+// QueryConfig creates an exec.QueryConfig struct based on c.
+func (c *Config) QueryConfig() *exec.QueryConfig {
+	return &exec.QueryConfig{
+		Database: c.Database,
+		Location: c.Location,
+	}
 }
 
 // LoadConfigFile loads configurations at `cfg.Section` section into `cfg` from `path`.

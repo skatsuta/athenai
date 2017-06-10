@@ -36,15 +36,6 @@ type readlineCloser interface {
 	Close() error
 }
 
-// Config is a configuration information for Athenai.
-type Config struct {
-	exec.QueryConfig
-	Debug   bool
-	Region  string
-	Silent  bool
-	Profile string
-}
-
 // Athenai is a main struct to run this app.
 type Athenai struct {
 	in  io.Reader
@@ -109,7 +100,7 @@ func (a *Athenai) showProgressMsg(ctx context.Context) {
 func (a *Athenai) runSingleQuery(query string) {
 	// Run a query, and send results or an error
 	log.Printf("Start running %q\n", query)
-	r, err := exec.NewQuery(a.client, query, &a.cfg.QueryConfig).Run()
+	r, err := exec.NewQuery(a.client, query, a.cfg.QueryConfig()).Run()
 	if err != nil {
 		a.errCh <- err
 	} else {
