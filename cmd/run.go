@@ -6,8 +6,10 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/aws/aws-sdk-go/service/athena/athenaiface"
+	"github.com/pkg/errors"
 	"github.com/skatsuta/athenai/athenai"
 	"github.com/spf13/cobra"
 )
@@ -46,6 +48,24 @@ func init() {
 	f.StringVarP(&config.Location, "location", "l", "", `The location in S3 where query results are stored. For example, "s3://bucket_name/prefix/"`)
 }
 
+func validateConfigForRun(cfg *athenai.Config) error {
+	if cfg == nil {
+		return errors.New("config is nil")
+	}
+
+	// For `run` command location config is required
+	if !strings.HasPrefix(cfg.Location, "s3://") {
+		return &ValidationError{
+			Cmd:  "run",
+			Name: "location",
+			Msg: "valid `location` config starting with 's3://' is required for the `run` command. " +
+				"Please specify it by using --location/-l flag or adding `location` key into your config file.",
+		}
+	}
+
+	return nil
+}
+
 // hasDataOn returns true if there is something to read on s, otherwise false.
 func hasDataOn(s stater) bool {
 	// Based on https://stackoverflow.com/a/26567513
@@ -73,6 +93,10 @@ func appendStdinData(args []string, stdin io.Reader) []string {
 }
 
 func runRun(cmd *cobra.Command, args []string, client athenaiface.AthenaAPI, cfg *athenai.Config, stdin statReader, out io.Writer) error {
+	if err := validateConfigForRun(cfg); err != nil {
+		return err
+	}
+
 	a := athenai.New(client, out, cfg)
 
 	// Read data on stdin and add it to args
