@@ -53,9 +53,10 @@ func init() {
 	// will be global for your application.
 	f := RootCmd.PersistentFlags()
 	f.StringVar(&cfgFile, "config", "", "Config file (default is $HOME/.athenai/config.yml)")
-	f.BoolVar(&config.Debug, "debug", false, "Turn on debug logging.")
-	f.StringVarP(&config.Region, "region", "r", "", "The AWS region to use.")
-	f.StringVarP(&config.Profile, "profile", "p", "default", "Use a specific profile from your credential file.")
+	f.BoolVar(&config.Debug, "debug", false, "Turn on debug logging")
+	f.StringVar(&config.Section, "section", "s", "The section in config file to use")
+	f.StringVarP(&config.Profile, "profile", "p", "default", "Use a specific profile from your credential file")
+	f.StringVarP(&config.Region, "region", "r", "", "The AWS region to use")
 }
 
 // initConfig reads in config file and ENV variables if set.
