@@ -22,11 +22,18 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
-	RunE: runRun,
+	RunE: func(cmd *cobra.Command, args []string) error {
+		return runRun(cmd, args, config, os.Stdin, os.Stdout)
+	},
 }
 
 type stater interface {
 	Stat() (os.FileInfo, error)
+}
+
+type statReader interface {
+	io.Reader
+	stater
 }
 
 func init() {
@@ -65,10 +72,8 @@ func appendStdinData(args []string, stdin io.Reader) []string {
 	return append(args, data)
 }
 
-func runRun(cmd *cobra.Command, args []string) error {
-	stdin := os.Stdin
-	out := os.Stdout
-	a := athenai.New(out, config)
+func runRun(cmd *cobra.Command, args []string, cfg *athenai.Config, stdin statReader, out io.Writer) error {
+	a := athenai.New(out, cfg)
 
 	// Read data on stdin and add it to args
 	if hasDataOn(stdin) {
