@@ -60,7 +60,7 @@ func (ve *ValidationError) String() string {
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
 	if err := RootCmd.Execute(); err != nil {
-		fatal(err)
+		os.Exit(1)
 	}
 }
 
@@ -73,11 +73,6 @@ func init() {
 	f.StringVarP(&config.Section, "section", "s", "default", "The section in config file to use")
 	f.StringVarP(&config.Profile, "profile", "p", "default", "Use a specific profile from your credential file")
 	f.StringVarP(&config.Region, "region", "r", "us-east-1", "The AWS region to use")
-}
-
-func fatal(err error) {
-	fmt.Fprintln(os.Stderr, "ERROR:", err)
-	os.Exit(1)
 }
 
 func printConfigFileWarning(err error) {
