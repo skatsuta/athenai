@@ -50,14 +50,12 @@ func TestInitConfigNoConfigFile(t *testing.T) {
 				"--profile", "testprofile",
 				"--region", "us-east-2",
 				"--location", "s3://samplebucket/",
-				"--database", "testdb",
 			},
 			want: &athenai.Config{
 				Section:  section,
 				Profile:  "testprofile",
 				Region:   "us-east-2",
 				Location: "s3://samplebucket/",
-				Database: "testdb",
 			},
 		},
 	}
@@ -77,9 +75,7 @@ func TestInitConfigNoSection(t *testing.T) {
 	cfg := &athenai.Config{
 		Section:  "default",
 		Profile:  "TestInitConfigNoSectionProfile",
-		Region:   "us-west-1",
 		Location: "s3://samplebucket-2/",
-		Database: "testdb2",
 	}
 
 	section := "no_section"
@@ -87,9 +83,7 @@ func TestInitConfigNoSection(t *testing.T) {
 		"run",
 		"--section", section,
 		"--profile", "TestInitConfigNoSectionProfile",
-		"--region", "us-west-1",
 		"--location", "s3://samplebucket-2/",
-		"--database", "testdb2",
 	}
 
 	_, file, cleanup, err := testhelper.CreateConfigFile("TestInitConfigNoSection", cfg)
