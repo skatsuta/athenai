@@ -1,39 +1,13 @@
 package athenai
 
 import (
-	"io/ioutil"
 	"os"
-	"path/filepath"
 	"testing"
-	"text/template"
 
 	"github.com/pkg/errors"
+	"github.com/skatsuta/athenai/internal/testhelper"
 	"github.com/stretchr/testify/assert"
 )
-
-const configFileTmpl = `
-[{{.Section}}]
-debug = {{.Debug}}
-silent = {{.Silent}}
-profile = {{.Profile}}
-region = {{.Region}}
-database = {{.Database}}
-location = {{.Location}}
-`
-
-func createConfigFile(dir, name string, cfg *Config) (file *os.File, cleanup func(), err error) {
-	file, err = ioutil.TempFile(dir, name)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	err = template.Must(template.New(name).Parse(configFileTmpl)).Execute(file, cfg)
-	cleanup = func() {
-		file.Close()
-		os.Remove(file.Name())
-	}
-	return file, cleanup, err
-}
 
 func TestLoadConfigFile(t *testing.T) {
 	section := "test"
@@ -47,7 +21,7 @@ func TestLoadConfigFile(t *testing.T) {
 		Location: "s3://testloadfilebucket/prefix",
 	}
 
-	file, cleanup, err := createConfigFile("", "TestLoadConfigFile", want)
+	_, file, cleanup, err := testhelper.CreateConfigFile("TestLoadConfigFile", want)
 	defer cleanup()
 	assert.NoError(t, err)
 
@@ -60,18 +34,6 @@ func TestLoadConfigFile(t *testing.T) {
 }
 
 func TestLoadConfigFileFromHomeDir(t *testing.T) {
-	// Set temporary home directory to $HOME
-	tmpHomedir := os.TempDir()
-	defaultHomeDir := os.Getenv("HOME")
-	err := os.Setenv("HOME", tmpHomedir)
-	assert.NoError(t, err)
-	dir := filepath.Join(tmpHomedir, defaultConfigDir)
-	err = os.MkdirAll(dir, 0755)
-	assert.NoError(t, err)
-	fileName := filepath.Join(dir, defaultConfigFile)
-	file, err := os.Create(fileName)
-	assert.NoError(t, err)
-
 	section := "default"
 	want := &Config{
 		Section:  section,
@@ -81,11 +43,13 @@ func TestLoadConfigFileFromHomeDir(t *testing.T) {
 		Location: "s3://testloadfilebucket/prefix",
 	}
 
-	err = template.Must(template.New("TestLoadConfigFileFromHomeDir").Parse(configFileTmpl)).Execute(file, want)
-	defer func() {
-		file.Close()
-		os.Remove(file.Name())
-	}()
+	homeDir, _, cleanup, err := testhelper.CreateConfigFile("TestLoadConfigFileFromHomeDir", want)
+	defer cleanup()
+	assert.NoError(t, err)
+
+	// Set temporary home directory to $HOME
+	defaultHomeDir := os.Getenv("HOME")
+	err = os.Setenv("HOME", homeDir)
 	assert.NoError(t, err)
 
 	got := &Config{Section: section}
@@ -113,7 +77,7 @@ func TestLoadConfigFileError(t *testing.T) {
 	assert.IsType(t, &os.PathError{}, errors.Cause(err))
 
 	section := "no_section"
-	file, cleanup, err := createConfigFile("", "TestLoadConfigFileError", &Config{Section: "default"})
+	_, file, cleanup, err := testhelper.CreateConfigFile("TestLoadConfigFileError", &Config{Section: "default"})
 	err = LoadConfigFile(&Config{Section: section}, file.Name())
 	defer cleanup()
 	e, ok := err.(*SectionError)

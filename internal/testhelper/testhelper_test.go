@@ -1,6 +1,8 @@
 package testhelper
 
 import (
+	"io/ioutil"
+	"os"
 	"testing"
 
 	"github.com/aws/aws-sdk-go/service/athena"
@@ -61,4 +63,39 @@ func TestCreateRows(t *testing.T) {
 
 		assert.Equal(t, tt.want, got, "Raw rows: %#v", tt.rawRows)
 	}
+}
+
+func TestCreateConfigFile(t *testing.T) {
+	cfg := &struct {
+		Debug    bool
+		Silent   bool
+		Section  string
+		Profile  string
+		Region   string
+		Database string
+		Location string
+	}{
+		Debug:    true,
+		Silent:   true,
+		Section:  "default",
+		Profile:  "default",
+		Region:   "us-east-1",
+		Database: "sampledb",
+		Location: "s3://testbucket/",
+	}
+
+	dir, file, cleanup, err := CreateConfigFile("TestCreateConfigFile", cfg)
+	defer cleanup()
+
+	assert.NoError(t, err)
+	assert.Contains(t, dir, os.TempDir())
+	assert.NotNil(t, file)
+	assert.Contains(t, file.Name(), "config")
+
+	b, err := ioutil.ReadFile(file.Name()) // somehow ioutil.ReadAll does not work
+	data := string(b)
+
+	assert.NoError(t, err)
+	assert.Contains(t, data, "[default]")
+	assert.Contains(t, data, "profile = default")
 }
