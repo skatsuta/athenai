@@ -24,34 +24,44 @@ TODO
 - Named queries: Manage and run named queries easily.
 
 
-## Requirement
+## Requirements
 
 You need to set up AWS credentials before using this tool.
 
 TODO: setup document links
 
-You can optionally save your default option values into `~/.athenai/config` to simplify every command execution.
+### Setting default configurations (Optional)
+
+You can optionally set your default configuration values into `~/.athenai/config` to simplify every command execution.
+
+Write the following into `~/.athenai/config` and save it.
 
 ```toml
 [default]
+profile = default
 region = us-east-1
 database = sampledb
-output = s3://aws-athena-query-results-123456789012-us-east-1/
+location = s3://aws-athena-query-results-[YOUR_ACCOUNT_ID]-us-east-1/
 ```
 
-**Note**: Athenai does not read default settings in `~/.aws/config`, so you need to set the `region` option explicitly.
+Afterwards Athenai loads the configurations automatically and you can omit the option flags when running commands.
 
-See config file section for more details.
+See the **Configuration file** section for more details.
 
 ## Usage
 
 #### Note: config option flags
 
 In this section I omit config option flags to describe the main usage simply.
-If you want to specify the options explicitly or override default options in `.athenai/config.yml`, run a command like this:
+If you haven't set up the `~/.athenai/config` file yet or want to override default options in the config file, run a command with options like this:
 
 ```bash
-$ athenai run --region us-east-1 --database sampledb --output s3://aws-athena-query-results-123456789012-us-east-1/ "SELECT date, time, bytes, requestip, method, status FROM cloudfront_logs LIMIT 5;"
+$ athenai run \
+  --profile default \
+  --region us-east-1 \
+  --database sampledb \
+  --location s3://aws-athena-query-results-[YOUR_ACCOUNT_ID]-us-east-1/ \
+  "SELECT date, time, bytes, requestip, method, status FROM cloudfront_logs LIMIT 5;"
 ```
 
 #### Note: the order of query results
@@ -62,7 +72,7 @@ You can use `--order` option if you want to display the results in the same orde
 
 ### Running queries interactively (REPL mode)
 
-To run queries on interactive (REPL) mode, run `athenai run` command with no arguments:
+To run queries on interactive (REPL) mode, run `athenai run` command with no arguments except flags:
 
 ```bash
 $ athenai run
@@ -218,6 +228,83 @@ $ athenai named delete
 ```bash
 $ athenai named run
 ```
+
+
+## Configuration file
+
+You can save your configurations into `~/.athenai/config` file to simplify every command execution.
+
+### File format
+
+Athenai's configuration file has simple INI file format like this:
+
+```ini
+[default]  # Section
+profile = default  # Profile in your ~/.aws/credentials file
+region = us-east-1  # AWS region to use
+database = sampledb  # Database name in Athena
+location = s3://aws-athena-query-results-123456789012-us-east-1/  # Output location in S3 where query results are stored
+```
+
+**The `[default]` section is required since Athenai uses config values inside the section by default.**
+
+You can optionally add the arbitrary number of other sections into your file. For example,
+
+```ini
+[default]
+profile = default
+region = us-east-1
+database = sampledb
+location = s3://aws-athena-query-results-[YOUR_ACCOUNT_ID]-us-east-1/
+
+[cf_logs]  # Section for cloudfront_logs
+profile = myuser  # Use another profile
+region = us-west-2  # Use us-west-2 region
+database = cloudfront_logs  # I created the database in us-west-2
+location = s3://my-cloudfront-logs-query-results/  # Save your query results into your favorite bucket
+```
+
+Then use `--section/-s` flag to specify the section to use:
+
+```bash
+$ athenai run --section cf_logs "SHOW DATABASES"
+Running query...
+SHOW DATABASES;
++-----------------+
+| cloudfront_logs |
+| sampledb        |
++-----------------+
+Run time: 0.34 seconds | Data scanned: 0 B
+```
+
+### Location for config file
+
+By default Athenai automatically loads `~/.athenai/config` and use values in the file.
+If Athenai cannot find the config file in the location or fails to load the file, it ignores the file and uses only command line flags.
+
+If you want to use another config file in another location, use `--config` flag to specify its path (also don't forget to specify `--section` unless `default`):
+
+```bash
+$ cat /tmp/myconfig
+[cf_logs]
+profile = myuser
+region = us-west-2
+database = cloudfront_logs
+location = s3://my-cloudfront-logs-query-results/
+
+$ athenai run --config /tmp/myconfig --section cf_logs "SHOW DATABASES"
+Running query...
+SHOW DATABASES;
++-----------------+
+| cloudfront_logs |
+| sampledb        |
++-----------------+
+Run time: 0.31 seconds | Data scanned: 0 B
+```
+
+### Note
+
+Option flags have higher priority than config file, so if you specify option flags explicitly when running a command, values in the config file are overridden by the flags.
 
 
 ## Installation
