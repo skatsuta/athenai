@@ -27,6 +27,17 @@ const (
 	noStmtFound = "No SQL statements found to run"
 )
 
+type safeWriter struct {
+	w  io.Writer
+	mu sync.Mutex
+}
+
+func (sw *safeWriter) Write(p []byte) (int, error) {
+	sw.mu.Lock()
+	defer sw.mu.Unlock()
+	return sw.w.Write(p)
+}
+
 // readlineCloser is an interface to read every line in REPL and then close it.
 type readlineCloser interface {
 	Readline() (string, error)
@@ -48,14 +59,14 @@ type Athenai struct {
 	errCh    chan error
 	doneCh   chan struct{}
 	wg       sync.WaitGroup
-	mu       sync.Mutex
+	mu       sync.RWMutex
 }
 
 // New creates a new Athena.
 func New(client athenaiface.AthenaAPI, out io.Writer, cfg *Config) *Athenai {
 	a := &Athenai{
 		in:       os.Stdin,
-		out:      out,
+		out:      &safeWriter{w: out},
 		cfg:      cfg,
 		client:   client,
 		interval: tickInterval,
@@ -67,8 +78,6 @@ func New(client athenaiface.AthenaAPI, out io.Writer, cfg *Config) *Athenai {
 }
 
 func (a *Athenai) print(x ...interface{}) {
-	a.mu.Lock()
-	defer a.mu.Unlock()
 	fmt.Fprint(a.out, x...)
 }
 
@@ -164,10 +173,13 @@ func (a *Athenai) RunQuery(queries []string) {
 
 func (a *Athenai) setupREPL() error {
 	// rl is already set, no need to be setup again
+	a.mu.RLock()
 	if a.rl != nil {
+		defer a.mu.RUnlock()
 		log.Printf("REPL setup has been done already: %#v\n", a.rl)
 		return nil
 	}
+	a.mu.RUnlock()
 
 	historyFile := filepath.Join(os.TempDir(), ".athenai_history")
 	rl, err := readline.NewEx(&readline.Config{
@@ -183,7 +195,9 @@ func (a *Athenai) setupREPL() error {
 
 	log.Printf("Query history will be saved to %s\n", historyFile)
 
+	a.mu.Lock()
 	a.rl = rl
+	a.mu.Unlock()
 	return nil
 }
 
