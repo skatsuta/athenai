@@ -61,8 +61,8 @@ func validateConfigForRun(cfg *athenai.Config) error {
 		return &ValidationError{
 			Cmd:  "run",
 			Name: "location",
-			Msg: "valid `location` config starting with 's3://' is required for the `run` command. " +
-				"Please specify it by using --location/-l flag or adding `location` key into your config file.",
+			Msg: "valid `location` setting starting with 's3://' is required for the `run` command. " +
+				"Please specify it by using --location/-l flag or adding `location` setting into your config file.",
 		}
 	}
 
