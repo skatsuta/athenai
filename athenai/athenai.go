@@ -58,24 +58,24 @@ type Athenai struct {
 	// tick interval
 	interval time.Duration
 
-	resultCh chan *exec.Result
-	errCh    chan error
-	doneCh   chan struct{}
-	wg       sync.WaitGroup
-	mu       sync.RWMutex
+	resultChs []chan *exec.Result
+	errChs    []chan error
+	doneCh    chan struct{}
+	wg        sync.WaitGroup
+	mu        sync.RWMutex
 }
 
 // New creates a new Athena.
 func New(client athenaiface.AthenaAPI, out io.Writer, cfg *Config) *Athenai {
 	a := &Athenai{
-		in:       os.Stdin,
-		out:      &safeWriter{w: out},
-		cfg:      cfg,
-		client:   client,
-		interval: refreshInterval,
-		resultCh: make(chan *exec.Result, 1),
-		errCh:    make(chan error, 1),
-		doneCh:   make(chan struct{}),
+		in:        os.Stdin,
+		out:       &safeWriter{w: out},
+		cfg:       cfg,
+		client:    client,
+		interval:  refreshInterval,
+		resultChs: make([]chan *exec.Result, 0),
+		errChs:    make([]chan error, 0),
+		doneCh:    make(chan struct{}),
 	}
 	return a
 }
@@ -87,6 +87,23 @@ func (a *Athenai) print(x ...interface{}) {
 func (a *Athenai) println(x ...interface{}) {
 	a.print(x...)
 	a.print("\n")
+}
+
+func (a *Athenai) setupChannels(numStmts int) {
+	l := numStmts
+	if !a.cfg.Order {
+		// Use single channel if arrangement is not needed
+		l = 1
+	}
+
+	log.Printf("Arranging order: %v. Setting up %d channels\n", a.cfg.Order, l)
+
+	a.mu.Lock()
+	for i := 0; i < l; i++ {
+		a.resultChs = append(a.resultChs, make(chan *exec.Result, 1))
+		a.errChs = append(a.errChs, make(chan error, 1))
+	}
+	a.mu.Unlock()
 }
 
 // showProgressMsg shows progress messages while queries are being executed.
@@ -105,14 +122,14 @@ func (a *Athenai) showProgressMsg(ctx context.Context) {
 }
 
 // runSingleQuery runs a single query. `query` must be a single SQL statement.
-func (a *Athenai) runSingleQuery(query string) {
+func (a *Athenai) runSingleQuery(query string, resultCh chan *exec.Result, errCh chan error) {
 	// Run a query, and send results or an error
 	log.Printf("Start running %q\n", query)
 	r, err := exec.NewQuery(a.client, query, a.cfg.QueryConfig()).Run()
 	if err != nil {
-		a.errCh <- err
+		errCh <- err
 	} else {
-		a.resultCh <- r
+		resultCh <- r
 	}
 }
 
@@ -135,21 +152,29 @@ func (a *Athenai) RunQuery(queries []string) {
 		return
 	}
 
+	a.setupChannels(l)
+
+	// Run each statement concurrently
+	a.wg.Add(l)
+	for i, stmt := range stmts {
+		i := i // Copy locally
+		if !a.cfg.Order {
+			// Always use the first channel
+			i = 0
+		}
+
+		go func(query string) {
+			a.runSingleQuery(query, a.resultChs[i], a.errChs[i])
+			a.wg.Done()
+		}(stmt) // Capture stmt locally in order to use it in goroutines
+	}
+
 	// Print progress messages
 	if !a.cfg.Silent {
 		ctx, cancel := context.WithCancel(context.Background())
 		// Stop printing when this method finishes
 		defer cancel()
 		go a.showProgressMsg(ctx)
-	}
-
-	// Run each statement concurrently
-	a.wg.Add(len(stmts))
-	for _, stmt := range stmts {
-		go func(query string) {
-			a.runSingleQuery(query)
-			a.wg.Done()
-		}(stmt) // Capture stmt locally in order to use it in goroutines
 	}
 
 	// Monitoring goroutine to wait for the completion of all query executions
@@ -159,17 +184,32 @@ func (a *Athenai) RunQuery(queries []string) {
 	}()
 
 	// Receive results or errors until done
-	for {
-		select {
-		case r := <-a.resultCh:
-			a.print("\n")
-			print.NewTable(a.out).Print(r)
-		case e := <-a.errCh:
-			a.print("\n")
-			printErr(e, "query execution failed")
-		case <-a.doneCh:
-			log.Println("All query executions have been completed")
-			return
+	n := len(a.resultChs)
+	for i := 0; i < n; i++ {
+	loop:
+		for {
+			select {
+			case r := <-a.resultChs[i]:
+				a.print("\n")
+				print.NewTable(a.out).Print(r)
+				if a.cfg.Order {
+					// Go to next channel
+					break loop
+				}
+			case e := <-a.errChs[i]:
+				a.print("\n")
+				printErr(e, "query execution failed")
+				if a.cfg.Order {
+					// Go to next channel
+					break loop
+				}
+			case <-a.doneCh:
+				log.Println("All query executions have been completed")
+				if !a.cfg.Order {
+					// Exit if no more results come into single channel
+					return
+				}
+			}
 		}
 	}
 }
