@@ -15,7 +15,7 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-func TestPersistentPreRunE(t *testing.T) {
+func TestPersistentPreRun(t *testing.T) {
 	oldArgs := os.Args
 	defer func() {
 		os.Args = oldArgs
@@ -27,9 +27,8 @@ func TestPersistentPreRunE(t *testing.T) {
 		"--location", "s3://TestPersistentPreRunEBucket/",
 	}
 	args := []string{}
-	err := runCmd.Parent().PersistentPreRunE(runCmd, args)
+	runCmd.Parent().PersistentPreRun(runCmd, args)
 
-	assert.NoError(t, err)
 	assert.Equal(t, "TestPersistentPreRunEProfile", config.Profile)
 	assert.Equal(t, "us-west-2", config.Region)
 	assert.Equal(t, "s3://TestPersistentPreRunEBucket/", config.Location)
@@ -62,9 +61,8 @@ func TestInitConfigNoConfigFile(t *testing.T) {
 
 	for _, tt := range tests {
 		config.Section = section
-		err := initConfig(config, tt.cfgFile, runCmd, tt.rawArgs)
+		initConfig(config, tt.cfgFile, runCmd, tt.rawArgs)
 
-		assert.NoError(t, err, "cfgFile: %#v, rawArgs: %#v", tt.cfgFile, tt.rawArgs)
 		assert.Equal(t, tt.want.Profile, config.Profile, "cfgFile: %#v, rawArgs: %#v", tt.cfgFile, tt.rawArgs)
 		assert.Equal(t, tt.want.Region, config.Region, "cfgFile: %#v, rawArgs: %#v", tt.cfgFile, tt.rawArgs)
 		assert.Equal(t, tt.want.Location, config.Location, "cfgFile: %#v, rawArgs: %#v", tt.cfgFile, tt.rawArgs)
@@ -90,9 +88,8 @@ func TestInitConfigNoSection(t *testing.T) {
 		"--location", "s3://samplebucket-2/",
 	}
 	config.Section = section
-	err = initConfig(config, file.Name(), runCmd, rawArgs)
+	initConfig(config, file.Name(), runCmd, rawArgs)
 
-	assert.NoError(t, err)
 	assert.Equal(t, cfg.Profile, config.Profile)
 	assert.Equal(t, cfg.Location, config.Location)
 }
@@ -111,9 +108,8 @@ func TestInitConfigConfigFileNoArgs(t *testing.T) {
 
 	rawArgs := []string{"run"}
 	config.Section = "default"
-	err = initConfig(config, file.Name(), runCmd, rawArgs)
+	initConfig(config, file.Name(), runCmd, rawArgs)
 
-	assert.NoError(t, err)
 	assert.Equal(t, cfg.Profile, config.Profile)
 	assert.Equal(t, cfg.Region, config.Region)
 	assert.Equal(t, cfg.Location, config.Location)
@@ -138,9 +134,8 @@ func TestInitConfigConfigFileAndArgs(t *testing.T) {
 		"--location", "TestInitConfigConfigFileAndArgsBucket2",
 	}
 	config.Section = "test"
-	err = initConfig(config, file.Name(), runCmd, rawArgs)
+	initConfig(config, file.Name(), runCmd, rawArgs)
 
-	assert.NoError(t, err)
 	assert.Equal(t, "TestInitConfigConfigFileNoArgsProfile2", config.Profile)
 	assert.Equal(t, cfg.Region, config.Region)
 	assert.Equal(t, "TestInitConfigConfigFileAndArgsBucket2", config.Location)
