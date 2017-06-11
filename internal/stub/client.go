@@ -7,6 +7,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/athena"
 	"github.com/aws/aws-sdk-go/service/athena/athenaiface"
 	"github.com/pkg/errors"
+	"github.com/skatsuta/athenai/internal/testhelper"
 )
 
 // StartQueryExecutionStub simulates StartQueryExecution API.
@@ -165,4 +166,23 @@ func (s *Client) GetQueryResults(input *athena.GetQueryResultsInput) (*athena.Ge
 // GetQueryResultsPages iterates over the pages of a GetQueryResults operation, calling the callback function with the response data for each page.
 func (s *Client) GetQueryResultsPages(input *athena.GetQueryResultsInput, callback func(*athena.GetQueryResultsOutput, bool) bool) error {
 	return s.GetQueryResultsStub.GetQueryResultsPages(input, callback)
+}
+
+// WithResultSet sets rs to s.
+func (s *Client) WithResultSet(rs athena.ResultSet) *Client {
+	s.ResultSet = rs
+	return s
+}
+
+// WithStats sets statistics data to s.
+func (s *Client) WithStats(execTime, scannedBytes int64) *Client {
+	stats := testhelper.CreateStats(execTime, scannedBytes)
+	s.QueryExecution.SetStatistics(stats)
+	return s
+}
+
+// WithQuery sets query to s.
+func (s *Client) WithQuery(query string) *Client {
+	s.QueryExecution.SetQuery(strings.TrimSuffix(query, ";"))
+	return s
 }
