@@ -15,6 +15,26 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
+func TestPersistentPreRunE(t *testing.T) {
+	oldArgs := os.Args
+	defer func() {
+		os.Args = oldArgs
+	}()
+	os.Args = []string{
+		"athenai", "run",
+		"--profile", "TestPersistentPreRunEProfile",
+		"--region", "us-west-2",
+		"--location", "s3://TestPersistentPreRunEBucket/",
+	}
+	args := []string{}
+	err := runCmd.Parent().PersistentPreRunE(runCmd, args)
+
+	assert.NoError(t, err)
+	assert.Equal(t, "TestPersistentPreRunEProfile", config.Profile)
+	assert.Equal(t, "us-west-2", config.Region)
+	assert.Equal(t, "s3://TestPersistentPreRunEBucket/", config.Location)
+}
+
 func TestInitConfigNoConfigFile(t *testing.T) {
 	section := "default"
 
