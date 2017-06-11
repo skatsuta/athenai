@@ -4,6 +4,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/aws/aws-sdk-go/aws"
 	"github.com/skatsuta/athenai/athenai"
 	"github.com/skatsuta/athenai/internal/testhelper"
 	"github.com/stretchr/testify/assert"
@@ -81,4 +82,27 @@ func TestInitConfigNoSection(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, cfg.Profile, config.Profile)
 	assert.Equal(t, cfg.Location, config.Location)
+}
+
+func TestNewClient(t *testing.T) {
+	tests := []struct {
+		cfg      *athenai.Config
+		logLevel aws.LogLevelType
+	}{
+		{
+			cfg: &athenai.Config{
+				Debug:   true,
+				Profile: "TestNewClientProfile",
+				Region:  "us-east-1",
+			},
+			logLevel: aws.LogDebugWithHTTPBody | aws.LogDebugWithRequestErrors,
+		},
+	}
+
+	for _, tt := range tests {
+		client := newClient(tt.cfg)
+
+		assert.Equal(t, tt.cfg.Region, *client.Client.Config.Region)
+		assert.Equal(t, tt.logLevel, *client.Client.Config.LogLevel)
+	}
 }
