@@ -31,7 +31,7 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
-		if err := initConfig(config, cmd, os.Args[1:]); err != nil {
+		if err := initConfig(config, cfgFile, cmd, os.Args[1:]); err != nil {
 			return errors.Wrap(err, "error initializing config")
 		}
 		log.Printf("Initialized Config: %#v\n", config)
@@ -99,8 +99,8 @@ func printConfigFileWarning(err error) {
 }
 
 // initConfig loads configurations from the config file and then override them by parsing flags.
-// rawArgs should be os.Args.
-func initConfig(cfg *athenai.Config, cmd *cobra.Command, rawArgs []string) error {
+// rawArgs should be os.Args[1:].
+func initConfig(cfg *athenai.Config, cfgFile string, cmd *cobra.Command, rawArgs []string) error {
 	log.Printf("Primitive config: %#v\n", cfg)
 	if err := athenai.LoadConfigFile(cfg, cfgFile); err != nil && !cfg.Silent {
 		// Config file is optional so just print the error and not return it.
