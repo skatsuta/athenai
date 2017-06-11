@@ -77,7 +77,7 @@ To run queries on interactive (REPL) mode, run `athenai run` command with no arg
 ```bash
 $ athenai run
 athenai> SELECT date, time, bytes, requestip, method, status FROM sampledb.cloudfront_logs LIMIT 5;
-Running query...
+⠳ Running query...
 SELECT date, time, bytes, requestip, method, status FROM sampledb.cloudfront_logs LIMIT 5;
 +------------+----------+-------+-----------+--------+--------+
 | date       | time     | bytes | requestip | method | status |
@@ -89,7 +89,7 @@ SELECT date, time, bytes, requestip, method, status FROM sampledb.cloudfront_log
 +------------+----------+-------+-----------+--------+--------+
 Run time: 2.149 seconds | Data scanned: 101 KB
 athenai> SHOW DATABASES; SHOW TABLES;
-Running query...
+⠳ Running query...
 SHOW TABLES;
 +-----------------+
 | cloudfront_logs |
@@ -117,7 +117,7 @@ To run queries from command line arguments, just pass them to `athenai run` comm
 
 ```bash
 $ athenai run "SELECT date, time, bytes, requestip, method, status FROM sampledb.cloudfront_logs LIMIT 5;"
-Running query...
+⠳ Running query...
 +------------+----------+-------+-----------+--------+--------+
 | date       | time     | bytes | requestip | method | status |
 | 2014-07-05 | 15:00:00 |  4260 | 10.0.0.15 | GET    |    200 |
@@ -129,7 +129,7 @@ Running query...
 Run time: 2.149 seconds | Data scanned: 101 KB
 
 $ athenai run "SHOW DATABASES; SHOW TABLES;"
-Running query..
+⠳ Running query...
 SHOW TABLES;
 +-----------------+
 | cloudfront_logs |
@@ -158,7 +158,7 @@ $ cat sample.sql
 SELECT date, time, bytes, requestip, method, status FROM sampledb.cloudfront_logs LIMIT 5;
 
 $ athenai run file://sample.sql
-Running query...
+⠳ Running query...
 SELECT date, time, bytes, requestip, method, status FROM sampledb.cloudfront_logs LIMIT 5;
 +------------+----------+-------+-----------+--------+--------+
 | date       | time     | bytes | requestip | method | status |
@@ -178,7 +178,7 @@ $ cat sample.sql
 SELECT date, time, bytes, requestip, method, status FROM sampledb.cloudfront_logs LIMIT 5;
 
 $ athenai run < sample.sql
-Running query...
+⠳ Running query...
 SELECT date, time, bytes, requestip, method, status FROM sampledb.cloudfront_logs LIMIT 5;
 +------------+----------+-------+-----------+--------+--------+
 | date       | time     | bytes | requestip | method | status |
@@ -268,7 +268,7 @@ Then use `--section/-s` flag to specify the section to use:
 
 ```bash
 $ athenai run --section cf_logs "SHOW DATABASES"
-Running query...
+⠳ Running query...
 SHOW DATABASES;
 +-----------------+
 | cloudfront_logs |
@@ -293,7 +293,7 @@ database = cloudfront_logs
 location = s3://my-cloudfront-logs-query-results/
 
 $ athenai run --config /tmp/myconfig --section cf_logs "SHOW DATABASES"
-Running query...
+⠳ Running query...
 SHOW DATABASES;
 +-----------------+
 | cloudfront_logs |
