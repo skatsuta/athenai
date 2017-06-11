@@ -33,37 +33,6 @@ func TestLoadConfigFile(t *testing.T) {
 	assert.Equal(t, want, got)
 }
 
-func TestLoadConfigFileFromHomeDir(t *testing.T) {
-	section := "default"
-	want := &Config{
-		Section:  section,
-		Profile:  "default",
-		Region:   "us-west-1",
-		Database: "sampledb",
-		Location: "s3://testloadfilebucket/prefix",
-	}
-
-	homeDir, _, cleanup, err := testhelper.CreateConfigFile("TestLoadConfigFileFromHomeDir", want)
-	defer cleanup()
-	assert.NoError(t, err)
-
-	// Set temporary home directory to $HOME
-	defaultHomeDir := os.Getenv("HOME")
-	err = os.Setenv("HOME", homeDir)
-	assert.NoError(t, err)
-
-	got := &Config{Section: section}
-	err = LoadConfigFile(got, "") // if empty path is given we read config file under home dir
-	got.iniCfg = nil              // ignore iniCfg field
-
-	assert.NoError(t, err)
-	assert.Equal(t, want, got)
-
-	// Restore $HOME
-	err = os.Setenv("HOME", defaultHomeDir)
-	assert.NoError(t, err)
-}
-
 func TestLoadConfigFileError(t *testing.T) {
 	err := LoadConfigFile(nil, "")
 	assert.Error(t, err, "config is not nil")
