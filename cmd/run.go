@@ -42,6 +42,7 @@ type statReader interface {
 
 func init() {
 	RootCmd.AddCommand(runCmd)
+	runCmd.Use = `run [flags] [queries...]`
 
 	// Define flags
 	f := runCmd.Flags()
