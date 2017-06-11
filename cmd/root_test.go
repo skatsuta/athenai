@@ -78,6 +78,10 @@ func TestInitConfigNoSection(t *testing.T) {
 		Location: "s3://samplebucket-2/",
 	}
 
+	_, file, cleanup, err := testhelper.CreateConfigFile("TestInitConfigNoSection", cfg)
+	defer cleanup()
+	assert.NoError(t, err)
+
 	section := "no_section"
 	rawArgs := []string{
 		"run",
@@ -85,17 +89,61 @@ func TestInitConfigNoSection(t *testing.T) {
 		"--profile", "TestInitConfigNoSectionProfile",
 		"--location", "s3://samplebucket-2/",
 	}
-
-	_, file, cleanup, err := testhelper.CreateConfigFile("TestInitConfigNoSection", cfg)
-	defer cleanup()
-	assert.NoError(t, err)
-
 	config.Section = section
 	err = initConfig(config, file.Name(), runCmd, rawArgs)
 
 	assert.NoError(t, err)
 	assert.Equal(t, cfg.Profile, config.Profile)
 	assert.Equal(t, cfg.Location, config.Location)
+}
+
+func TestInitConfigConfigFileNoArgs(t *testing.T) {
+	cfg := &athenai.Config{
+		Section:  "default",
+		Profile:  "TestInitConfigConfigFileNoArgsProfile",
+		Region:   "eu-central-1",
+		Location: "s3://TestInitConfigConfigFileNoArgsBucket/",
+	}
+
+	_, file, cleanup, err := testhelper.CreateConfigFile("TestInitConfigConfigFileNoArgs", cfg)
+	defer cleanup()
+	assert.NoError(t, err)
+
+	rawArgs := []string{"run"}
+	config.Section = "default"
+	err = initConfig(config, file.Name(), runCmd, rawArgs)
+
+	assert.NoError(t, err)
+	assert.Equal(t, cfg.Profile, config.Profile)
+	assert.Equal(t, cfg.Region, config.Region)
+	assert.Equal(t, cfg.Location, config.Location)
+}
+
+func TestInitConfigConfigFileAndArgs(t *testing.T) {
+	cfg := &athenai.Config{
+		Section:  "test",
+		Profile:  "TestInitConfigConfigFileAndArgs",
+		Region:   "eu-west-1",
+		Location: "s3://TestInitConfigConfigFileAndArgsBucket/folder/",
+	}
+
+	_, file, cleanup, err := testhelper.CreateConfigFile("TestInitConfigConfigFileAndArgs", cfg)
+	defer cleanup()
+	assert.NoError(t, err)
+
+	rawArgs := []string{
+		"run",
+		"--section", "test",
+		"--profile", "TestInitConfigConfigFileNoArgsProfile2",
+		"--location", "TestInitConfigConfigFileAndArgsBucket2",
+	}
+	config.Section = "test"
+	err = initConfig(config, file.Name(), runCmd, rawArgs)
+
+	assert.NoError(t, err)
+	assert.Equal(t, "TestInitConfigConfigFileNoArgsProfile2", config.Profile)
+	assert.Equal(t, cfg.Region, config.Region)
+	assert.Equal(t, "TestInitConfigConfigFileAndArgsBucket2", config.Location)
 }
 
 func TestNewClient(t *testing.T) {
