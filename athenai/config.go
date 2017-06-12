@@ -61,9 +61,9 @@ func LoadConfigFile(cfg *Config, path string) error {
 
 	filePath, err := normalizeConfigPath(path)
 	if err != nil {
-		return errors.Wrap(err, "failed to find config file path")
+		return errors.Wrap(err, "failed to identify config file path")
 	}
-	log.Println("Config path normalized:", filePath)
+	log.Println("Normalized config file path:", filePath)
 
 	iniCfg, err := ini.Load(filePath)
 	if err != nil {
