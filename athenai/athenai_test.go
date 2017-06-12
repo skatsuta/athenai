@@ -112,10 +112,10 @@ func TestRunQuery(t *testing.T) {
 
 	for _, tt := range tests {
 		var out bytes.Buffer
-		client := stub.NewClient(tt.id)
-		client.ResultSet = tt.rs
-		stats := testhelper.CreateStats(tt.execTime, tt.scanned)
-		client.QueryExecution.SetStatistics(stats).SetQuery(strings.TrimSuffix(tt.query, ";"))
+		client := stub.NewClient(tt.id).
+			WithQuery(tt.query).
+			WithStats(tt.execTime, tt.scanned).
+			WithResultSet(tt.rs)
 		a := New(client, &out, &Config{})
 		a.RunQuery([]string{tt.query})
 
@@ -160,10 +160,10 @@ func TestRunQueryFromFile(t *testing.T) {
 		assert.NoError(t, err)
 
 		var out bytes.Buffer
-		client := stub.NewClient(tt.id)
-		client.ResultSet = tt.rs
-		stats := testhelper.CreateStats(tt.execTime, tt.scanned)
-		client.QueryExecution.SetStatistics(stats).SetQuery(strings.TrimSuffix(tt.query, ";"))
+		client := stub.NewClient(tt.id).
+			WithQuery(tt.query).
+			WithStats(tt.execTime, tt.scanned).
+			WithResultSet(tt.rs)
 		a := New(client, &out, &Config{})
 		a.RunQuery([]string{"file://" + tmpFile.Name()})
 
@@ -224,11 +224,10 @@ func TestRunREPL(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		client := stub.NewClient(tt.id)
-		client.ResultSet = tt.rs
-		stats := testhelper.CreateStats(tt.execTime, tt.scanned)
-		client.QueryExecution.SetStatistics(stats).SetQuery(strings.TrimSpace(tt.input))
-
+		client := stub.NewClient(tt.id).
+			WithQuery(tt.input).
+			WithStats(tt.execTime, tt.scanned).
+			WithResultSet(tt.rs)
 		in := strings.NewReader(tt.input)
 
 		var out bytes.Buffer
