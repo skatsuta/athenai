@@ -17,15 +17,19 @@ func TestStart(t *testing.T) {
 	}
 
 	tests := []struct {
-		query string
 		id    string
+		query string
 		want  string
 	}{
-		{"SELECT * FROM elb_logs", "TestStart1", "TestStart1"},
+		{
+			id:    "TestStart1",
+			query: "SELECT * FROM elb_logs",
+			want:  "TestStart1",
+		},
 	}
 
 	for _, tt := range tests {
-		client := &stub.StartQueryExecutionStub{ID: tt.id}
+		client := stub.NewStartQueryExecutionStub(&stub.Result{ID: tt.id, Query: tt.query})
 		q := NewQuery(client, tt.query, cfg)
 		err := q.Start()
 
@@ -50,7 +54,7 @@ func TestStartError(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		client := &stub.StartQueryExecutionStub{}
+		client := stub.NewStartQueryExecutionStub(&stub.Result{Query: tt.query})
 		q := NewQuery(client, tt.query, cfg)
 		err := q.Start()
 
@@ -67,8 +71,8 @@ func TestWait(t *testing.T) {
 	}
 
 	tests := []struct {
-		query  string
 		id     string
+		query  string
 		status string
 	}{
 		{"SELECT * FROM cloudfront_logs", "TestWait1", athena.QueryExecutionStateSucceeded},
@@ -79,8 +83,8 @@ func TestWait(t *testing.T) {
 		q := &Query{
 			QueryConfig: cfg,
 			Result:      &Result{},
-			client:      stub.NewGetQueryExecutionStub(),
-			interval:    0 * time.Millisecond,
+			client:      stub.NewGetQueryExecutionStub(&stub.Result{ID: tt.id, Query: tt.query}),
+			interval:    10 * time.Millisecond,
 			query:       tt.query,
 			id:          tt.id,
 		}
@@ -99,8 +103,8 @@ func TestWaitError(t *testing.T) {
 	}
 
 	tests := []struct {
-		query  string
 		id     string
+		query  string
 		status string
 	}{
 		{"SELECT * FROM no_existent_table", "1", athena.QueryExecutionStateFailed},
@@ -109,10 +113,12 @@ func TestWaitError(t *testing.T) {
 	for _, tt := range tests {
 		q := &Query{
 			QueryConfig: cfg,
-			client: &stub.GetQueryExecutionStub{
+			client: stub.NewGetQueryExecutionStub(&stub.Result{
+				ID:     tt.id,
+				Query:  tt.query,
 				ErrMsg: "an internal error occurred",
-			},
-			interval: 0 * time.Millisecond,
+			}),
+			interval: 10 * time.Millisecond,
 			query:    tt.query,
 			id:       tt.id,
 		}
@@ -129,15 +135,15 @@ func TestGetResults(t *testing.T) {
 	}
 
 	tests := []struct {
-		query    string
 		id       string
+		query    string
 		info     *athena.QueryExecution
 		maxPages int
 		numRows  int
 	}{
 		{
-			query: "SELECT * FROM cloudfront_logs LIMIT 10",
 			id:    "TestGetResults1",
+			query: "SELECT * FROM cloudfront_logs LIMIT 10",
 			info: &athena.QueryExecution{
 				Status: &athena.QueryExecutionStatus{
 					State: aws.String(athena.QueryExecutionStateSucceeded),
@@ -149,21 +155,23 @@ func TestGetResults(t *testing.T) {
 	}
 
 	for _, tt := range tests {
+		client := stub.NewGetQueryResultsStub(&stub.Result{
+			ID:    tt.id,
+			Query: tt.query,
+			ResultSet: athena.ResultSet{
+				ResultSetMetadata: &athena.ResultSetMetadata{},
+				Rows:              []*athena.Row{{}, {}, {}, {}, {}},
+			},
+		})
+		client.MaxPages = tt.maxPages
+
 		q := &Query{
 			QueryConfig: cfg,
-			client: &stub.GetQueryResultsStub{
-				ResultSet: athena.ResultSet{
-					ResultSetMetadata: &athena.ResultSetMetadata{},
-					Rows:              []*athena.Row{{}, {}, {}, {}, {}},
-				},
-				MaxPages: tt.maxPages,
-			},
-			interval: 0 * time.Millisecond,
-			query:    tt.query,
-			id:       tt.id,
-			Result: &Result{
-				info: tt.info,
-			},
+			client:      client,
+			interval:    10 * time.Millisecond,
+			query:       tt.query,
+			id:          tt.id,
+			Result:      &Result{info: tt.info},
 		}
 		err := q.GetResults()
 
@@ -179,13 +187,13 @@ func TestGetResultsError(t *testing.T) {
 	}
 
 	tests := []struct {
-		query  string
 		id     string
+		query  string
 		errMsg string
 	}{
 		{
-			query:  "SELECT * FROM test_get_result_errors",
 			id:     "no_existent_id",
+			query:  "SELECT * FROM test_get_result_errors",
 			errMsg: "InvalidRequestException",
 		},
 	}
@@ -193,10 +201,12 @@ func TestGetResultsError(t *testing.T) {
 	for _, tt := range tests {
 		q := &Query{
 			QueryConfig: cfg,
-			client: &stub.GetQueryResultsStub{
+			client: stub.NewGetQueryResultsStub(&stub.Result{
+				ID:     tt.id,
+				Query:  tt.query,
 				ErrMsg: tt.errMsg,
-			},
-			interval: 0 * time.Millisecond,
+			}),
+			interval: 10 * time.Millisecond,
 			query:    tt.query,
 			id:       tt.id,
 		}
@@ -213,32 +223,37 @@ func TestRun(t *testing.T) {
 	}
 
 	tests := []struct {
-		query       string
 		id          string
-		maxPages    int
+		query       string
 		rs          athena.ResultSet
+		maxPages    int
 		wantNumRows int
 	}{
 		{
-			"SELECT * FROM cloudfront_logs LIMIT 5", "TestRun1", 2,
-			athena.ResultSet{
+			id:    "TestRun1",
+			query: "SELECT * FROM cloudfront_logs LIMIT 5",
+			rs: athena.ResultSet{
 				ResultSetMetadata: &athena.ResultSetMetadata{},
 				Rows:              []*athena.Row{{}, {}, {}, {}, {}},
 			},
-			10,
+			maxPages:    2,
+			wantNumRows: 10,
 		},
 	}
 
 	for _, tt := range tests {
-		client := stub.NewClient(tt.id)
+		client := stub.NewClient(&stub.Result{
+			ID:        tt.id,
+			Query:     tt.query,
+			ResultSet: tt.rs,
+		})
 		client.MaxPages = tt.maxPages
-		client.ResultSet = tt.rs
 
 		q := &Query{
 			QueryConfig: cfg,
 			Result:      &Result{},
 			client:      client,
-			interval:    0 * time.Millisecond,
+			interval:    10 * time.Millisecond,
 			query:       tt.query,
 		}
 		r, err := q.Run()

@@ -75,34 +75,32 @@ Run time: 12.35 seconds | Data scanned: 56.79 KB
 
 func TestRunQuery(t *testing.T) {
 	tests := []struct {
-		query    string
 		id       string
+		query    string
 		rs       athena.ResultSet
 		execTime int64
 		scanned  int64
 		want     string
 	}{
 		{
-			query: "",
 			id:    "TestRunQuery_EmptyStmt1",
+			query: "",
 			want:  noStmtFound,
 		},
 		{
-			query: "  ; ;  ",
 			id:    "TestRunQuery_EmptyStmt2",
+			query: "  ; ;  ",
 			want:  noStmtFound,
 		},
 		{
-			query: "SHOW DATABASES;",
 			id:    "TestRunQuery_ShowDBs",
+			query: "SHOW DATABASES",
 			rs: athena.ResultSet{
-				Rows: testhelper.CreateRows(
-					[][]string{
-						{"cloudfront_logs"},
-						{"elb_logs"},
-						{"sampledb"},
-					},
-				),
+				Rows: testhelper.CreateRows([][]string{
+					{"cloudfront_logs"},
+					{"elb_logs"},
+					{"sampledb"},
+				}),
 			},
 			execTime: 12345,
 			scanned:  56789,
@@ -112,11 +110,14 @@ func TestRunQuery(t *testing.T) {
 
 	for _, tt := range tests {
 		var out bytes.Buffer
-		client := stub.NewClient(tt.id).
-			WithQuery(tt.query).
-			WithStats(tt.execTime, tt.scanned).
-			WithResultSet(tt.rs)
-		a := New(client, &out, &Config{})
+		client := stub.NewClient(&stub.Result{
+			ID:           tt.id,
+			Query:        tt.query,
+			ExecTime:     tt.execTime,
+			ScannedBytes: tt.scanned,
+			ResultSet:    tt.rs,
+		})
+		a := New(client, &out, &Config{Silent: true})
 		a.RunQuery([]string{tt.query})
 
 		assert.Contains(t, out.String(), tt.want, "Query: %q, Id: %s", tt.query, tt.id)
@@ -126,29 +127,27 @@ func TestRunQuery(t *testing.T) {
 func TestRunQueryFromFile(t *testing.T) {
 	tests := []struct {
 		filename string
-		query    string
 		id       string
-		rs       athena.ResultSet
+		query    string
 		execTime int64
 		scanned  int64
+		rs       athena.ResultSet
 		want     string
 	}{
 		{
 			filename: "TestRunQueryFromFile1.sql",
-			query:    "SHOW DATABASES;",
 			id:       "TestRunQuery_ShowDBs",
-			rs: athena.ResultSet{
-				Rows: testhelper.CreateRows(
-					[][]string{
-						{"cloudfront_logs"},
-						{"elb_logs"},
-						{"sampledb"},
-					},
-				),
-			},
+			query:    "SHOW DATABASES",
 			execTime: 12345,
 			scanned:  56789,
-			want:     showDatabasesOutput,
+			rs: athena.ResultSet{
+				Rows: testhelper.CreateRows([][]string{
+					{"cloudfront_logs"},
+					{"elb_logs"},
+					{"sampledb"},
+				}),
+			},
+			want: showDatabasesOutput,
 		},
 	}
 
@@ -160,10 +159,13 @@ func TestRunQueryFromFile(t *testing.T) {
 		assert.NoError(t, err)
 
 		var out bytes.Buffer
-		client := stub.NewClient(tt.id).
-			WithQuery(tt.query).
-			WithStats(tt.execTime, tt.scanned).
-			WithResultSet(tt.rs)
+		client := stub.NewClient(&stub.Result{
+			ID:           tt.id,
+			Query:        tt.query,
+			ExecTime:     tt.execTime,
+			ScannedBytes: tt.scanned,
+			ResultSet:    tt.rs,
+		})
 		a := New(client, &out, &Config{})
 		a.RunQuery([]string{"file://" + tmpFile.Name()})
 
@@ -179,7 +181,8 @@ func TestRunQueryFromFile(t *testing.T) {
 
 func TestSetupREPL(t *testing.T) {
 	var out bytes.Buffer
-	a := New(stub.NewClient("TestSetupREPL"), &out, &Config{})
+	client := stub.NewClient(&stub.Result{ID: "TestSetupREPL"})
+	a := New(client, &out, &Config{})
 	err := a.setupREPL()
 
 	assert.NoError(t, err)
@@ -190,9 +193,9 @@ func TestRunREPL(t *testing.T) {
 	tests := []struct {
 		input    string
 		id       string
-		rs       athena.ResultSet
 		execTime int64
 		scanned  int64
+		rs       athena.ResultSet
 		want     string
 	}{
 		{
@@ -206,30 +209,23 @@ func TestRunREPL(t *testing.T) {
 			want:  noStmtFound,
 		},
 		{
-			input: "SHOW DATABASES\n",
-			id:    "TestRunREPL_ShowDBs",
-			rs: athena.ResultSet{
-				Rows: testhelper.CreateRows(
-					[][]string{
-						{"cloudfront_logs"},
-						{"elb_logs"},
-						{"sampledb"},
-					},
-				),
-			},
+			input:    "SHOW DATABASES\n",
+			id:       "TestRunREPL_ShowDBs",
 			execTime: 12345,
 			scanned:  56789,
-			want:     showDatabasesOutput,
+			rs: athena.ResultSet{
+				Rows: testhelper.CreateRows([][]string{
+					{"cloudfront_logs"},
+					{"elb_logs"},
+					{"sampledb"},
+				}),
+			},
+			want: showDatabasesOutput,
 		},
 	}
 
 	for _, tt := range tests {
-		client := stub.NewClient(tt.id).
-			WithQuery(tt.input).
-			WithStats(tt.execTime, tt.scanned).
-			WithResultSet(tt.rs)
 		in := strings.NewReader(tt.input)
-
 		var out bytes.Buffer
 		rl, err := readline.NewEx(&readline.Config{
 			Stdin:               in,
@@ -238,6 +234,13 @@ func TestRunREPL(t *testing.T) {
 		})
 		assert.NoError(t, err)
 
+		client := stub.NewClient(&stub.Result{
+			ID:           tt.id,
+			Query:        strings.TrimSpace(tt.input),
+			ExecTime:     tt.execTime,
+			ScannedBytes: tt.scanned,
+			ResultSet:    tt.rs,
+		})
 		a := New(client, &out, &Config{})
 		a.in = in
 		a.rl = rl

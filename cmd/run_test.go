@@ -116,7 +116,13 @@ func TestRunRun(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		client := stub.NewClient(tt.id).WithResultSet(tt.rs).WithStats(tt.execTime, tt.scanned).WithQuery(tt.query)
+		client := stub.NewClient(&stub.Result{
+			ID:           tt.id,
+			Query:        tt.query,
+			ExecTime:     tt.execTime,
+			ScannedBytes: tt.scanned,
+			ResultSet:    tt.rs,
+		})
 		var out bytes.Buffer
 		err := runRun(runCmd, tt.args, client, tt.cfg, tt.stdin, &out)
 		got := out.String()
@@ -143,7 +149,8 @@ func TestRunRunValidationError(t *testing.T) {
 
 	for _, tt := range tests {
 		var out bytes.Buffer
-		err := runRun(runCmd, []string{}, stub.NewClient(tt.id), tt.cfg, os.Stdin, &out)
+		client := stub.NewClient(&stub.Result{ID: tt.id})
+		err := runRun(runCmd, []string{}, client, tt.cfg, os.Stdin, &out)
 
 		assert.Error(t, err)
 		assert.IsType(t, tt.want, err, "Id: %#v, Config: %#v", tt.id, tt.cfg)

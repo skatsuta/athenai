@@ -1,7 +1,9 @@
 package stub
 
 import (
+	"fmt"
 	"strings"
+	"sync"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/athena"
@@ -10,24 +12,48 @@ import (
 	"github.com/skatsuta/athenai/internal/testhelper"
 )
 
+// Result represents a stub result of a query execution.
+type Result struct {
+	ID           string
+	Query        string
+	ExecTime     int64
+	ScannedBytes int64
+	athena.ResultSet
+	ErrMsg string
+}
+
 // StartQueryExecutionStub simulates StartQueryExecution API.
 type StartQueryExecutionStub struct {
 	athenaiface.AthenaAPI
-	ID string
+	results map[string]*Result // map[query]*Result
+}
+
+// NewStartQueryExecutionStub creates a new StartQueryExecutionStub which returns stub responses
+// based on rs.
+func NewStartQueryExecutionStub(rs ...*Result) *StartQueryExecutionStub {
+	results := make(map[string]*Result, len(rs))
+	for _, r := range rs {
+		results[r.Query] = r
+	}
+	return &StartQueryExecutionStub{results: results}
 }
 
 // StartQueryExecution runs the SQL query statements contained in the Query string.
+// It returns an error if a query other than SELECT, SHOW or DESCRIBE statement is given.
 func (s *StartQueryExecutionStub) StartQueryExecution(input *athena.StartQueryExecutionInput) (*athena.StartQueryExecutionOutput, error) {
 	query := aws.StringValue(input.QueryString)
-	for _, kwd := range []string{"SELECT", "SHOW", "DESCRIBE"} {
-		if strings.HasPrefix(query, kwd) {
-			resp := &athena.StartQueryExecutionOutput{
-				QueryExecutionId: &s.ID,
-			}
-			return resp, nil
-		}
+	r, ok := s.results[query]
+	if !ok {
+		return nil, errors.Errorf("InvalidRequestException: %q is an unexpected query", query)
 	}
-	return nil, errors.Errorf("InvalidRequestException: %q", query)
+	for _, kwd := range []string{"SELECT", "SHOW", "DESCRIBE"} {
+		if !strings.HasPrefix(query, kwd) {
+			continue
+		}
+		resp := &athena.StartQueryExecutionOutput{QueryExecutionId: &r.ID}
+		return resp, nil
+	}
+	return nil, errors.Errorf("InvalidRequestException: %q is not an allowed statement", query)
 }
 
 var (
@@ -47,46 +73,73 @@ var (
 // GetQueryExecutionStub simulates GetQueryExecution API.
 type GetQueryExecutionStub struct {
 	athenaiface.AthenaAPI
-	athena.QueryExecution
-	ErrMsg         string
+	mu             sync.RWMutex
 	queryStateFlow []string
-	stateCnt       int
+	results        map[string]*Result // map[id]*Result
+	stateCnts      map[string]int     // map[id]count
 }
 
-// NewGetQueryExecutionStub creates a new GetQueryExecution which returns successful query states in order.
-func NewGetQueryExecutionStub() *GetQueryExecutionStub {
+// newGetQueryExecutionStub creates a new GetQueryExecutionStub which returns stub responses
+// based on rs with queryStateFlow states.
+func newGetQueryExecutionStub(queryStateFlow []string, rs ...*Result) *GetQueryExecutionStub {
+	l := len(rs)
+	results := make(map[string]*Result, l)
+	stateCnts := make(map[string]int, l)
+	for _, r := range rs {
+		results[r.ID] = r
+		stateCnts[r.ID] = 0
+	}
 	return &GetQueryExecutionStub{
-		queryStateFlow: successfulQueryStateFlow,
+		queryStateFlow: queryStateFlow,
+		results:        results,
+		stateCnts:      stateCnts,
 	}
 }
 
-// NewGetFailedQueryExecution creates a new GetQueryExecutionStub which returns failed query states in order.
-func NewGetFailedQueryExecution() *GetQueryExecutionStub {
-	return &GetQueryExecutionStub{
-		queryStateFlow: failedQueryStateFlow,
-	}
+// NewGetQueryExecutionStub creates a new GetQueryExecutionStub which returns stub responses
+// based on rs with successful query states in order.
+func NewGetQueryExecutionStub(rs ...*Result) *GetQueryExecutionStub {
+	return newGetQueryExecutionStub(successfulQueryStateFlow, rs...)
+}
+
+// NewGetFailedQueryExecutionStub creates a new GetQueryExecutionStub which returns stub responses
+// based on rs with failed query states in order.
+func NewGetFailedQueryExecutionStub(rs ...*Result) *GetQueryExecutionStub {
+	return newGetQueryExecutionStub(failedQueryStateFlow, rs...)
 }
 
 // GetQueryExecution returns information about a single execution of a query.
 func (s *GetQueryExecutionStub) GetQueryExecution(input *athena.GetQueryExecutionInput) (*athena.GetQueryExecutionOutput, error) {
-	if s.ErrMsg != "" {
-		return nil, errors.New(s.ErrMsg)
+	id := aws.StringValue(input.QueryExecutionId)
+	r, ok := s.results[id]
+	if !ok {
+		return nil, errors.Errorf("InvalidRequestException: QueryExecution %s was not found", id)
 	}
+	if r.ErrMsg != "" {
+		return nil, errors.New(r.ErrMsg)
+	}
+
+	s.mu.RLock()
+	cnt := s.stateCnts[id]
+	s.mu.RUnlock()
 
 	l := len(s.queryStateFlow)
 	state := s.queryStateFlow[l-1]
-	if s.stateCnt < l {
-		state = s.queryStateFlow[s.stateCnt]
+	if cnt < l {
+		state = s.queryStateFlow[cnt]
 	}
 
-	s.stateCnt++
+	s.mu.Lock()
+	s.stateCnts[id]++
+	s.mu.Unlock()
 
-	if s.QueryExecution.Status == nil {
-		s.QueryExecution.SetStatus(&athena.QueryExecutionStatus{})
-	}
-	s.QueryExecution.Status.SetState(state)
 	resp := &athena.GetQueryExecutionOutput{
-		QueryExecution: &s.QueryExecution,
+		QueryExecution: &athena.QueryExecution{
+			QueryExecutionId: &r.ID,
+			Query:            &r.Query,
+			Statistics:       testhelper.CreateStats(r.ExecTime, r.ScannedBytes),
+			Status:           &athena.QueryExecutionStatus{State: &state},
+		},
 	}
 	return resp, nil
 }
@@ -94,24 +147,48 @@ func (s *GetQueryExecutionStub) GetQueryExecution(input *athena.GetQueryExecutio
 // GetQueryResultsStub simulates GetQueryResults and GetQueryResultsPages API.
 type GetQueryResultsStub struct {
 	athenaiface.AthenaAPI
-	athena.ResultSet
-	ErrMsg   string
 	MaxPages int
-	page     int
+	mu       sync.Mutex
+	pages    map[string]int     // map[id]page
+	results  map[string]*Result // map[id]*Result
+}
+
+// NewGetQueryResultsStub creates a new GetQueryResultsStub which returns stub responses
+// based on rs.
+func NewGetQueryResultsStub(rs ...*Result) *GetQueryResultsStub {
+	l := len(rs)
+	results := make(map[string]*Result, l)
+	pages := make(map[string]int, l)
+	for _, r := range rs {
+		results[r.ID] = r
+		pages[r.ID] = 0
+	}
+	return &GetQueryResultsStub{
+		MaxPages: 1,
+		results:  results,
+		pages:    pages,
+	}
 }
 
 // GetQueryResults returns the results of a single query execution specified by QueryExecutionId.
 func (s *GetQueryResultsStub) GetQueryResults(input *athena.GetQueryResultsInput) (*athena.GetQueryResultsOutput, error) {
-	if s.ErrMsg != "" {
-		return nil, errors.New(s.ErrMsg)
+	id := aws.StringValue(input.QueryExecutionId)
+	r, ok := s.results[id]
+	if !ok {
+		return nil, errors.Errorf("InvalidRequestException: QueryExecution %s was not found", id)
+	}
+	if r.ErrMsg != "" {
+		return nil, errors.New(r.ErrMsg)
 	}
 
-	s.page++
-	resp := &athena.GetQueryResultsOutput{
-		ResultSet: &s.ResultSet,
-	}
-	if s.page < s.MaxPages {
-		resp.SetNextToken("next")
+	s.mu.Lock()
+	s.pages[id]++
+	page := s.pages[id]
+	s.mu.Unlock()
+
+	resp := &athena.GetQueryResultsOutput{ResultSet: &r.ResultSet}
+	if page < s.MaxPages {
+		resp.SetNextToken(fmt.Sprintf("NextToken%d", page))
 	}
 	return resp, nil
 }
@@ -131,20 +208,20 @@ func (s *GetQueryResultsStub) GetQueryResultsPages(input *athena.GetQueryResults
 	return nil
 }
 
-// Client is a mock of Athena client.
+// Client is a stub of Athena client.
 type Client struct {
 	athenaiface.AthenaAPI
-	StartQueryExecutionStub
-	GetQueryExecutionStub
-	GetQueryResultsStub
+	*StartQueryExecutionStub
+	*GetQueryExecutionStub
+	*GetQueryResultsStub
 }
 
-// NewClient returns a new MockedClient.
-func NewClient(id string) *Client {
+// NewClient returns a new Athena client which returns stub API responses based on rs.
+func NewClient(rs ...*Result) *Client {
 	return &Client{
-		StartQueryExecutionStub: StartQueryExecutionStub{ID: id},
-		GetQueryExecutionStub:   GetQueryExecutionStub{queryStateFlow: successfulQueryStateFlow},
-		GetQueryResultsStub:     GetQueryResultsStub{MaxPages: 1},
+		StartQueryExecutionStub: NewStartQueryExecutionStub(rs...),
+		GetQueryExecutionStub:   NewGetQueryExecutionStub(rs...),
+		GetQueryResultsStub:     NewGetQueryResultsStub(rs...),
 	}
 }
 
@@ -166,23 +243,4 @@ func (s *Client) GetQueryResults(input *athena.GetQueryResultsInput) (*athena.Ge
 // GetQueryResultsPages iterates over the pages of a GetQueryResults operation, calling the callback function with the response data for each page.
 func (s *Client) GetQueryResultsPages(input *athena.GetQueryResultsInput, callback func(*athena.GetQueryResultsOutput, bool) bool) error {
 	return s.GetQueryResultsStub.GetQueryResultsPages(input, callback)
-}
-
-// WithResultSet sets rs to s.
-func (s *Client) WithResultSet(rs athena.ResultSet) *Client {
-	s.ResultSet = rs
-	return s
-}
-
-// WithStats sets statistics data to s.
-func (s *Client) WithStats(execTime, scannedBytes int64) *Client {
-	stats := testhelper.CreateStats(execTime, scannedBytes)
-	s.QueryExecution.SetStatistics(stats)
-	return s
-}
-
-// WithQuery sets query to s.
-func (s *Client) WithQuery(query string) *Client {
-	s.QueryExecution.SetQuery(strings.TrimSpace(strings.TrimSuffix(query, ";")))
-	return s
 }
