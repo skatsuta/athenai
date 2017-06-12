@@ -183,6 +183,6 @@ func (s *Client) WithStats(execTime, scannedBytes int64) *Client {
 
 // WithQuery sets query to s.
 func (s *Client) WithQuery(query string) *Client {
-	s.QueryExecution.SetQuery(strings.TrimSuffix(query, ";"))
+	s.QueryExecution.SetQuery(strings.TrimSpace(strings.TrimSuffix(query, ";")))
 	return s
 }
