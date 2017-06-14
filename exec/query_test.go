@@ -81,12 +81,12 @@ func TestWait(t *testing.T) {
 
 	for _, tt := range tests {
 		q := &Query{
-			QueryConfig: cfg,
-			Result:      &Result{},
-			client:      stub.NewGetQueryExecutionStub(&stub.Result{ID: tt.id, Query: tt.query}),
-			interval:    10 * time.Millisecond,
-			query:       tt.query,
-			id:          tt.id,
+			QueryConfig:  cfg,
+			Result:       &Result{},
+			WaitInterval: 10 * time.Millisecond,
+			client:       stub.NewGetQueryExecutionStub(&stub.Result{ID: tt.id, Query: tt.query}),
+			query:        tt.query,
+			id:           tt.id,
 		}
 		err := q.Wait()
 		got := aws.StringValue(q.Info().Status.State)
@@ -118,9 +118,9 @@ func TestWaitError(t *testing.T) {
 				Query:  tt.query,
 				ErrMsg: "an internal error occurred",
 			}),
-			interval: 10 * time.Millisecond,
-			query:    tt.query,
-			id:       tt.id,
+			WaitInterval: 10 * time.Millisecond,
+			query:        tt.query,
+			id:           tt.id,
 		}
 		err := q.Wait()
 
@@ -166,12 +166,12 @@ func TestGetResults(t *testing.T) {
 		client.MaxPages = tt.maxPages
 
 		q := &Query{
-			QueryConfig: cfg,
-			client:      client,
-			interval:    10 * time.Millisecond,
-			query:       tt.query,
-			id:          tt.id,
-			Result:      &Result{info: tt.info},
+			QueryConfig:  cfg,
+			client:       client,
+			WaitInterval: 10 * time.Millisecond,
+			query:        tt.query,
+			id:           tt.id,
+			Result:       &Result{info: tt.info},
 		}
 		err := q.GetResults()
 
@@ -206,9 +206,9 @@ func TestGetResultsError(t *testing.T) {
 				Query:  tt.query,
 				ErrMsg: tt.errMsg,
 			}),
-			interval: 10 * time.Millisecond,
-			query:    tt.query,
-			id:       tt.id,
+			WaitInterval: 10 * time.Millisecond,
+			query:        tt.query,
+			id:           tt.id,
 		}
 		err := q.GetResults()
 
@@ -250,11 +250,11 @@ func TestRun(t *testing.T) {
 		client.MaxPages = tt.maxPages
 
 		q := &Query{
-			QueryConfig: cfg,
-			Result:      &Result{},
-			client:      client,
-			interval:    10 * time.Millisecond,
-			query:       tt.query,
+			QueryConfig:  cfg,
+			Result:       &Result{},
+			client:       client,
+			WaitInterval: 10 * time.Millisecond,
+			query:        tt.query,
 		}
 		r, err := q.Run()
 

@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	waitInterval = 500 * time.Millisecond
+	defaultWaitInterval = 500 * time.Millisecond
 
 	// The maximum number of results (rows) to return in a GetQueryResults API request.
 	// See https://docs.aws.amazon.com/ja_jp/athena/latest/APIReference/API_GetQueryResults.html#API_GetQueryResults_RequestSyntax
@@ -29,11 +29,11 @@ type QueryConfig struct {
 type Query struct {
 	*QueryConfig
 	*Result
+	WaitInterval time.Duration
 
-	interval time.Duration
-	client   athenaiface.AthenaAPI
-	query    string
-	id       string
+	client athenaiface.AthenaAPI
+	query  string
+	id     string
 }
 
 // NewQuery creates a new Query struct.
@@ -44,11 +44,11 @@ func NewQuery(client athenaiface.AthenaAPI, query string, cfg *QueryConfig) *Que
 	}
 
 	q := &Query{
-		QueryConfig: cfg,
-		Result:      &Result{},
-		interval:    waitInterval,
-		client:      client,
-		query:       query,
+		QueryConfig:  cfg,
+		Result:       &Result{},
+		WaitInterval: defaultWaitInterval,
+		client:       client,
+		query:        query,
 	}
 	log.Printf("Created Query: %#v\n", q)
 	return q
@@ -104,8 +104,8 @@ func (q *Query) Wait() error {
 			return nil
 		}
 
-		log.Printf("Query execution state: %s; sleeping %s\n", state, q.interval.String())
-		time.Sleep(q.interval)
+		log.Printf("Query execution state: %s; sleeping %s\n", state, q.WaitInterval.String())
+		time.Sleep(q.WaitInterval)
 	}
 }
 
