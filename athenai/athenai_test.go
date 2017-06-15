@@ -179,6 +179,100 @@ func TestRunQueryFromFile(t *testing.T) {
 	}
 }
 
+const threeStmtsOutputOrdered = `
+SELECT date, time, bytes FROM cloudfront_logs LIMIT 3;
++------------+----------+-------+
+| date       | time     | bytes |
+| 2014-07-05 | 15:00:00 |  4260 |
+| 2014-07-05 | 15:00:00 |    10 |
+| 2014-07-05 | 15:00:00 |  4252 |
++------------+----------+-------+
+Run time: 5.56 seconds | Data scanned: 6.67 KB
+.*
+SHOW DATABASES;
++-----------------+
+| cloudfront_logs |
+| elb_logs        |
+| sampledb        |
++-----------------+
+Run time: 3.33 seconds | Data scanned: 4.44 KB
+.*
+SHOW TABLES;
++-----------------+
+| cloudfront_logs |
+| elb_logs        |
+| flights_parquet |
++-----------------+
+Run time: 1.11 seconds | Data scanned: 2.22 KB
+`
+
+func TestRunQueryOrdered(t *testing.T) {
+	tests := []struct {
+		query   string
+		results []*stub.Result
+		want    string
+	}{
+		{
+			query: "SELECT date, time, bytes FROM cloudfront_logs LIMIT 3; SHOW DATABASES; SHOW TABLES;",
+			results: []*stub.Result{ // Arrange in descending order
+				{
+					ID:           "TestRunQueryOrderedShowTables",
+					Query:        "SHOW TABLES",
+					ExecTime:     1111,
+					ScannedBytes: 2222,
+					ResultSet: athena.ResultSet{
+						ResultSetMetadata: &athena.ResultSetMetadata{},
+						Rows: testhelper.CreateRows([][]string{
+							{"cloudfront_logs"},
+							{"elb_logs"},
+							{"flights_parquet"},
+						}),
+					},
+				},
+				{
+					ID:           "TestRunQueryOrderedShowDatabases",
+					Query:        "SHOW DATABASES",
+					ExecTime:     3333,
+					ScannedBytes: 4444,
+					ResultSet: athena.ResultSet{
+						ResultSetMetadata: &athena.ResultSetMetadata{},
+						Rows: testhelper.CreateRows([][]string{
+							{"cloudfront_logs"},
+							{"elb_logs"},
+							{"sampledb"},
+						}),
+					},
+				},
+				{
+					ID:           "TestRunQueryOrderedSelect",
+					Query:        "SELECT date, time, bytes FROM cloudfront_logs LIMIT 3",
+					ExecTime:     5555,
+					ScannedBytes: 6666,
+					ResultSet: athena.ResultSet{
+						ResultSetMetadata: &athena.ResultSetMetadata{},
+						Rows: testhelper.CreateRows([][]string{
+							{"date", "time", "bytes"},
+							{"2014-07-05", "15:00:00", "4260"},
+							{"2014-07-05", "15:00:00", "10"},
+							{"2014-07-05", "15:00:00", "4252"},
+						}),
+					},
+				},
+			},
+			want: threeStmtsOutputOrdered,
+		},
+	}
+
+	for _, tt := range tests {
+		var out bytes.Buffer
+		client := stub.NewClient(tt.results...)
+		a := New(client, &out, &Config{Order: true, Database: "sampledb"})
+		a.RunQuery([]string{tt.query})
+
+		assert.Regexp(t, tt.want, out.String(), "Results: %#v", tt.results)
+	}
+}
+
 func TestSetupREPL(t *testing.T) {
 	var out bytes.Buffer
 	client := stub.NewClient(&stub.Result{ID: "TestSetupREPL"})
