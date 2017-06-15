@@ -13,11 +13,6 @@ import (
 	"github.com/aws/aws-sdk-go/service/athena"
 )
 
-func init() {
-	// Initialize random seed
-	rand.Seed(time.Now().UnixNano())
-}
-
 // CreateRows creates an array of *athena.Row from an array of string arrays.
 func CreateRows(rawRows [][]string) []*athena.Row {
 	rows := make([]*athena.Row, len(rawRows))
@@ -52,8 +47,10 @@ location = {{.Location}}
 // CreateConfigFile creates a new config file in a tempporary directory based on cfg's data.
 // The type of cfg is set to interface{} to avoid cyclic import, but it must be *athenai.Config.
 func CreateConfigFile(name string, cfg interface{}) (homeDir string, file *os.File, cleanup func(), err error) {
+	// Initialize random seed
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 	// Create a temporary directory for config file
-	homeDir = filepath.Join(os.TempDir(), strconv.Itoa(rand.Int()))
+	homeDir = filepath.Join(os.TempDir(), strconv.Itoa(r.Int()))
 	baseDir := filepath.Join(homeDir, ".athenai")
 	if err = os.MkdirAll(baseDir, 0755); err != nil {
 		return "", nil, nil, err
