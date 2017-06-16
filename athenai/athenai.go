@@ -53,12 +53,11 @@ type Athenai struct {
 	out io.Writer
 	rl  readlineCloser
 
-	cfg    *Config
-	client athenaiface.AthenaAPI
-	// tick interval
+	cfg      *Config
+	client   athenaiface.AthenaAPI
 	interval time.Duration
 
-	resultChs []chan *exec.Result
+	resultChs []chan print.Result
 	errChs    []chan error
 	doneCh    chan struct{}
 	wg        sync.WaitGroup
@@ -73,7 +72,7 @@ func New(client athenaiface.AthenaAPI, out io.Writer, cfg *Config) *Athenai {
 		cfg:       cfg,
 		client:    client,
 		interval:  refreshInterval,
-		resultChs: make([]chan *exec.Result, 0),
+		resultChs: make([]chan print.Result, 0),
 		errChs:    make([]chan error, 0),
 		doneCh:    make(chan struct{}),
 	}
@@ -100,7 +99,7 @@ func (a *Athenai) setupChannels(numStmts int) {
 
 	a.mu.Lock()
 	for i := 0; i < l; i++ {
-		a.resultChs = append(a.resultChs, make(chan *exec.Result, 1))
+		a.resultChs = append(a.resultChs, make(chan print.Result, 1))
 		a.errChs = append(a.errChs, make(chan error, 1))
 	}
 	a.mu.Unlock()
@@ -117,7 +116,7 @@ func (a *Athenai) showProgressMsg(ctx context.Context) {
 }
 
 // runSingleQuery runs a single query. `query` must be a single SQL statement.
-func (a *Athenai) runSingleQuery(query string, resultCh chan *exec.Result, errCh chan error) {
+func (a *Athenai) runSingleQuery(query string, resultCh chan print.Result, errCh chan error) {
 	// Run a query, and send results or an error
 	log.Printf("Start running %q\n", query)
 	r, err := exec.NewQuery(a.client, query, a.cfg.QueryConfig()).Run()
