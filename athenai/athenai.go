@@ -112,13 +112,8 @@ func (a *Athenai) showProgressMsg(ctx context.Context) {
 	s.Writer = a.out
 	s.Suffix = " Running query..."
 	s.Start()
-	for {
-		select {
-		case <-ctx.Done():
-			s.Stop()
-			return
-		}
-	}
+	<-ctx.Done()
+	s.Stop()
 }
 
 // runSingleQuery runs a single query. `query` must be a single SQL statement.
