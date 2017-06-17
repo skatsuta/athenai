@@ -1,11 +1,13 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
 	"os"
+	"os/signal"
 	"strings"
 
 	"github.com/aws/aws-sdk-go/service/athena/athenaiface"
@@ -112,6 +114,20 @@ func runRun(cmd *cobra.Command, args []string, client athenaiface.AthenaAPI, cfg
 		args = appendStdinData(args, stdin)
 	}
 
+	ctx, cancel := context.WithCancel(context.Background())
+	signalCh := make(chan os.Signal, 1)
+	signal.Notify(signalCh, os.Interrupt)
+	defer cleanup(signalCh, cancel)
+
+	// Watcher to cancel a query execution
+	go func() {
+		select {
+		case <-signalCh:
+			cleanup(signalCh, cancel)
+		case <-ctx.Done(): // Just exit this goroutine
+		}
+	}()
+
 	// Run the given queries
 	l := len(args)
 	if l > 0 {
@@ -123,4 +139,9 @@ func runRun(cmd *cobra.Command, args []string, client athenaiface.AthenaAPI, cfg
 	// Run REPL mode
 	log.Printf("No args provided. Starting REPL mode")
 	return a.RunREPL()
+}
+
+func cleanup(signalCh chan os.Signal, cancel func()) {
+	signal.Stop(signalCh)
+	cancel()
 }
