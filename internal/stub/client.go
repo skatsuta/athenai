@@ -13,10 +13,23 @@ import (
 	"github.com/skatsuta/athenai/internal/testhelper"
 )
 
+// FinalState represents a final state of a query execution, such as SUCCEEDED, FAILED or CANCELLED.
+type FinalState int
+
+const (
+	// Succeeded represents SUCCEEDED state.
+	Succeeded FinalState = iota
+	// Failed represents FAILED state.
+	Failed
+	// Cancelled represents CANCELLED state.
+	Cancelled
+)
+
 // Result represents a stub result of a query execution.
 type Result struct {
 	ID           string
 	Query        string
+	FinalState   FinalState // default: Succeeded
 	ExecTime     int64
 	ScannedBytes int64
 	athena.ResultSet
@@ -63,23 +76,41 @@ func (s *StartQueryExecutionStub) StartQueryExecutionWithContext(ctx aws.Context
 	return s.StartQueryExecution(input)
 }
 
+// stateFlow represents a flow of states in a query execution.
+type stateFlow []string
+
 var (
-	successfulQueryStateFlow = []string{
+	successfulQueryStateFlow = stateFlow{
 		athena.QueryExecutionStateQueued,
 		athena.QueryExecutionStateRunning,
 		athena.QueryExecutionStateSucceeded,
 	}
 
-	failedQueryStateFlow = []string{
+	failedQueryStateFlow = stateFlow{
 		athena.QueryExecutionStateQueued,
 		athena.QueryExecutionStateRunning,
 		athena.QueryExecutionStateFailed,
+	}
+
+	cancelledQueryStateFlow = stateFlow{
+		athena.QueryExecutionStateQueued,
+		athena.QueryExecutionStateRunning,
+		athena.QueryExecutionStateCancelled,
+	}
+)
+
+var (
+	finalStateFlowMap = map[FinalState]stateFlow{
+		Succeeded: successfulQueryStateFlow,
+		Failed:    failedQueryStateFlow,
+		Cancelled: cancelledQueryStateFlow,
 	}
 )
 
 // StopQueryExecutionStub simulates StopQueryExecution API.
 type StopQueryExecutionStub struct {
 	athenaiface.AthenaAPI
+	mu      sync.Mutex
 	results map[string]*Result // map[id]*Result
 }
 
@@ -104,6 +135,10 @@ func (s *StopQueryExecutionStub) StopQueryExecution(input *athena.StopQueryExecu
 		return nil, errors.New(r.ErrMsg)
 	}
 
+	s.mu.Lock()
+	r.FinalState = Cancelled
+	s.mu.Unlock()
+
 	return &athena.StopQueryExecutionOutput{}, nil
 }
 
@@ -116,39 +151,29 @@ func (s *StopQueryExecutionStub) StopQueryExecutionWithContext(ctx aws.Context, 
 // GetQueryExecutionStub simulates GetQueryExecution API.
 type GetQueryExecutionStub struct {
 	athenaiface.AthenaAPI
-	mu             sync.RWMutex
-	queryStateFlow []string
-	results        map[string]*Result // map[id]*Result
-	stateCnts      map[string]int     // map[id]count
-}
-
-// newGetQueryExecutionStub creates a new GetQueryExecutionStub which returns stub responses
-// based on rs with queryStateFlow states.
-func newGetQueryExecutionStub(queryStateFlow []string, rs ...*Result) *GetQueryExecutionStub {
-	l := len(rs)
-	results := make(map[string]*Result, l)
-	stateCnts := make(map[string]int, l)
-	for _, r := range rs {
-		results[r.ID] = r
-		stateCnts[r.ID] = 0
-	}
-	return &GetQueryExecutionStub{
-		queryStateFlow: queryStateFlow,
-		results:        results,
-		stateCnts:      stateCnts,
-	}
+	mu         sync.Mutex
+	results    map[string]*Result   // map[id]*Result
+	stateFlows map[string]stateFlow // map[id]stateFlow
+	stateCnts  map[string]int       // map[id]stateCounter(int)
 }
 
 // NewGetQueryExecutionStub creates a new GetQueryExecutionStub which returns stub responses
-// based on rs with successful query states in order.
+// based on rs.
 func NewGetQueryExecutionStub(rs ...*Result) *GetQueryExecutionStub {
-	return newGetQueryExecutionStub(successfulQueryStateFlow, rs...)
-}
-
-// NewGetFailedQueryExecutionStub creates a new GetQueryExecutionStub which returns stub responses
-// based on rs with failed query states in order.
-func NewGetFailedQueryExecutionStub(rs ...*Result) *GetQueryExecutionStub {
-	return newGetQueryExecutionStub(failedQueryStateFlow, rs...)
+	l := len(rs)
+	results := make(map[string]*Result, l)
+	stateFlows := make(map[string]stateFlow, l)
+	stateCnts := make(map[string]int, l)
+	for _, r := range rs {
+		results[r.ID] = r
+		stateFlows[r.ID] = finalStateFlowMap[r.FinalState]
+		stateCnts[r.ID] = 0
+	}
+	return &GetQueryExecutionStub{
+		results:    results,
+		stateFlows: stateFlows,
+		stateCnts:  stateCnts,
+	}
 }
 
 // GetQueryExecution returns information about a single execution of a query.
@@ -162,14 +187,18 @@ func (s *GetQueryExecutionStub) GetQueryExecution(input *athena.GetQueryExecutio
 		return nil, errors.New(r.ErrMsg)
 	}
 
-	s.mu.RLock()
+	s.mu.Lock()
+	if r.FinalState == Cancelled {
+		s.stateFlows[id] = finalStateFlowMap[Cancelled]
+	}
+	flow := s.stateFlows[id]
 	cnt := s.stateCnts[id]
-	s.mu.RUnlock()
+	s.mu.Unlock()
 
-	l := len(s.queryStateFlow)
-	state := s.queryStateFlow[l-1]
+	l := len(flow)
+	state := flow[l-1]
 	if cnt < l {
-		state = s.queryStateFlow[cnt]
+		state = flow[cnt]
 	}
 
 	s.mu.Lock()
