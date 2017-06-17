@@ -6,6 +6,7 @@ import (
 	"sync"
 
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/request"
 	"github.com/aws/aws-sdk-go/service/athena"
 	"github.com/aws/aws-sdk-go/service/athena/athenaiface"
 	"github.com/pkg/errors"
@@ -54,6 +55,12 @@ func (s *StartQueryExecutionStub) StartQueryExecution(input *athena.StartQueryEx
 		return resp, nil
 	}
 	return nil, errors.Errorf("InvalidRequestException: %q is not an allowed statement", query)
+}
+
+// StartQueryExecutionWithContext is the same as StartQueryExecution with the addition of
+// the ability to pass a context and additional request options.
+func (s *StartQueryExecutionStub) StartQueryExecutionWithContext(ctx aws.Context, input *athena.StartQueryExecutionInput, opts ...request.Option) (*athena.StartQueryExecutionOutput, error) {
+	return s.StartQueryExecution(input)
 }
 
 var (
@@ -144,6 +151,12 @@ func (s *GetQueryExecutionStub) GetQueryExecution(input *athena.GetQueryExecutio
 	return resp, nil
 }
 
+// GetQueryExecutionWithContext is the same as GetQueryExecution with the addition of
+// the ability to pass a context and additional request options.
+func (s *GetQueryExecutionStub) GetQueryExecutionWithContext(ctx aws.Context, input *athena.GetQueryExecutionInput, opts ...request.Option) (*athena.GetQueryExecutionOutput, error) {
+	return s.GetQueryExecution(input)
+}
+
 // GetQueryResultsStub simulates GetQueryResults and GetQueryResultsPages API.
 type GetQueryResultsStub struct {
 	athenaiface.AthenaAPI
@@ -193,6 +206,12 @@ func (s *GetQueryResultsStub) GetQueryResults(input *athena.GetQueryResultsInput
 	return resp, nil
 }
 
+// GetQueryResultsWithContext is the same as GetQueryResults with the addition of
+// the ability to pass a context and additional request options.
+func (s *GetQueryResultsStub) GetQueryResultsWithContext(ctx aws.Context, input *athena.GetQueryResultsInput, opts ...request.Option) (*athena.GetQueryResultsOutput, error) {
+	return s.GetQueryResults(input)
+}
+
 // GetQueryResultsPages iterates over the pages of a GetQueryResults operation, calling the callback function with the response data for each page.
 func (s *GetQueryResultsStub) GetQueryResultsPages(input *athena.GetQueryResultsInput, callback func(*athena.GetQueryResultsOutput, bool) bool) error {
 	cont := true
@@ -206,6 +225,12 @@ func (s *GetQueryResultsStub) GetQueryResultsPages(input *athena.GetQueryResults
 		cont = cont && !lastPage
 	}
 	return nil
+}
+
+// GetQueryResultsPagesWithContext same as GetQueryResultsPages except
+// it takes a Context and allows setting request options on the pages.
+func (s *GetQueryResultsStub) GetQueryResultsPagesWithContext(ctx aws.Context, input *athena.GetQueryResultsInput, callback func(*athena.GetQueryResultsOutput, bool) bool, opts ...request.Option) error {
+	return s.GetQueryResultsPages(input, callback)
 }
 
 // Client is a stub of Athena client.
@@ -230,9 +255,21 @@ func (s *Client) StartQueryExecution(input *athena.StartQueryExecutionInput) (*a
 	return s.StartQueryExecutionStub.StartQueryExecution(input)
 }
 
+// StartQueryExecutionWithContext is the same as StartQueryExecution with the addition of
+// the ability to pass a context and additional request options.
+func (s *Client) StartQueryExecutionWithContext(ctx aws.Context, input *athena.StartQueryExecutionInput, opts ...request.Option) (*athena.StartQueryExecutionOutput, error) {
+	return s.StartQueryExecutionStub.StartQueryExecutionWithContext(ctx, input, opts...)
+}
+
 // GetQueryExecution returns information about a single execution of a query.
 func (s *Client) GetQueryExecution(input *athena.GetQueryExecutionInput) (*athena.GetQueryExecutionOutput, error) {
 	return s.GetQueryExecutionStub.GetQueryExecution(input)
+}
+
+// GetQueryExecutionWithContext is the same as GetQueryExecution with the addition of
+// the ability to pass a context and additional request options.
+func (s *Client) GetQueryExecutionWithContext(ctx aws.Context, input *athena.GetQueryExecutionInput, opts ...request.Option) (*athena.GetQueryExecutionOutput, error) {
+	return s.GetQueryExecutionStub.GetQueryExecutionWithContext(ctx, input, opts...)
 }
 
 // GetQueryResults returns the results of a single query execution specified by QueryExecutionId.
@@ -240,7 +277,19 @@ func (s *Client) GetQueryResults(input *athena.GetQueryResultsInput) (*athena.Ge
 	return s.GetQueryResultsStub.GetQueryResults(input)
 }
 
+// GetQueryResultsWithContext is the same as GetQueryResults with the addition of
+// the ability to pass a context and additional request options.
+func (s *Client) GetQueryResultsWithContext(ctx aws.Context, input *athena.GetQueryResultsInput, opts ...request.Option) (*athena.GetQueryResultsOutput, error) {
+	return s.GetQueryResultsStub.GetQueryResultsWithContext(ctx, input, opts...)
+}
+
 // GetQueryResultsPages iterates over the pages of a GetQueryResults operation, calling the callback function with the response data for each page.
 func (s *Client) GetQueryResultsPages(input *athena.GetQueryResultsInput, callback func(*athena.GetQueryResultsOutput, bool) bool) error {
 	return s.GetQueryResultsStub.GetQueryResultsPages(input, callback)
+}
+
+// GetQueryResultsPagesWithContext same as GetQueryResultsPages except
+// it takes a Context and allows setting request options on the pages.
+func (s *Client) GetQueryResultsPagesWithContext(ctx aws.Context, input *athena.GetQueryResultsInput, callback func(*athena.GetQueryResultsOutput, bool) bool, opts ...request.Option) error {
+	return s.GetQueryResultsStub.GetQueryResultsPagesWithContext(ctx, input, callback, opts...)
 }
