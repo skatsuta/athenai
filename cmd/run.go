@@ -116,7 +116,7 @@ func runRun(cmd *cobra.Command, args []string, client athenaiface.AthenaAPI, cfg
 	l := len(args)
 	if l > 0 {
 		log.Printf("%d args provided: %#v\n", l, args)
-		a.RunQuery(args)
+		a.RunQuery(args...)
 		return nil
 	}
 

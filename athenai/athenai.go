@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"os/signal"
 	"path/filepath"
 	"strings"
 	"sync"
@@ -116,10 +117,10 @@ func (a *Athenai) showProgressMsg(ctx context.Context) {
 }
 
 // runSingleQuery runs a single query. `query` must be a single SQL statement.
-func (a *Athenai) runSingleQuery(query string, resultCh chan print.Result, errCh chan error) {
+func (a *Athenai) runSingleQuery(ctx context.Context, query string, resultCh chan print.Result, errCh chan error) {
 	// Run a query, and send results or an error
 	log.Printf("Start running %q\n", query)
-	r, err := exec.NewQuery(a.client, query, a.cfg.QueryConfig()).Run()
+	r, err := exec.NewQuery(a.client, query, a.cfg.QueryConfig()).Run(ctx)
 	if err != nil {
 		errCh <- err
 	} else {
@@ -130,7 +131,7 @@ func (a *Athenai) runSingleQuery(query string, resultCh chan print.Result, errCh
 // RunQuery runs the given queries.
 // It splits each statement by semicolons and run them concurrently.
 // It skips empty statements.
-func (a *Athenai) RunQuery(queries []string) {
+func (a *Athenai) RunQuery(queries ...string) {
 	// Split statements
 	stmts, errs := splitStmts(queries)
 	if len(errs) > 0 {
@@ -148,6 +149,21 @@ func (a *Athenai) RunQuery(queries []string) {
 
 	a.setupChannels(l)
 
+	// Prepare a context
+	ctx, cancel := context.WithCancel(context.Background())
+	signalCh := make(chan os.Signal, 1)
+	signal.Notify(signalCh, os.Interrupt)
+	defer cleanup(signalCh, cancel)
+
+	// Watcher to cancel query executions
+	go func() {
+		select {
+		case <-signalCh:
+			cleanup(signalCh, cancel)
+		case <-ctx.Done(): // Just exit this goroutine
+		}
+	}()
+
 	// Run each statement concurrently
 	a.wg.Add(l)
 	for i, stmt := range stmts {
@@ -158,16 +174,13 @@ func (a *Athenai) RunQuery(queries []string) {
 		}
 
 		go func(query string) {
-			a.runSingleQuery(query, a.resultChs[i], a.errChs[i])
+			a.runSingleQuery(ctx, query, a.resultChs[i], a.errChs[i])
 			a.wg.Done()
 		}(stmt) // Capture stmt locally in order to use it in goroutines
 	}
 
 	// Print progress messages
 	if !a.cfg.Silent {
-		ctx, cancel := context.WithCancel(context.Background())
-		// Stop printing when this method finishes
-		defer cancel()
 		go a.showProgressMsg(ctx)
 	}
 
@@ -187,20 +200,26 @@ func (a *Athenai) RunQuery(queries []string) {
 				a.print("\n")
 				print.NewTable(a.out).Print(r)
 				if a.cfg.Order {
-					// Go to next channel
+					// Go to the next channel
 					break loop
 				}
 			case e := <-a.errChs[i]:
+				cause := errors.Cause(e)
 				a.print("\n")
-				printErr(e, "query execution failed")
+				switch cause {
+				case exec.ErrQueryExecutionCancelled:
+					a.println(cause)
+				default:
+					printErr(e, "query execution failed")
+				}
 				if a.cfg.Order {
-					// Go to next channel
+					// Go to the next channel
 					break loop
 				}
 			case <-a.doneCh:
 				log.Println("All query executions have been completed")
 				if !a.cfg.Order {
-					// Exit if no more results come into single channel
+					// Exit if no more results come into the single channel
 					return
 				}
 			}
@@ -273,12 +292,12 @@ func (a *Athenai) RunREPL() error {
 
 		// Run the query
 		log.Printf("Input given: %q\n", query)
-		a.RunQuery([]string{query})
+		a.RunQuery(query)
 	}
 }
 
 func printErr(err error, message string) {
-	fmt.Fprintf(os.Stderr, "ERROR: %s: %s\n", message, err)
+	fmt.Fprintf(os.Stderr, "Error: %s: %s\n", message, err)
 }
 
 // readFile reads the content of a file whose path has `file://` prefix.
@@ -330,4 +349,9 @@ func splitStmts(args []string) ([]string, []error) {
 	}
 
 	return stmts, errs
+}
+
+func cleanup(signalCh chan os.Signal, cancel func()) {
+	signal.Stop(signalCh)
+	cancel()
 }

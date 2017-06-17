@@ -118,7 +118,7 @@ func TestRunQuery(t *testing.T) {
 			ResultSet:    tt.rs,
 		})
 		a := New(client, &out, &Config{Silent: true})
-		a.RunQuery([]string{tt.query})
+		a.RunQuery(tt.query)
 
 		assert.Contains(t, out.String(), tt.want, "Query: %q, Id: %s", tt.query, tt.id)
 	}
@@ -167,7 +167,7 @@ func TestRunQueryFromFile(t *testing.T) {
 			ResultSet:    tt.rs,
 		})
 		a := New(client, &out, &Config{})
-		a.RunQuery([]string{"file://" + tmpFile.Name()})
+		a.RunQuery("file://" + tmpFile.Name())
 
 		assert.Contains(t, out.String(), tt.want, "Query: %q, Id: %s", tt.query, tt.id)
 
@@ -267,7 +267,7 @@ func TestRunQueryOrdered(t *testing.T) {
 		var out bytes.Buffer
 		client := stub.NewClient(tt.results...)
 		a := New(client, &out, &Config{Order: true, Database: "sampledb"})
-		a.RunQuery([]string{tt.query})
+		a.RunQuery(tt.query)
 
 		assert.Regexp(t, tt.want, out.String(), "Results: %#v", tt.results)
 	}

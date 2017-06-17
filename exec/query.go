@@ -1,6 +1,7 @@
 package exec
 
 import (
+	"context"
 	"log"
 	"time"
 
@@ -16,6 +17,13 @@ const (
 	// The maximum number of results (rows) to return in a GetQueryResults API request.
 	// See https://docs.aws.amazon.com/ja_jp/athena/latest/APIReference/API_GetQueryResults.html#API_GetQueryResults_RequestSyntax
 	maxResults = 1000
+)
+
+var (
+	// ErrQueryExecutionFailed represents an error where a query execution has been failed.
+	ErrQueryExecutionFailed = errors.New("query execution has been failed")
+	// ErrQueryExecutionCancelled represents an error where a query execution has been cancelled.
+	ErrQueryExecutionCancelled = errors.New("query execution has been cancelled")
 )
 
 // QueryConfig is configurations for query executions.
@@ -55,7 +63,7 @@ func NewQuery(client athenaiface.AthenaAPI, query string, cfg *QueryConfig) *Que
 }
 
 // Start starts the specified query but does not wait for it to complete.
-func (q *Query) Start() error {
+func (q *Query) Start(ctx context.Context) error {
 	params := &athena.StartQueryExecutionInput{
 		QueryString: aws.String(q.query),
 		ResultConfiguration: &athena.ResultConfiguration{
@@ -68,7 +76,7 @@ func (q *Query) Start() error {
 		}
 	}
 
-	qe, err := q.client.StartQueryExecution(params)
+	qe, err := q.client.StartQueryExecutionWithContext(ctx, params)
 	if err != nil {
 		return errors.Wrap(err, "StartQueryExecution API error")
 	}
@@ -79,17 +87,27 @@ func (q *Query) Start() error {
 }
 
 // Wait waits for the query execution until its state has become SUCCEEDED, FAILED or CANCELLED.
-func (q *Query) Wait() error {
+//
+// If the given Context has been cancelled, it calls StopQueryExecution API and tries to cancel
+// the query execution.
+func (q *Query) Wait(ctx context.Context) error {
 	if q.id == "" {
 		return errors.New("query has not started yet or already failed to start")
 	}
 
-	// TODO: timeout after 30 minutes using Context
-	// See https://docs.aws.amazon.com/athena/latest/ug/service-limits.html
+	input := &athena.GetQueryExecutionInput{QueryExecutionId: &q.id}
 	for {
-		qeo, err := q.client.GetQueryExecution(&athena.GetQueryExecutionInput{
-			QueryExecutionId: aws.String(q.id),
-		})
+		select {
+		case <-ctx.Done(): // Query execution has been cancelled by the user
+			_, err := q.client.StopQueryExecution(&athena.StopQueryExecutionInput{QueryExecutionId: &q.id})
+			if err != nil {
+				return errors.Wrap(err, "StopQueryExecution API error")
+			}
+		default: // No-op here by default
+		}
+
+		// Call the API without context since do not want context to cancel the API call
+		qeo, err := q.client.GetQueryExecution(input)
 		if err != nil {
 			return errors.Wrap(err, "GetQueryExecution API error")
 		}
@@ -99,9 +117,15 @@ func (q *Query) Wait() error {
 
 		state := aws.StringValue(qe.Status.State)
 		switch state {
-		case athena.QueryExecutionStateSucceeded, athena.QueryExecutionStateFailed, athena.QueryExecutionStateCancelled:
+		case athena.QueryExecutionStateSucceeded:
 			log.Printf("Query execution %s has finished: %s\n", q.id, state)
 			return nil
+		case athena.QueryExecutionStateFailed:
+			log.Printf("Query execution %s has finished: %s\n", q.id, state)
+			return ErrQueryExecutionFailed
+		case athena.QueryExecutionStateCancelled:
+			log.Printf("Query execution %s has finished: %s\n", q.id, state)
+			return ErrQueryExecutionCancelled
 		}
 
 		log.Printf("Query execution state: %s; sleeping %s\n", state, q.WaitInterval.String())
@@ -110,7 +134,7 @@ func (q *Query) Wait() error {
 }
 
 // GetResults gets the results of the query execution.
-func (q *Query) GetResults() error {
+func (q *Query) GetResults(ctx context.Context) error {
 	params := &athena.GetQueryResultsInput{
 		QueryExecutionId: aws.String(q.id),
 		MaxResults:       aws.Int64(maxResults),
@@ -125,7 +149,7 @@ func (q *Query) GetResults() error {
 		return !lastPage
 	}
 
-	if err := q.client.GetQueryResultsPages(params, callback); err != nil {
+	if err := q.client.GetQueryResultsPagesWithContext(ctx, params, callback); err != nil {
 		return errors.Wrap(err, "GetQueryResults API error")
 	}
 
@@ -134,14 +158,14 @@ func (q *Query) GetResults() error {
 }
 
 // Run starts the specified query, waits for it to complete and fetch the results.
-func (q *Query) Run() (*Result, error) {
-	if err := q.Start(); err != nil {
+func (q *Query) Run(ctx context.Context) (*Result, error) {
+	if err := q.Start(ctx); err != nil {
 		return nil, errors.Wrap(err, "failed to start query execution")
 	}
-	if err := q.Wait(); err != nil {
+	if err := q.Wait(ctx); err != nil {
 		return nil, errors.Wrap(err, "error while waiting for the query execution")
 	}
-	if err := q.GetResults(); err != nil {
+	if err := q.GetResults(ctx); err != nil {
 		return nil, errors.Wrap(err, "failed to get query results")
 	}
 	return q.Result, nil
