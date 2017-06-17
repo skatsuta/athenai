@@ -77,6 +77,42 @@ var (
 	}
 )
 
+// StopQueryExecutionStub simulates StopQueryExecution API.
+type StopQueryExecutionStub struct {
+	athenaiface.AthenaAPI
+	results map[string]*Result // map[id]*Result
+}
+
+// NewStopQueryExecutionStub creates a new StopQueryExecutionStub which returns stub responses
+// based on rs.
+func NewStopQueryExecutionStub(rs ...*Result) *StopQueryExecutionStub {
+	results := make(map[string]*Result, len(rs))
+	for _, r := range rs {
+		results[r.ID] = r
+	}
+	return &StopQueryExecutionStub{results: results}
+}
+
+// StopQueryExecution stops a query execution.
+func (s *StopQueryExecutionStub) StopQueryExecution(input *athena.StopQueryExecutionInput) (*athena.StopQueryExecutionOutput, error) {
+	id := aws.StringValue(input.QueryExecutionId)
+	r, ok := s.results[id]
+	if !ok {
+		return nil, errors.Errorf("InvalidRequestException: QueryExecution %s was not found", id)
+	}
+	if r.ErrMsg != "" {
+		return nil, errors.New(r.ErrMsg)
+	}
+
+	return &athena.StopQueryExecutionOutput{}, nil
+}
+
+// StopQueryExecutionWithContext is the same as StopQueryExecution with the addition of
+// the ability to pass a context and additional request options.
+func (s *StopQueryExecutionStub) StopQueryExecutionWithContext(ctx aws.Context, input *athena.StopQueryExecutionInput, opts ...request.Option) (*athena.StopQueryExecutionOutput, error) {
+	return s.StopQueryExecution(input)
+}
+
 // GetQueryExecutionStub simulates GetQueryExecution API.
 type GetQueryExecutionStub struct {
 	athenaiface.AthenaAPI
@@ -237,6 +273,7 @@ func (s *GetQueryResultsStub) GetQueryResultsPagesWithContext(ctx aws.Context, i
 type Client struct {
 	athenaiface.AthenaAPI
 	*StartQueryExecutionStub
+	*StopQueryExecutionStub
 	*GetQueryExecutionStub
 	*GetQueryResultsStub
 }
@@ -245,6 +282,7 @@ type Client struct {
 func NewClient(rs ...*Result) *Client {
 	return &Client{
 		StartQueryExecutionStub: NewStartQueryExecutionStub(rs...),
+		StopQueryExecutionStub:  NewStopQueryExecutionStub(rs...),
 		GetQueryExecutionStub:   NewGetQueryExecutionStub(rs...),
 		GetQueryResultsStub:     NewGetQueryResultsStub(rs...),
 	}
@@ -259,6 +297,17 @@ func (s *Client) StartQueryExecution(input *athena.StartQueryExecutionInput) (*a
 // the ability to pass a context and additional request options.
 func (s *Client) StartQueryExecutionWithContext(ctx aws.Context, input *athena.StartQueryExecutionInput, opts ...request.Option) (*athena.StartQueryExecutionOutput, error) {
 	return s.StartQueryExecutionStub.StartQueryExecutionWithContext(ctx, input, opts...)
+}
+
+// StopQueryExecution stops a query execution.
+func (s *Client) StopQueryExecution(input *athena.StopQueryExecutionInput) (*athena.StopQueryExecutionOutput, error) {
+	return s.StopQueryExecutionStub.StopQueryExecution(input)
+}
+
+// StopQueryExecutionWithContext is the same as StopQueryExecution with the addition of
+// the ability to pass a context and additional request options.
+func (s *Client) StopQueryExecutionWithContext(ctx aws.Context, input *athena.StopQueryExecutionInput, opts ...request.Option) (*athena.StopQueryExecutionOutput, error) {
+	return s.StopQueryExecutionStub.StopQueryExecutionWithContext(ctx, input, opts...)
 }
 
 // GetQueryExecution returns information about a single execution of a query.
