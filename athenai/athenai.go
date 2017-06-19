@@ -152,17 +152,20 @@ func (a *Athenai) RunQuery(queries ...string) {
 
 	a.setupChannels(l)
 
-	// Prepare a context
+	// Prepare a context and trap SIGINT signal
 	ctx, cancel := context.WithCancel(context.Background())
 	signalCh := make(chan os.Signal, 1)
 	signal.Notify(signalCh, os.Interrupt)
-	defer cleanup(signalCh, cancel)
+	defer func() {
+		cancel()
+		signal.Stop(signalCh)
+	}()
 
 	// Watcher to cancel query executions
 	go func() {
 		select {
 		case <-signalCh:
-			cleanup(signalCh, cancel)
+			cancel()
 		case <-ctx.Done(): // Just exit this goroutine
 		}
 	}()
@@ -352,9 +355,4 @@ func splitStmts(args []string) ([]string, []error) {
 	}
 
 	return stmts, errs
-}
-
-func cleanup(signalCh chan os.Signal, cancel func()) {
-	signal.Stop(signalCh)
-	cancel()
 }
