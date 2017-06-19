@@ -65,15 +65,11 @@ func NewQuery(client athenaiface.AthenaAPI, query string, cfg *QueryConfig) *Que
 // Start starts the specified query but does not wait for it to complete.
 func (q *Query) Start(ctx context.Context) error {
 	params := &athena.StartQueryExecutionInput{
-		QueryString: aws.String(q.query),
-		ResultConfiguration: &athena.ResultConfiguration{
-			OutputLocation: aws.String(q.Location),
-		},
+		QueryString:         &q.query,
+		ResultConfiguration: &athena.ResultConfiguration{OutputLocation: &q.Location},
 	}
 	if q.Database != "" {
-		params.QueryExecutionContext = &athena.QueryExecutionContext{
-			Database: aws.String(q.Database),
-		}
+		params.QueryExecutionContext = &athena.QueryExecutionContext{Database: &q.Database}
 	}
 
 	qe, err := q.client.StartQueryExecutionWithContext(ctx, params)
@@ -136,7 +132,7 @@ func (q *Query) Wait(ctx context.Context) error {
 // GetResults gets the results of the query execution.
 func (q *Query) GetResults(ctx context.Context) error {
 	params := &athena.GetQueryResultsInput{
-		QueryExecutionId: aws.String(q.id),
+		QueryExecutionId: &q.id,
 		MaxResults:       aws.Int64(maxResults),
 	}
 
