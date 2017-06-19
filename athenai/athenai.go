@@ -50,9 +50,10 @@ type readlineCloser interface {
 
 // Athenai is a main struct to run this app.
 type Athenai struct {
-	in  io.Reader
-	out io.Writer
-	rl  readlineCloser
+	in      io.Reader
+	out     io.Writer
+	rl      readlineCloser
+	printer print.Printer
 
 	cfg      *Config
 	client   athenaiface.AthenaAPI
@@ -67,9 +68,11 @@ type Athenai struct {
 
 // New creates a new Athena.
 func New(client athenaiface.AthenaAPI, out io.Writer, cfg *Config) *Athenai {
+	out = &safeWriter{w: out}
 	a := &Athenai{
 		in:        os.Stdin,
-		out:       &safeWriter{w: out},
+		out:       out,
+		printer:   print.NewTable(out),
 		cfg:       cfg,
 		client:    client,
 		interval:  refreshInterval,
@@ -198,7 +201,7 @@ func (a *Athenai) RunQuery(queries ...string) {
 			select {
 			case r := <-a.resultChs[i]:
 				a.print("\n")
-				print.NewTable(a.out).Print(r)
+				a.printer.Print(r)
 				if a.cfg.Order {
 					// Go to the next channel
 					break loop

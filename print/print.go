@@ -19,6 +19,11 @@ type Result interface {
 	Rows() [][]string
 }
 
+// Printer represents an interface that prints a result.
+type Printer interface {
+	Print(Result)
+}
+
 func logn(n, b float64) float64 {
 	return math.Log(n) / math.Log(b)
 }
