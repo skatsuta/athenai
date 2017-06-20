@@ -209,14 +209,14 @@ func (a *Athenai) RunQuery(queries ...string) {
 					// Go to the next channel
 					break loop
 				}
-			case e := <-a.errChs[i]:
-				cause := errors.Cause(e)
+			case err := <-a.errChs[i]:
+				cause := errors.Cause(err)
 				a.print("\n")
-				switch cause {
-				case exec.ErrQueryExecutionCancelled:
-					a.println(cause)
+				switch e := cause.(type) {
+				case *exec.CanceledError:
+					a.println(e) // Show as normal message
 				default:
-					printErr(e, "query execution failed")
+					printErr(err, "query execution failed")
 				}
 				if a.cfg.Order {
 					// Go to the next channel

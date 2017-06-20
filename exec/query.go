@@ -2,10 +2,13 @@ package exec
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/awserr"
+	"github.com/aws/aws-sdk-go/aws/request"
 	"github.com/aws/aws-sdk-go/service/athena"
 	"github.com/aws/aws-sdk-go/service/athena/athenaiface"
 	"github.com/pkg/errors"
@@ -18,14 +21,26 @@ const (
 	// The maximum number of results (rows) to return in a GetQueryResults API request.
 	// See https://docs.aws.amazon.com/ja_jp/athena/latest/APIReference/API_GetQueryResults.html#API_GetQueryResults_RequestSyntax
 	maxResults = 1000
+
+	queryExecutionCanceled = "query execution request has been canceled"
 )
 
-var (
-	// ErrQueryExecutionFailed represents an error where a query execution has been failed.
-	ErrQueryExecutionFailed = errors.New("query execution has been failed")
-	// ErrQueryExecutionCancelled represents an error where a query execution has been cancelled.
-	ErrQueryExecutionCancelled = errors.New("query execution has been cancelled")
-)
+// CanceledError represents an error that a query execution been canceled.
+type CanceledError struct {
+	Query string
+	ID    string
+}
+
+func (e *CanceledError) Error() string {
+	if e.ID == "" {
+		return queryExecutionCanceled
+	}
+	return fmt.Sprintf("query execution %s has been canceled", e.ID)
+}
+
+func (e *CanceledError) String() string {
+	return e.Error()
+}
 
 // QueryConfig is configurations for query executions.
 type QueryConfig struct {
@@ -46,10 +61,10 @@ type Query struct {
 }
 
 // NewQuery creates a new Query struct.
-// query string must be a single SQL statement rather than multiple ones joined by semicolons.
+// `query` string must be a single SQL statement rather than multiple ones joined by semicolons.
 func NewQuery(client athenaiface.AthenaAPI, query string, cfg *QueryConfig) *Query {
 	if client == nil || cfg == nil {
-		panic("client or cfg is nil") // it's a code bug so let's panic
+		panic("client or cfg is nil") // Obviously it's a bug
 	}
 
 	q := &Query{
@@ -66,15 +81,16 @@ func NewQuery(client athenaiface.AthenaAPI, query string, cfg *QueryConfig) *Que
 // Start starts the specified query but does not wait for it to complete.
 func (q *Query) Start(ctx context.Context) error {
 	params := &athena.StartQueryExecutionInput{
-		QueryString:         &q.query,
-		ResultConfiguration: &athena.ResultConfiguration{OutputLocation: &q.Location},
-	}
-	if q.Database != "" {
-		params.QueryExecutionContext = &athena.QueryExecutionContext{Database: &q.Database}
+		QueryString:           &q.query,
+		QueryExecutionContext: &athena.QueryExecutionContext{Database: &q.Database},
+		ResultConfiguration:   &athena.ResultConfiguration{OutputLocation: &q.Location},
 	}
 
 	qe, err := q.client.StartQueryExecutionWithContext(ctx, params)
 	if err != nil {
+		if cerr, ok := err.(awserr.Error); ok && cerr.Code() == request.CanceledErrorCode {
+			return &CanceledError{Query: q.query}
+		}
 		return errors.Wrap(err, "StartQueryExecution API error")
 	}
 
@@ -85,7 +101,7 @@ func (q *Query) Start(ctx context.Context) error {
 
 // Wait waits for the query execution until its state has become SUCCEEDED, FAILED or CANCELLED.
 //
-// If the given Context has been cancelled, it calls StopQueryExecution API and tries to cancel
+// If the given Context has been canceled, it calls StopQueryExecution API and tries to cancel
 // the query execution.
 func (q *Query) Wait(ctx context.Context) error {
 	if q.id == "" {
@@ -95,12 +111,12 @@ func (q *Query) Wait(ctx context.Context) error {
 	input := &athena.GetQueryExecutionInput{QueryExecutionId: &q.id}
 	for {
 		select {
-		case <-ctx.Done(): // Query execution has been cancelled by the user
+		case <-ctx.Done(): // Query execution has been canceled by user
 			_, err := q.client.StopQueryExecution(&athena.StopQueryExecutionInput{QueryExecutionId: &q.id})
 			if err != nil {
 				return errors.Wrap(err, "StopQueryExecution API error")
 			}
-		default: // No-op here by default
+		default: // No op here by default
 		}
 
 		// Call the API without context since do not want context to cancel the API call
@@ -111,21 +127,20 @@ func (q *Query) Wait(ctx context.Context) error {
 
 		qe := qeo.QueryExecution
 		q.info = qe
-
 		state := aws.StringValue(qe.Status.State)
+		log.Printf("State of query execution %s: %s\n", q.id, state)
+
 		switch state {
 		case athena.QueryExecutionStateSucceeded:
-			log.Printf("Query execution %s has finished: %s\n", q.id, state)
 			return nil
 		case athena.QueryExecutionStateFailed:
-			log.Printf("Query execution %s has finished: %s\n", q.id, state)
-			return ErrQueryExecutionFailed
+			reason := aws.StringValue(qe.Status.StateChangeReason)
+			return errors.Errorf("query execution %s has failed. Reason: %s", q.id, reason)
 		case athena.QueryExecutionStateCancelled:
-			log.Printf("Query execution %s has finished: %s\n", q.id, state)
-			return ErrQueryExecutionCancelled
+			return &CanceledError{Query: q.query, ID: q.id}
 		}
 
-		log.Printf("Query execution state: %s; sleeping %s\n", state, q.WaitInterval.String())
+		log.Printf("Query execution %s has not finished yet; Sleeping %s\n", q.id, q.WaitInterval)
 		time.Sleep(q.WaitInterval)
 	}
 }
@@ -147,6 +162,9 @@ func (q *Query) GetResults(ctx context.Context) error {
 	}
 
 	if err := q.client.GetQueryResultsPagesWithContext(ctx, params, callback); err != nil {
+		if cerr, ok := err.(awserr.Error); ok && cerr.Code() == request.CanceledErrorCode {
+			return &CanceledError{Query: q.query, ID: q.id}
+		}
 		return errors.Wrap(err, "GetQueryResults API error")
 	}
 

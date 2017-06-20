@@ -129,7 +129,7 @@ func TestWaitFailedError(t *testing.T) {
 		{
 			id:    "TestWaitFailedError_QueryFailed",
 			query: "SELECT * FROM test_wait_error_table",
-			want:  ErrQueryExecutionFailed.Error(),
+			want:  "failed",
 		},
 	}
 
@@ -286,7 +286,7 @@ func TestRun(t *testing.T) {
 	}
 }
 
-func TestRunCancelledError(t *testing.T) {
+func TestRunCanceledError(t *testing.T) {
 	cfg := &QueryConfig{
 		Database: "sampledb",
 		Location: "s3://bucket/prefix/",
@@ -298,9 +298,9 @@ func TestRunCancelledError(t *testing.T) {
 		want  string
 	}{
 		{
-			id:    "TestRunCancelledError",
-			query: "SELECT * FROM test_run_cancelled_error_table",
-			want:  ErrQueryExecutionCancelled.Error(),
+			id:    "TestRunCanceledError",
+			query: "SELECT * FROM test_run_canceled_error_table",
+			want:  "canceled",
 		},
 	}
 
