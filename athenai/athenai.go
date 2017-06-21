@@ -138,16 +138,9 @@ func (a *Athenai) runSingleQuery(ctx context.Context, query string, resultCh cha
 // It splits each statement by semicolons and run them concurrently.
 // It skips empty statements.
 func (a *Athenai) RunQuery(queries ...string) {
-	// Split statements
-	stmts, errs := splitStmts(queries)
-	if len(errs) > 0 {
-		for _, err := range errs {
-			printErr(err, "error splitting SQL statements")
-		}
-	}
-
+	stmts := splitStmts(queries)
 	l := len(stmts)
-	log.Printf("%d SQL statements to run: %#v\n", l, stmts)
+	log.Printf("%d SQL statements to execute: %#v\n", l, stmts)
 	if l == 0 {
 		a.println(noStmtFound)
 		return
@@ -315,7 +308,7 @@ func readFile(arg string) (string, error) {
 	log.Println("Given file name:", filename)
 	content, err := ioutil.ReadFile(filename)
 	if err != nil {
-		return "", errors.Wrap(err, "failed to read file")
+		return "", err
 	}
 	c := string(content)
 	log.Printf(`Content of %s:
@@ -326,36 +319,35 @@ func readFile(arg string) (string, error) {
 	return c, nil
 }
 
-// splitStmts splits SQL statements in the queries by semicolons and flatten them.
+// splitStmts splits SQL statements contained in args by semicolons and flattens them.
 // It drops empty statements.
 //
 // If an argument has `file://` prefix, splitStmts reads the file content
 // and splits each statement as well.
-// If it enconters errors while reading files, it returns the errors as the second return value.
-func splitStmts(args []string) ([]string, []error) {
+// If it encounters errors while reading files, it just prints the errors on stderr and ignores them.
+func splitStmts(args []string) []string {
 	stmts := make([]string, 0, len(args))
-	var errs []error
 
 	for _, arg := range args {
+		arg := arg // Capture locally
 		if strings.HasPrefix(arg, filePrefix) {
 			log.Printf("%q prefix found in %q, reading its contents from file\n", filePrefix, arg)
-			content, err := readFile(arg)
+			var err error
+			arg, err = readFile(arg)
 			if err != nil {
-				errs = append(errs, err)
+				printErr(err, "failed to read file")
 				continue
 			}
-			arg = content
 		}
 
 		splitted := strings.Split(arg, ";")
 		for _, s := range splitted {
 			stmt := strings.TrimSpace(s)
 			if stmt != "" {
-				// Select non-empty statements
 				stmts = append(stmts, stmt)
 			}
 		}
 	}
 
-	return stmts, errs
+	return stmts
 }

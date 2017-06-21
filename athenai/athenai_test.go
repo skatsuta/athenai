@@ -40,9 +40,8 @@ func TestSplitStmts(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		got, errs := splitStmts(tt.queries)
+		got := splitStmts(tt.queries)
 
-		assert.Len(t, errs, 0, "Query: %q")
 		assert.Len(t, got, tt.wantLen, "Query: %q")
 	}
 }
