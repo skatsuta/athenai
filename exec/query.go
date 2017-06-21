@@ -12,7 +12,8 @@ import (
 )
 
 const (
-	defaultWaitInterval = 500 * time.Millisecond
+	// DefaultWaitInterval is a default value of wait interval.
+	DefaultWaitInterval = 500 * time.Millisecond
 
 	// The maximum number of results (rows) to return in a GetQueryResults API request.
 	// See https://docs.aws.amazon.com/ja_jp/athena/latest/APIReference/API_GetQueryResults.html#API_GetQueryResults_RequestSyntax
@@ -54,7 +55,7 @@ func NewQuery(client athenaiface.AthenaAPI, query string, cfg *QueryConfig) *Que
 	q := &Query{
 		QueryConfig:  cfg,
 		Result:       &Result{},
-		WaitInterval: defaultWaitInterval,
+		WaitInterval: DefaultWaitInterval,
 		client:       client,
 		query:        query,
 	}
