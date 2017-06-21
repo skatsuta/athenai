@@ -65,6 +65,7 @@ type Athenai struct {
 	resultChs []chan print.Result
 	errChs    []chan error
 	doneCh    chan struct{}
+	signalCh  chan os.Signal
 	wg        sync.WaitGroup
 	mu        sync.RWMutex
 }
@@ -82,6 +83,7 @@ func New(client athenaiface.AthenaAPI, out io.Writer, cfg *Config) *Athenai {
 		resultChs: make([]chan print.Result, 0),
 		errChs:    make([]chan error, 0),
 		doneCh:    make(chan struct{}),
+		signalCh:  make(chan os.Signal, 1),
 	}
 	return a
 }
@@ -138,6 +140,25 @@ func (a *Athenai) runSingleQuery(ctx context.Context, query string, resultCh cha
 // It splits each statement by semicolons and run them concurrently.
 // It skips empty statements.
 func (a *Athenai) RunQuery(queries ...string) {
+	// Trap SIGINT signal and prepare a context
+	signal.Notify(a.signalCh, os.Interrupt)
+	ctx, cancel := context.WithCancel(context.Background())
+	defer func() {
+		cancel()
+		signal.Stop(a.signalCh)
+	}()
+
+	// Watcher goroutine to cancel query executions
+	go func() {
+		select {
+		case <-a.signalCh: // User has canceled query executions
+			// TODO: show canceling progress message
+			cancel()
+		case <-ctx.Done(): // Exit normally
+		}
+	}()
+
+	// Split SQL statements
 	stmts := splitStmts(queries)
 	l := len(stmts)
 	log.Printf("%d SQL statements to execute: %#v\n", l, stmts)
@@ -147,24 +168,6 @@ func (a *Athenai) RunQuery(queries ...string) {
 	}
 
 	a.setupChannels(l)
-
-	// Prepare a context and trap SIGINT signal
-	ctx, cancel := context.WithCancel(context.Background())
-	signalCh := make(chan os.Signal, 1)
-	signal.Notify(signalCh, os.Interrupt)
-	defer func() {
-		cancel()
-		signal.Stop(signalCh)
-	}()
-
-	// Watcher to cancel query executions
-	go func() {
-		select {
-		case <-signalCh:
-			cancel()
-		case <-ctx.Done(): // Just exit this goroutine
-		}
-	}()
 
 	// Run each statement concurrently
 	a.wg.Add(l)
