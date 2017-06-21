@@ -123,7 +123,7 @@ func (a *Athenai) showProgressMsg(ctx context.Context) {
 func (a *Athenai) runSingleQuery(ctx context.Context, query string, resultCh chan print.Result, errCh chan error) {
 	// Run a query, and send results or an error
 	log.Printf("Start running %q\n", query)
-	r, err := exec.NewQuery(a.client, query, a.cfg.QueryConfig()).Run(ctx)
+	r, err := exec.NewQuery(a.client, a.cfg.QueryConfig(), query).Run(ctx)
 	if err != nil {
 		errCh <- err
 	} else {

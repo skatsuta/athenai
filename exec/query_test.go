@@ -31,7 +31,7 @@ func TestStart(t *testing.T) {
 
 	for _, tt := range tests {
 		client := stub.NewStartQueryExecutionStub(&stub.Result{ID: tt.id, Query: tt.query})
-		q := NewQuery(client, tt.query, cfg)
+		q := NewQuery(client, cfg, tt.query)
 		err := q.Start(context.Background())
 
 		assert.NoError(t, err)
@@ -56,7 +56,7 @@ func TestStartError(t *testing.T) {
 
 	for _, tt := range tests {
 		client := stub.NewStartQueryExecutionStub(&stub.Result{Query: tt.query})
-		q := NewQuery(client, tt.query, cfg)
+		q := NewQuery(client, cfg, tt.query)
 		err := q.Start(context.Background())
 
 		if assert.Error(t, err) {
@@ -90,7 +90,7 @@ func TestWait(t *testing.T) {
 
 	for _, tt := range tests {
 		client := stub.NewGetQueryExecutionStub(&stub.Result{ID: tt.id, Query: tt.query})
-		q := NewQuery(client, tt.query, cfg)
+		q := NewQuery(client, cfg, tt.query)
 		q.id = tt.id
 		q.WaitInterval = 10 * time.Millisecond
 
@@ -140,7 +140,7 @@ func TestWaitFailedError(t *testing.T) {
 			FinalState: stub.Failed,
 			ErrMsg:     tt.errMsg,
 		})
-		q := NewQuery(client, tt.query, cfg)
+		q := NewQuery(client, cfg, tt.query)
 		q.id = tt.id
 		q.WaitInterval = 10 * time.Millisecond
 
@@ -306,7 +306,7 @@ func TestRunCanceledError(t *testing.T) {
 
 	for _, tt := range tests {
 		client := stub.NewClient(&stub.Result{ID: tt.id, Query: tt.query})
-		q := NewQuery(client, tt.query, cfg)
+		q := NewQuery(client, cfg, tt.query)
 		q.id = tt.id
 		q.WaitInterval = 10 * time.Millisecond
 

@@ -62,7 +62,7 @@ type Query struct {
 
 // NewQuery creates a new Query struct.
 // `query` string must be a single SQL statement rather than multiple ones joined by semicolons.
-func NewQuery(client athenaiface.AthenaAPI, query string, cfg *QueryConfig) *Query {
+func NewQuery(client athenaiface.AthenaAPI, cfg *QueryConfig, query string) *Query {
 	if client == nil || cfg == nil {
 		panic("client or cfg is nil") // Obviously it's a bug
 	}
@@ -105,7 +105,7 @@ func (q *Query) Start(ctx context.Context) error {
 // the query execution.
 func (q *Query) Wait(ctx context.Context) error {
 	if q.id == "" {
-		return errors.New("query has not started yet or already failed to start")
+		return errors.New("query execution has not started yet or already failed to start")
 	}
 
 	input := &athena.GetQueryExecutionInput{QueryExecutionId: &q.id}
