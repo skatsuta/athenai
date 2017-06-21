@@ -27,6 +27,9 @@ const (
 	filePrefix = "file://"
 
 	noStmtFound = "No SQL statements found to run"
+
+	runningQueryMsg   = "Running query..."
+	cancelingQueryMsg = "Canceling query..."
 )
 
 var spinnerChars = []string{"⠋", "⠙", "⠚", "⠞", "⠖", "⠦", "⠴", "⠲", "⠳", "⠓"}
@@ -109,13 +112,13 @@ func (a *Athenai) setupChannels(numStmts int) {
 	a.mu.Unlock()
 }
 
-// showProgressMsg shows progress messages while queries are being executed.
-func (a *Athenai) showProgressMsg(ctx context.Context) {
+// showProgressMsg shows a given progress message until a context is canceled.
+func (a *Athenai) showProgressMsg(ctx context.Context, msg string) {
 	s := spinner.New(spinnerChars, a.interval)
 	s.Writer = a.out
-	s.Suffix = " Running query..."
+	s.Suffix = " " + msg
 	s.Start()
-	<-ctx.Done()
+	<-ctx.Done() // Wait until ctx is done
 	s.Stop()
 }
 
@@ -187,7 +190,7 @@ func (a *Athenai) RunQuery(queries ...string) {
 
 	// Print progress messages
 	if !a.cfg.Silent {
-		go a.showProgressMsg(ctx)
+		go a.showProgressMsg(ctx, runningQueryMsg)
 	}
 
 	// Monitoring goroutine to wait for the completion of all query executions
