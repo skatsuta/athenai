@@ -275,45 +275,6 @@ func TestRunQueryOrdered(t *testing.T) {
 	}
 }
 
-func TestRunQueryError(t *testing.T) {
-	tests := []struct {
-		query   string
-		results []*stub.Result
-		wants   []string
-	}{
-		{
-			query: "SELEC * FROM err_table_1; SELECT * FROM err_table_2;",
-			results: []*stub.Result{
-				{
-					ID:    "TestRunQueryError_err_table_1",
-					Query: "SELEC * FROM err_table_1",
-				},
-				{
-					ID:     "TestRunQueryError_err_table_2",
-					Query:  "SELECT * FROM err_table_2",
-					ErrMsg: athena.ErrCodeInternalServerException,
-				},
-			},
-			wants: []string{
-				runningQueryMsg,
-				runningQueryMsg,
-			},
-		},
-	}
-
-	for _, tt := range tests {
-		var out bytes.Buffer
-		client := stub.NewClient(tt.results...)
-		a := New(client, &Config{Database: "sampledb"}, &out).WithWaitInterval(testWaitInterval)
-		a.RunQuery(tt.query)
-
-		got := out.String()
-		for _, want := range tt.wants {
-			assert.Contains(t, got, want, "Query: %q, Results: %#v", tt.query, tt.results)
-		}
-	}
-}
-
 func TestRunQueryCanceled(t *testing.T) {
 	tests := []struct {
 		query   string
