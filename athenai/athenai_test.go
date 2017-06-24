@@ -272,6 +272,109 @@ func TestRunQueryOrdered(t *testing.T) {
 	}
 }
 
+func TestRunQueryError(t *testing.T) {
+	tests := []struct {
+		query   string
+		results []*stub.Result
+		wants   []string
+	}{
+		{
+			query: "SELEC * FROM err_table_1; SELECT * FROM err_table_2;",
+			results: []*stub.Result{
+				{
+					ID:    "TestRunQueryError_err_table_1",
+					Query: "SELEC * FROM err_table_1",
+				},
+				{
+					ID:     "TestRunQueryError_err_table_2",
+					Query:  "SELECT * FROM err_table_2",
+					ErrMsg: athena.ErrCodeInternalServerException,
+				},
+			},
+			wants: []string{
+				runningQueryMsg,
+				runningQueryMsg,
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		var out bytes.Buffer
+		client := stub.NewClient(tt.results...)
+		a := New(client, &out, &Config{Database: "sampledb"})
+		a.RunQuery(tt.query)
+
+		got := out.String()
+		for _, want := range tt.wants {
+			assert.Contains(t, got, want, "Query: %q, Results: %#v", tt.query, tt.results)
+		}
+	}
+}
+
+func TestRunQueryCanceled(t *testing.T) {
+	tests := []struct {
+		query   string
+		results []*stub.Result
+		delay   time.Duration
+		want    string
+	}{
+		{
+			query: "SELECT date, time, bytes FROM cloudfront_logs LIMIT 3; SHOW DATABASES; SHOW TABLES;",
+			results: []*stub.Result{ // Arrange in descending order
+				{
+					ID:           "TestRunQueryOrderedShowTables",
+					Query:        "SHOW TABLES",
+					ExecTime:     1111,
+					ScannedBytes: 2222,
+					ResultSet: athena.ResultSet{
+						ResultSetMetadata: &athena.ResultSetMetadata{},
+						Rows: testhelper.CreateRows([][]string{
+							{"cloudfront_logs"},
+							{"elb_logs"},
+							{"flights_parquet"},
+						}),
+					},
+				},
+				{
+					ID:           "TestRunQueryOrderedShowDatabases",
+					Query:        "SHOW DATABASES",
+					ExecTime:     3333,
+					ScannedBytes: 4444,
+					ResultSet: athena.ResultSet{
+						ResultSetMetadata: &athena.ResultSetMetadata{},
+						Rows: testhelper.CreateRows([][]string{
+							{"cloudfront_logs"},
+							{"elb_logs"},
+							{"sampledb"},
+						}),
+					},
+				},
+			},
+			delay: 100 * time.Millisecond,
+			want:  cancelingQueryMsg,
+		},
+	}
+
+	for _, tt := range tests {
+		var out bytes.Buffer
+		client := stub.NewClient(tt.results...)
+		a := New(client, &out, &Config{Database: "sampledb"})
+
+		timer := time.NewTimer(tt.delay)
+		go func() {
+			<-timer.C
+			a.signalCh <- os.Interrupt // Send SIGINT signal to cancel after delay
+		}()
+		a.RunQuery(tt.query)
+
+		got := out.String()
+		assert.Contains(t, got, tt.want, "Query: %q, Results: %#v", tt.query, tt.results)
+		for _, r := range tt.results {
+			assert.NotContains(t, got, r.Query, "Query: %q, Result: %#v", tt.query, r)
+		}
+	}
+}
+
 func TestSetupREPL(t *testing.T) {
 	var out bytes.Buffer
 	client := stub.NewClient(&stub.Result{ID: "TestSetupREPL"})
