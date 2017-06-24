@@ -59,14 +59,18 @@ type ResultContainer struct {
 
 // Athenai is a main struct to run this app.
 type Athenai struct {
-	in      io.Reader
-	out     io.Writer
+	stdin  io.Reader
+	stdout io.Writer
+	stderr io.Writer
+
 	rl      readlineCloser
 	printer print.Printer
 
-	cfg      *Config
-	client   athenaiface.AthenaAPI
-	interval time.Duration
+	cfg    *Config
+	client athenaiface.AthenaAPI
+
+	refreshInterval time.Duration
+	waitInterval    time.Duration
 
 	mu       sync.RWMutex
 	wg       sync.WaitGroup
@@ -77,19 +81,27 @@ type Athenai struct {
 func New(client athenaiface.AthenaAPI, out io.Writer, cfg *Config) *Athenai {
 	out = &safeWriter{w: out}
 	a := &Athenai{
-		in:       os.Stdin,
-		out:      out,
-		printer:  print.NewTable(out),
-		cfg:      cfg,
-		client:   client,
-		interval: refreshInterval,
-		signalCh: make(chan os.Signal, 1),
+		stdin:           os.Stdin,
+		stdout:          out,
+		printer:         print.NewTable(out),
+		cfg:             cfg,
+		client:          client,
+		refreshInterval: refreshInterval,
+		signalCh:        make(chan os.Signal, 1),
 	}
 	return a
 }
 
+// WithWaitInterval sets interval to a.
+func (a *Athenai) WithWaitInterval(interval time.Duration) *Athenai {
+	a.mu.Lock()
+	defer a.mu.Unlock()
+	a.waitInterval = interval
+	return a
+}
+
 func (a *Athenai) print(x ...interface{}) {
-	fmt.Fprint(a.out, x...)
+	fmt.Fprint(a.stdout, x...)
 }
 
 func (a *Athenai) println(x ...interface{}) {
@@ -99,8 +111,8 @@ func (a *Athenai) println(x ...interface{}) {
 
 // showProgressMsg shows a given progress message until a context is canceled.
 func (a *Athenai) showProgressMsg(ctx context.Context, msg string) {
-	s := spinner.New(spinnerChars, a.interval)
-	s.Writer = a.out
+	s := spinner.New(spinnerChars, a.refreshInterval)
+	s.Writer = a.stdout
 	s.Suffix = " " + msg
 	s.Start()
 	<-ctx.Done() // Wait until ctx is done
@@ -228,8 +240,8 @@ func (a *Athenai) setupREPL() error {
 		Prompt:            "athenai> ",
 		HistoryFile:       historyFile,
 		HistorySearchFold: true,
-		Stdin:             a.in,
-		Stdout:            a.out,
+		Stdin:             a.stdin,
+		Stdout:            a.stdout,
 	})
 	if err != nil {
 		return err

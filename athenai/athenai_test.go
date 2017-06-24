@@ -51,9 +51,9 @@ func TestShowProgressMsg(t *testing.T) {
 
 	var out bytes.Buffer
 	a := &Athenai{
-		out:      &out,
-		cfg:      &Config{},
-		interval: 1 * time.Millisecond,
+		stdout:          &out,
+		cfg:             &Config{},
+		refreshInterval: 1 * time.Millisecond,
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Millisecond)
 	defer cancel()
@@ -438,7 +438,7 @@ func TestRunREPL(t *testing.T) {
 			ResultSet:    tt.rs,
 		})
 		a := New(client, &out, &Config{})
-		a.in = in
+		a.stdin = in
 		a.rl = rl
 		err = a.RunREPL()
 
