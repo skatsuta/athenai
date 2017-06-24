@@ -31,4 +31,10 @@ build:
     - script:
         name: go test
         code: |
-            go test -timeout=30s -race -cpu=1,2,4 -cover ./...
+            ./scripts/test.sh
+
+    # Report code coverage
+    - script:
+        name: report code coverage
+        code: |
+            bash <(curl -s https://codecov.io/bash)
