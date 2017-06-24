@@ -78,7 +78,7 @@ type Athenai struct {
 }
 
 // New creates a new Athena.
-func New(client athenaiface.AthenaAPI, out io.Writer, cfg *Config) *Athenai {
+func New(client athenaiface.AthenaAPI, cfg *Config, out io.Writer) *Athenai {
 	out = &safeWriter{w: out}
 	a := &Athenai{
 		stdin:           os.Stdin,

@@ -103,7 +103,7 @@ func runRun(cmd *cobra.Command, args []string, client athenaiface.AthenaAPI, cfg
 		return err
 	}
 
-	a := athenai.New(client, out, cfg)
+	a := athenai.New(client, cfg, out)
 
 	// Read data on stdin and add it to args
 	if hasDataOn(stdin) {

@@ -119,7 +119,7 @@ func TestRunQuery(t *testing.T) {
 			ScannedBytes: tt.scanned,
 			ResultSet:    tt.rs,
 		})
-		a := New(client, &out, &Config{Silent: true}).WithWaitInterval(testWaitInterval)
+		a := New(client, &Config{Silent: true}, &out).WithWaitInterval(testWaitInterval)
 		a.RunQuery(tt.query)
 
 		assert.Contains(t, out.String(), tt.want, "Query: %q, Id: %s", tt.query, tt.id)
@@ -168,7 +168,7 @@ func TestRunQueryFromFile(t *testing.T) {
 			ScannedBytes: tt.scanned,
 			ResultSet:    tt.rs,
 		})
-		a := New(client, &out, &Config{}).WithWaitInterval(testWaitInterval)
+		a := New(client, &Config{}, &out).WithWaitInterval(testWaitInterval)
 		a.RunQuery("file://" + tmpFile.Name())
 
 		assert.Contains(t, out.String(), tt.want, "Query: %q, Id: %s", tt.query, tt.id)
@@ -268,7 +268,7 @@ func TestRunQueryOrdered(t *testing.T) {
 	for _, tt := range tests {
 		var out bytes.Buffer
 		client := stub.NewClient(tt.results...)
-		a := New(client, &out, &Config{Database: "sampledb"}).WithWaitInterval(testWaitInterval)
+		a := New(client, &Config{Database: "sampledb"}, &out).WithWaitInterval(testWaitInterval)
 		a.RunQuery(tt.query)
 
 		assert.Regexp(t, tt.want, out.String(), "Results: %#v", tt.results)
@@ -304,7 +304,7 @@ func TestRunQueryError(t *testing.T) {
 	for _, tt := range tests {
 		var out bytes.Buffer
 		client := stub.NewClient(tt.results...)
-		a := New(client, &out, &Config{Database: "sampledb"}).WithWaitInterval(testWaitInterval)
+		a := New(client, &Config{Database: "sampledb"}, &out).WithWaitInterval(testWaitInterval)
 		a.RunQuery(tt.query)
 
 		got := out.String()
@@ -361,7 +361,7 @@ func TestRunQueryCanceled(t *testing.T) {
 	for _, tt := range tests {
 		var out bytes.Buffer
 		client := stub.NewClient(tt.results...)
-		a := New(client, &out, &Config{Database: "sampledb"}).WithWaitInterval(testWaitInterval)
+		a := New(client, &Config{Database: "sampledb"}, &out).WithWaitInterval(testWaitInterval)
 
 		timer := time.NewTimer(tt.delay)
 		go func() {
@@ -381,7 +381,7 @@ func TestRunQueryCanceled(t *testing.T) {
 func TestSetupREPL(t *testing.T) {
 	var out bytes.Buffer
 	client := stub.NewClient(&stub.Result{ID: "TestSetupREPL"})
-	a := New(client, &out, &Config{})
+	a := New(client, &Config{}, &out)
 	err := a.setupREPL()
 
 	assert.NoError(t, err)
@@ -440,7 +440,7 @@ func TestRunREPL(t *testing.T) {
 			ScannedBytes: tt.scanned,
 			ResultSet:    tt.rs,
 		})
-		a := New(client, &out, &Config{}).WithWaitInterval(testWaitInterval)
+		a := New(client, &Config{}, &out).WithWaitInterval(testWaitInterval)
 		a.stdin = in
 		a.rl = rl
 		err = a.RunREPL()
