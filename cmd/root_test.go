@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"bytes"
 	"os"
 	"testing"
 
@@ -162,4 +163,19 @@ func TestNewClient(t *testing.T) {
 		assert.Equal(t, tt.cfg.Region, *client.Client.Config.Region)
 		assert.Equal(t, tt.logLevel, *client.Client.Config.LogLevel)
 	}
+}
+
+func TestRunShowVersion(t *testing.T) {
+	showVersion = true
+	oldOut := RootCmd.OutOrStdout()
+	defer func() {
+		showVersion = false
+		RootCmd.SetOutput(oldOut)
+	}()
+
+	var out bytes.Buffer
+	RootCmd.SetOutput(&out)
+	RootCmd.Run(RootCmd, []string{})
+
+	assert.Equal(t, commandVersion+"\n", out.String())
 }

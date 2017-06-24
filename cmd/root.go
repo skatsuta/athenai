@@ -15,8 +15,9 @@ import (
 )
 
 var (
-	cfgFile string
-	config  = &athenai.Config{}
+	showVersion bool
+	cfgFile     string
+	config      = &athenai.Config{}
 )
 
 // RootCmd represents the base command when called without any subcommands
@@ -38,6 +39,13 @@ to quickly create a Cobra application.`,
 		}
 		initConfig(config, cfgFile, cmd, os.Args[1:])
 		log.Printf("Initialized Config: %#v\n", config)
+	},
+	Run: func(cmd *cobra.Command, args []string) {
+		if showVersion {
+			fmt.Fprintln(cmd.OutOrStdout(), commandVersion)
+			return
+		}
+		cmd.Help()
 	},
 }
 
@@ -76,6 +84,9 @@ func init() {
 	f.StringVarP(&config.Section, "section", "s", "default", "The section in config file to use")
 	f.StringVarP(&config.Profile, "profile", "p", "default", "Use a specific profile from your credential file")
 	f.StringVarP(&config.Region, "region", "r", "us-east-1", "The AWS region to use")
+
+	// Define local flags
+	RootCmd.Flags().BoolVarP(&showVersion, "version", "v", false, "Show version")
 }
 
 func printConfigFileWarning(err error) {
