@@ -9,7 +9,6 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/athena"
 )
 
@@ -29,8 +28,8 @@ func CreateRows(rawRows [][]string) []*athena.Row {
 // CreateStats creates a new QueryExecutionStatistics.
 func CreateStats(execTime, scannedBytes int64) *athena.QueryExecutionStatistics {
 	return &athena.QueryExecutionStatistics{
-		EngineExecutionTimeInMillis: aws.Int64(execTime),
-		DataScannedInBytes:          aws.Int64(scannedBytes),
+		EngineExecutionTimeInMillis: &execTime,
+		DataScannedInBytes:          &scannedBytes,
 	}
 }
 

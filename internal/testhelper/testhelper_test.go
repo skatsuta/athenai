@@ -5,6 +5,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/athena"
 	"github.com/stretchr/testify/assert"
 )
@@ -62,6 +63,29 @@ func TestCreateRows(t *testing.T) {
 		got := CreateRows(tt.rawRows)
 
 		assert.Equal(t, tt.want, got, "Raw rows: %#v", tt.rawRows)
+	}
+}
+
+func TestCreateStats(t *testing.T) {
+	tests := []struct {
+		execTime int64
+		scanned  int64
+		want     *athena.QueryExecutionStatistics
+	}{
+		{
+			execTime: 1111,
+			scanned:  2222,
+			want: &athena.QueryExecutionStatistics{
+				EngineExecutionTimeInMillis: aws.Int64(1111),
+				DataScannedInBytes:          aws.Int64(2222),
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		got := CreateStats(tt.execTime, tt.scanned)
+
+		assert.Equal(t, tt.want, got, "ExecTime: %v, ScannedBytes: %v", tt.execTime, tt.scanned)
 	}
 }
 
