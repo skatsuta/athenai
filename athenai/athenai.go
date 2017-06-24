@@ -66,8 +66,8 @@ type Athenai struct {
 	rl      readlineCloser
 	printer print.Printer
 
-	cfg    *Config
 	client athenaiface.AthenaAPI
+	cfg    *Config
 
 	refreshInterval time.Duration
 	waitInterval    time.Duration
@@ -83,10 +83,12 @@ func New(client athenaiface.AthenaAPI, out io.Writer, cfg *Config) *Athenai {
 	a := &Athenai{
 		stdin:           os.Stdin,
 		stdout:          out,
+		stderr:          os.Stderr,
 		printer:         print.NewTable(out),
 		cfg:             cfg,
 		client:          client,
 		refreshInterval: refreshInterval,
+		waitInterval:    exec.DefaultWaitInterval,
 		signalCh:        make(chan os.Signal, 1),
 	}
 	return a
@@ -123,7 +125,12 @@ func (a *Athenai) showProgressMsg(ctx context.Context, msg string) {
 func (a *Athenai) runSingleQuery(ctx context.Context, query string, rcCh chan *ResultContainer) {
 	// Run a query, and send results or an error
 	log.Printf("Start running %q\n", query)
-	r, err := exec.NewQuery(a.client, a.cfg.QueryConfig(), query).Run(ctx)
+	q := exec.NewQuery(a.client, a.cfg.QueryConfig(), query)
+	a.mu.RLock()
+	q.WaitInterval = a.waitInterval
+	a.mu.RUnlock()
+
+	r, err := q.Run(ctx)
 	if err != nil {
 		rcCh <- &ResultContainer{Err: err}
 	} else {

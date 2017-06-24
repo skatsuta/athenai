@@ -16,6 +16,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+const testWaitInterval = 10 * time.Millisecond
+
 func TestSplitStmts(t *testing.T) {
 	tests := []struct {
 		queries []string
@@ -53,7 +55,8 @@ func TestShowProgressMsg(t *testing.T) {
 	a := &Athenai{
 		stdout:          &out,
 		cfg:             &Config{},
-		refreshInterval: 1 * time.Millisecond,
+		refreshInterval: 5 * time.Millisecond,
+		waitInterval:    testWaitInterval,
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Millisecond)
 	defer cancel()
@@ -116,7 +119,7 @@ func TestRunQuery(t *testing.T) {
 			ScannedBytes: tt.scanned,
 			ResultSet:    tt.rs,
 		})
-		a := New(client, &out, &Config{Silent: true})
+		a := New(client, &out, &Config{Silent: true}).WithWaitInterval(testWaitInterval)
 		a.RunQuery(tt.query)
 
 		assert.Contains(t, out.String(), tt.want, "Query: %q, Id: %s", tt.query, tt.id)
@@ -165,7 +168,7 @@ func TestRunQueryFromFile(t *testing.T) {
 			ScannedBytes: tt.scanned,
 			ResultSet:    tt.rs,
 		})
-		a := New(client, &out, &Config{})
+		a := New(client, &out, &Config{}).WithWaitInterval(testWaitInterval)
 		a.RunQuery("file://" + tmpFile.Name())
 
 		assert.Contains(t, out.String(), tt.want, "Query: %q, Id: %s", tt.query, tt.id)
@@ -265,7 +268,7 @@ func TestRunQueryOrdered(t *testing.T) {
 	for _, tt := range tests {
 		var out bytes.Buffer
 		client := stub.NewClient(tt.results...)
-		a := New(client, &out, &Config{Database: "sampledb"})
+		a := New(client, &out, &Config{Database: "sampledb"}).WithWaitInterval(testWaitInterval)
 		a.RunQuery(tt.query)
 
 		assert.Regexp(t, tt.want, out.String(), "Results: %#v", tt.results)
@@ -301,7 +304,7 @@ func TestRunQueryError(t *testing.T) {
 	for _, tt := range tests {
 		var out bytes.Buffer
 		client := stub.NewClient(tt.results...)
-		a := New(client, &out, &Config{Database: "sampledb"})
+		a := New(client, &out, &Config{Database: "sampledb"}).WithWaitInterval(testWaitInterval)
 		a.RunQuery(tt.query)
 
 		got := out.String()
@@ -350,7 +353,7 @@ func TestRunQueryCanceled(t *testing.T) {
 					},
 				},
 			},
-			delay: 100 * time.Millisecond,
+			delay: 10 * time.Millisecond,
 			want:  cancelingQueryMsg,
 		},
 	}
@@ -358,7 +361,7 @@ func TestRunQueryCanceled(t *testing.T) {
 	for _, tt := range tests {
 		var out bytes.Buffer
 		client := stub.NewClient(tt.results...)
-		a := New(client, &out, &Config{Database: "sampledb"})
+		a := New(client, &out, &Config{Database: "sampledb"}).WithWaitInterval(testWaitInterval)
 
 		timer := time.NewTimer(tt.delay)
 		go func() {
@@ -437,7 +440,7 @@ func TestRunREPL(t *testing.T) {
 			ScannedBytes: tt.scanned,
 			ResultSet:    tt.rs,
 		})
-		a := New(client, &out, &Config{})
+		a := New(client, &out, &Config{}).WithWaitInterval(testWaitInterval)
 		a.stdin = in
 		a.rl = rl
 		err = a.RunREPL()
