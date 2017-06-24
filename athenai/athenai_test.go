@@ -178,7 +178,7 @@ func TestRunQueryFromFile(t *testing.T) {
 	}
 }
 
-const threeStmtsOutputOrdered = `
+const threeStmtsOutputOrderedRegex = `
 SELECT date, time, bytes FROM cloudfront_logs LIMIT 3;
 +------------+----------+-------+
 | date       | time     | bytes |
@@ -258,14 +258,14 @@ func TestRunQueryOrdered(t *testing.T) {
 					},
 				},
 			},
-			want: threeStmtsOutputOrdered,
+			want: threeStmtsOutputOrderedRegex,
 		},
 	}
 
 	for _, tt := range tests {
 		var out bytes.Buffer
 		client := stub.NewClient(tt.results...)
-		a := New(client, &out, &Config{Order: true, Database: "sampledb"})
+		a := New(client, &out, &Config{Database: "sampledb"})
 		a.RunQuery(tt.query)
 
 		assert.Regexp(t, tt.want, out.String(), "Results: %#v", tt.results)

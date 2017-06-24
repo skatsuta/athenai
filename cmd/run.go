@@ -48,7 +48,6 @@ func init() {
 	f := runCmd.Flags()
 	f.StringVarP(&config.Database, "database", "d", "", "The name of the database")
 	f.StringVarP(&config.Location, "location", "l", "", `The location in S3 where query results are stored. For example, "s3://bucket_name/prefix/"`)
-	f.BoolVar(&config.Order, "order", false, "Show query results in the same order as queries")
 }
 
 func validateConfigForRun(cfg *athenai.Config) error {

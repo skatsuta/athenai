@@ -26,7 +26,7 @@ const (
 
 	filePrefix = "file://"
 
-	noStmtFound = "No SQL statements found to run"
+	noStmtFound = "No SQL statements found to execute"
 
 	runningQueryMsg   = "Running query..."
 	cancelingQueryMsg = "Canceling query..."
@@ -35,8 +35,8 @@ const (
 var spinnerChars = []string{"⠋", "⠙", "⠚", "⠞", "⠖", "⠦", "⠴", "⠲", "⠳", "⠓"}
 
 type safeWriter struct {
-	w  io.Writer
 	mu sync.Mutex
+	w  io.Writer
 }
 
 func (sw *safeWriter) Write(p []byte) (int, error) {
@@ -51,6 +51,12 @@ type readlineCloser interface {
 	Close() error
 }
 
+// ResultContainer is a container which has a query result or an error.
+type ResultContainer struct {
+	Result print.Result
+	Err    error
+}
+
 // Athenai is a main struct to run this app.
 type Athenai struct {
 	in      io.Reader
@@ -62,28 +68,22 @@ type Athenai struct {
 	client   athenaiface.AthenaAPI
 	interval time.Duration
 
-	resultChs []chan print.Result
-	errChs    []chan error
-	doneCh    chan struct{}
-	signalCh  chan os.Signal
-	wg        sync.WaitGroup
-	mu        sync.RWMutex
+	mu       sync.RWMutex
+	wg       sync.WaitGroup
+	signalCh chan os.Signal
 }
 
 // New creates a new Athena.
 func New(client athenaiface.AthenaAPI, out io.Writer, cfg *Config) *Athenai {
 	out = &safeWriter{w: out}
 	a := &Athenai{
-		in:        os.Stdin,
-		out:       out,
-		printer:   print.NewTable(out),
-		cfg:       cfg,
-		client:    client,
-		interval:  refreshInterval,
-		resultChs: make([]chan print.Result, 0),
-		errChs:    make([]chan error, 0),
-		doneCh:    make(chan struct{}),
-		signalCh:  make(chan os.Signal, 1),
+		in:       os.Stdin,
+		out:      out,
+		printer:  print.NewTable(out),
+		cfg:      cfg,
+		client:   client,
+		interval: refreshInterval,
+		signalCh: make(chan os.Signal, 1),
 	}
 	return a
 }
@@ -97,23 +97,6 @@ func (a *Athenai) println(x ...interface{}) {
 	a.print("\n")
 }
 
-func (a *Athenai) setupChannels(numStmts int) {
-	l := numStmts
-	if !a.cfg.Order {
-		// Use single channel if arrangement is not needed
-		l = 1
-	}
-
-	log.Printf("Arranging order: %v. Setting up %d channels\n", a.cfg.Order, l)
-
-	a.mu.Lock()
-	for i := 0; i < l; i++ {
-		a.resultChs = append(a.resultChs, make(chan print.Result, 1))
-		a.errChs = append(a.errChs, make(chan error, 1))
-	}
-	a.mu.Unlock()
-}
-
 // showProgressMsg shows a given progress message until a context is canceled.
 func (a *Athenai) showProgressMsg(ctx context.Context, msg string) {
 	s := spinner.New(spinnerChars, a.interval)
@@ -125,14 +108,31 @@ func (a *Athenai) showProgressMsg(ctx context.Context, msg string) {
 }
 
 // runSingleQuery runs a single query. `query` must be a single SQL statement.
-func (a *Athenai) runSingleQuery(ctx context.Context, query string, resultCh chan print.Result, errCh chan error) {
+func (a *Athenai) runSingleQuery(ctx context.Context, query string, rcCh chan *ResultContainer) {
 	// Run a query, and send results or an error
 	log.Printf("Start running %q\n", query)
 	r, err := exec.NewQuery(a.client, a.cfg.QueryConfig(), query).Run(ctx)
 	if err != nil {
-		errCh <- err
+		rcCh <- &ResultContainer{Err: err}
 	} else {
-		resultCh <- r
+		rcCh <- &ResultContainer{Result: r}
+	}
+}
+
+func (a *Athenai) printResultOrErr(rc *ResultContainer) {
+	if r := rc.Result; r != nil {
+		a.print("\n")
+		a.printer.Print(r)
+		return
+	}
+
+	err := rc.Err
+	cause := errors.Cause(err)
+	switch e := cause.(type) {
+	case *exec.CanceledError:
+		log.Println(e) // Just log the error
+	default:
+		printErr(err, "query execution failed")
 	}
 }
 
@@ -142,19 +142,26 @@ func (a *Athenai) runSingleQuery(ctx context.Context, query string, resultCh cha
 func (a *Athenai) RunQuery(queries ...string) {
 	// Trap SIGINT signal and prepare a context
 	signal.Notify(a.signalCh, os.Interrupt)
-	ctx, cancel := context.WithCancel(context.Background())
-	defer func() {
-		cancel()
-		signal.Stop(a.signalCh)
-	}()
+	// Context to propagate cancellation initiated by user
+	userCancelCtx, userCancelFunc := context.WithCancel(context.Background())
+	// Context to notify cancellation process is complete
+	cancelingCtx, cancelingFunc := context.WithCancel(context.Background())
+	defer cancelingFunc()
+
+	canceledCh := make(chan struct{})
 
 	// Watcher goroutine to cancel query executions
 	go func() {
 		select {
 		case <-a.signalCh: // User has canceled query executions
-			// TODO: show canceling progress message
-			cancel()
-		case <-ctx.Done(): // Exit normally
+			log.Println("Starting cancellation initiated by user")
+			userCancelFunc()
+			a.print("\n")
+			if !a.cfg.Silent {
+				go a.showProgressMsg(cancelingCtx, cancelingQueryMsg)
+			}
+			canceledCh <- struct{}{}
+		case <-userCancelCtx.Done(): // Exit normally
 		}
 	}()
 
@@ -167,69 +174,43 @@ func (a *Athenai) RunQuery(queries ...string) {
 		return
 	}
 
-	a.setupChannels(l)
-
 	// Run each statement concurrently
+	rcChs := make([]chan *ResultContainer, l)
 	a.wg.Add(l)
 	for i, stmt := range stmts {
-		i := i // Copy locally
-		if !a.cfg.Order {
-			// Always use the first channel
-			i = 0
-		}
+		rcCh := make(chan *ResultContainer, 1)
 
 		go func(query string) {
-			a.runSingleQuery(ctx, query, a.resultChs[i], a.errChs[i])
+			a.runSingleQuery(userCancelCtx, query, rcCh)
 			a.wg.Done()
 		}(stmt) // Capture stmt locally in order to use it in goroutines
+
+		rcChs[i] = rcCh
 	}
 
 	// Print progress messages
 	if !a.cfg.Silent {
-		go a.showProgressMsg(ctx, runningQueryMsg)
+		go a.showProgressMsg(userCancelCtx, runningQueryMsg)
 	}
 
-	// Monitoring goroutine to wait for the completion of all query executions
 	go func() {
 		a.wg.Wait()
-		a.doneCh <- struct{}{}
+		userCancelFunc() // All executions have been completed; Stop showing the progress messages
+		signal.Stop(a.signalCh)
 	}()
 
-	// Receive results or errors until done
-	n := len(a.resultChs)
-	for i := 0; i < n; i++ {
-	loop:
-		for {
-			select {
-			case r := <-a.resultChs[i]:
-				a.print("\n")
-				a.printer.Print(r)
-				if a.cfg.Order {
-					// Go to the next channel
-					break loop
-				}
-			case err := <-a.errChs[i]:
-				cause := errors.Cause(err)
-				a.print("\n")
-				switch e := cause.(type) {
-				case *exec.CanceledError:
-					a.println(e) // Show as normal message
-				default:
-					printErr(err, "query execution failed")
-				}
-				if a.cfg.Order {
-					// Go to the next channel
-					break loop
-				}
-			case <-a.doneCh:
-				log.Println("All query executions have been completed")
-				if !a.cfg.Order {
-					// Exit if no more results come into the single channel
-					return
-				}
-			}
+	for _, rcCh := range rcChs {
+		select {
+		case <-canceledCh: // Stop showing results if canceled
+			a.print("\n")
+			return
+		default:
+			a.printResultOrErr(<-rcCh)
 		}
 	}
+
+	log.Println("All query executions have been completed")
+	a.print("\n")
 }
 
 func (a *Athenai) setupREPL() error {
@@ -296,7 +277,7 @@ func (a *Athenai) RunREPL() error {
 		}
 
 		// Run the query
-		log.Printf("Input given: %q\n", query)
+		log.Printf("Given input: %q\n", query)
 		a.RunQuery(query)
 	}
 }
