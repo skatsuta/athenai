@@ -84,7 +84,7 @@ func New(client athenaiface.AthenaAPI, cfg *Config, out io.Writer) *Athenai {
 		stdin:           os.Stdin,
 		stdout:          out,
 		stderr:          os.Stderr,
-		printer:         print.NewTable(out),
+		printer:         createPrinter(out, cfg),
 		cfg:             cfg,
 		client:          client,
 		refreshInterval: refreshInterval,
@@ -353,4 +353,13 @@ func splitStmts(args []string) []string {
 	}
 
 	return stmts
+}
+
+func createPrinter(out io.Writer, cfg *Config) print.Printer {
+	switch cfg.Format {
+	case "csv":
+		return print.NewCSV(out)
+	default:
+		return print.NewTable(out)
+	}
 }

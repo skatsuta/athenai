@@ -25,6 +25,7 @@ type Config struct {
 	Region   string `ini:"region"`
 	Database string `ini:"database"`
 	Location string `ini:"location"`
+	Format   string `ini:"format"`
 
 	iniCfg *ini.File `ini:"-"`
 }

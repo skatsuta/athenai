@@ -54,28 +54,31 @@ func TestPrintStats(t *testing.T) {
 
 const (
 	showDatabasesTable = `
-QueryExecutionId: .*
+QueryExecutionId: TestTablePrint_ShowDatabases
 Query: SHOW DATABASES;
 +-----------------+
 | cloudfront_logs |
 | elb_logs        |
 | sampledb        |
-+-----------------+`
++-----------------+
+Run time: 0.12 seconds | Data scanned: 0 B`
 
 	selectTable = `
-QueryExecutionId: .*
+QueryExecutionId: TestTablePrint_Select
 Query: SELECT date, time, bytes FROM cloudfront_logs LIMIT 3;
 +------------+----------+-------+
 | date       | time     | bytes |
 | 2014-07-05 | 15:00:00 |  4260 |
 | 2014-07-05 | 15:00:00 |    10 |
 | 2014-07-05 | 15:00:00 |  4252 |
-+------------+----------+-------+`
++------------+----------+-------+
+Run time: 1.23 seconds | Data scanned: 56.79 KB`
 
 	createDatabaseTable = `
-QueryExecutionId: .*
+QueryExecutionId: TestTablePrint_CreateDatabase
 Query: CREATE DATABASE test;
-\(No output\)`
+(No output)
+Run time: 1.23 seconds | Data scanned: 0 B`
 )
 
 // mockedResult is a mock struct which implements Result interface for testing.
@@ -148,6 +151,91 @@ func TestTablePrint(t *testing.T) {
 		tbl := NewTable(&out)
 		tbl.Print(tt.r)
 
-		assert.Regexp(t, tt.expected, out.String(), "Result: %#v", tt.r)
+		assert.Contains(t, out.String(), tt.expected, "Result: %#v", tt.r)
+	}
+}
+
+const (
+	showDatabasesCSV = `
+QueryExecutionId: TestCSVPrint_ShowDatabases
+Query: SHOW DATABASES;
+cloudfront_logs
+elb_logs
+sampledb
+Run time: 0.12 seconds | Data scanned: 0 B`
+
+	selectCSV = `
+QueryExecutionId: TestCSVPrint_Select
+Query: SELECT date, time, bytes FROM cloudfront_logs LIMIT 3;
+date,time,bytes
+2014-07-05,15:00:00,4260
+2014-07-05,15:00:00,10
+2014-07-05,15:00:00,4252
+Run time: 1.23 seconds | Data scanned: 56.79 KB`
+
+	createDatabaseCSV = `
+QueryExecutionId: TestCSVPrint_CreateDatabase
+Query: CREATE DATABASE test;
+(No output)
+Run time: 1.23 seconds | Data scanned: 0 B`
+)
+
+func TestCSVPrint(t *testing.T) {
+	tests := []struct {
+		r        Result
+		expected string
+	}{
+		{
+			r: &mockedResult{
+				info: &athena.QueryExecution{
+					QueryExecutionId: aws.String("TestCSVPrint_ShowDatabases"),
+					Query:            aws.String("SHOW DATABASES"),
+					Statistics:       testhelper.CreateStats(123, 0),
+				},
+				data: [][]string{
+					{"cloudfront_logs"},
+					{"elb_logs"},
+					{"sampledb"},
+				},
+			},
+			expected: showDatabasesCSV,
+		},
+		{
+			r: &mockedResult{
+				info: &athena.QueryExecution{
+					QueryExecutionId: aws.String("TestCSVPrint_Select"),
+					Query:            aws.String("SELECT date, time, bytes FROM cloudfront_logs LIMIT 3"),
+					Statistics:       testhelper.CreateStats(1234, 56789),
+				},
+				data: [][]string{
+					{"date", "time", "bytes"},
+					{"2014-07-05", "15:00:00", "4260"},
+					{"2014-07-05", "15:00:00", "10"},
+					{"2014-07-05", "15:00:00", "4252"},
+				},
+			},
+			expected: selectCSV,
+		},
+		{
+			r: &mockedResult{
+				info: &athena.QueryExecution{
+					QueryExecutionId: aws.String("TestCSVPrint_CreateDatabase"),
+					Query:            aws.String("CREATE DATABASE test"),
+					Statistics:       testhelper.CreateStats(1234, 0),
+				},
+				data: [][]string{},
+			},
+			expected: createDatabaseCSV,
+		},
+	}
+
+	for _, tt := range tests {
+		var out bytes.Buffer
+		out.WriteString("\n")
+
+		csv := NewCSV(&out)
+		csv.Print(tt.r)
+
+		assert.Contains(t, out.String(), tt.expected, "Result: %#v", tt.r)
 	}
 }

@@ -1,6 +1,7 @@
 package print
 
 import (
+	"encoding/csv"
 	"fmt"
 	"io"
 	"log"
@@ -67,39 +68,64 @@ func NewTable(w io.Writer) *Table {
 	}
 }
 
-func (t *Table) printf(format string, a ...interface{}) {
-	fmt.Fprintf(t.w, format, a...)
-}
-
-func (t *Table) println(a ...interface{}) {
-	fmt.Fprintln(t.w, a...)
-}
-
 // Print prints a query executed, its results in tabular form, and the query statistics.
 func (t *Table) Print(r Result) {
 	if r.Info() == nil || r.Rows() == nil {
 		return
 	}
 
-	t.printInfo(r.Info())
+	printInfo(t.w, r.Info())
 	t.printTable(r.Rows())
 	printStats(t.w, r.Info().Statistics)
-}
-
-// printQuery prints a query executed.
-func (t *Table) printInfo(info *athena.QueryExecution) {
-	t.printf("QueryExecutionId: %s\nQuery: %s;\n",
-		aws.StringValue(info.QueryExecutionId), aws.StringValue(info.Query))
 }
 
 // printTable prints the results in tabular form.
 func (t *Table) printTable(rows [][]string) {
 	if len(rows) == 0 {
-		t.println(noOutput)
+		fmt.Fprintln(t.w, noOutput)
 		return
 	}
 
 	tw := tablewriter.NewWriter(t.w)
 	tw.AppendBulk(rows)
 	tw.Render()
+}
+
+// CSV writes records in CSV format.
+type CSV struct {
+	w io.Writer
+}
+
+// NewCSV creates a new CSV which writes its output to w.
+func NewCSV(w io.Writer) *CSV {
+	return &CSV{w: w}
+}
+
+// Print prints a query execution id, an executed query, its results in CSV form
+// and the query statistics.
+func (c *CSV) Print(r Result) {
+	if r.Info() == nil || r.Rows() == nil {
+		return
+	}
+
+	printInfo(c.w, r.Info())
+	c.printCSV(r.Rows())
+	printStats(c.w, r.Info().Statistics)
+}
+
+func (c *CSV) printCSV(rows [][]string) {
+	if len(rows) == 0 {
+		fmt.Fprintln(c.w, noOutput)
+		return
+	}
+
+	writer := csv.NewWriter(c.w)
+	writer.WriteAll(rows)
+	writer.Flush()
+}
+
+// printInfo prints query information.
+func printInfo(w io.Writer, info *athena.QueryExecution) {
+	fmt.Fprintf(w, "QueryExecutionId: %s\nQuery: %s;\n",
+		aws.StringValue(info.QueryExecutionId), aws.StringValue(info.Query))
 }
