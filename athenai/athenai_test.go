@@ -3,6 +3,7 @@ package athenai
 import (
 	"bytes"
 	"context"
+	"io"
 	"io/ioutil"
 	"os"
 	"strings"
@@ -408,5 +409,49 @@ func TestRunREPL(t *testing.T) {
 
 		assert.NoError(t, err)
 		assert.Contains(t, out.String(), tt.want, "Input: %q, Id: %s", tt.input, tt.id)
+	}
+}
+
+type stubReadline struct {
+	query string
+	err   error
+	cnt   int
+}
+
+func (r *stubReadline) Readline() (string, error) {
+	if r.cnt > 0 {
+		return "", io.EOF
+	}
+	r.cnt++
+	return r.query, r.err
+}
+
+func (r *stubReadline) Close() error {
+	return nil
+}
+
+func TestRunREPLError(t *testing.T) {
+	tests := []struct {
+		rl   readlineCloser
+		want string
+	}{
+		{
+			rl:   &stubReadline{query: "", err: readline.ErrInterrupt},
+			want: "",
+		},
+		{
+			rl:   &stubReadline{query: "foo", err: readline.ErrInterrupt},
+			want: "To exit,",
+		},
+	}
+
+	for _, tt := range tests {
+		var out bytes.Buffer
+		a := New(stub.NewClient(), &Config{}, &out).WithWaitInterval(testWaitInterval)
+		a.rl = tt.rl
+		err := a.RunREPL()
+
+		assert.NoError(t, err)
+		assert.Contains(t, out.String(), tt.want, "Readline: %#v", tt.rl)
 	}
 }
