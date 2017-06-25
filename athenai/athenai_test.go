@@ -66,7 +66,7 @@ func TestShowProgressMsg(t *testing.T) {
 }
 
 const showDatabasesOutput = `
-SHOW DATABASES;
+Query: SHOW DATABASES;
 +-----------------+
 | cloudfront_logs |
 | elb_logs        |
@@ -182,7 +182,7 @@ func TestRunQueryFromFile(t *testing.T) {
 }
 
 const threeStmtsOutputOrderedRegex = `
-SELECT date, time, bytes FROM cloudfront_logs LIMIT 3;
+Query: SELECT date, time, bytes FROM cloudfront_logs LIMIT 3;
 +------------+----------+-------+
 | date       | time     | bytes |
 | 2014-07-05 | 15:00:00 |  4260 |
@@ -191,7 +191,7 @@ SELECT date, time, bytes FROM cloudfront_logs LIMIT 3;
 +------------+----------+-------+
 Run time: 5.56 seconds | Data scanned: 6.67 KB
 .*
-SHOW DATABASES;
+Query: SHOW DATABASES;
 +-----------------+
 | cloudfront_logs |
 | elb_logs        |
@@ -199,7 +199,7 @@ SHOW DATABASES;
 +-----------------+
 Run time: 3.33 seconds | Data scanned: 4.44 KB
 .*
-SHOW TABLES;
+Query: SHOW TABLES;
 +-----------------+
 | cloudfront_logs |
 | elb_logs        |

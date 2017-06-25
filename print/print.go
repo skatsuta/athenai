@@ -81,14 +81,15 @@ func (t *Table) Print(r Result) {
 		return
 	}
 
-	t.printQuery(r.Info().Query)
+	t.printInfo(r.Info())
 	t.printTable(r.Rows())
 	printStats(t.w, r.Info().Statistics)
 }
 
 // printQuery prints a query executed.
-func (t *Table) printQuery(query *string) {
-	t.printf("%s;\n", aws.StringValue(query))
+func (t *Table) printInfo(info *athena.QueryExecution) {
+	t.printf("QueryExecutionId: %s\nQuery: %s;\n",
+		aws.StringValue(info.QueryExecutionId), aws.StringValue(info.Query))
 }
 
 // printTable prints the results in tabular form.

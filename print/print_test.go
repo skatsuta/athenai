@@ -54,7 +54,8 @@ func TestPrintStats(t *testing.T) {
 
 const (
 	showDatabasesTable = `
-SHOW DATABASES;
+QueryExecutionId: .*
+Query: SHOW DATABASES;
 +-----------------+
 | cloudfront_logs |
 | elb_logs        |
@@ -62,7 +63,8 @@ SHOW DATABASES;
 +-----------------+`
 
 	selectTable = `
-SELECT date, time, bytes FROM cloudfront_logs LIMIT 3;
+QueryExecutionId: .*
+Query: SELECT date, time, bytes FROM cloudfront_logs LIMIT 3;
 +------------+----------+-------+
 | date       | time     | bytes |
 | 2014-07-05 | 15:00:00 |  4260 |
@@ -71,8 +73,9 @@ SELECT date, time, bytes FROM cloudfront_logs LIMIT 3;
 +------------+----------+-------+`
 
 	createDatabaseTable = `
-CREATE DATABASE test;
-(No output)`
+QueryExecutionId: .*
+Query: CREATE DATABASE test;
+\(No output\)`
 )
 
 // mockedResult is a mock struct which implements Result interface for testing.
@@ -97,8 +100,9 @@ func TestTablePrint(t *testing.T) {
 		{
 			r: &mockedResult{
 				info: &athena.QueryExecution{
-					Query:      aws.String("SHOW DATABASES"),
-					Statistics: testhelper.CreateStats(123, 0),
+					QueryExecutionId: aws.String("TestTablePrint_ShowDatabases"),
+					Query:            aws.String("SHOW DATABASES"),
+					Statistics:       testhelper.CreateStats(123, 0),
 				},
 				data: [][]string{
 					{"cloudfront_logs"},
@@ -111,8 +115,9 @@ func TestTablePrint(t *testing.T) {
 		{
 			r: &mockedResult{
 				info: &athena.QueryExecution{
-					Query:      aws.String("SELECT date, time, bytes FROM cloudfront_logs LIMIT 3"),
-					Statistics: testhelper.CreateStats(1234, 56789),
+					QueryExecutionId: aws.String("TestTablePrint_Select"),
+					Query:            aws.String("SELECT date, time, bytes FROM cloudfront_logs LIMIT 3"),
+					Statistics:       testhelper.CreateStats(1234, 56789),
 				},
 				data: [][]string{
 					{"date", "time", "bytes"},
@@ -126,8 +131,9 @@ func TestTablePrint(t *testing.T) {
 		{
 			r: &mockedResult{
 				info: &athena.QueryExecution{
-					Query:      aws.String("CREATE DATABASE test"),
-					Statistics: testhelper.CreateStats(1234, 0),
+					QueryExecutionId: aws.String("TestTablePrint_CreateDatabase"),
+					Query:            aws.String("CREATE DATABASE test"),
+					Statistics:       testhelper.CreateStats(1234, 0),
 				},
 				data: [][]string{},
 			},
@@ -142,6 +148,6 @@ func TestTablePrint(t *testing.T) {
 		tbl := NewTable(&out)
 		tbl.Print(tt.r)
 
-		assert.Contains(t, out.String(), tt.expected, "Result: %#v", tt.r)
+		assert.Regexp(t, tt.expected, out.String(), "Result: %#v", tt.r)
 	}
 }
