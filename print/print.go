@@ -39,9 +39,9 @@ func humanateBytes(s int64, base float64, sizes []string) string {
 	return fmt.Sprintf("%.2f %s", val, suffix)
 }
 
-// formatBytes produces a human readable representation of an SI size.
+// FormatBytes produces a human readable representation of an SI size.
 // e.g. Bytes(82854982) -> 82.85 MB
-func formatBytes(s int64) string {
+func FormatBytes(s int64) string {
 	// Implementation of formatBytes is based on github.com/dustin/go-humanize.Bytes().
 
 	sizes := []string{"B", "KB", "MB", "GB", "TB", "PB", "EB"}
@@ -53,7 +53,7 @@ func printStats(w io.Writer, stats *athena.QueryExecutionStatistics) {
 	scannedBytes := aws.Int64Value(stats.DataScannedInBytes)
 	log.Printf("EngineExecutionTimeInMillis: %d milliseconds\n", runTimeMs)
 	log.Printf("DataScannedInBytes: %d bytes\n", scannedBytes)
-	fmt.Fprintf(w, "Run time: %.2f seconds | Data scanned: %s\n", float64(runTimeMs)/1000, formatBytes(scannedBytes))
+	fmt.Fprintf(w, "Run time: %.2f seconds | Data scanned: %s\n", float64(runTimeMs)/1000, FormatBytes(scannedBytes))
 }
 
 // Table is a filter that formats its input as a table in the output.

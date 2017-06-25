@@ -26,7 +26,7 @@ func TestFormatBytes(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		assert.Equal(t, tt.expected, formatBytes(tt.size), "Size: %d", tt.size)
+		assert.Equal(t, tt.expected, FormatBytes(tt.size), "Size: %d", tt.size)
 	}
 }
 
