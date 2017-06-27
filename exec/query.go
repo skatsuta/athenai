@@ -78,6 +78,24 @@ func NewQuery(client athenaiface.AthenaAPI, cfg *QueryConfig, query string) *Que
 	return q
 }
 
+// NewQueryFromInfo creates a new Query struct from query execution information.
+func NewQueryFromInfo(client athenaiface.AthenaAPI, cfg *QueryConfig, info *athena.QueryExecution) *Query {
+	if client == nil || cfg == nil {
+		panic("client or cfg is nil") // Obviously it's a bug
+	}
+
+	q := &Query{
+		QueryConfig:  cfg,
+		Result:       &Result{info: info},
+		WaitInterval: DefaultWaitInterval,
+		client:       client,
+		query:        aws.StringValue(info.Query),
+		id:           aws.StringValue(info.QueryExecutionId),
+	}
+	log.Printf("Created Query: %#v\n", q)
+	return q
+}
+
 // Start starts the specified query but does not wait for it to complete.
 func (q *Query) Start(ctx context.Context) error {
 	params := &athena.StartQueryExecutionInput{
@@ -147,6 +165,10 @@ func (q *Query) Wait(ctx context.Context) error {
 
 // GetResults gets the results of the query execution.
 func (q *Query) GetResults(ctx context.Context) error {
+	if q.id == "" {
+		return errors.New("query execution has not started yet or already failed to start")
+	}
+
 	params := &athena.GetQueryResultsInput{
 		QueryExecutionId: &q.id,
 		MaxResults:       aws.Int64(maxResults),
