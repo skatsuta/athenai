@@ -73,7 +73,6 @@ type Athenai struct {
 	waitInterval    time.Duration
 
 	mu       sync.RWMutex
-	wg       sync.WaitGroup
 	signalCh chan os.Signal
 }
 
@@ -94,7 +93,7 @@ func New(client athenaiface.AthenaAPI, cfg *Config, out io.Writer) *Athenai {
 	return a
 }
 
-// WithWaitInterval sets interval to a.
+// WithWaitInterval sets wait interval to a.
 func (a *Athenai) WithWaitInterval(interval time.Duration) *Athenai {
 	a.mu.Lock()
 	defer a.mu.Unlock()
@@ -125,11 +124,7 @@ func (a *Athenai) showProgressMsg(ctx context.Context, msg string) {
 func (a *Athenai) runSingleQuery(ctx context.Context, query string, rcCh chan *ResultContainer) {
 	// Run a query, and send results or an error
 	log.Printf("Start running %q\n", query)
-	q := exec.NewQuery(a.client, a.cfg.QueryConfig(), query)
-	a.mu.RLock()
-	q.WaitInterval = a.waitInterval
-	a.mu.RUnlock()
-
+	q := exec.NewQuery(a.client, a.cfg.QueryConfig(), query).WithWaitInterval(a.waitInterval)
 	r, err := q.Run(ctx)
 	if err != nil {
 		rcCh <- &ResultContainer{Err: err}
@@ -195,13 +190,14 @@ func (a *Athenai) RunQuery(queries ...string) {
 
 	// Run each statement concurrently
 	rcChs := make([]chan *ResultContainer, l)
-	a.wg.Add(l)
+	var wg sync.WaitGroup
+	wg.Add(l)
 	for i, stmt := range stmts {
 		rcCh := make(chan *ResultContainer, 1)
 
 		go func(query string) {
 			a.runSingleQuery(userCancelCtx, query, rcCh)
-			a.wg.Done()
+			wg.Done()
 		}(stmt) // Capture stmt locally in order to use it in goroutines
 
 		rcChs[i] = rcCh
@@ -213,7 +209,7 @@ func (a *Athenai) RunQuery(queries ...string) {
 	}
 
 	go func() {
-		a.wg.Wait()
+		wg.Wait()
 		userCancelFunc() // All executions have been completed; Stop showing the progress messages
 		signal.Stop(a.signalCh)
 	}()
