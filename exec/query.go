@@ -53,46 +53,44 @@ type QueryConfig struct {
 type Query struct {
 	*QueryConfig
 	*Result
-	WaitInterval time.Duration
 
-	client athenaiface.AthenaAPI
-	query  string
-	id     string
+	client       athenaiface.AthenaAPI
+	waitInterval time.Duration
+	query        string
+	id           string
 }
 
 // NewQuery creates a new Query struct.
 // `query` string must be a single SQL statement rather than multiple ones joined by semicolons.
 func NewQuery(client athenaiface.AthenaAPI, cfg *QueryConfig, query string) *Query {
-	if client == nil || cfg == nil {
-		panic("client or cfg is nil") // Obviously it's a bug
-	}
-
 	q := &Query{
 		QueryConfig:  cfg,
 		Result:       &Result{},
-		WaitInterval: DefaultWaitInterval,
 		client:       client,
+		waitInterval: DefaultWaitInterval,
 		query:        query,
 	}
 	log.Printf("Created Query: %#v\n", q)
 	return q
 }
 
-// NewQueryFromInfo creates a new Query struct from query execution information.
+// NewQueryFromInfo creates a new Query struct from information about a query execution.
 func NewQueryFromInfo(client athenaiface.AthenaAPI, cfg *QueryConfig, info *athena.QueryExecution) *Query {
-	if client == nil || cfg == nil {
-		panic("client or cfg is nil") // Obviously it's a bug
-	}
-
 	q := &Query{
 		QueryConfig:  cfg,
 		Result:       &Result{info: info},
-		WaitInterval: DefaultWaitInterval,
 		client:       client,
+		waitInterval: DefaultWaitInterval,
 		query:        aws.StringValue(info.Query),
 		id:           aws.StringValue(info.QueryExecutionId),
 	}
 	log.Printf("Created Query: %#v\n", q)
+	return q
+}
+
+// WithWaitInterval sets wait interval to q.
+func (q *Query) WithWaitInterval(interval time.Duration) *Query {
+	q.waitInterval = interval
 	return q
 }
 
@@ -158,8 +156,8 @@ func (q *Query) Wait(ctx context.Context) error {
 			return &CanceledError{Query: q.query, ID: q.id}
 		}
 
-		log.Printf("Query execution %s has not finished yet; Sleeping %s\n", q.id, q.WaitInterval)
-		time.Sleep(q.WaitInterval)
+		log.Printf("Query execution %s has not finished yet; Sleeping %s\n", q.id, q.waitInterval)
+		time.Sleep(q.waitInterval)
 	}
 }
 

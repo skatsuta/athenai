@@ -7,16 +7,23 @@ import (
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/athena"
+	"github.com/aws/aws-sdk-go/service/athena/athenaiface"
 	"github.com/skatsuta/athenai/internal/stub"
 	"github.com/stretchr/testify/assert"
 )
 
-func TestStart(t *testing.T) {
-	cfg := &QueryConfig{
-		Database: "sampledb",
-		Location: "s3://bucket/prefix/",
-	}
+const testWaitInterval = 10 * time.Millisecond
 
+var cfg = &QueryConfig{
+	Database: "sampledb",
+	Location: "s3://bucket/prefix/",
+}
+
+func newQuery(client athenaiface.AthenaAPI, cfg *QueryConfig, query string) *Query {
+	return NewQuery(client, cfg, query).WithWaitInterval(testWaitInterval)
+}
+
+func TestStart(t *testing.T) {
 	tests := []struct {
 		id    string
 		query string
@@ -40,11 +47,6 @@ func TestStart(t *testing.T) {
 }
 
 func TestStartError(t *testing.T) {
-	cfg := &QueryConfig{
-		Database: "sampledb",
-		Location: "s3://bucket/prefix/",
-	}
-
 	tests := []struct {
 		query   string
 		errCode string
@@ -66,11 +68,6 @@ func TestStartError(t *testing.T) {
 }
 
 func TestWait(t *testing.T) {
-	cfg := &QueryConfig{
-		Database: "sampledb",
-		Location: "s3://bucket/prefix/",
-	}
-
 	tests := []struct {
 		id     string
 		query  string
@@ -90,9 +87,8 @@ func TestWait(t *testing.T) {
 
 	for _, tt := range tests {
 		client := stub.NewGetQueryExecutionStub(&stub.Result{ID: tt.id, Query: tt.query})
-		q := NewQuery(client, cfg, tt.query)
+		q := newQuery(client, cfg, tt.query)
 		q.id = tt.id
-		q.WaitInterval = 10 * time.Millisecond
 
 		err := q.Wait(context.Background())
 
@@ -104,11 +100,6 @@ func TestWait(t *testing.T) {
 }
 
 func TestWaitFailedError(t *testing.T) {
-	cfg := &QueryConfig{
-		Database: "sampledb",
-		Location: "s3://bucket/prefix/",
-	}
-
 	tests := []struct {
 		id     string
 		query  string
@@ -140,9 +131,8 @@ func TestWaitFailedError(t *testing.T) {
 			FinalState: stub.Failed,
 			ErrMsg:     tt.errMsg,
 		})
-		q := NewQuery(client, cfg, tt.query)
+		q := newQuery(client, cfg, tt.query)
 		q.id = tt.id
-		q.WaitInterval = 10 * time.Millisecond
 
 		err := q.Wait(context.Background())
 
@@ -152,11 +142,6 @@ func TestWaitFailedError(t *testing.T) {
 }
 
 func TestGetResults(t *testing.T) {
-	cfg := &QueryConfig{
-		Database: "sampledb",
-		Location: "s3://bucket/prefix/",
-	}
-
 	tests := []struct {
 		id       string
 		query    string
@@ -188,14 +173,9 @@ func TestGetResults(t *testing.T) {
 		})
 		client.MaxPages = tt.maxPages
 
-		q := &Query{
-			QueryConfig:  cfg,
-			client:       client,
-			WaitInterval: 10 * time.Millisecond,
-			query:        tt.query,
-			id:           tt.id,
-			Result:       &Result{info: tt.info},
-		}
+		q := newQuery(client, cfg, tt.query)
+		q.id = tt.id
+		q.info = tt.info
 		err := q.GetResults(context.Background())
 
 		assert.NoError(t, err)
@@ -204,11 +184,6 @@ func TestGetResults(t *testing.T) {
 }
 
 func TestGetResultsError(t *testing.T) {
-	cfg := &QueryConfig{
-		Database: "sampledb",
-		Location: "s3://bucket/prefix/",
-	}
-
 	tests := []struct {
 		id     string
 		query  string
@@ -222,17 +197,13 @@ func TestGetResultsError(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		q := &Query{
-			QueryConfig: cfg,
-			client: stub.NewGetQueryResultsStub(&stub.Result{
-				ID:     tt.id,
-				Query:  tt.query,
-				ErrMsg: tt.errMsg,
-			}),
-			WaitInterval: 10 * time.Millisecond,
-			query:        tt.query,
-			id:           tt.id,
-		}
+		client := stub.NewGetQueryResultsStub(&stub.Result{
+			ID:     tt.id,
+			Query:  tt.query,
+			ErrMsg: tt.errMsg,
+		})
+		q := newQuery(client, cfg, tt.query)
+		q.id = tt.id
 		err := q.GetResults(context.Background())
 
 		assert.Error(t, err)
@@ -240,11 +211,6 @@ func TestGetResultsError(t *testing.T) {
 }
 
 func TestRun(t *testing.T) {
-	cfg := &QueryConfig{
-		Database: "sampledb",
-		Location: "s3://bucket/prefix/",
-	}
-
 	tests := []struct {
 		id          string
 		query       string
@@ -271,14 +237,7 @@ func TestRun(t *testing.T) {
 			ResultSet: tt.rs,
 		})
 		client.MaxPages = tt.maxPages
-
-		q := &Query{
-			QueryConfig:  cfg,
-			Result:       &Result{},
-			client:       client,
-			WaitInterval: 10 * time.Millisecond,
-			query:        tt.query,
-		}
+		q := newQuery(client, cfg, tt.query)
 		r, err := q.Run(context.Background())
 
 		assert.NoError(t, err)
@@ -287,11 +246,6 @@ func TestRun(t *testing.T) {
 }
 
 func TestRunCanceledError(t *testing.T) {
-	cfg := &QueryConfig{
-		Database: "sampledb",
-		Location: "s3://bucket/prefix/",
-	}
-
 	tests := []struct {
 		id    string
 		query string
@@ -306,9 +260,8 @@ func TestRunCanceledError(t *testing.T) {
 
 	for _, tt := range tests {
 		client := stub.NewClient(&stub.Result{ID: tt.id, Query: tt.query})
-		q := NewQuery(client, cfg, tt.query)
+		q := newQuery(client, cfg, tt.query)
 		q.id = tt.id
-		q.WaitInterval = 10 * time.Millisecond
 
 		ctx, cancel := context.WithCancel(context.Background())
 		cancel()
