@@ -9,14 +9,20 @@ import (
 	"os"
 	"os/signal"
 	"path/filepath"
+	"sort"
 	"strings"
 	"sync"
 	"time"
 
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/service/athena"
 	"github.com/aws/aws-sdk-go/service/athena/athenaiface"
 	"github.com/chzyer/readline"
+	"github.com/google/btree"
+	"github.com/peco/peco/line"
 	"github.com/pkg/errors"
 	"github.com/skatsuta/athenai/exec"
+	"github.com/skatsuta/athenai/filter"
 	"github.com/skatsuta/athenai/print"
 	"github.com/skatsuta/spinner"
 )
@@ -28,8 +34,10 @@ const (
 
 	noStmtFound = "No SQL statements found to execute"
 
-	runningQueryMsg   = "Running query..."
-	cancelingQueryMsg = "Canceling query..."
+	runningQueryMsg    = "Running query..."
+	loadingHistoryMsg  = "Loading history..."
+	fetchingResultsMsg = "Fetching results..."
+	cancelingMsg       = "Canceling..."
 )
 
 var spinnerChars = []string{"⠋", "⠙", "⠚", "⠞", "⠖", "⠦", "⠴", "⠲", "⠳", "⠓"}
@@ -64,6 +72,7 @@ type Athenai struct {
 	stderr io.Writer
 
 	rl      readlineCloser
+	f       filter.Filter
 	printer print.Printer
 
 	client athenaiface.AthenaAPI
@@ -154,7 +163,7 @@ func (a *Athenai) printResultOrErr(rc *ResultContainer) {
 // It splits each statement by semicolons and run them concurrently.
 // It skips empty statements.
 func (a *Athenai) RunQuery(queries ...string) {
-	// Trap SIGINT signal and prepare a context
+	// Trap SIGINT signal
 	signal.Notify(a.signalCh, os.Interrupt)
 	// Context to propagate cancellation initiated by user
 	userCancelCtx, userCancelFunc := context.WithCancel(context.Background())
@@ -172,7 +181,7 @@ func (a *Athenai) RunQuery(queries ...string) {
 			userCancelFunc()
 			a.print("\n")
 			if !a.cfg.Silent {
-				go a.showProgressMsg(cancelingCtx, cancelingQueryMsg)
+				go a.showProgressMsg(cancelingCtx, cancelingMsg)
 			}
 			canceledCh <- struct{}{}
 		case <-userCancelCtx.Done(): // Exit normally
@@ -194,13 +203,11 @@ func (a *Athenai) RunQuery(queries ...string) {
 	wg.Add(l)
 	for i, stmt := range stmts {
 		rcCh := make(chan *ResultContainer, 1)
-
+		rcChs[i] = rcCh
 		go func(query string) {
 			a.runSingleQuery(userCancelCtx, query, rcCh)
 			wg.Done()
 		}(stmt) // Capture stmt locally in order to use it in goroutines
-
-		rcChs[i] = rcCh
 	}
 
 	// Print progress messages
@@ -297,6 +304,177 @@ func (a *Athenai) RunREPL() error {
 	}
 }
 
+// fetchQueryExecutions fetches query executions and returns them being sorted by submission date
+// in the descending order.
+func (a *Athenai) fetchQueryExecutions(ctx context.Context) ([]*athena.QueryExecution, error) {
+	lqx, err := a.client.ListQueryExecutionsWithContext(ctx, &athena.ListQueryExecutionsInput{})
+	if err != nil {
+		return nil, errors.Wrap(err, "ListQueryExecutions API error")
+	}
+
+	bgqx, err := a.client.BatchGetQueryExecutionWithContext(ctx, &athena.BatchGetQueryExecutionInput{
+		QueryExecutionIds: lqx.QueryExecutionIds,
+	})
+	if err != nil {
+		return nil, errors.Wrap(err, "BatchGetQueryExecution API error")
+	}
+
+	qxs := bgqx.QueryExecutions
+	sort.Slice(qxs, func(i, j int) bool {
+		// Sort by SubmissionDateTime in descending order
+		return qxs[i].Status.SubmissionDateTime.After(*qxs[j].Status.SubmissionDateTime)
+	})
+
+	return qxs, nil
+}
+
+func (a *Athenai) filterQueryExecutions(qxs []*athena.QueryExecution) ([]*athena.QueryExecution, error) {
+	entryMap := make(map[string]*athena.QueryExecution, len(qxs))
+	entries := make([]string, 0, len(qxs))
+	for _, qx := range qxs {
+		if aws.StringValue(qx.Status.State) != athena.QueryExecutionStateSucceeded {
+			// Skip if not succeeded
+			continue
+		}
+		entry := generateEntry(qx)
+		entryMap[entry] = qx
+		entries = append(entries, entry)
+	}
+
+	history := strings.Join(entries, "\n")
+	a.f.SetInput(history)
+
+	err := a.f.Run(context.Background())
+	if err != nil && !strings.Contains(err.Error(), "collect results") {
+		return nil, errors.Wrap(err, "error filtering query executions")
+	}
+
+	s := a.f.Selection()
+	if s.Len() == 0 {
+		if l, err := a.f.CurrentLineBuffer().LineAt(a.f.Location().LineNumber()); err == nil {
+			s.Add(l)
+		}
+	}
+
+	selectedQxs := make([]*athena.QueryExecution, 0, s.Len())
+	s.Ascend(func(it btree.Item) bool {
+		if entry, ok := entryMap[it.(line.Line).Output()]; ok {
+			selectedQxs = append(selectedQxs, entry)
+		}
+		return true
+	})
+	return selectedQxs, nil
+}
+
+func (a *Athenai) selectQueryExecutions(ctx context.Context) ([]*athena.QueryExecution, error) {
+	a.mu.Lock()
+	if a.f == nil {
+		a.f = filter.New()
+	}
+	a.mu.Unlock()
+
+	qxs, err := a.fetchQueryExecutions(ctx)
+	if err != nil {
+		return nil, errors.Wrap(err, "error fetching query executions")
+	}
+
+	selectedQxs, err := a.filterQueryExecutions(qxs)
+	if err != nil && !strings.Contains(err.Error(), "canceled") { // Ignore user-canceled error
+		return nil, errors.Wrap(err, "error selecting query executions")
+	}
+
+	return selectedQxs, nil
+}
+
+// fetchQueryResults fetches query results of qx and send them to rcCh.
+func (a *Athenai) fetchQueryResults(ctx context.Context, qx *athena.QueryExecution, rcCh chan *ResultContainer) {
+	log.Printf("Start fetching query results of %#v\n", qx)
+	q := exec.NewQueryFromQx(a.client, a.cfg.QueryConfig(), qx).WithWaitInterval(a.waitInterval)
+	if err := q.GetResults(ctx); err != nil {
+		rcCh <- &ResultContainer{Err: err}
+	} else {
+		rcCh <- &ResultContainer{Result: q.Result}
+	}
+}
+
+// ShowResults shows results of completed query executions.
+func (a *Athenai) ShowResults() {
+	// Trap SIGINT signal
+	signal.Notify(a.signalCh, os.Interrupt)
+	userCancelCtx, userCancelFunc := context.WithCancel(context.Background())
+	loadingCtx, loadingCancelFunc := context.WithCancel(context.Background())
+	cancel := func() {
+		userCancelFunc()
+		loadingCancelFunc()
+	}
+	defer cancel()
+	canceledCh := make(chan struct{})
+
+	// Watch user-initiated cancellation
+	go func() {
+		select {
+		case <-a.signalCh: // User has canceled query executions
+			log.Println("Starting cancellation initiated by user")
+			cancel()
+			canceledCh <- struct{}{}
+		case <-userCancelCtx.Done(): // Exit normally
+		}
+	}()
+
+	// Print loading messages
+	if !a.cfg.Silent {
+		go a.showProgressMsg(loadingCtx, loadingHistoryMsg)
+	}
+
+	qxs, err := a.selectQueryExecutions(userCancelCtx)
+	if err != nil {
+		a.print("\n")
+		if !strings.Contains(err.Error(), "canceled") { // Ignore user-canceled error
+			printErr(err, "error selecting query executions")
+		}
+		return
+	}
+	loadingCancelFunc() // Cancel loading messages
+
+	// Print messages while fetching query results
+	if !a.cfg.Silent {
+		a.print("\n")
+		go a.showProgressMsg(userCancelCtx, fetchingResultsMsg)
+	}
+
+	// Get each query result concurrently
+	l := len(qxs)
+	rcChs := make([]chan *ResultContainer, l)
+	var wg sync.WaitGroup
+	wg.Add(l)
+	for i, qx := range qxs {
+		rcCh := make(chan *ResultContainer, 1)
+		rcChs[i] = rcCh
+		go func(qx *athena.QueryExecution) {
+			a.fetchQueryResults(userCancelCtx, qx, rcCh)
+			wg.Done()
+		}(qx) // Capture locally in order to use it in goroutines
+	}
+
+	go func() {
+		wg.Wait()
+		cancel() // All results have been fetched; Stop showing the progress messages
+		signal.Stop(a.signalCh)
+	}()
+
+	for _, rcCh := range rcChs {
+		select {
+		case <-canceledCh: // Stop showing results if canceled
+			a.print("\n")
+			return
+		default:
+			a.printResultOrErr(<-rcCh)
+		}
+	}
+
+	log.Println("Fetched all query results")
+}
+
 func printErr(err error, message string) {
 	fmt.Fprintf(os.Stderr, "Error: %s: %s\n", message, err)
 }
@@ -358,4 +536,21 @@ func createPrinter(out io.Writer, cfg *Config) print.Printer {
 	default:
 		return print.NewTable(out)
 	}
+}
+
+func generateEntry(qx *athena.QueryExecution) string {
+	query := aws.StringValue(qx.Query)
+	if strings.Contains(query, "\n") {
+		// Serialize a multi-line single query
+		query = strings.Join(strings.Split(query, "\n"), " ")
+	}
+
+	entry := fmt.Sprintf("%s\t%s\t%s\t%.2f seconds\t%s",
+		qx.Status.SubmissionDateTime,
+		query,
+		aws.StringValue(qx.Status.State),
+		float64(aws.Int64Value(qx.Statistics.EngineExecutionTimeInMillis))/1000,
+		print.FormatBytes(aws.Int64Value(qx.Statistics.DataScannedInBytes)),
+	)
+	return entry
 }

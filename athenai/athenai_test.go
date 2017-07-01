@@ -3,6 +3,7 @@ package athenai
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"os"
@@ -12,6 +13,9 @@ import (
 
 	"github.com/aws/aws-sdk-go/service/athena"
 	"github.com/chzyer/readline"
+	"github.com/peco/peco"
+	"github.com/peco/peco/line"
+	"github.com/skatsuta/athenai/filter"
 	"github.com/skatsuta/athenai/internal/stub"
 	"github.com/skatsuta/athenai/internal/testhelper"
 	"github.com/stretchr/testify/assert"
@@ -316,7 +320,7 @@ func TestRunQueryCanceled(t *testing.T) {
 				},
 			},
 			delay: 10 * time.Millisecond,
-			want:  cancelingQueryMsg,
+			want:  cancelingMsg,
 		},
 	}
 
@@ -453,5 +457,138 @@ func TestRunREPLError(t *testing.T) {
 
 		assert.NoError(t, err)
 		assert.Contains(t, out.String(), tt.want, "Readline: %#v", tt.rl)
+	}
+}
+
+type stubBuffer struct {
+	lines []line.Line
+}
+
+func (b *stubBuffer) LineAt(n int) (line.Line, error) {
+	l := len(b.lines)
+	if n >= l {
+		return nil, fmt.Errorf("index %d is greater than the length of stubBuffer.lines", n)
+	}
+	return b.lines[n], nil
+}
+
+type stubLocation struct {
+	n int
+}
+
+func (l *stubLocation) LineNumber() int {
+	return l.n
+}
+
+type stubFilter struct {
+	selectLine bool
+	s          *peco.Selection
+	b          *stubBuffer
+	l          *stubLocation
+}
+
+func newStubFilter(selectLine bool) *stubFilter {
+	f := &stubFilter{
+		selectLine: selectLine,
+		s:          peco.NewSelection(),
+		b:          &stubBuffer{},
+		l:          &stubLocation{},
+	}
+	return f
+}
+
+func (f *stubFilter) SetInput(input string) {
+	lines := strings.Split(input, "\n")
+	for i, ln := range lines {
+		raw := line.NewRaw(uint64(i), ln, false)
+		if f.selectLine {
+			f.s.Add(raw)
+		}
+		f.b.lines = append(f.b.lines, raw)
+	}
+}
+
+func (f *stubFilter) Run(ctx context.Context) error {
+	return nil
+}
+
+func (f *stubFilter) Selection() *peco.Selection {
+	return f.s
+}
+
+func (f *stubFilter) CurrentLineBuffer() filter.Buffer {
+	return f.b
+}
+
+func (f *stubFilter) Location() filter.Location {
+	return f.l
+}
+
+func TestShowResults(t *testing.T) {
+	tests := []struct {
+		results []*stub.Result
+		want    string
+	}{
+		{
+			results: []*stub.Result{
+				{
+					ID:           "TestShowResults_ShowTables",
+					Query:        "SHOW TABLES",
+					SubmitTime:   time.Date(2017, 7, 1, 0, 0, 0, 0, time.UTC),
+					ExecTime:     1111,
+					ScannedBytes: 2222,
+					ResultSet: athena.ResultSet{
+						ResultSetMetadata: &athena.ResultSetMetadata{},
+						Rows: testhelper.CreateRows([][]string{
+							{"cloudfront_logs"},
+							{"elb_logs"},
+							{"flights_parquet"},
+						}),
+					},
+				},
+				{
+					ID:           "TestShowResults_ShowDatabases",
+					Query:        "SHOW DATABASES",
+					SubmitTime:   time.Date(2017, 7, 1, 1, 0, 0, 0, time.UTC),
+					ExecTime:     3333,
+					ScannedBytes: 4444,
+					ResultSet: athena.ResultSet{
+						ResultSetMetadata: &athena.ResultSetMetadata{},
+						Rows: testhelper.CreateRows([][]string{
+							{"cloudfront_logs"},
+							{"elb_logs"},
+							{"sampledb"},
+						}),
+					},
+				},
+				{
+					ID:           "TestShowResults_Select",
+					Query:        "SELECT date, time, bytes FROM cloudfront_logs LIMIT 3",
+					SubmitTime:   time.Date(2017, 7, 1, 2, 0, 0, 0, time.UTC),
+					ExecTime:     5555,
+					ScannedBytes: 6666,
+					ResultSet: athena.ResultSet{
+						ResultSetMetadata: &athena.ResultSetMetadata{},
+						Rows: testhelper.CreateRows([][]string{
+							{"date", "time", "bytes"},
+							{"2014-07-05", "15:00:00", "4260"},
+							{"2014-07-05", "15:00:00", "10"},
+							{"2014-07-05", "15:00:00", "4252"},
+						}),
+					},
+				},
+			},
+			want: threeStmtsOutputOrderedRegex,
+		},
+	}
+
+	for _, tt := range tests {
+		var out bytes.Buffer
+		client := stub.NewClient(tt.results...)
+		a := New(client, &Config{Database: "sampledb"}, &out).WithWaitInterval(testWaitInterval)
+		a.f = newStubFilter(true)
+		a.ShowResults()
+
+		assert.Regexp(t, tt.want, out.String(), "Results: %#v", tt.results)
 	}
 }
