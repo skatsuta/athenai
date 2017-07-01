@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 	"sync"
+	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/request"
@@ -30,6 +31,7 @@ type Result struct {
 	ID           string
 	Query        string
 	FinalState   FinalState // default: Succeeded
+	SubmitTime   time.Time
 	ExecTime     int64
 	ScannedBytes int64
 	athena.ResultSet
@@ -222,6 +224,85 @@ func (s *GetQueryExecutionStub) GetQueryExecutionWithContext(ctx aws.Context, in
 	return s.GetQueryExecution(input)
 }
 
+// BatchGetQueryExecutionStub simulates BatchGetQueryExecution API.
+type BatchGetQueryExecutionStub struct {
+	athenaiface.AthenaAPI
+	results map[string]*Result // map[id]*Result
+}
+
+// NewBatchGetQueryExecutionStub creates a new BatchGetQueryExecutionStub which returns
+// stub responses based on rs.
+func NewBatchGetQueryExecutionStub(rs ...*Result) *BatchGetQueryExecutionStub {
+	results := make(map[string]*Result, len(rs))
+	for _, r := range rs {
+		results[r.ID] = r
+	}
+	return &BatchGetQueryExecutionStub{results: results}
+}
+
+// BatchGetQueryExecution returns the details of a single query execution or
+// a list of up to 50 query executions, which you provide as an array of query execution ID strings.
+func (s *BatchGetQueryExecutionStub) BatchGetQueryExecution(input *athena.BatchGetQueryExecutionInput) (*athena.BatchGetQueryExecutionOutput, error) {
+	ids := input.QueryExecutionIds
+	qes := make([]*athena.QueryExecution, len(ids))
+	for i, id := range ids {
+		r := s.results[aws.StringValue(id)]
+		if r.ErrMsg != "" {
+			return nil, errors.New(r.ErrMsg)
+		}
+		stateFlow := finalStateFlowMap[r.FinalState]
+		l := len(stateFlow)
+		state := stateFlow[l-1]
+		qes[i] = &athena.QueryExecution{
+			QueryExecutionId: &r.ID,
+			Query:            &r.Query,
+			Statistics:       testhelper.CreateStats(r.ExecTime, r.ScannedBytes),
+			Status: &athena.QueryExecutionStatus{
+				SubmissionDateTime: &r.SubmitTime,
+				State:              &state,
+			},
+		}
+	}
+	resp := &athena.BatchGetQueryExecutionOutput{QueryExecutions: qes}
+	return resp, nil
+}
+
+// BatchGetQueryExecutionWithContext is the same as BatchGetQueryExecution with the addition of
+// the ability to pass a context and additional request options.
+func (s *BatchGetQueryExecutionStub) BatchGetQueryExecutionWithContext(ctx aws.Context, input *athena.BatchGetQueryExecutionInput, opts ...request.Option) (*athena.BatchGetQueryExecutionOutput, error) {
+	return s.BatchGetQueryExecution(input)
+}
+
+// ListQueryExecutionsStub simulates ListQueryExecutions API.
+type ListQueryExecutionsStub struct {
+	athenaiface.AthenaAPI
+	rs []*Result
+}
+
+// NewListQueryExecutionsStub creates a new ListQueryExecutionsStub which returns stub responses
+// based on rs.
+func NewListQueryExecutionsStub(rs ...*Result) *ListQueryExecutionsStub {
+	return &ListQueryExecutionsStub{rs: rs}
+}
+
+// ListQueryExecutions provides a list of all available query execution IDs.
+func (s *ListQueryExecutionsStub) ListQueryExecutions(input *athena.ListQueryExecutionsInput) (*athena.ListQueryExecutionsOutput, error) {
+	ids := make([]*string, len(s.rs))
+	for i, r := range s.rs {
+		if r.ErrMsg != "" {
+			return nil, errors.New(r.ErrMsg)
+		}
+		ids[i] = &r.ID
+	}
+	return &athena.ListQueryExecutionsOutput{QueryExecutionIds: ids}, nil
+}
+
+// ListQueryExecutionsWithContext is the same as ListQueryExecutions with the addition of
+// the ability to pass a context and additional request options.
+func (s *ListQueryExecutionsStub) ListQueryExecutionsWithContext(ctx aws.Context, input *athena.ListQueryExecutionsInput, opts ...request.Option) (*athena.ListQueryExecutionsOutput, error) {
+	return s.ListQueryExecutions(input)
+}
+
 // GetQueryResultsStub simulates GetQueryResults and GetQueryResultsPages API.
 type GetQueryResultsStub struct {
 	athenaiface.AthenaAPI
@@ -304,16 +385,20 @@ type Client struct {
 	*StartQueryExecutionStub
 	*StopQueryExecutionStub
 	*GetQueryExecutionStub
+	*BatchGetQueryExecutionStub
+	*ListQueryExecutionsStub
 	*GetQueryResultsStub
 }
 
 // NewClient returns a new Athena client which returns stub API responses based on rs.
 func NewClient(rs ...*Result) *Client {
 	return &Client{
-		StartQueryExecutionStub: NewStartQueryExecutionStub(rs...),
-		StopQueryExecutionStub:  NewStopQueryExecutionStub(rs...),
-		GetQueryExecutionStub:   NewGetQueryExecutionStub(rs...),
-		GetQueryResultsStub:     NewGetQueryResultsStub(rs...),
+		StartQueryExecutionStub:    NewStartQueryExecutionStub(rs...),
+		StopQueryExecutionStub:     NewStopQueryExecutionStub(rs...),
+		GetQueryExecutionStub:      NewGetQueryExecutionStub(rs...),
+		BatchGetQueryExecutionStub: NewBatchGetQueryExecutionStub(rs...),
+		ListQueryExecutionsStub:    NewListQueryExecutionsStub(rs...),
+		GetQueryResultsStub:        NewGetQueryResultsStub(rs...),
 	}
 }
 
@@ -348,6 +433,29 @@ func (s *Client) GetQueryExecution(input *athena.GetQueryExecutionInput) (*athen
 // the ability to pass a context and additional request options.
 func (s *Client) GetQueryExecutionWithContext(ctx aws.Context, input *athena.GetQueryExecutionInput, opts ...request.Option) (*athena.GetQueryExecutionOutput, error) {
 	return s.GetQueryExecutionStub.GetQueryExecutionWithContext(ctx, input, opts...)
+}
+
+// BatchGetQueryExecution returns the details of a single query execution or
+// a list of up to 50 query executions, which you provide as an array of query execution ID strings.
+func (s *Client) BatchGetQueryExecution(input *athena.BatchGetQueryExecutionInput) (*athena.BatchGetQueryExecutionOutput, error) {
+	return s.BatchGetQueryExecutionStub.BatchGetQueryExecution(input)
+}
+
+// BatchGetQueryExecutionWithContext is the same as BatchGetQueryExecution with the addition of
+// the ability to pass a context and additional request options.
+func (s *Client) BatchGetQueryExecutionWithContext(ctx aws.Context, input *athena.BatchGetQueryExecutionInput, opts ...request.Option) (*athena.BatchGetQueryExecutionOutput, error) {
+	return s.BatchGetQueryExecutionStub.BatchGetQueryExecutionWithContext(ctx, input, opts...)
+}
+
+// ListQueryExecutions provides a list of all available query execution IDs.
+func (s *Client) ListQueryExecutions(input *athena.ListQueryExecutionsInput) (*athena.ListQueryExecutionsOutput, error) {
+	return s.ListQueryExecutionsStub.ListQueryExecutions(input)
+}
+
+// ListQueryExecutionsWithContext is the same as ListQueryExecutions with the addition of
+// the ability to pass a context and additional request options.
+func (s *Client) ListQueryExecutionsWithContext(ctx aws.Context, input *athena.ListQueryExecutionsInput, opts ...request.Option) (*athena.ListQueryExecutionsOutput, error) {
+	return s.ListQueryExecutionsStub.ListQueryExecutionsWithContext(ctx, input, opts...)
 }
 
 // GetQueryResults returns the results of a single query execution specified by QueryExecutionId.
