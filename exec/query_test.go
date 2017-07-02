@@ -48,12 +48,21 @@ func TestStart(t *testing.T) {
 
 func TestStartError(t *testing.T) {
 	tests := []struct {
-		query   string
-		errCode string
+		query string
+		want  string
 	}{
-		{"", "InvalidRequestException"},
-		{"SELET * FROM test", "InvalidRequestException"},
-		{"CREATE INDEX", "InvalidRequestException"},
+		{
+			query: "",
+			want:  "InvalidRequestException",
+		},
+		{
+			query: "SELET * FROM test",
+			want:  "InvalidRequestException",
+		},
+		{
+			query: "CREATE INDEX",
+			want:  "InvalidRequestException",
+		},
 	}
 
 	for _, tt := range tests {
@@ -62,7 +71,7 @@ func TestStartError(t *testing.T) {
 		err := q.Start(context.Background())
 
 		if assert.Error(t, err) {
-			assert.Contains(t, err.Error(), tt.errCode, "Query: %q", tt.query)
+			assert.Contains(t, err.Error(), tt.want, "Query: %q", tt.query)
 		}
 	}
 }
