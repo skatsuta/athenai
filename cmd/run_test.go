@@ -203,14 +203,16 @@ func TestRunRun(t *testing.T) {
 
 func TestRunRunValidationError(t *testing.T) {
 	tests := []struct {
-		id   string
-		cfg  *athenai.Config
-		want *ValidationError
+		id       string
+		cfg      *athenai.Config
+		wantType *ValidationError
+		wantMsg  string
 	}{
 		{
-			id:   "TestRunRunNoLocationError",
-			cfg:  &athenai.Config{},
-			want: &ValidationError{},
+			id:       "TestRunRunNoLocationError",
+			cfg:      &athenai.Config{},
+			wantType: &ValidationError{},
+			wantMsg:  "location",
 		},
 	}
 
@@ -219,7 +221,9 @@ func TestRunRunValidationError(t *testing.T) {
 		client := stub.NewClient(&stub.Result{ID: tt.id})
 		err := runRun(runCmd, []string{}, client, tt.cfg, os.Stdin, &out)
 
-		assert.Error(t, err)
-		assert.IsType(t, tt.want, err, "Id: %#v, Config: %#v", tt.id, tt.cfg)
+		if assert.Error(t, err) {
+			assert.IsType(t, tt.wantType, err, "Id: %#v, Config: %#v", tt.id, tt.cfg)
+			assert.Contains(t, err.Error(), tt.wantMsg, "Id: %#v, Config: %#v", tt.id, tt.cfg)
+		}
 	}
 }
