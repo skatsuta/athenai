@@ -244,7 +244,7 @@ func NewBatchGetQueryExecutionStub(rs ...*Result) *BatchGetQueryExecutionStub {
 // a list of up to 50 query executions, which you provide as an array of query execution ID strings.
 func (s *BatchGetQueryExecutionStub) BatchGetQueryExecution(input *athena.BatchGetQueryExecutionInput) (*athena.BatchGetQueryExecutionOutput, error) {
 	ids := input.QueryExecutionIds
-	qes := make([]*athena.QueryExecution, len(ids))
+	qxs := make([]*athena.QueryExecution, len(ids))
 	for i, id := range ids {
 		r := s.results[aws.StringValue(id)]
 		if r.ErrMsg != "" {
@@ -253,7 +253,7 @@ func (s *BatchGetQueryExecutionStub) BatchGetQueryExecution(input *athena.BatchG
 		stateFlow := finalStateFlowMap[r.FinalState]
 		l := len(stateFlow)
 		state := stateFlow[l-1]
-		qes[i] = &athena.QueryExecution{
+		qxs[i] = &athena.QueryExecution{
 			QueryExecutionId: &r.ID,
 			Query:            &r.Query,
 			Statistics:       testhelper.CreateStats(r.ExecTime, r.ScannedBytes),
@@ -263,7 +263,7 @@ func (s *BatchGetQueryExecutionStub) BatchGetQueryExecution(input *athena.BatchG
 			},
 		}
 	}
-	resp := &athena.BatchGetQueryExecutionOutput{QueryExecutions: qes}
+	resp := &athena.BatchGetQueryExecutionOutput{QueryExecutions: qxs}
 	return resp, nil
 }
 

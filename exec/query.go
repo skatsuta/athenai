@@ -102,7 +102,7 @@ func (q *Query) Start(ctx context.Context) error {
 		ResultConfiguration:   &athena.ResultConfiguration{OutputLocation: &q.Location},
 	}
 
-	qe, err := q.client.StartQueryExecutionWithContext(ctx, params)
+	qx, err := q.client.StartQueryExecutionWithContext(ctx, params)
 	if err != nil {
 		if cerr, ok := err.(awserr.Error); ok && cerr.Code() == request.CanceledErrorCode {
 			return &CanceledError{Query: q.query}
@@ -110,7 +110,7 @@ func (q *Query) Start(ctx context.Context) error {
 		return errors.Wrap(err, "StartQueryExecution API error")
 	}
 
-	q.id = aws.StringValue(qe.QueryExecutionId)
+	q.id = aws.StringValue(qx.QueryExecutionId)
 	log.Printf("Query execution ID: %s\n", q.id)
 	return nil
 }
@@ -136,21 +136,21 @@ func (q *Query) Wait(ctx context.Context) error {
 		}
 
 		// Call the API without context since do not want context to cancel the API call
-		qeo, err := q.client.GetQueryExecution(input)
+		qxo, err := q.client.GetQueryExecution(input)
 		if err != nil {
 			return errors.Wrap(err, "GetQueryExecution API error")
 		}
 
-		qe := qeo.QueryExecution
-		q.info = qe
-		state := aws.StringValue(qe.Status.State)
+		qx := qxo.QueryExecution
+		q.info = qx
+		state := aws.StringValue(qx.Status.State)
 		log.Printf("State of query execution %s: %s\n", q.id, state)
 
 		switch state {
 		case athena.QueryExecutionStateSucceeded:
 			return nil
 		case athena.QueryExecutionStateFailed:
-			reason := aws.StringValue(qe.Status.StateChangeReason)
+			reason := aws.StringValue(qx.Status.StateChangeReason)
 			return errors.Errorf("query execution %s has failed. Reason: %s", q.id, reason)
 		case athena.QueryExecutionStateCancelled:
 			return &CanceledError{Query: q.query, ID: q.id}
