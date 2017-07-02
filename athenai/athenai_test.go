@@ -67,8 +67,9 @@ func TestShowProgressMsg(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Millisecond)
 	defer cancel()
 	a.showProgressMsg(ctx, runningQueryMsg)
+	got := out.String()
 
-	assert.Contains(t, out.String(), want)
+	assert.Contains(t, got, want)
 }
 
 const showDatabasesOutput = `
@@ -127,8 +128,9 @@ func TestRunQuery(t *testing.T) {
 		})
 		a := New(client, &Config{Silent: true}, &out).WithWaitInterval(testWaitInterval)
 		a.RunQuery(tt.query)
+		got := out.String()
 
-		assert.Contains(t, out.String(), tt.want, "Query: %q, Id: %s", tt.query, tt.id)
+		assert.Contains(t, got, tt.want, "Query: %q, Id: %s", tt.query, tt.id)
 	}
 }
 
@@ -176,8 +178,9 @@ func TestRunQueryFromFile(t *testing.T) {
 		})
 		a := New(client, &Config{}, &out).WithWaitInterval(testWaitInterval)
 		a.RunQuery("file://" + tmpFile.Name())
+		got := out.String()
 
-		assert.Contains(t, out.String(), tt.want, "Query: %q, Id: %s", tt.query, tt.id)
+		assert.Contains(t, got, tt.want, "Query: %q, Id: %s", tt.query, tt.id)
 
 		// Clean up
 		err = tmpFile.Close()
@@ -406,9 +409,10 @@ func TestRunREPL(t *testing.T) {
 		a.stdin = in
 		a.rl = rl
 		err = a.RunREPL()
+		got := out.String()
 
 		assert.NoError(t, err)
-		assert.Contains(t, out.String(), tt.want, "Input: %q, Id: %s", tt.input, tt.id)
+		assert.Contains(t, got, tt.want, "Input: %q, Id: %s", tt.input, tt.id)
 	}
 }
 
@@ -450,9 +454,10 @@ func TestRunREPLError(t *testing.T) {
 		a := New(stub.NewClient(), &Config{}, &out).WithWaitInterval(testWaitInterval)
 		a.rl = tt.rl
 		err := a.RunREPL()
+		got := out.String()
 
 		assert.NoError(t, err)
-		assert.Contains(t, out.String(), tt.want, "Readline: %#v", tt.rl)
+		assert.Contains(t, got, tt.want, "Readline: %#v", tt.rl)
 	}
 }
 
@@ -720,6 +725,7 @@ func TestShowResultsCanceled(t *testing.T) {
 	a.f = newStubFilter(true)
 	a.signalCh <- os.Interrupt
 	a.ShowResults()
+	got := out.String()
 
-	assert.Contains(t, out.String(), want, "Result: %#v", r)
+	assert.Contains(t, got, want, "Result: %#v", r)
 }
