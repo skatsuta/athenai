@@ -682,7 +682,7 @@ func TestShowResultsError(t *testing.T) {
 					ErrMsg: "InternalErrorException",
 				},
 			},
-			want: "\n", // TODO
+			want: "InternalErrorException",
 		},
 		{
 			results: []*stub.Result{
@@ -691,15 +691,17 @@ func TestShowResultsError(t *testing.T) {
 					Query: "SHOW DATABASES",
 				},
 			},
-			errMsg: "error",
-			want:   "\n", // TODO
+			errMsg: "temporary error",
+			want:   "temporary error",
 		},
 	}
 
 	for _, tt := range tests {
 		var out bytes.Buffer
 		client := stub.NewClient(tt.results...)
-		a := New(client, &Config{Database: "sampledb"}, &out).WithWaitInterval(testWaitInterval)
+		a := New(client, &Config{Database: "sampledb"}, &out).
+			WithStderr(&out).
+			WithWaitInterval(testWaitInterval)
 		f := newStubFilter(true)
 		if tt.errMsg != "" {
 			f.errMsg = tt.errMsg
