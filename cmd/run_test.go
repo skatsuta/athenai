@@ -8,18 +8,35 @@ import (
 	"testing"
 
 	"github.com/aws/aws-sdk-go/service/athena"
+	"github.com/pkg/errors"
 	"github.com/skatsuta/athenai/athenai"
 	"github.com/skatsuta/athenai/internal/stub"
 	"github.com/skatsuta/athenai/internal/testhelper"
 	"github.com/stretchr/testify/assert"
 )
 
+type errReader struct {
+	io.Reader
+	errMsg string
+}
+
+func (r *errReader) Read(p []byte) (int, error) {
+	if r.errMsg != "" {
+		return 0, errors.New(r.errMsg)
+	}
+	return r.Reader.Read(p)
+}
+
 type stubStatReader struct {
 	io.Reader
+	errMsg      string
 	isDataExist bool
 }
 
 func (s *stubStatReader) Stat() (os.FileInfo, error) {
+	if s.errMsg != "" {
+		return nil, errors.New(s.errMsg)
+	}
 	return &stubFileInfo{isDataExist: s.isDataExist}, nil
 }
 
@@ -36,10 +53,13 @@ func (fi *stubFileInfo) Mode() os.FileMode {
 }
 
 func TestRunRun(t *testing.T) {
+	cfg := &athenai.Config{
+		Location: "s3://TestRunRunBucket/",
+	}
+
 	tests := []struct {
 		args     []string
 		id       string
-		cfg      *athenai.Config
 		stdin    statReader
 		query    string
 		rs       athena.ResultSet
@@ -49,11 +69,8 @@ func TestRunRun(t *testing.T) {
 	}{
 		// When only command line arguments are given
 		{
-			args: []string{"SHOW DATABASES"},
-			id:   "ArgsOnly",
-			cfg: &athenai.Config{
-				Location: "s3://resultbucket/",
-			},
+			args:  []string{"SHOW DATABASES"},
+			id:    "ArgsOnly",
 			stdin: &stubStatReader{},
 			query: "SHOW DATABASES",
 			rs: athena.ResultSet{
@@ -75,11 +92,8 @@ func TestRunRun(t *testing.T) {
 		},
 		// When no arguments are given (REPL)
 		{
-			args: []string{},
-			id:   "NoArgs",
-			cfg: &athenai.Config{
-				Location: "s3://TestRunRunNoArgsBucket/",
-			},
+			args:  []string{},
+			id:    "NoArgs",
 			stdin: &stubStatReader{},
 			rs:    athena.ResultSet{},
 			want:  []string{""}, // No output in test
@@ -88,11 +102,64 @@ func TestRunRun(t *testing.T) {
 		{
 			args: []string{},
 			id:   "ViaStdin",
-			cfg: &athenai.Config{
-				Location: "s3://TestRunRunViaStdinBucket/",
-			},
 			stdin: &stubStatReader{
 				Reader:      strings.NewReader("SHOW DATABASES;"),
+				isDataExist: true,
+			},
+			query: "SHOW DATABASES",
+			rs: athena.ResultSet{
+				ResultSetMetadata: &athena.ResultSetMetadata{},
+				Rows: testhelper.CreateRows([][]string{
+					{"sampledb"},
+					{"s3_logs"},
+				}),
+			},
+			execTime: 56789,
+			scanned:  123456789,
+			want: []string{
+				"SHOW DATABASES",
+				"sampledb",
+				"s3_logs",
+				"56.79 seconds",
+				"123.46 MB",
+			},
+		},
+		// When an argument and stdin are given but stdin.Stat() fails
+		{
+			args: []string{"SHOW DATABASES"},
+			id:   "TestRunRun_StatFails",
+			stdin: &stubStatReader{
+				Reader:      strings.NewReader("SHOW TABLES;"),
+				errMsg:      "error readnig stdin",
+				isDataExist: true,
+			},
+			query: "SHOW DATABASES",
+			rs: athena.ResultSet{
+				ResultSetMetadata: &athena.ResultSetMetadata{},
+				Rows: testhelper.CreateRows([][]string{
+					{"sampledb"},
+					{"s3_logs"},
+				}),
+			},
+			execTime: 56789,
+			scanned:  123456789,
+			want: []string{
+				"SHOW DATABASES",
+				"sampledb",
+				"s3_logs",
+				"56.79 seconds",
+				"123.46 MB",
+			},
+		},
+		// When an argument and stdin are given but stdin fails to be read
+		{
+			args: []string{"SHOW DATABASES"},
+			id:   "TestRunRun_ReadFails",
+			stdin: &stubStatReader{
+				Reader: &errReader{
+					Reader: strings.NewReader("SHOW TABLES;"),
+					errMsg: "error reading stdin",
+				},
 				isDataExist: true,
 			},
 			query: "SHOW DATABASES",
@@ -124,12 +191,12 @@ func TestRunRun(t *testing.T) {
 			ResultSet:    tt.rs,
 		})
 		var out bytes.Buffer
-		err := runRun(runCmd, tt.args, client, tt.cfg, tt.stdin, &out)
+		err := runRun(runCmd, tt.args, client, cfg, tt.stdin, &out)
 		got := out.String()
 
-		assert.NoError(t, err, "Args: %#v, Id: %#v, Cfg: %#v, ResultSet: %#v", tt.args, tt.id, tt.cfg, tt.rs)
+		assert.NoError(t, err, "Args: %#v, Id: %#v, ResultSet: %#v", tt.args, tt.id, tt.rs)
 		for _, s := range tt.want {
-			assert.Contains(t, got, s, "Args: %#v, Id: %#v, Cfg: %#v, ResultSet: %#v", tt.args, tt.id, tt.cfg, tt.rs)
+			assert.Contains(t, got, s, "Args: %#v, Id: %#v, ResultSet: %#v", tt.args, tt.id, tt.rs)
 		}
 	}
 }
