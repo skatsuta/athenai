@@ -183,6 +183,44 @@ func TestGetResults(t *testing.T) {
 	}
 }
 
+func TestFromQxGetResults(t *testing.T) {
+	tests := []struct {
+		qx       *athena.QueryExecution
+		maxPages int
+		numRows  int
+	}{
+		{
+			qx: &athena.QueryExecution{
+				QueryExecutionId: aws.String("TestFromQxGetResults1"),
+				Query:            aws.String("SELECT * FROM cloudfront_logs LIMIT 10"),
+				Status: &athena.QueryExecutionStatus{
+					State: aws.String(athena.QueryExecutionStateSucceeded),
+				},
+			},
+			maxPages: 2,
+			numRows:  10,
+		},
+	}
+
+	for _, tt := range tests {
+		client := stub.NewGetQueryResultsStub(&stub.Result{
+			ID:    aws.StringValue(tt.qx.QueryExecutionId),
+			Query: aws.StringValue(tt.qx.Query),
+			ResultSet: athena.ResultSet{
+				ResultSetMetadata: &athena.ResultSetMetadata{},
+				Rows:              []*athena.Row{{}, {}, {}, {}, {}},
+			},
+		})
+		client.MaxPages = tt.maxPages
+
+		q := NewQueryFromQx(client, cfg, tt.qx).WithWaitInterval(testWaitInterval)
+		err := q.GetResults(context.Background())
+
+		assert.NoError(t, err)
+		assert.Len(t, q.rs.Rows, tt.numRows, "Qx: %#v", tt.qx)
+	}
+}
+
 func TestGetResultsError(t *testing.T) {
 	tests := []struct {
 		id     string
