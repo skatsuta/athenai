@@ -388,7 +388,7 @@ func (a *Athenai) selectQueryExecutions(ctx context.Context) ([]*athena.QueryExe
 
 // fetchQueryResults fetches query results of qx and send them to rcCh.
 func (a *Athenai) fetchQueryResults(ctx context.Context, qx *athena.QueryExecution, rcCh chan *ResultContainer) {
-	log.Printf("Start fetching query results of %#v\n", qx)
+	log.Printf("Start fetching query results of QueryExecutionId %s\n", aws.StringValue(qx.QueryExecutionId))
 	q := exec.NewQueryFromQx(a.client, a.cfg.QueryConfig(), qx).WithWaitInterval(a.waitInterval)
 	if err := q.GetResults(ctx); err != nil {
 		rcCh <- &ResultContainer{Err: err}

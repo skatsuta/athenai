@@ -1,7 +1,6 @@
 package athenai
 
 import (
-	"bytes"
 	"context"
 	"fmt"
 	"io"
@@ -15,7 +14,9 @@ import (
 	"github.com/chzyer/readline"
 	"github.com/peco/peco"
 	"github.com/peco/peco/line"
+	"github.com/pkg/errors"
 	"github.com/skatsuta/athenai/filter"
+	"github.com/skatsuta/athenai/internal/bytes"
 	"github.com/skatsuta/athenai/internal/stub"
 	"github.com/skatsuta/athenai/internal/testhelper"
 	"github.com/stretchr/testify/assert"
@@ -186,7 +187,7 @@ func TestRunQueryFromFile(t *testing.T) {
 	}
 }
 
-const threeStmtsOutputOrderedRegex = `
+const selectOutput = `
 Query: SELECT date, time, bytes FROM cloudfront_logs LIMIT 3;
 +------------+----------+-------+
 | date       | time     | bytes |
@@ -194,30 +195,22 @@ Query: SELECT date, time, bytes FROM cloudfront_logs LIMIT 3;
 | 2014-07-05 | 15:00:00 |    10 |
 | 2014-07-05 | 15:00:00 |  4252 |
 +------------+----------+-------+
-Run time: 5.56 seconds | Data scanned: 6.67 KB
-.*
-Query: SHOW DATABASES;
-+-----------------+
-| cloudfront_logs |
-| elb_logs        |
-| sampledb        |
-+-----------------+
-Run time: 3.33 seconds | Data scanned: 4.44 KB
-.*
+Run time: 5.55 seconds | Data scanned: 6.67 KB`
+
+const showTablesOutput = `
 Query: SHOW TABLES;
 +-----------------+
 | cloudfront_logs |
 | elb_logs        |
 | flights_parquet |
 +-----------------+
-Run time: 1.11 seconds | Data scanned: 2.22 KB
-`
+Run time: 1.11 seconds | Data scanned: 2.22 KB`
 
 func TestRunQueryOrdered(t *testing.T) {
 	tests := []struct {
 		query   string
 		results []*stub.Result
-		want    string
+		wants   []string
 	}{
 		{
 			query: "SELECT date, time, bytes FROM cloudfront_logs LIMIT 3; SHOW DATABASES; SHOW TABLES;",
@@ -239,8 +232,8 @@ func TestRunQueryOrdered(t *testing.T) {
 				{
 					ID:           "TestRunQueryOrderedShowDatabases",
 					Query:        "SHOW DATABASES",
-					ExecTime:     3333,
-					ScannedBytes: 4444,
+					ExecTime:     12345,
+					ScannedBytes: 56789,
 					ResultSet: athena.ResultSet{
 						ResultSetMetadata: &athena.ResultSetMetadata{},
 						Rows: testhelper.CreateRows([][]string{
@@ -266,7 +259,7 @@ func TestRunQueryOrdered(t *testing.T) {
 					},
 				},
 			},
-			want: threeStmtsOutputOrderedRegex,
+			wants: []string{selectOutput, showDatabasesOutput, showTablesOutput},
 		},
 	}
 
@@ -275,8 +268,11 @@ func TestRunQueryOrdered(t *testing.T) {
 		client := stub.NewClient(tt.results...)
 		a := New(client, &Config{Database: "sampledb"}, &out).WithWaitInterval(testWaitInterval)
 		a.RunQuery(tt.query)
+		got := out.String()
 
-		assert.Regexp(t, tt.want, out.String(), "Results: %#v", tt.results)
+		for _, want := range tt.wants {
+			assert.Contains(t, got, want, "Results: %#v", tt.results)
+		}
 	}
 }
 
@@ -335,8 +331,8 @@ func TestRunQueryCanceled(t *testing.T) {
 			a.signalCh <- os.Interrupt // Send SIGINT signal to cancel after delay
 		}()
 		a.RunQuery(tt.query)
-
 		got := out.String()
+
 		assert.Contains(t, got, tt.want, "Query: %q, Results: %#v", tt.query, tt.results)
 		for _, r := range tt.results {
 			assert.NotContains(t, got, r.Query, "Query: %q, Result: %#v", tt.query, r)
@@ -485,6 +481,7 @@ type stubFilter struct {
 	s          *peco.Selection
 	b          *stubBuffer
 	l          *stubLocation
+	errMsg     string
 }
 
 func newStubFilter(selectLine bool) *stubFilter {
@@ -509,6 +506,9 @@ func (f *stubFilter) SetInput(input string) {
 }
 
 func (f *stubFilter) Run(ctx context.Context) error {
+	if f.errMsg != "" {
+		return errors.New(f.errMsg)
+	}
 	return nil
 }
 
@@ -526,9 +526,71 @@ func (f *stubFilter) Location() filter.Location {
 
 func TestShowResults(t *testing.T) {
 	tests := []struct {
-		results []*stub.Result
-		want    string
+		results    []*stub.Result
+		selectLine bool
+		wants      []string
+		notWants   []string
 	}{
+		{
+			// When three entries are selected
+			results: []*stub.Result{
+				{
+					ID:           "TestShowResults_ShowTables",
+					Query:        "SHOW TABLES",
+					SubmitTime:   time.Date(2017, 7, 1, 0, 0, 0, 0, time.UTC),
+					ExecTime:     1111,
+					ScannedBytes: 2222,
+					ResultSet: athena.ResultSet{
+						ResultSetMetadata: &athena.ResultSetMetadata{},
+						Rows: testhelper.CreateRows([][]string{
+							{"cloudfront_logs"},
+							{"elb_logs"},
+							{"flights_parquet"},
+						}),
+					},
+				},
+				{
+					ID:           "TestShowResults_ShowDatabases",
+					Query:        "SHOW DATABASES",
+					SubmitTime:   time.Date(2017, 7, 1, 1, 0, 0, 0, time.UTC),
+					ExecTime:     12345,
+					ScannedBytes: 56789,
+					ResultSet: athena.ResultSet{
+						ResultSetMetadata: &athena.ResultSetMetadata{},
+						Rows: testhelper.CreateRows([][]string{
+							{"cloudfront_logs"},
+							{"elb_logs"},
+							{"sampledb"},
+						}),
+					},
+				},
+				{
+					ID:           "TestShowResults_Select",
+					Query:        "SELECT date, time, bytes FROM cloudfront_logs LIMIT 3",
+					SubmitTime:   time.Date(2017, 7, 1, 2, 0, 0, 0, time.UTC),
+					ExecTime:     5555,
+					ScannedBytes: 6666,
+					ResultSet: athena.ResultSet{
+						ResultSetMetadata: &athena.ResultSetMetadata{},
+						Rows: testhelper.CreateRows([][]string{
+							{"date", "time", "bytes"},
+							{"2014-07-05", "15:00:00", "4260"},
+							{"2014-07-05", "15:00:00", "10"},
+							{"2014-07-05", "15:00:00", "4252"},
+						}),
+					},
+				},
+				{ // This entry should be skipped as it's failed
+					ID:         "TestShowResults_Failed",
+					Query:      "SELECT * FROM err_table",
+					FinalState: stub.Failed,
+					SubmitTime: time.Date(2017, 7, 1, 3, 0, 0, 0, time.UTC),
+				},
+			},
+			selectLine: true,
+			wants:      []string{selectOutput, showDatabasesOutput, showTablesOutput},
+		},
+		// When no entry is selected
 		{
 			results: []*stub.Result{
 				{
@@ -550,8 +612,8 @@ func TestShowResults(t *testing.T) {
 					ID:           "TestShowResults_ShowDatabases",
 					Query:        "SHOW DATABASES",
 					SubmitTime:   time.Date(2017, 7, 1, 1, 0, 0, 0, time.UTC),
-					ExecTime:     3333,
-					ScannedBytes: 4444,
+					ExecTime:     12345,
+					ScannedBytes: 56789,
 					ResultSet: athena.ResultSet{
 						ResultSetMetadata: &athena.ResultSetMetadata{},
 						Rows: testhelper.CreateRows([][]string{
@@ -578,7 +640,54 @@ func TestShowResults(t *testing.T) {
 					},
 				},
 			},
-			want: threeStmtsOutputOrderedRegex,
+			selectLine: false,
+			wants:      []string{selectOutput},
+			notWants:   []string{showDatabasesOutput, showTablesOutput},
+		},
+	}
+
+	for _, tt := range tests {
+		var out bytes.Buffer
+		client := stub.NewClient(tt.results...)
+		a := New(client, &Config{Database: "sampledb"}, &out).WithWaitInterval(2 * testWaitInterval)
+		a.f = newStubFilter(tt.selectLine)
+		a.ShowResults()
+		got := out.String()
+
+		for _, want := range tt.wants {
+			assert.Contains(t, got, want, "Results: %#v", tt.results)
+		}
+		for _, notWant := range tt.notWants {
+			assert.NotContains(t, got, notWant, "Results: %#v", tt.results)
+		}
+	}
+}
+
+func TestShowResultsError(t *testing.T) {
+	tests := []struct {
+		results []*stub.Result
+		errMsg  string
+		want    string
+	}{
+		{
+			results: []*stub.Result{
+				{
+					ID:     "TestShowResultsError_APIError",
+					Query:  "SHOW DATABASES",
+					ErrMsg: "InternalErrorException",
+				},
+			},
+			want: "\n", // TODO
+		},
+		{
+			results: []*stub.Result{
+				{
+					ID:    "TestShowResultsError_APIError",
+					Query: "SHOW DATABASES",
+				},
+			},
+			errMsg: "error",
+			want:   "\n", // TODO
 		},
 	}
 
@@ -586,9 +695,31 @@ func TestShowResults(t *testing.T) {
 		var out bytes.Buffer
 		client := stub.NewClient(tt.results...)
 		a := New(client, &Config{Database: "sampledb"}, &out).WithWaitInterval(testWaitInterval)
-		a.f = newStubFilter(true)
+		f := newStubFilter(true)
+		if tt.errMsg != "" {
+			f.errMsg = tt.errMsg
+		}
+		a.f = f
 		a.ShowResults()
+		got := out.String()
 
-		assert.Regexp(t, tt.want, out.String(), "Results: %#v", tt.results)
+		assert.Contains(t, got, tt.want, "Results: %#v", tt.results)
 	}
+}
+
+func TestShowResultsCanceled(t *testing.T) {
+	want := "\n" // TODO: replace it with error messages if stderr can be mocked
+
+	var out bytes.Buffer
+	r := &stub.Result{
+		ID:    "TestShowResultsCanceled",
+		Query: "SHOW DATABASES",
+	}
+	client := stub.NewClient(r)
+	a := New(client, &Config{Database: "sampledb"}, &out).WithWaitInterval(testWaitInterval)
+	a.f = newStubFilter(true)
+	a.signalCh <- os.Interrupt
+	a.ShowResults()
+
+	assert.Contains(t, out.String(), want, "Result: %#v", r)
 }
