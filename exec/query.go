@@ -74,15 +74,15 @@ func NewQuery(client athenaiface.AthenaAPI, cfg *QueryConfig, query string) *Que
 	return q
 }
 
-// NewQueryFromInfo creates a new Query struct from information about a query execution.
-func NewQueryFromInfo(client athenaiface.AthenaAPI, cfg *QueryConfig, info *athena.QueryExecution) *Query {
+// NewQueryFromQx creates a new Query struct from information about a query execution.
+func NewQueryFromQx(client athenaiface.AthenaAPI, cfg *QueryConfig, qx *athena.QueryExecution) *Query {
 	q := &Query{
 		QueryConfig:  cfg,
-		Result:       &Result{info: info},
+		Result:       &Result{info: qx},
 		client:       client,
 		waitInterval: DefaultWaitInterval,
-		query:        aws.StringValue(info.Query),
-		id:           aws.StringValue(info.QueryExecutionId),
+		query:        aws.StringValue(qx.Query),
+		id:           aws.StringValue(qx.QueryExecutionId),
 	}
 	log.Printf("Created Query: %#v\n", q)
 	return q
