@@ -91,7 +91,7 @@ func New(client athenaiface.AthenaAPI, cfg *Config, out io.Writer) *Athenai {
 	a := &Athenai{
 		stdin:           os.Stdin,
 		stdout:          out,
-		stderr:          os.Stderr,
+		stderr:          &safeWriter{w: os.Stderr},
 		printer:         createPrinter(out, cfg),
 		cfg:             cfg,
 		client:          client,
@@ -106,7 +106,7 @@ func New(client athenaiface.AthenaAPI, cfg *Config, out io.Writer) *Athenai {
 func (a *Athenai) WithStderr(stderr io.Writer) *Athenai {
 	a.mu.Lock()
 	defer a.mu.Unlock()
-	a.stderr = stderr
+	a.stderr = &safeWriter{w: stderr}
 	return a
 }
 
