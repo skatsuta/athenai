@@ -102,6 +102,14 @@ func New(client athenaiface.AthenaAPI, cfg *Config, out io.Writer) *Athenai {
 	return a
 }
 
+// WithStderr sets stderr to a.
+func (a *Athenai) WithStderr(stderr io.Writer) *Athenai {
+	a.mu.Lock()
+	defer a.mu.Unlock()
+	a.stderr = stderr
+	return a
+}
+
 // WithWaitInterval sets wait interval to a.
 func (a *Athenai) WithWaitInterval(interval time.Duration) *Athenai {
 	a.mu.Lock()
