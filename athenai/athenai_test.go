@@ -48,7 +48,7 @@ func TestSplitStmts(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		got := splitStmts(tt.queries)
+		got := new(Athenai).splitStmts(tt.queries)
 
 		assert.Len(t, got, tt.wantLen, "Query: %q")
 	}

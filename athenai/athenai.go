@@ -162,7 +162,7 @@ func (a *Athenai) printResultOrErr(rc *ResultContainer) {
 	case *exec.CanceledError:
 		log.Println(e) // Just log the error
 	default:
-		printErr(err, "query execution failed")
+		a.printErr(err, "query execution failed")
 	}
 }
 
@@ -196,7 +196,7 @@ func (a *Athenai) RunQuery(queries ...string) {
 	}()
 
 	// Split SQL statements
-	stmts := splitStmts(queries)
+	stmts := a.splitStmts(queries)
 	l := len(stmts)
 	log.Printf("%d SQL statements to execute: %#v\n", l, stmts)
 	if l == 0 {
@@ -296,7 +296,7 @@ func (a *Athenai) RunREPL() error {
 				log.Println("Ctrl-D is pressed, exitting REPL")
 				return nil
 			default:
-				printErr(err, "error reading line")
+				a.printErr(err, "error reading line")
 			}
 		}
 
@@ -437,7 +437,7 @@ func (a *Athenai) ShowResults() {
 	if err != nil {
 		a.print("\n")
 		if !strings.Contains(err.Error(), "canceled") { // Ignore user-canceled error
-			printErr(err, "error selecting query executions")
+			a.printErr(err, "error selecting query executions")
 		}
 		return
 	}
@@ -482,8 +482,8 @@ func (a *Athenai) ShowResults() {
 	log.Println("Fetched all query results")
 }
 
-func printErr(err error, message string) {
-	fmt.Fprintf(os.Stderr, "Error: %s: %s\n", message, err)
+func (a *Athenai) printErr(err error, message string) {
+	fmt.Fprintf(a.stderr, "Error: %s: %s\n", message, err)
 }
 
 // readFile reads the content of a file whose path has `file://` prefix.
@@ -509,7 +509,7 @@ func readFile(arg string) (string, error) {
 // If an argument has `file://` prefix, splitStmts reads the file content
 // and splits each statement as well.
 // If it encounters errors while reading files, it just prints the errors on stderr and ignores them.
-func splitStmts(args []string) []string {
+func (a *Athenai) splitStmts(args []string) []string {
 	stmts := make([]string, 0, len(args))
 
 	for _, arg := range args {
@@ -519,7 +519,7 @@ func splitStmts(args []string) []string {
 			var err error
 			arg, err = readFile(arg)
 			if err != nil {
-				printErr(err, "failed to read file")
+				a.printErr(err, "failed to read file")
 				continue
 			}
 		}
