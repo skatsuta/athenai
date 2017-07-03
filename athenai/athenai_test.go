@@ -279,6 +279,57 @@ func TestRunQueryOrdered(t *testing.T) {
 	}
 }
 
+const selectCSVOutput = `
+Query: SELECT date, time, bytes FROM cloudfront_logs LIMIT 3;
+date,time,bytes
+2014-07-05,15:00:00,4260
+2014-07-05,15:00:00,10
+2014-07-05,15:00:00,4252
+Run time: 1.11 seconds | Data scanned: 2.22 KB`
+
+func TestRunQueryCSV(t *testing.T) {
+	tests := []struct {
+		query   string
+		results []*stub.Result
+		wants   []string
+	}{
+		{
+			query: "SELECT date, time, bytes FROM cloudfront_logs LIMIT 3;",
+			results: []*stub.Result{
+				{
+					ID:           "TestRunQueryCSV_Select",
+					Query:        "SELECT date, time, bytes FROM cloudfront_logs LIMIT 3",
+					ExecTime:     1111,
+					ScannedBytes: 2222,
+					ResultSet: athena.ResultSet{
+						ResultSetMetadata: &athena.ResultSetMetadata{},
+						Rows: testhelper.CreateRows([][]string{
+							{"date", "time", "bytes"},
+							{"2014-07-05", "15:00:00", "4260"},
+							{"2014-07-05", "15:00:00", "10"},
+							{"2014-07-05", "15:00:00", "4252"},
+						}),
+					},
+				},
+			},
+			wants: []string{selectCSVOutput},
+		},
+	}
+
+	for _, tt := range tests {
+		var out bytes.Buffer
+		client := stub.NewClient(tt.results...)
+		a := New(client, &Config{Database: "sampledb", Format: "csv"}, &out).
+			WithWaitInterval(testWaitInterval)
+		a.RunQuery(tt.query)
+		got := out.String()
+
+		for _, want := range tt.wants {
+			assert.Contains(t, got, want, "Results: %#v", tt.results)
+		}
+	}
+}
+
 func TestRunQueryCanceled(t *testing.T) {
 	tests := []struct {
 		query   string
