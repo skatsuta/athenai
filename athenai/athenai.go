@@ -115,8 +115,7 @@ func (a *Athenai) print(x ...interface{}) {
 }
 
 func (a *Athenai) println(x ...interface{}) {
-	a.print(x...)
-	a.print("\n")
+	fmt.Fprintln(a.stdout, x...)
 }
 
 // showProgressMsg shows a given progress message until a context is canceled.
