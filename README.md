@@ -24,13 +24,15 @@ TODO
 - Named queries: Manage and run named queries easily.
 
 
-## Requirements
+## Setup
+
+### AWS Creadentitals (Required)
 
 You need to set up AWS credentials before using this tool.
 
 TODO: setup document links
 
-### Setting default configurations (Optional)
+### Default configuration file (Optional)
 
 You can optionally set your default configuration values into `~/.athenai/config` to simplify every command execution.
 
@@ -44,11 +46,11 @@ database = sampledb
 location = s3://aws-athena-query-results-[YOUR_ACCOUNT_ID]-us-east-1/
 ```
 
-Afterwards Athenai loads the configurations automatically and you can omit the option flags when running commands.
+Afterwards Athenai loads the configuration automatically and you can omit the option flags when running commands.
 
 See the **Configuration file** section for more details.
 
-## Usage
+## Getting Started
 
 #### Note: config option flags
 
@@ -63,12 +65,6 @@ $ athenai run \
   --location s3://aws-athena-query-results-[YOUR_ACCOUNT_ID]-us-east-1/ \
   "SELECT date, time, bytes, requestip, method, status FROM cloudfront_logs LIMIT 5;"
 ```
-
-#### Note: the order of query results
-
-The order of query results may be different from that of given queries, because by default Athenai makes all query execution requests concurrently to Amazon Athena, and shows the results in the order completed.
-
-You can use `--order` option if you want to display the results in the same order.
 
 ### Running queries interactively (REPL mode)
 
@@ -90,14 +86,6 @@ SELECT date, time, bytes, requestip, method, status FROM sampledb.cloudfront_log
 Run time: 2.149 seconds | Data scanned: 101 KB
 athenai> SHOW DATABASES; SHOW TABLES;
 ⠳ Running query...
-SHOW TABLES;
-+-----------------+
-| cloudfront_logs |
-| elb_logs        |
-| flights_parquet |
-+-----------------+
-Run time: 0.38 seconds | Data scanned: 0 B
-
 SHOW DATABASES;
 +-----------------+
 | cloudfront_logs |
@@ -106,6 +94,14 @@ SHOW DATABASES;
 | sampledb        |
 +-----------------+
 Run time: 0.35 seconds | Data scanned: 0 B
+
+SHOW TABLES;
++-----------------+
+| cloudfront_logs |
+| elb_logs        |
+| flights_parquet |
++-----------------+
+Run time: 0.38 seconds | Data scanned: 0 B
 athenai> 
 ```
 
@@ -130,14 +126,6 @@ Run time: 2.149 seconds | Data scanned: 101 KB
 
 $ athenai run "SHOW DATABASES; SHOW TABLES;"
 ⠳ Running query...
-SHOW TABLES;
-+-----------------+
-| cloudfront_logs |
-| elb_logs        |
-| flights_parquet |
-+-----------------+
-Run time: 0.40 seconds | Data scanned: 0 B
-.
 SHOW DATABASES;
 +-----------------+
 | cloudfront_logs |
@@ -146,6 +134,14 @@ SHOW DATABASES;
 | sampledb        |
 +-----------------+
 Run time: 0.34 seconds | Data scanned: 0 B
+
+SHOW TABLES;
++-----------------+
+| cloudfront_logs |
+| elb_logs        |
+| flights_parquet |
++-----------------+
+Run time: 0.40 seconds | Data scanned: 0 B
 ```
 
 
@@ -171,7 +167,7 @@ SELECT date, time, bytes, requestip, method, status FROM sampledb.cloudfront_log
 Run time: 2.149 seconds | Data scanned: 101 KB
 ```
 
-or pass its content via stdin if you can use pipe on Unix-like OS:
+or pass its content via STDIN:
 
 ```bash
 $ cat sample.sql
@@ -189,6 +185,53 @@ SELECT date, time, bytes, requestip, method, status FROM sampledb.cloudfront_log
 | 2014-07-05 | 15:00:03 |  4261 | 10.0.0.15 | GET    |    200 |
 +------------+----------+-------+-----------+--------+--------+
 Run time: 2.149 seconds | Data scanned: 101 KB
+```
+
+### Showing results of completed query executions
+
+Run the below command:
+
+```bash
+$ athenai show
+```
+
+and you can select query executions interactively with `Ctrl-Space`, whose results you want to show:
+
+```bash
+QUERY>                                                                                                                                                IgnoreCase [48 (1/1)]
+2017-06-26 14:11:36 +0000 UTC   SHOW TABLES SUCCEEDED   0.37 seconds    0 B
+2017-06-26 14:11:36 +0000 UTC   SELECT timestamp, requestip, backendip FROM elb_logs LIMIT 3   SUCCEEDED   0.55 seconds    17.80 KB
+2017-06-26 14:11:36 +0000 UTC   SELECT date, time, bytes, requestip, method, status FROM cloudfront_logs LIMIT 10   SUCCEEDED   2.23 seconds    101.27 KB
+2017-06-26 14:11:36 +0000 UTC   SHOW DATABASES  SUCCEEDED   0.38 seconds    0 B
+(snip)
+```
+
+Then hit `Enter` and you will see the results of selected query executions like this:
+
+```bash
+⠦ Loading history...
+⠋ Fetching results...
+QueryExecutionId: 22917c12-218d-463c-b9e7-ec7f03aa3588
+Query: SHOW DATABASES;
++-----------------+
+| cloudfront_logs |
+| default         |
+| elb_logs        |
+| s3_logs         |
+| sampledb        |
+| test            |
++-----------------+
+Run time: 0.38 seconds | Data scanned: 0 B
+
+QueryExecutionId: bb2b0930-9e3e-47fb-9985-17c0ff2cbd89
+Query: SELECT timestamp, requestip, backendip FROM elb_logs LIMIT 3;
++-----------------------------+----------------+-----------------+
+| timestamp                   | requestip      | backendip       |
+| 2014-09-27T00:00:25.424956Z | 241.230.198.83 | 251.192.40.76   |
+| 2014-09-27T00:00:56.439218Z | 252.26.60.51   | 249.89.116.3    |
+| 2014-09-27T00:01:27.441734Z | 250.244.20.109 | 251.111.156.171 |
++-----------------------------+----------------+-----------------+
+Run time: 0.55 seconds | Data scanned: 17.80 KB
 ```
 
 ### Manage and run named queries
