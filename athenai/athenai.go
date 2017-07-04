@@ -380,10 +380,21 @@ func (a *Athenai) selectQueryExecutions(ctx context.Context) ([]*athena.QueryExe
 	}
 	a.mu.Unlock()
 
-	qxs, err := a.fetchQueryExecutions(ctx)
+	loadingCtx, cancel := context.WithCancel(ctx)
+	defer cancel() // Ensure to cancel
+
+	// Print loading messages
+	if !a.cfg.Silent {
+		go a.showProgressMsg(loadingCtx, loadingHistoryMsg)
+	}
+
+	qxs, err := a.fetchQueryExecutions(loadingCtx)
 	if err != nil {
 		return nil, errors.Wrap(err, "error fetching query executions")
 	}
+
+	// Stop printing loading messages
+	cancel()
 
 	selectedQxs, err := a.filterQueryExecutions(qxs)
 	if err != nil && !strings.Contains(err.Error(), "canceled") { // Ignore user-canceled error
@@ -408,12 +419,7 @@ func (a *Athenai) fetchQueryResults(ctx context.Context, qx *athena.QueryExecuti
 func (a *Athenai) ShowResults() {
 	// Trap SIGINT signal
 	signal.Notify(a.signalCh, os.Interrupt)
-	userCancelCtx, userCancelFunc := context.WithCancel(context.Background())
-	loadingCtx, loadingCancelFunc := context.WithCancel(context.Background())
-	cancel := func() {
-		userCancelFunc()
-		loadingCancelFunc()
-	}
+	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	canceledCh := make(chan struct{})
 
@@ -424,16 +430,11 @@ func (a *Athenai) ShowResults() {
 			log.Println("Starting cancellation initiated by user")
 			cancel()
 			canceledCh <- struct{}{}
-		case <-userCancelCtx.Done(): // Exit normally
+		case <-ctx.Done(): // Exit normally
 		}
 	}()
 
-	// Print loading messages
-	if !a.cfg.Silent {
-		go a.showProgressMsg(loadingCtx, loadingHistoryMsg)
-	}
-
-	qxs, err := a.selectQueryExecutions(userCancelCtx)
+	qxs, err := a.selectQueryExecutions(ctx)
 	if err != nil {
 		a.print("\n")
 		if !strings.Contains(err.Error(), "canceled") { // Ignore user-canceled error
@@ -441,12 +442,11 @@ func (a *Athenai) ShowResults() {
 		}
 		return
 	}
-	loadingCancelFunc() // Cancel loading messages
 
 	// Print messages while fetching query results
 	if !a.cfg.Silent {
 		a.print("\n")
-		go a.showProgressMsg(userCancelCtx, fetchingResultsMsg)
+		go a.showProgressMsg(ctx, fetchingResultsMsg)
 	}
 
 	// Get each query result concurrently
@@ -458,7 +458,7 @@ func (a *Athenai) ShowResults() {
 		rcCh := make(chan *ResultContainer, 1)
 		rcChs[i] = rcCh
 		go func(qx *athena.QueryExecution) {
-			a.fetchQueryResults(userCancelCtx, qx, rcCh)
+			a.fetchQueryResults(ctx, qx, rcCh)
 			wg.Done()
 		}(qx) // Capture locally in order to use it in goroutines
 	}
