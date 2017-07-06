@@ -303,6 +303,29 @@ func (s *ListQueryExecutionsStub) ListQueryExecutionsWithContext(ctx aws.Context
 	return s.ListQueryExecutions(input)
 }
 
+// ListQueryExecutionsPages iterates over the pages of a ListQueryExecutions operation,
+// calling the "fn" function with the response data for each page. To stop
+// iterating, return false from the fn function.
+func (s *ListQueryExecutionsStub) ListQueryExecutionsPages(input *athena.ListQueryExecutionsInput, fn func(*athena.ListQueryExecutionsOutput, bool) bool) error {
+	cont := true
+	for cont {
+		lqx, err := s.ListQueryExecutions(input)
+		if err != nil {
+			return err
+		}
+		lastPage := lqx.NextToken == nil
+		cont = fn(lqx, lastPage)
+		cont = cont && !lastPage
+	}
+	return nil
+}
+
+// ListQueryExecutionsPagesWithContext same as ListQueryExecutionsPages except
+// it takes a Context and allows setting request options on the pages.
+func (s *ListQueryExecutionsStub) ListQueryExecutionsPagesWithContext(ctx aws.Context, input *athena.ListQueryExecutionsInput, fn func(*athena.ListQueryExecutionsOutput, bool) bool, opts ...request.Option) error {
+	return s.ListQueryExecutionsPages(input, fn)
+}
+
 // GetQueryResultsStub simulates GetQueryResults and GetQueryResultsPages API.
 type GetQueryResultsStub struct {
 	athenaiface.AthenaAPI
@@ -359,7 +382,7 @@ func (s *GetQueryResultsStub) GetQueryResultsWithContext(ctx aws.Context, input 
 }
 
 // GetQueryResultsPages iterates over the pages of a GetQueryResults operation, calling the callback function with the response data for each page.
-func (s *GetQueryResultsStub) GetQueryResultsPages(input *athena.GetQueryResultsInput, callback func(*athena.GetQueryResultsOutput, bool) bool) error {
+func (s *GetQueryResultsStub) GetQueryResultsPages(input *athena.GetQueryResultsInput, fn func(*athena.GetQueryResultsOutput, bool) bool) error {
 	cont := true
 	for cont {
 		qr, err := s.GetQueryResults(input)
@@ -367,7 +390,7 @@ func (s *GetQueryResultsStub) GetQueryResultsPages(input *athena.GetQueryResults
 			return err
 		}
 		lastPage := qr.NextToken == nil
-		cont = callback(qr, lastPage)
+		cont = fn(qr, lastPage)
 		cont = cont && !lastPage
 	}
 	return nil
@@ -375,8 +398,8 @@ func (s *GetQueryResultsStub) GetQueryResultsPages(input *athena.GetQueryResults
 
 // GetQueryResultsPagesWithContext same as GetQueryResultsPages except
 // it takes a Context and allows setting request options on the pages.
-func (s *GetQueryResultsStub) GetQueryResultsPagesWithContext(ctx aws.Context, input *athena.GetQueryResultsInput, callback func(*athena.GetQueryResultsOutput, bool) bool, opts ...request.Option) error {
-	return s.GetQueryResultsPages(input, callback)
+func (s *GetQueryResultsStub) GetQueryResultsPagesWithContext(ctx aws.Context, input *athena.GetQueryResultsInput, fn func(*athena.GetQueryResultsOutput, bool) bool, opts ...request.Option) error {
+	return s.GetQueryResultsPages(input, fn)
 }
 
 // Client is a stub of Athena client.
@@ -458,6 +481,19 @@ func (s *Client) ListQueryExecutionsWithContext(ctx aws.Context, input *athena.L
 	return s.ListQueryExecutionsStub.ListQueryExecutionsWithContext(ctx, input, opts...)
 }
 
+// ListQueryExecutionsPages iterates over the pages of a ListQueryExecutions operation,
+// calling the "fn" function with the response data for each page. To stop
+// iterating, return false from the fn function.
+func (s *Client) ListQueryExecutionsPages(input *athena.ListQueryExecutionsInput, fn func(*athena.ListQueryExecutionsOutput, bool) bool) error {
+	return s.ListQueryExecutionsStub.ListQueryExecutionsPages(input, fn)
+}
+
+// ListQueryExecutionsPagesWithContext same as ListQueryExecutionsPages except
+// it takes a Context and allows setting request options on the pages.
+func (s *Client) ListQueryExecutionsPagesWithContext(ctx aws.Context, input *athena.ListQueryExecutionsInput, fn func(*athena.ListQueryExecutionsOutput, bool) bool, opts ...request.Option) error {
+	return s.ListQueryExecutionsStub.ListQueryExecutionsPagesWithContext(ctx, input, fn, opts...)
+}
+
 // GetQueryResults returns the results of a single query execution specified by QueryExecutionId.
 func (s *Client) GetQueryResults(input *athena.GetQueryResultsInput) (*athena.GetQueryResultsOutput, error) {
 	return s.GetQueryResultsStub.GetQueryResults(input)
@@ -470,12 +506,12 @@ func (s *Client) GetQueryResultsWithContext(ctx aws.Context, input *athena.GetQu
 }
 
 // GetQueryResultsPages iterates over the pages of a GetQueryResults operation, calling the callback function with the response data for each page.
-func (s *Client) GetQueryResultsPages(input *athena.GetQueryResultsInput, callback func(*athena.GetQueryResultsOutput, bool) bool) error {
-	return s.GetQueryResultsStub.GetQueryResultsPages(input, callback)
+func (s *Client) GetQueryResultsPages(input *athena.GetQueryResultsInput, fn func(*athena.GetQueryResultsOutput, bool) bool) error {
+	return s.GetQueryResultsStub.GetQueryResultsPages(input, fn)
 }
 
 // GetQueryResultsPagesWithContext same as GetQueryResultsPages except
 // it takes a Context and allows setting request options on the pages.
-func (s *Client) GetQueryResultsPagesWithContext(ctx aws.Context, input *athena.GetQueryResultsInput, callback func(*athena.GetQueryResultsOutput, bool) bool, opts ...request.Option) error {
-	return s.GetQueryResultsStub.GetQueryResultsPagesWithContext(ctx, input, callback, opts...)
+func (s *Client) GetQueryResultsPagesWithContext(ctx aws.Context, input *athena.GetQueryResultsInput, fn func(*athena.GetQueryResultsOutput, bool) bool, opts ...request.Option) error {
+	return s.GetQueryResultsStub.GetQueryResultsPagesWithContext(ctx, input, fn, opts...)
 }
