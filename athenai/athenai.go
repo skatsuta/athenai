@@ -176,7 +176,10 @@ func (a *Athenai) RunQuery(queries ...string) {
 	userCancelCtx, userCancelFunc := context.WithCancel(context.Background())
 	// Context to notify cancellation process is complete
 	cancelingCtx, cancelingFunc := context.WithCancel(context.Background())
-	defer cancelingFunc()
+	defer func() {
+		userCancelFunc()
+		cancelingFunc()
+	}()
 
 	canceledCh := make(chan struct{})
 
