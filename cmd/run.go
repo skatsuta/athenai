@@ -100,9 +100,22 @@ func appendStdinData(args []string, stdin io.Reader) []string {
 	return append(args, data)
 }
 
-func runRun(cmd *cobra.Command, args []string, client athenaiface.AthenaAPI, cfg *athenai.Config, stdin statReader, out io.Writer) error {
-	if err := validateConfigForRun(cfg); err != nil {
-		return err
+func runRun(cmd *cobra.Command, args []string, client athenaiface.AthenaAPI, cfg *athenai.Config, stdin statReader, out io.Writer) (err error) {
+	if e := validateConfigForRun(cfg); e != nil {
+		return errors.Wrap(e, "validation for run command failed")
+	}
+
+	if cfg.Output != "" {
+		file, err := os.Create(cfg.Output)
+		if err != nil {
+			return errors.Wrap(err, "failed to open file to write")
+		}
+		defer func() {
+			if e := file.Close(); err == nil { // Assign the returned value only if err is nil
+				err = e
+			}
+		}()
+		out = file
 	}
 
 	a := athenai.New(client, cfg, out)

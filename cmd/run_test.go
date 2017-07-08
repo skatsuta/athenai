@@ -3,6 +3,7 @@ package cmd
 import (
 	"bytes"
 	"io"
+	"io/ioutil"
 	"os"
 	"strings"
 	"testing"
@@ -201,6 +202,79 @@ func TestRunRun(t *testing.T) {
 	}
 }
 
+const showDatabasesOutput = `
+Query: SHOW DATABASES;
++-----------------+
+| cloudfront_logs |
+| elb_logs        |
+| sampledb        |
++-----------------+
+Run time: 12.35 seconds | Data scanned: 56.79 KB
+`
+
+func TestRunRunOutputFile(t *testing.T) {
+	tests := []struct {
+		args     []string
+		output   string
+		id       string
+		query    string
+		execTime int64
+		scanned  int64
+		rs       athena.ResultSet
+		want     string
+	}{
+		{
+			args:     []string{"SHOW DATABASES"},
+			output:   "TestRunRunOutputFile",
+			id:       "TestRunRunOutputFile",
+			query:    "SHOW DATABASES",
+			execTime: 12345,
+			scanned:  56789,
+			rs: athena.ResultSet{
+				ResultSetMetadata: &athena.ResultSetMetadata{},
+				Rows: testhelper.CreateRows([][]string{
+					{"cloudfront_logs"},
+					{"elb_logs"},
+					{"sampledb"},
+				}),
+			},
+			want: showDatabasesOutput,
+		},
+	}
+
+	for _, tt := range tests {
+		// Write test SQL to a temporary file
+		tmpFile, err := ioutil.TempFile("", tt.output)
+		assert.NoError(t, err)
+
+		client := stub.NewClient(&stub.Result{
+			ID:           tt.id,
+			Query:        tt.query,
+			ExecTime:     tt.execTime,
+			ScannedBytes: tt.scanned,
+			ResultSet:    tt.rs,
+		})
+		cfg := &athenai.Config{
+			Location: "s3://bucket/",
+			Output:   tmpFile.Name(),
+		}
+		err = runRun(runCmd, tt.args, client, cfg, os.Stdin, os.Stdout)
+		assert.NoError(t, err)
+
+		b, err := ioutil.ReadAll(tmpFile)
+		got := string(b)
+
+		assert.NoError(t, err, "Args: %#v, Output: %s, Id: %#v, ResultSet: %#v", tt.args, tt.output, tt.id, tt.rs)
+		assert.Contains(t, got, tt.want, "Args: %#v, Output: %s, Id: %#v, ResultSet: %#v", tt.args, tt.output, tt.id, tt.rs)
+
+		// Clean up
+		err = tmpFile.Close()
+		assert.NoError(t, err)
+		err = os.Remove(tmpFile.Name())
+		assert.NoError(t, err)
+	}
+}
+
 func TestRunRunValidationError(t *testing.T) {
 	tests := []struct {
 		id       string
@@ -220,6 +294,7 @@ func TestRunRunValidationError(t *testing.T) {
 		var out bytes.Buffer
 		client := stub.NewClient(&stub.Result{ID: tt.id})
 		err := runRun(runCmd, []string{}, client, tt.cfg, os.Stdin, &out)
+		err = errors.Cause(err)
 
 		if assert.Error(t, err) {
 			assert.IsType(t, tt.wantType, err, "Id: %#v, Config: %#v", tt.id, tt.cfg)
