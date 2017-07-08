@@ -20,6 +20,7 @@ const (
 type Config struct {
 	Debug      bool   `ini:"debug"`
 	Silent     bool   `ini:"silent"`
+	Output     string `ini:"output"`
 	Section    string `ini:"-"`
 	Profile    string `ini:"profile"`
 	Region     string `ini:"region"`

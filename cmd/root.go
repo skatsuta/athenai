@@ -84,6 +84,7 @@ func init() {
 	f.StringVarP(&config.Section, "section", "s", "default", "The section in config file to use")
 	f.StringVarP(&config.Profile, "profile", "p", "default", "Use a specific profile from your credential file")
 	f.StringVarP(&config.Region, "region", "r", "us-east-1", "The AWS region to use")
+	f.StringVarP(&config.Output, "output", "o", "", "Output query results to a given file path instead of stdout")
 
 	// Define local flags
 	RootCmd.Flags().BoolVarP(&showVersion, "version", "v", false, "Show version")
