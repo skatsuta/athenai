@@ -399,7 +399,7 @@ func (a *Athenai) filterQueryExecutions(qxs []*athena.QueryExecution) ([]*athena
 	for _, qx := range qxs {
 		if aws.StringValue(qx.Status.State) != athena.QueryExecutionStateSucceeded {
 			// Skip if not succeeded
-			log.Printf("Eliminating query execution id %s because of %s state\n",
+			log.Printf("Eliminating QueryExecutionId %s because of %s state\n",
 				aws.StringValue(qx.QueryExecutionId),
 				aws.StringValue(qx.Status.State),
 			)
