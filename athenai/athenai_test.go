@@ -10,6 +10,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/athena"
 	"github.com/chzyer/readline"
 	"github.com/peco/peco"
@@ -762,9 +763,7 @@ func TestShowResultsError(t *testing.T) {
 			WithStderr(&out).
 			WithWaitInterval(testWaitInterval)
 		f := newStubFilter(true)
-		if tt.errMsg != "" {
-			f.errMsg = tt.errMsg
-		}
+		f.errMsg = tt.errMsg
 		a.f = f
 		a.ShowResults()
 		got := out.String()
@@ -789,4 +788,38 @@ func TestShowResultsCanceled(t *testing.T) {
 	got := out.String()
 
 	assert.Contains(t, got, want, "Result: %#v", r)
+}
+
+func TestGenerateEntry(t *testing.T) {
+	tests := []struct {
+		query string
+		want  string
+	}{
+		{
+			query: "SELECT * FROM table",
+			want:  "SELECT * FROM table",
+		},
+		{
+			query: `SELECT *
+FROM table
+WHERE id = 1
+LIMIT 10`,
+			want: "SELECT * FROM table WHERE id = 1 LIMIT 10",
+		},
+	}
+
+	dt := time.Date(2017, 7, 1, 0, 0, 0, 0, time.UTC)
+	for _, tt := range tests {
+		qx := &athena.QueryExecution{
+			Query: &tt.query,
+			Status: &athena.QueryExecutionStatus{
+				SubmissionDateTime: &dt,
+				State:              aws.String(athena.QueryExecutionStateSucceeded),
+			},
+			Statistics: testhelper.CreateStats(1000, 2000),
+		}
+		got := generateEntry(qx)
+
+		assert.Contains(t, got, tt.want, "Query: %q", tt.query)
+	}
 }
