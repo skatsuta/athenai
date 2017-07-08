@@ -498,6 +498,14 @@ func TestRunREPLError(t *testing.T) {
 			rl:   &stubReadline{query: "foo", err: readline.ErrInterrupt},
 			want: "To exit,",
 		},
+		{
+			rl:   &stubReadline{query: "", err: io.EOF},
+			want: "",
+		},
+		{
+			rl:   &stubReadline{query: "error", err: errors.New("unknown error")},
+			want: "",
+		},
 	}
 
 	for _, tt := range tests {
