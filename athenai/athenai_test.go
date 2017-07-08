@@ -61,6 +61,7 @@ func TestShowProgressMsg(t *testing.T) {
 	var out bytes.Buffer
 	a := &Athenai{
 		stdout:          &out,
+		stderr:          &out,
 		cfg:             &Config{},
 		refreshInterval: 5 * time.Millisecond,
 		waitInterval:    testWaitInterval,
@@ -378,7 +379,9 @@ func TestRunQueryCanceled(t *testing.T) {
 	for _, tt := range tests {
 		var out bytes.Buffer
 		client := stub.NewClient(tt.results...)
-		a := New(client, &Config{Database: "sampledb"}, &out).WithWaitInterval(testWaitInterval)
+		a := New(client, &Config{Database: "sampledb"}, &out).
+			WithStderr(&out).
+			WithWaitInterval(testWaitInterval)
 
 		timer := time.NewTimer(tt.delay)
 		go func() {

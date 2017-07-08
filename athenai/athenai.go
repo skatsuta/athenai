@@ -137,7 +137,7 @@ func (a *Athenai) println(x ...interface{}) {
 // showProgressMsg shows a given progress message until a context is canceled.
 func (a *Athenai) showProgressMsg(ctx context.Context, msg string) {
 	s := spinner.New(spinnerChars, a.refreshInterval)
-	s.Writer = a.stdout
+	s.Writer = a.stderr
 	s.Suffix = " " + msg
 	s.Start()
 	<-ctx.Done() // Wait until ctx is done
