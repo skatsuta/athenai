@@ -543,6 +543,7 @@ func (l *stubLocation) LineNumber() int {
 
 type stubFilter struct {
 	selectLine bool
+	lines      []string
 	s          *peco.Selection
 	b          *stubBuffer
 	l          *stubLocation
@@ -560,19 +561,20 @@ func newStubFilter(selectLine bool) *stubFilter {
 }
 
 func (f *stubFilter) SetInput(input string) {
-	lines := strings.Split(input, "\n")
-	for i, ln := range lines {
-		raw := line.NewRaw(uint64(i), ln, false)
-		if f.selectLine {
-			f.s.Add(raw)
-		}
-		f.b.lines = append(f.b.lines, raw)
-	}
+	f.lines = strings.Split(input, "\n")
 }
 
 func (f *stubFilter) Run(ctx context.Context) error {
 	if f.errMsg != "" {
 		return errors.New(f.errMsg)
+	}
+
+	for i, ln := range f.lines {
+		raw := line.NewRaw(uint64(i), ln, false)
+		if f.selectLine {
+			f.s.Add(raw)
+		}
+		f.b.lines = append(f.b.lines, raw)
 	}
 	return nil
 }
