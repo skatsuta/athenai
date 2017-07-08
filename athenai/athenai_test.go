@@ -591,6 +591,62 @@ func (f *stubFilter) Location() filter.Location {
 	return f.l
 }
 
+func TestSelectQueryExecutions(t *testing.T) {
+	tests := []struct {
+		count uint
+		want  int
+	}{
+		{
+			count: 0,
+			want:  3,
+		},
+		{
+			count: 1,
+			want:  1,
+		},
+		{
+			count: 50,
+			want:  3,
+		},
+	}
+
+	results := []*stub.Result{
+		{
+			ID:           "TestFetchQueryExecutions_ShowTables",
+			Query:        "SHOW TABLES",
+			SubmitTime:   time.Date(2017, 7, 1, 0, 0, 0, 0, time.UTC),
+			ExecTime:     1111,
+			ScannedBytes: 2222,
+		},
+		{
+			ID:           "TestFetchQueryExecutions_ShowDatabases",
+			Query:        "SHOW DATABASES",
+			SubmitTime:   time.Date(2017, 7, 1, 1, 0, 0, 0, time.UTC),
+			ExecTime:     12345,
+			ScannedBytes: 56789,
+		},
+		{
+			ID:           "TestFetchQueryExecutions_Select",
+			Query:        "SELECT date, time, bytes FROM cloudfront_logs LIMIT 3",
+			SubmitTime:   time.Date(2017, 7, 1, 2, 0, 0, 0, time.UTC),
+			ExecTime:     5555,
+			ScannedBytes: 6666,
+		},
+	}
+
+	for _, tt := range tests {
+		client := stub.NewClient(results...)
+		cfg := &Config{Count: tt.count}
+		var out bytes.Buffer
+		a := New(client, cfg, &out).WithWaitInterval(testWaitInterval)
+		a.f = newStubFilter(true) // Select all items
+		got, err := a.selectQueryExecutions(context.Background())
+
+		assert.NoError(t, err)
+		assert.Len(t, got, tt.want, "Count: %#v", tt.count)
+	}
+}
+
 func TestShowResults(t *testing.T) {
 	tests := []struct {
 		results    []*stub.Result
