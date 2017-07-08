@@ -49,6 +49,7 @@ func init() {
 	f.StringVarP(&config.Database, "database", "d", "", "The name of the database")
 	f.StringVarP(&config.Location, "location", "l", "", `The location in S3 where query results are stored. For example, "s3://bucket_name/prefix/"`)
 	f.StringVarP(&config.Format, "format", "f", "table", "The formatting style for command output. Valid values: table, csv")
+	f.UintVarP(&config.Concurrent, "concurrent", "C", 5, "The maximum number of concurrent query executions at a time. Usually no need to configure this value")
 }
 
 func validateConfigForRun(cfg *athenai.Config) error {

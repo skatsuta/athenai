@@ -18,15 +18,16 @@ const (
 
 // Config is a configuration information.
 type Config struct {
-	Debug    bool   `ini:"debug"`
-	Silent   bool   `ini:"silent"`
-	Section  string `ini:"-"`
-	Profile  string `ini:"profile"`
-	Region   string `ini:"region"`
-	Database string `ini:"database"`
-	Location string `ini:"location"`
-	Format   string `ini:"format"`
-	Count    uint   `ini:"count"`
+	Debug      bool   `ini:"debug"`
+	Silent     bool   `ini:"silent"`
+	Section    string `ini:"-"`
+	Profile    string `ini:"profile"`
+	Region     string `ini:"region"`
+	Database   string `ini:"database"`
+	Location   string `ini:"location"`
+	Format     string `ini:"format"`
+	Count      uint   `ini:"count"`
+	Concurrent uint   `ini:"concurrent"`
 
 	iniCfg *ini.File `ini:"-"`
 }

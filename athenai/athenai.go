@@ -41,6 +41,11 @@ const (
 	cancelingMsg       = "Canceling..."
 
 	maxResults = 50
+
+	// http://docs.aws.amazon.com/athena/latest/ug/service-limits.html
+	// > By default, concurrency limits on your account allow you to run five concurrent queries at a time.
+	// > This is a soft limit and you can request a limit increase for concurrent queries.
+	defaultConcurrentcy = 5
 )
 
 var spinnerChars = []string{"⠋", "⠙", "⠚", "⠞", "⠖", "⠦", "⠴", "⠲", "⠳", "⠓"}
@@ -215,12 +220,23 @@ func (a *Athenai) RunQuery(queries ...string) {
 	chs := make([]chan *Either, l)
 	var wg sync.WaitGroup
 	wg.Add(l)
+	concurrency := a.cfg.Concurrent
+	if concurrency == 0 {
+		concurrency = defaultConcurrentcy
+	}
+	// Limit the number of concurrent query executions
+	sema := make(chan struct{}, concurrency)
+
 	for i, stmt := range stmts {
+		sema <- struct{}{}
 		ch := make(chan *Either, 1)
 		chs[i] = ch
 		go func(query string) {
+			defer func() {
+				<-sema
+				wg.Done()
+			}()
 			a.runSingleQuery(userCancelCtx, query, ch)
-			wg.Done()
 		}(stmt) // Capture stmt locally in order to use it in goroutines
 	}
 
