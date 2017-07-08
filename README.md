@@ -144,6 +144,23 @@ SHOW TABLES;
 Run time: 0.40 seconds | Data scanned: 0 B
 ```
 
+If you want to display query results in CSV format, specify `--format/-f csv` flag.
+
+```bash
+$ time go run main.go run --format csv "SELECT date, time, bytes, requestip, method, status FROM sampledb.cloudfront_logs LIMIT 5;"
+⠚ Running query...
+QueryExecutionId: 922019ee-d2d7-4b45-bf86-696ca5cc343a
+Query: SELECT date, time, bytes, requestip, method, status FROM sampledb.cloudfront_logs LIMIT 5;
+date,time,bytes,requestip,method,status
+2014-07-05,15:00:00,4260,10.0.0.15,GET,200
+2014-07-05,15:00:00,10,10.0.0.15,GET,304
+2014-07-05,15:00:00,4252,10.0.0.15,GET,200
+2014-07-05,15:00:00,4257,10.0.0.8,GET,200
+2014-07-05,15:00:03,4261,10.0.0.15,GET,200
+Run time: 3.18 seconds | Data scanned: 101.27 KB
+```
+
+You can also use this flag with `athenai show` command described later.
 
 ### Running queries from an SQL file
 
@@ -195,7 +212,7 @@ Run the below command:
 $ athenai show
 ```
 
-and you can select query executions interactively with `Ctrl-Space`, whose results you want to show:
+and you can select query executions you want to show, interactively with `Ctrl-Space`:
 
 ```bash
 QUERY>                                                                                                                                                IgnoreCase [48 (1/1)]
@@ -206,7 +223,7 @@ QUERY>                                                                          
 (snip)
 ```
 
-Then hit `Enter` and you will see the results of selected query executions like this:
+Then hit `Enter` and you will see the results of selected query executions like the following:
 
 ```bash
 ⠦ Loading history...
@@ -217,9 +234,7 @@ Query: SHOW DATABASES;
 | cloudfront_logs |
 | default         |
 | elb_logs        |
-| s3_logs         |
 | sampledb        |
-| test            |
 +-----------------+
 Run time: 0.38 seconds | Data scanned: 0 B
 
@@ -233,6 +248,20 @@ Query: SELECT timestamp, requestip, backendip FROM elb_logs LIMIT 3;
 +-----------------------------+----------------+-----------------+
 Run time: 0.55 seconds | Data scanned: 17.80 KB
 ```
+
+By default the `show` command lists up to 50 query executions except those in FAILED state, and you can configure the number by using `--count/-c` flag:
+
+```bash
+$ athenai show --count 100
+```
+
+If you want to list all of your completed query executions, specify `0`:
+
+```bash
+$ athenai show --count 0
+```
+
+Note that `--count 0` may be very slow depending on the total number of your query executions.
 
 ### Manage and run named queries
 
@@ -320,10 +349,10 @@ SHOW DATABASES;
 Run time: 0.34 seconds | Data scanned: 0 B
 ```
 
-### Location for config file
+### Location of configuration file
 
 By default Athenai automatically loads `~/.athenai/config` and use values in the file.
-If Athenai cannot find the config file in the location or fails to load the file, it ignores the file and uses only command line flags.
+If Athenai cannot find the config file in the location or fails to load the file, it ignores the file and uses command line flags only.
 
 If you want to use another config file in another location, use `--config` flag to specify its path (also don't forget to specify `--section` unless `default`):
 
@@ -357,7 +386,7 @@ Simply download the binary and place it in `$PATH`:
 ```bash
 $ curl -O https://.../athenai.zip
 $ unzip athenai.zip
-$ mv athenai /usr/local/bin/ # or where you like
+$ mv athenai /usr/local/bin/ # or wherever you like
 $ athenai --help
 ```
 
