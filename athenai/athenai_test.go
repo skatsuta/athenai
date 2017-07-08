@@ -714,7 +714,8 @@ func TestShowResults(t *testing.T) {
 	for _, tt := range tests {
 		var out bytes.Buffer
 		client := stub.NewClient(tt.results...)
-		a := New(client, &Config{Database: "sampledb"}, &out).WithWaitInterval(2 * testWaitInterval)
+		cfg := &Config{Database: "sampledb"}
+		a := New(client, cfg, &out).WithWaitInterval(2 * testWaitInterval)
 		a.f = newStubFilter(tt.selectLine)
 		a.ShowResults()
 		got := out.String()

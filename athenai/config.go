@@ -26,6 +26,7 @@ type Config struct {
 	Database string `ini:"database"`
 	Location string `ini:"location"`
 	Format   string `ini:"format"`
+	Count    uint   `ini:"count"`
 
 	iniCfg *ini.File `ini:"-"`
 }

@@ -6,6 +6,7 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	"math"
 	"os"
 	"os/signal"
 	"path/filepath"
@@ -38,6 +39,8 @@ const (
 	loadingHistoryMsg  = "Loading history..."
 	fetchingResultsMsg = "Fetching results..."
 	cancelingMsg       = "Canceling..."
+
+	maxResults = 50
 )
 
 var spinnerChars = []string{"⠋", "⠙", "⠚", "⠞", "⠖", "⠦", "⠴", "⠲", "⠳", "⠓"}
@@ -59,10 +62,10 @@ type readlineCloser interface {
 	Close() error
 }
 
-// ResultContainer is a container which has a query result or an error.
-type ResultContainer struct {
-	Result print.Result
-	Err    error
+// Either represents a value of one of two possible types (a disjoint union).
+type Either struct {
+	Left  interface{}
+	Right error
 }
 
 // Athenai is a main struct to run this app.
@@ -137,26 +140,27 @@ func (a *Athenai) showProgressMsg(ctx context.Context, msg string) {
 }
 
 // runSingleQuery runs a single query. `query` must be a single SQL statement.
-func (a *Athenai) runSingleQuery(ctx context.Context, query string, rcCh chan *ResultContainer) {
+func (a *Athenai) runSingleQuery(ctx context.Context, query string, ch chan *Either) {
 	// Run a query, and send results or an error
 	log.Printf("Start running %q\n", query)
 	q := exec.NewQuery(a.client, a.cfg.QueryConfig(), query).WithWaitInterval(a.waitInterval)
 	r, err := q.Run(ctx)
 	if err != nil {
-		rcCh <- &ResultContainer{Err: err}
+		ch <- &Either{Right: err}
 	} else {
-		rcCh <- &ResultContainer{Result: r}
+		ch <- &Either{Left: r}
 	}
 }
 
-func (a *Athenai) printResultOrErr(rc *ResultContainer) {
-	if r := rc.Result; r != nil {
+func (a *Athenai) printResultOrErr(rc *Either) {
+	if rc.Left != nil {
+		r := rc.Left.(print.Result)
 		a.print("\n")
 		a.printer.Print(r)
 		return
 	}
 
-	err := rc.Err
+	err := rc.Right
 	cause := errors.Cause(err)
 	switch e := cause.(type) {
 	case *exec.CanceledError:
@@ -208,14 +212,14 @@ func (a *Athenai) RunQuery(queries ...string) {
 	}
 
 	// Run each statement concurrently
-	rcChs := make([]chan *ResultContainer, l)
+	chs := make([]chan *Either, l)
 	var wg sync.WaitGroup
 	wg.Add(l)
 	for i, stmt := range stmts {
-		rcCh := make(chan *ResultContainer, 1)
-		rcChs[i] = rcCh
+		ch := make(chan *Either, 1)
+		chs[i] = ch
 		go func(query string) {
-			a.runSingleQuery(userCancelCtx, query, rcCh)
+			a.runSingleQuery(userCancelCtx, query, ch)
 			wg.Done()
 		}(stmt) // Capture stmt locally in order to use it in goroutines
 	}
@@ -231,13 +235,13 @@ func (a *Athenai) RunQuery(queries ...string) {
 		signal.Stop(a.signalCh)
 	}()
 
-	for _, rcCh := range rcChs {
+	for _, ch := range chs {
 		select {
 		case <-canceledCh: // Stop showing results if canceled
 			a.print("\n")
 			return
 		default:
-			a.printResultOrErr(<-rcCh)
+			a.printResultOrErr(<-ch)
 		}
 	}
 
@@ -314,27 +318,78 @@ func (a *Athenai) RunREPL() error {
 	}
 }
 
+// fetchQueryExecutionsInternal fetches query executions and returns them being sorted
+// by submission date in the descending order.
+func (a *Athenai) fetchQueryExecutionsInternal(ctx context.Context, maxPages float64, ch chan *Either, wg *sync.WaitGroup) error {
+	pageNum := 1
+	callback := func(page *athena.ListQueryExecutionsOutput, lastPage bool) bool {
+		wg.Add(1)
+		go func() {
+			bgqx, err := a.client.BatchGetQueryExecutionWithContext(ctx, &athena.BatchGetQueryExecutionInput{
+				QueryExecutionIds: page.QueryExecutionIds,
+			})
+			if err != nil {
+				ch <- &Either{Right: errors.Wrap(err, "BatchGetQueryExecution API error")}
+			} else {
+				ch <- &Either{Left: bgqx.QueryExecutions}
+			}
+			defer wg.Done()
+		}()
+
+		defer func() {
+			pageNum++
+		}()
+
+		goNext := !lastPage && float64(pageNum) < maxPages
+		log.Printf("# of pages: current = %d, max = %.0f; Going next: %v\n", pageNum, maxPages, goNext)
+		return goNext
+	}
+
+	err := a.client.ListQueryExecutionsPagesWithContext(ctx, &athena.ListQueryExecutionsInput{}, callback)
+	if err != nil {
+		return errors.Wrap(err, "ListQueryExecutions API error")
+	}
+	return nil
+}
+
 // fetchQueryExecutions fetches query executions and returns them being sorted by submission date
 // in the descending order.
 func (a *Athenai) fetchQueryExecutions(ctx context.Context) ([]*athena.QueryExecution, error) {
-	lqx, err := a.client.ListQueryExecutionsWithContext(ctx, &athena.ListQueryExecutionsInput{})
-	if err != nil {
-		return nil, errors.Wrap(err, "ListQueryExecutions API error")
+	c := int(a.cfg.Count)
+	log.Printf("Fetching %d query excutions to be listed\n", c)
+	maxPages := calcMaxPages(c)
+	log.Printf("Paginating query executions to up to %.0f pages\n", maxPages)
+
+	ch := make(chan *Either, 1)
+	var wg sync.WaitGroup
+	doneCh := make(chan struct{})
+
+	if err := a.fetchQueryExecutionsInternal(ctx, maxPages, ch, &wg); err != nil {
+		return nil, errors.Wrap(err, "failed to fetch query executions")
 	}
 
-	bgqx, err := a.client.BatchGetQueryExecutionWithContext(ctx, &athena.BatchGetQueryExecutionInput{
-		QueryExecutionIds: lqx.QueryExecutionIds,
-	})
-	if err != nil {
-		return nil, errors.Wrap(err, "BatchGetQueryExecution API error")
+	go func() {
+		wg.Wait()
+		doneCh <- struct{}{}
+	}()
+
+	qxs := make([]*athena.QueryExecution, 0, maxResults)
+Loop:
+	for {
+		select {
+		case item := <-ch:
+			qxs = append(qxs, item.Left.([]*athena.QueryExecution)...)
+		case <-doneCh:
+			log.Println("All results of selected query executions have been fetched")
+			break Loop
+		}
 	}
 
-	qxs := bgqx.QueryExecutions
+	log.Println("Sorting query executions by SubmissionDateTime in descending order")
 	sort.Slice(qxs, func(i, j int) bool {
 		// Sort by SubmissionDateTime in descending order
 		return qxs[i].Status.SubmissionDateTime.After(*qxs[j].Status.SubmissionDateTime)
 	})
-
 	return qxs, nil
 }
 
@@ -344,12 +399,24 @@ func (a *Athenai) filterQueryExecutions(qxs []*athena.QueryExecution) ([]*athena
 	for _, qx := range qxs {
 		if aws.StringValue(qx.Status.State) != athena.QueryExecutionStateSucceeded {
 			// Skip if not succeeded
+			log.Printf("Eliminating query execution id %s because of %s state\n",
+				aws.StringValue(qx.QueryExecutionId),
+				aws.StringValue(qx.Status.State),
+			)
 			continue
 		}
 		entry := generateEntry(qx)
 		entryMap[entry] = qx
 		entries = append(entries, entry)
 	}
+
+	// Reduce entries
+	c := int(a.cfg.Count)
+	l := len(entries)
+	if c == 0 || c > l {
+		c = l
+	}
+	entries = entries[:c]
 
 	history := strings.Join(entries, "\n")
 	a.f.SetInput(history)
@@ -360,13 +427,15 @@ func (a *Athenai) filterQueryExecutions(qxs []*athena.QueryExecution) ([]*athena
 	}
 
 	s := a.f.Selection()
-	if s.Len() == 0 {
-		if l, err := a.f.CurrentLineBuffer().LineAt(a.f.Location().LineNumber()); err == nil {
-			s.Add(l)
+	l = s.Len()
+	log.Printf("Selected %d query execution entries\n", l)
+	if l == 0 {
+		if line, err := a.f.CurrentLineBuffer().LineAt(a.f.Location().LineNumber()); err == nil {
+			s.Add(line)
 		}
 	}
 
-	selectedQxs := make([]*athena.QueryExecution, 0, s.Len())
+	selectedQxs := make([]*athena.QueryExecution, 0, l)
 	s.Ascend(func(it btree.Item) bool {
 		if entry, ok := entryMap[it.(line.Line).Output()]; ok {
 			selectedQxs = append(selectedQxs, entry)
@@ -379,6 +448,7 @@ func (a *Athenai) filterQueryExecutions(qxs []*athena.QueryExecution) ([]*athena
 func (a *Athenai) selectQueryExecutions(ctx context.Context) ([]*athena.QueryExecution, error) {
 	a.mu.Lock()
 	if a.f == nil {
+		log.Println("Filter not set in Athenai. Creating and setting a new Filter")
 		a.f = filter.New()
 	}
 	a.mu.Unlock()
@@ -407,14 +477,14 @@ func (a *Athenai) selectQueryExecutions(ctx context.Context) ([]*athena.QueryExe
 	return selectedQxs, nil
 }
 
-// fetchQueryResults fetches query results of qx and send them to rcCh.
-func (a *Athenai) fetchQueryResults(ctx context.Context, qx *athena.QueryExecution, rcCh chan *ResultContainer) {
+// fetchQueryResults fetches query results of qx and send them to ch.
+func (a *Athenai) fetchQueryResults(ctx context.Context, qx *athena.QueryExecution, ch chan *Either) {
 	log.Printf("Start fetching query results of QueryExecutionId %s\n", aws.StringValue(qx.QueryExecutionId))
 	q := exec.NewQueryFromQx(a.client, a.cfg.QueryConfig(), qx).WithWaitInterval(a.waitInterval)
 	if err := q.GetResults(ctx); err != nil {
-		rcCh <- &ResultContainer{Err: err}
+		ch <- &Either{Right: err}
 	} else {
-		rcCh <- &ResultContainer{Result: q.Result}
+		ch <- &Either{Left: q.Result}
 	}
 }
 
@@ -454,14 +524,14 @@ func (a *Athenai) ShowResults() {
 
 	// Get each query result concurrently
 	l := len(qxs)
-	rcChs := make([]chan *ResultContainer, l)
+	chs := make([]chan *Either, l)
 	var wg sync.WaitGroup
 	wg.Add(l)
 	for i, qx := range qxs {
-		rcCh := make(chan *ResultContainer, 1)
-		rcChs[i] = rcCh
+		ch := make(chan *Either, 1)
+		chs[i] = ch
 		go func(qx *athena.QueryExecution) {
-			a.fetchQueryResults(ctx, qx, rcCh)
+			a.fetchQueryResults(ctx, qx, ch)
 			wg.Done()
 		}(qx) // Capture locally in order to use it in goroutines
 	}
@@ -472,13 +542,13 @@ func (a *Athenai) ShowResults() {
 		signal.Stop(a.signalCh)
 	}()
 
-	for _, rcCh := range rcChs {
+	for _, ch := range chs {
 		select {
 		case <-canceledCh: // Stop showing results if canceled
 			a.print("\n")
 			return
 		default:
-			a.printResultOrErr(<-rcCh)
+			a.printResultOrErr(<-ch)
 		}
 	}
 
@@ -563,4 +633,17 @@ func generateEntry(qx *athena.QueryExecution) string {
 		print.FormatBytes(aws.Int64Value(qx.Statistics.DataScannedInBytes)),
 	)
 	return entry
+}
+
+func calcMaxPages(c int) float64 {
+	if c == 0 {
+		// No page limit if zero is given
+		return math.Inf(+1)
+	}
+
+	maxPages := float64(c / maxResults)
+	if c%maxResults != 0 {
+		maxPages++
+	}
+	return maxPages
 }

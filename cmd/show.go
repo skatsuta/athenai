@@ -30,4 +30,5 @@ func init() {
 	// Define flags
 	f := showCmd.Flags()
 	f.StringVarP(&config.Format, "format", "f", "table", "The formatting style for command output. Valid values: table, csv")
+	f.UintVarP(&config.Count, "count", "c", 50, "The maximum possible number of SUCCEEDED query executions to be listed")
 }
