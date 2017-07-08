@@ -60,7 +60,7 @@ func (s *StartQueryExecutionStub) StartQueryExecution(input *athena.StartQueryEx
 	query := aws.StringValue(input.QueryString)
 	r, ok := s.results[query]
 	if !ok {
-		return nil, errors.Errorf("InvalidRequestException: %q is an unexpected query", query)
+		return nil, errors.Errorf("%s: %q is an unexpected query", athena.ErrCodeInvalidRequestException, query)
 	}
 	for _, kwd := range []string{"SELECT", "SHOW", "DESCRIBE"} {
 		if !strings.HasPrefix(query, kwd) {
@@ -69,7 +69,7 @@ func (s *StartQueryExecutionStub) StartQueryExecution(input *athena.StartQueryEx
 		resp := &athena.StartQueryExecutionOutput{QueryExecutionId: &r.ID}
 		return resp, nil
 	}
-	return nil, errors.Errorf("InvalidRequestException: %q is not an allowed statement", query)
+	return nil, errors.Errorf("%s: %q is not an allowed statement", athena.ErrCodeInvalidRequestException, query)
 }
 
 // StartQueryExecutionWithContext is the same as StartQueryExecution with the addition of
@@ -131,7 +131,7 @@ func (s *StopQueryExecutionStub) StopQueryExecution(input *athena.StopQueryExecu
 	id := aws.StringValue(input.QueryExecutionId)
 	r, ok := s.results[id]
 	if !ok {
-		return nil, errors.Errorf("InvalidRequestException: QueryExecution %s was not found", id)
+		return nil, errors.Errorf("%s: QueryExecution %s was not found", athena.ErrCodeInvalidRequestException, id)
 	}
 	if r.ErrMsg != "" {
 		return nil, errors.New(r.ErrMsg)
@@ -183,7 +183,7 @@ func (s *GetQueryExecutionStub) GetQueryExecution(input *athena.GetQueryExecutio
 	id := aws.StringValue(input.QueryExecutionId)
 	r, ok := s.results[id]
 	if !ok {
-		return nil, errors.Errorf("InvalidRequestException: QueryExecution %s was not found", id)
+		return nil, errors.Errorf("%s: QueryExecution %s was not found", athena.ErrCodeInvalidRequestException, id)
 	}
 	if r.ErrMsg != "" {
 		return nil, errors.New(r.ErrMsg)
@@ -357,7 +357,7 @@ func (s *GetQueryResultsStub) GetQueryResults(input *athena.GetQueryResultsInput
 	id := aws.StringValue(input.QueryExecutionId)
 	r, ok := s.results[id]
 	if !ok {
-		return nil, errors.Errorf("InvalidRequestException: QueryExecution %s was not found", id)
+		return nil, errors.Errorf("%s: QueryExecution %s was not found", athena.ErrCodeInvalidRequestException, id)
 	}
 	if r.ErrMsg != "" {
 		return nil, errors.New(r.ErrMsg)

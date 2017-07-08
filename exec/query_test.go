@@ -53,15 +53,15 @@ func TestStartError(t *testing.T) {
 	}{
 		{
 			query: "",
-			want:  "InvalidRequestException",
+			want:  athena.ErrCodeInvalidRequestException,
 		},
 		{
 			query: "SELET * FROM test",
-			want:  "InvalidRequestException",
+			want:  athena.ErrCodeInvalidRequestException,
 		},
 		{
 			query: "CREATE INDEX",
-			want:  "InvalidRequestException",
+			want:  athena.ErrCodeInvalidRequestException,
 		},
 	}
 
@@ -239,7 +239,7 @@ func TestGetResultsError(t *testing.T) {
 		{
 			id:     "no_existent_id",
 			query:  "SELECT * FROM test_get_result_errors",
-			errMsg: "InvalidRequestException",
+			errMsg: athena.ErrCodeInvalidRequestException,
 		},
 	}
 

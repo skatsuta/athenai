@@ -798,10 +798,10 @@ func TestShowResultsError(t *testing.T) {
 				{
 					ID:     "TestShowResultsError_APIError",
 					Query:  "SHOW DATABASES",
-					ErrMsg: "InternalErrorException",
+					ErrMsg: athena.ErrCodeInternalServerException,
 				},
 			},
-			want: "InternalErrorException",
+			want: athena.ErrCodeInternalServerException,
 		},
 		{
 			results: []*stub.Result{
