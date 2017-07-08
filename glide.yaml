@@ -1,0 +1,30 @@
+package: github.com/skatsuta/athenai
+import:
+- package: github.com/aws/aws-sdk-go
+  version: ~1.10.8
+  subpackages:
+  - aws
+  - aws/awserr
+  - aws/request
+  - aws/session
+  - service/athena
+  - service/athena/athenaiface
+- package: github.com/google/btree
+- package: github.com/chzyer/readline
+- package: github.com/mitchellh/go-homedir
+- package: github.com/olekukonko/tablewriter
+- package: github.com/peco/peco
+  version: ~0.5.1
+  subpackages:
+  - line
+- package: github.com/pkg/errors
+  version: ~0.8.0
+- package: github.com/skatsuta/spinner
+- package: github.com/spf13/cobra
+- package: gopkg.in/ini.v1
+  version: ~1.28.0
+testImport:
+- package: github.com/stretchr/testify
+  version: ~1.1.4
+  subpackages:
+  - assert

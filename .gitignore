@@ -15,3 +15,6 @@
 
 # Ignore build artifacts
 build/
+
+# Ignore vendor directory
+vendor/
