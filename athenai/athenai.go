@@ -262,7 +262,9 @@ func (a *Athenai) RunQuery(queries ...string) {
 	}
 
 	log.Println("All query executions have been completed")
-	a.print("\n")
+	if a.cfg.Output != "" {
+		a.printE("\n")
+	}
 }
 
 func (a *Athenai) setupREPL() error {
