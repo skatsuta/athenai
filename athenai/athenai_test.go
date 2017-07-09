@@ -835,7 +835,7 @@ func TestShowResultsError(t *testing.T) {
 }
 
 func TestShowResultsCanceled(t *testing.T) {
-	want := "\n" // TODO: replace it with error messages if stderr can be mocked
+	want := "\n\n"
 
 	var out bytes.Buffer
 	r := &stub.Result{
@@ -843,13 +843,15 @@ func TestShowResultsCanceled(t *testing.T) {
 		Query: "SHOW DATABASES",
 	}
 	client := stub.NewClient(r)
-	a := New(client, &Config{Database: "sampledb"}, &out).WithWaitInterval(testWaitInterval)
+	a := New(client, &Config{Database: "sampledb"}, &out).
+		WithStderr(&out).
+		WithWaitInterval(testWaitInterval)
 	a.f = newStubFilter(true)
 	a.signalCh <- os.Interrupt
 	a.ShowResults()
 	got := out.String()
 
-	assert.Contains(t, got, want, "Result: %#v", r)
+	assert.Equal(t, got, want, "Result: %#v", r)
 }
 
 func TestGenerateEntry(t *testing.T) {
