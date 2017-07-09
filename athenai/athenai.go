@@ -198,7 +198,7 @@ func (a *Athenai) RunQuery(queries ...string) {
 		case <-a.signalCh: // User has canceled query executions
 			log.Println("Starting cancellation initiated by user")
 			userCancelFunc()
-			a.print("\n")
+			a.printE("\n")
 			if !a.cfg.Silent {
 				go a.showProgressMsg(cancelingCtx, cancelingMsg)
 			}
@@ -254,7 +254,7 @@ func (a *Athenai) RunQuery(queries ...string) {
 	for _, ch := range chs {
 		select {
 		case <-canceledCh: // Stop showing results if canceled
-			a.print("\n")
+			a.printE("\n")
 			return
 		default:
 			a.printResultOrErr(<-ch)
@@ -525,7 +525,7 @@ func (a *Athenai) ShowResults() {
 
 	qxs, err := a.selectQueryExecutions(ctx)
 	if err != nil {
-		a.print("\n")
+		a.printE("\n")
 		if !strings.Contains(err.Error(), "canceled") { // Ignore user-canceled error
 			a.printErr(err, "error selecting query executions")
 		}
@@ -534,7 +534,7 @@ func (a *Athenai) ShowResults() {
 
 	// Print messages while fetching query results
 	if !a.cfg.Silent {
-		a.print("\n")
+		a.printE("\n")
 		go a.showProgressMsg(ctx, fetchingResultsMsg)
 	}
 
@@ -561,7 +561,7 @@ func (a *Athenai) ShowResults() {
 	for _, ch := range chs {
 		select {
 		case <-canceledCh: // Stop showing results if canceled
-			a.print("\n")
+			a.printE("\n")
 			return
 		default:
 			a.printResultOrErr(<-ch)
@@ -573,6 +573,10 @@ func (a *Athenai) ShowResults() {
 
 func (a *Athenai) printErr(err error, message string) {
 	fmt.Fprintf(a.stderr, "Error: %s: %s\n", message, err)
+}
+
+func (a *Athenai) printE(x ...interface{}) {
+	fmt.Fprint(a.stderr, x...)
 }
 
 // readFile reads the content of a file whose path has `file://` prefix.
