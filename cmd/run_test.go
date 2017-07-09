@@ -70,7 +70,7 @@ func TestRunRun(t *testing.T) {
 		// When only command line arguments are given
 		{
 			args:  []string{"SHOW DATABASES"},
-			id:    "ArgsOnly",
+			id:    "TestRunRun_ArgsOnly",
 			stdin: &stubStatReader{},
 			query: "SHOW DATABASES",
 			rs: athena.ResultSet{
@@ -93,7 +93,7 @@ func TestRunRun(t *testing.T) {
 		// When no arguments are given (REPL)
 		{
 			args:  []string{},
-			id:    "NoArgs",
+			id:    "TestRunRun_NoArgs",
 			stdin: &stubStatReader{},
 			rs:    athena.ResultSet{},
 			want:  []string{""}, // No output in test
@@ -101,7 +101,7 @@ func TestRunRun(t *testing.T) {
 		// When no arguments are given but queries are given via stdin
 		{
 			args: []string{},
-			id:   "ViaStdin",
+			id:   "TestRunRun_ViaStdin",
 			stdin: &stubStatReader{
 				Reader:      strings.NewReader("SHOW DATABASES;"),
 				isDataExist: true,
