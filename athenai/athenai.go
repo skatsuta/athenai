@@ -157,15 +157,15 @@ func (a *Athenai) runSingleQuery(ctx context.Context, query string, ch chan *Eit
 	}
 }
 
-func (a *Athenai) printResultOrErr(rc *Either) {
-	if rc.Left != nil {
-		r := rc.Left.(print.Result)
+func (a *Athenai) printResultOrErr(et *Either) {
+	if et.Left != nil {
+		r := et.Left.(print.Result)
 		a.print("\n")
 		a.printer.Print(r)
 		return
 	}
 
-	err := rc.Right
+	err := et.Right
 	cause := errors.Cause(err)
 	switch e := cause.(type) {
 	case *exec.CanceledError:
