@@ -1,12 +1,12 @@
 package cmd
 
 import (
+	"io/ioutil"
 	"os"
 	"testing"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/skatsuta/athenai/athenai"
-	"github.com/skatsuta/athenai/internal/bytes"
 	"github.com/skatsuta/athenai/internal/testhelper"
 	"github.com/stretchr/testify/assert"
 )
@@ -16,27 +16,38 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-func TestPersistentPreRun(t *testing.T) {
-	oldArgs := os.Args
+func TestFlagsAndShowVersion(t *testing.T) {
 	oldStdout := stdout
+	oldArgs := os.Args
 	defer func() {
-		os.Args = oldArgs
+		showVersion = false
 		stdout = oldStdout
+		os.Args = oldArgs
 	}()
 
+	outputFile, err := ioutil.TempFile("", "TestPersistentPreRunFile")
+	assert.NoError(t, err)
+
 	os.Args = []string{
-		"athenai", "run",
-		"--profile", "TestPersistentPreRunEProfile",
-		"--region", "us-west-2",
-		"--location", "s3://TestPersistentPreRunEBucket/",
+		"athenai",
+		"--profile", "TestProfile",
+		"--output", outputFile.Name(),
+		"--version",
 	}
-	args := []string{}
-	err := runCmd.Parent().PersistentPreRunE(runCmd, args)
+
+	err = RootCmd.Execute()
+	assert.NoError(t, err)
+
+	got, err := ioutil.ReadAll(outputFile)
 
 	assert.NoError(t, err)
-	assert.Equal(t, "TestPersistentPreRunEProfile", config.Profile)
-	assert.Equal(t, "us-west-2", config.Region)
-	assert.Equal(t, "s3://TestPersistentPreRunEBucket/", config.Location)
+	assert.Equal(t, "TestProfile", config.Profile)
+	assert.Equal(t, commandVersion+"\n", string(got))
+
+	err = outputFile.Close()
+	assert.NoError(t, err)
+	err = os.Remove(outputFile.Name())
+	assert.NoError(t, err)
 }
 
 func TestInitConfigNoConfigFile(t *testing.T) {
@@ -167,20 +178,4 @@ func TestNewClient(t *testing.T) {
 		assert.Equal(t, tt.cfg.Region, *client.Client.Config.Region)
 		assert.Equal(t, tt.logLevel, *client.Client.Config.LogLevel)
 	}
-}
-
-func TestRunShowVersion(t *testing.T) {
-	showVersion = true
-	oldStdout := stdout
-	defer func() {
-		showVersion = false
-		stdout = oldStdout
-	}()
-
-	var out bytes.Buffer
-	stdout = &out
-	RootCmd.Run(RootCmd, []string{})
-	got := out.String()
-
-	assert.Equal(t, commandVersion+"\n", got)
 }
