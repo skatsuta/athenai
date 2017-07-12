@@ -204,6 +204,17 @@ SELECT date, time, bytes, requestip, method, status FROM sampledb.cloudfront_log
 Run time: 2.149 seconds | Data scanned: 101 KB
 ```
 
+### Canceling query executions
+
+You can cancel query executions by pressing `Ctrl-C` while they are running.
+
+```bash
+$ athenai run "SELECT * FROM sampledb.cloudfront_logs"   # Ouch! Full scan by mistake!
+⠖ Running query... ^C
+⠋ Canceling...
+$ 
+```
+
 ### Showing results of completed query executions
 
 Run the below command:
@@ -261,44 +272,55 @@ If you want to list all of your completed query executions, specify `0`:
 $ athenai show --count 0
 ```
 
-Note that `--count 0` may be very slow depending on the total number of your query executions.
+Note that `athenai show --count 0` may be very slow depending on the total number of your query executions.
 
-### Manage and run named queries
+### Managing and running named queries
 
-#### List named queries
+#### Creating a named query
 
-```bash
-$ athenai named list
-```
-
-#### Create a named query
-
-Create a named query interactively:
+To create a named query interactively, run `athenai named create` command without arguments:
 
 ```bash
 $ athenai named create
+> Query: SELECT date, time, bytes, requestip, method, status FROM sampledb.cloudfront_logs ORDER BY date, time DESC LIMIT 5;
 > Database: sampledb
 > Name: Show the latest 5 records
-> Query: SELECT date, time, bytes, requestip, method, status FROM sampledb.cloudfront_logs ORDER BY date, time DESC LIMIT 5;
+> Description: 
+Created a named query: xxxx-xx-xx-xxxx
 ```
 
-or create a named query in one liner:
+or in one liner, with arguments:
 
 ```bash
-$ athenai named create --database sampledb --name "Show the latest 5 records" "SELECT date, time, bytes, requestip, method, status FROM sampledb.cloudfront_logs ORDER BY date, time DESC LIMIT 5;"
+$ athenai named create --database sampledb --name "Show the latest 5 records" --query "SELECT date, time, bytes, requestip, method, status FROM sampledb.cloudfront_logs ORDER BY date, time DESC LIMIT 5;"
 ```
 
+#### Deleting a named query
 
-#### Delete a named query
+To delete an existing named query, run `athenai named delete` command:
 
 ```bash
 $ athenai named delete
 ```
 
+and select the target query:
+
+```bash
+QUERY> 
+```
+
 #### Run a named query
+
+To run a named query, run `athenai named run` command:
 
 ```bash
 $ athenai named run
+```
+
+and select the target query:
+
+```bash
+QUERY> 
 ```
 
 
