@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"os"
@@ -17,7 +18,10 @@ import (
 var (
 	showVersion bool
 	cfgFile     string
-	config      = &athenai.Config{}
+
+	stdout io.WriteCloser = os.Stdout
+
+	config = &athenai.Config{}
 )
 
 // RootCmd represents the base command when called without any subcommands
@@ -31,7 +35,7 @@ examples and usage of using your application. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
-	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
 		log.SetFlags(log.LstdFlags | log.Lmicroseconds | log.Lshortfile)
 		if !config.Debug {
 			// Disable debug log messages
@@ -39,13 +43,22 @@ to quickly create a Cobra application.`,
 		}
 		initConfig(config, cfgFile, cmd, os.Args[1:])
 		log.Printf("Initialized Config: %#v\n", config)
+
+		if config.Output != "" {
+			file, err := os.Create(config.Output)
+			if err != nil {
+				return errors.Wrap(err, "failed to open file to write")
+			}
+			stdout = file
+		}
+		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		if showVersion {
-			fmt.Fprintln(cmd.OutOrStdout(), commandVersion)
-			return
+			fmt.Fprintln(stdout, commandVersion)
+		} else {
+			cmd.Help()
 		}
-		cmd.Help()
 	},
 }
 

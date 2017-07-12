@@ -25,3 +25,8 @@ func (b *Buffer) String() string {
 	defer b.mu.Unlock()
 	return b.Buffer.String()
 }
+
+// Close does nothing. Just implements io.Closer.
+func (b *Buffer) Close() error {
+	return nil
+}

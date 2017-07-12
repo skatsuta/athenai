@@ -1,12 +1,12 @@
 package cmd
 
 import (
-	"bytes"
 	"os"
 	"testing"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/skatsuta/athenai/athenai"
+	"github.com/skatsuta/athenai/internal/bytes"
 	"github.com/skatsuta/athenai/internal/testhelper"
 	"github.com/stretchr/testify/assert"
 )
@@ -18,9 +18,12 @@ func TestMain(m *testing.M) {
 
 func TestPersistentPreRun(t *testing.T) {
 	oldArgs := os.Args
+	oldStdout := stdout
 	defer func() {
 		os.Args = oldArgs
+		stdout = oldStdout
 	}()
+
 	os.Args = []string{
 		"athenai", "run",
 		"--profile", "TestPersistentPreRunEProfile",
@@ -28,8 +31,9 @@ func TestPersistentPreRun(t *testing.T) {
 		"--location", "s3://TestPersistentPreRunEBucket/",
 	}
 	args := []string{}
-	runCmd.Parent().PersistentPreRun(runCmd, args)
+	err := runCmd.Parent().PersistentPreRunE(runCmd, args)
 
+	assert.NoError(t, err)
 	assert.Equal(t, "TestPersistentPreRunEProfile", config.Profile)
 	assert.Equal(t, "us-west-2", config.Region)
 	assert.Equal(t, "s3://TestPersistentPreRunEBucket/", config.Location)
@@ -167,15 +171,16 @@ func TestNewClient(t *testing.T) {
 
 func TestRunShowVersion(t *testing.T) {
 	showVersion = true
-	oldOut := RootCmd.OutOrStdout()
+	oldStdout := stdout
 	defer func() {
 		showVersion = false
-		RootCmd.SetOutput(oldOut)
+		stdout = oldStdout
 	}()
 
 	var out bytes.Buffer
-	RootCmd.SetOutput(&out)
+	stdout = &out
 	RootCmd.Run(RootCmd, []string{})
+	got := out.String()
 
-	assert.Equal(t, commandVersion+"\n", out.String())
+	assert.Equal(t, commandVersion+"\n", got)
 }
