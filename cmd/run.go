@@ -60,12 +60,8 @@ func validateConfigForRun(cfg *athenai.Config) error {
 	// For `run` command location config is required
 	log.Println("Validating output location:", cfg.Location)
 	if !strings.HasPrefix(cfg.Location, "s3://") {
-		return &ValidationError{
-			Cmd:  "run",
-			Name: "location",
-			Msg: "valid `location` setting starting with 's3://' is required for the `run` command. " +
-				"Please specify it by using --location/-l flag or adding `location` setting into your config file.",
-		}
+		return errors.New("valid `location` setting starting with 's3://' is required for the `run` command. " +
+			"Please specify it by using --location/-l flag or adding `location` setting into your config file.")
 	}
 
 	return nil
