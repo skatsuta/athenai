@@ -258,10 +258,10 @@ func TestRunRunOutputFile(t *testing.T) {
 			Location: "s3://bucket/",
 			Output:   tmpFile.Name(),
 		}
-		err = runRun(runCmd, tt.args, client, cfg, os.Stdin, os.Stdout)
+		err = runRun(runCmd, tt.args, client, cfg, os.Stdin, tmpFile)
 		assert.NoError(t, err)
 
-		b, err := ioutil.ReadAll(tmpFile)
+		b, err := ioutil.ReadFile(tmpFile.Name()) // Somehow ioutil.ReadAll does not work
 		got := string(b)
 
 		assert.NoError(t, err, "Args: %#v, Output: %s, Id: %#v, ResultSet: %#v", tt.args, tt.output, tt.id, tt.rs)

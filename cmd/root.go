@@ -49,6 +49,7 @@ to quickly create a Cobra application.`,
 			if err != nil {
 				return errors.Wrap(err, "failed to open file to write")
 			}
+			log.Printf("Setting output to %s\n", file.Name())
 			stdout = file
 		}
 		return nil
