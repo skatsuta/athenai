@@ -60,6 +60,9 @@ to quickly create a Cobra application.`,
 			cmd.Help()
 		}
 	},
+	PersistentPostRunE: func(cmd *cobra.Command, args []string) error {
+		return stdout.Close()
+	},
 }
 
 // Execute adds all child commands to the root command sets flags appropriately.
