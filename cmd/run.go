@@ -17,7 +17,7 @@ import (
 // runCmd represents the run command
 var runCmd = &cobra.Command{
 	Use:   "run",
-	Short: "Run the SQL statements.",
+	Short: "Run the SQL statements",
 	// TODO: fix description
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
