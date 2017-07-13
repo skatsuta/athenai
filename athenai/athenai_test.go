@@ -835,7 +835,7 @@ func TestShowResultsError(t *testing.T) {
 }
 
 func TestShowResultsCanceled(t *testing.T) {
-	want := "\n\n"
+	notWant := "Data scanned"
 
 	var out bytes.Buffer
 	r := &stub.Result{
@@ -851,7 +851,7 @@ func TestShowResultsCanceled(t *testing.T) {
 	a.ShowResults()
 	got := out.String()
 
-	assert.Equal(t, got, want, "Result: %#v", r)
+	assert.NotContains(t, got, notWant, "Result: %#v", r)
 }
 
 func TestGenerateEntry(t *testing.T) {
