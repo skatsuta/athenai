@@ -398,7 +398,7 @@ Loop:
 		case item := <-ch:
 			qxs = append(qxs, item.Left.([]*athena.QueryExecution)...)
 		case <-doneCh:
-			log.Println("All results of selected query executions have been fetched")
+			log.Printf("%d query executions have been fetched\n", len(qxs))
 			break Loop
 		}
 	}
