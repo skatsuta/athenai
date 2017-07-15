@@ -337,7 +337,7 @@ func (a *Athenai) RunREPL() error {
 }
 
 // fetchQueryExecutionsInternal fetches query executions and sends them to ch.
-func (a *Athenai) fetchQueryExecutionsInternal(ctx context.Context, maxPages float64, ch chan *Either, wg *sync.WaitGroup) error {
+func (a *Athenai) fetchQueryExecutionsInternal(ctx context.Context, maxPages float64, resultCh chan *Either, wg *sync.WaitGroup) error {
 	pageNum := 1.0
 	callback := func(page *athena.ListQueryExecutionsOutput, lastPage bool) bool {
 		wg.Add(1)
@@ -347,9 +347,9 @@ func (a *Athenai) fetchQueryExecutionsInternal(ctx context.Context, maxPages flo
 				QueryExecutionIds: page.QueryExecutionIds,
 			})
 			if err != nil {
-				ch <- &Either{Right: errors.Wrap(err, "BatchGetQueryExecution API error")}
+				resultCh <- &Either{Right: errors.Wrap(err, "BatchGetQueryExecution API error")}
 			} else {
-				ch <- &Either{Left: bgqx.QueryExecutions}
+				resultCh <- &Either{Left: bgqx.QueryExecutions}
 			}
 		}()
 
