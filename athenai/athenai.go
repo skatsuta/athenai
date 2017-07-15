@@ -336,13 +336,13 @@ func (a *Athenai) RunREPL() error {
 	}
 }
 
-// fetchQueryExecutionsInternal fetches query executions and returns them being sorted
-// by submission date in the descending order.
+// fetchQueryExecutionsInternal fetches query executions and sends them to ch.
 func (a *Athenai) fetchQueryExecutionsInternal(ctx context.Context, maxPages float64, ch chan *Either, wg *sync.WaitGroup) error {
-	pageNum := 1
+	pageNum := 1.0
 	callback := func(page *athena.ListQueryExecutionsOutput, lastPage bool) bool {
 		wg.Add(1)
 		go func() {
+			defer wg.Done()
 			bgqx, err := a.client.BatchGetQueryExecutionWithContext(ctx, &athena.BatchGetQueryExecutionInput{
 				QueryExecutionIds: page.QueryExecutionIds,
 			})
@@ -351,16 +351,14 @@ func (a *Athenai) fetchQueryExecutionsInternal(ctx context.Context, maxPages flo
 			} else {
 				ch <- &Either{Left: bgqx.QueryExecutions}
 			}
-			defer wg.Done()
 		}()
 
 		defer func() {
 			pageNum++
 		}()
 
-		goNext := !lastPage && float64(pageNum) < maxPages
-		log.Printf("# of pages: current = %d, max = %.0f; Going next: %v\n", pageNum, maxPages, goNext)
-		return goNext
+		log.Printf("# of pages: current = %.0f, max = %.0f\n", pageNum, maxPages)
+		return !lastPage && pageNum < maxPages
 	}
 
 	err := a.client.ListQueryExecutionsPagesWithContext(ctx, &athena.ListQueryExecutionsInput{}, callback)
