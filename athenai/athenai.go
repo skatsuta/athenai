@@ -19,8 +19,6 @@ import (
 	"github.com/aws/aws-sdk-go/service/athena"
 	"github.com/aws/aws-sdk-go/service/athena/athenaiface"
 	"github.com/chzyer/readline"
-	"github.com/google/btree"
-	"github.com/peco/peco/line"
 	"github.com/pkg/errors"
 	"github.com/skatsuta/athenai/exec"
 	"github.com/skatsuta/athenai/filter"
@@ -434,28 +432,21 @@ func (a *Athenai) filterQueryExecutions(qxs []*athena.QueryExecution) ([]*athena
 	if c == 0 || c > l {
 		c = l
 	}
+	log.Printf("Reducing the number of entries from %d to %d\n", l, c)
 	entries = entries[:c]
 
 	history := strings.Join(entries, "\n")
 	a.f.SetInput(history)
 
-	err := a.f.Run(context.Background())
-	if err != nil && !strings.Contains(err.Error(), "collect results") {
+	if err := a.f.Run(context.Background()); err != nil {
 		return nil, errors.Wrap(err, "error filtering query executions")
 	}
 
-	s := a.f.Selection()
-	l = s.Len()
+	l = a.f.Len()
 	log.Printf("Selected %d query execution entries\n", l)
-	if l == 0 {
-		if line, err := a.f.CurrentLineBuffer().LineAt(a.f.Location().LineNumber()); err == nil {
-			s.Add(line)
-		}
-	}
-
 	selectedQxs := make([]*athena.QueryExecution, 0, l)
-	s.Ascend(func(it btree.Item) bool {
-		if entry, ok := entryMap[it.(line.Line).Output()]; ok {
+	a.f.Each(func(item string) bool {
+		if entry, ok := entryMap[item]; ok {
 			selectedQxs = append(selectedQxs, entry)
 		}
 		return true

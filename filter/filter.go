@@ -2,52 +2,69 @@ package filter
 
 import (
 	"context"
+	"log"
 	"strings"
 
+	"github.com/google/btree"
 	"github.com/peco/peco"
 	"github.com/peco/peco/line"
+	"github.com/pkg/errors"
 )
 
-// Filter is a filter to select query executions.
+const (
+	collectResultsErr = "collect results"
+)
+
+// Filter is a filter to select entries.
 type Filter interface {
 	SetInput(input string)
 	Run(ctx context.Context) error
-	Selection() *peco.Selection
-	CurrentLineBuffer() Buffer
-	Location() Location
+	Len() int
+	Each(fn func(item string) bool)
 }
 
 type pecoFilter struct {
-	*peco.Peco
+	p *peco.Peco
 }
 
 // New creates a new Filter to filter input.
 func New() Filter {
 	p := peco.New()
 	p.Argv = []string{}
-	return &pecoFilter{Peco: p}
+	return &pecoFilter{p: p}
 }
 
+// SetInput sets input to f.
 func (f *pecoFilter) SetInput(input string) {
-	f.Stdin = strings.NewReader(input)
+	f.p.Stdin = strings.NewReader(input)
 }
 
-func (f *pecoFilter) CurrentLineBuffer() Buffer {
-	return f.Peco.CurrentLineBuffer()
+// Run performs filtering.
+func (f *pecoFilter) Run(ctx context.Context) error {
+	err := f.p.Run(ctx)
+	if err != nil && !strings.Contains(err.Error(), collectResultsErr) {
+		return errors.Wrap(err, "error filtering entries")
+	}
+
+	s := f.p.Selection()
+	if s.Len() == 0 {
+		n := f.p.Location().LineNumber()
+		if line, err := f.p.CurrentLineBuffer().LineAt(n); err == nil {
+			log.Printf("No line is selected. Adding the current line %d\n", n)
+			s.Add(line)
+		}
+	}
+	return nil
 }
 
-func (f *pecoFilter) Location() Location {
-	return f.Peco.Location()
+// Len returns the length of selected items filtered by f.
+func (f *pecoFilter) Len() int {
+	return f.p.Selection().Len()
 }
 
-// Buffer interface is used for containers for lines to be processed.
-// peco.Buffer interface implements this.
-type Buffer interface {
-	LineAt(n int) (line.Line, error)
-}
-
-// Location interface represents a location in lines.
-// *peco.Location struct implements this.
-type Location interface {
-	LineNumber() int
+// Each iterates over selected items and call fn with them.
+func (f *pecoFilter) Each(fn func(item string) bool) {
+	f.p.Selection().Ascend(func(it btree.Item) bool {
+		return fn(it.(line.Line).Output())
+	})
 }

@@ -2,7 +2,6 @@ package athenai
 
 import (
 	"context"
-	"fmt"
 	"io"
 	"io/ioutil"
 	"os"
@@ -13,10 +12,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/athena"
 	"github.com/chzyer/readline"
-	"github.com/peco/peco"
-	"github.com/peco/peco/line"
 	"github.com/pkg/errors"
-	"github.com/skatsuta/athenai/filter"
 	"github.com/skatsuta/athenai/internal/bytes"
 	"github.com/skatsuta/athenai/internal/stub"
 	"github.com/skatsuta/athenai/internal/testhelper"
@@ -524,41 +520,16 @@ func TestRunREPLError(t *testing.T) {
 	}
 }
 
-type stubBuffer struct {
-	lines []line.Line
-}
-
-func (b *stubBuffer) LineAt(n int) (line.Line, error) {
-	l := len(b.lines)
-	if n >= l {
-		return nil, fmt.Errorf("index %d is greater than the length of stubBuffer.lines", n)
-	}
-	return b.lines[n], nil
-}
-
-type stubLocation struct {
-	n int
-}
-
-func (l *stubLocation) LineNumber() int {
-	return l.n
-}
-
 type stubFilter struct {
-	selectLine bool
-	lines      []string
-	s          *peco.Selection
-	b          *stubBuffer
-	l          *stubLocation
-	errMsg     string
+	lines    []string
+	idxs     []int
+	selected []string
+	errMsg   string
 }
 
-func newStubFilter(selectLine bool) *stubFilter {
+func newStubFilter(idxs ...int) *stubFilter {
 	f := &stubFilter{
-		selectLine: selectLine,
-		s:          peco.NewSelection(),
-		b:          &stubBuffer{},
-		l:          &stubLocation{},
+		idxs: idxs,
 	}
 	return f
 }
@@ -572,43 +543,42 @@ func (f *stubFilter) Run(ctx context.Context) error {
 		return errors.New(f.errMsg)
 	}
 
-	for i, ln := range f.lines {
-		raw := line.NewRaw(uint64(i), ln, false)
-		if f.selectLine {
-			f.s.Add(raw)
-		}
-		f.b.lines = append(f.b.lines, raw)
+	for _, idx := range f.idxs {
+		f.selected = append(f.selected, f.lines[idx])
 	}
+
 	return nil
 }
 
-func (f *stubFilter) Selection() *peco.Selection {
-	return f.s
+func (f *stubFilter) Len() int {
+	return len(f.selected)
 }
 
-func (f *stubFilter) CurrentLineBuffer() filter.Buffer {
-	return f.b
-}
-
-func (f *stubFilter) Location() filter.Location {
-	return f.l
+func (f *stubFilter) Each(fn func(item string) bool) {
+	for _, s := range f.selected {
+		fn(s)
+	}
 }
 
 func TestSelectQueryExecutions(t *testing.T) {
 	tests := []struct {
 		count uint
+		idxs  []int
 		want  int
 	}{
 		{
 			count: 0,
+			idxs:  []int{0, 1, 2},
 			want:  3,
 		},
 		{
 			count: 1,
+			idxs:  []int{0},
 			want:  1,
 		},
 		{
 			count: 50,
+			idxs:  []int{0, 1, 2},
 			want:  3,
 		},
 	}
@@ -642,7 +612,7 @@ func TestSelectQueryExecutions(t *testing.T) {
 		cfg := &Config{Count: tt.count}
 		var out bytes.Buffer
 		a := New(client, cfg, &out).WithWaitInterval(testWaitInterval)
-		a.f = newStubFilter(true) // Select all items
+		a.f = newStubFilter(tt.idxs...) // Select all items
 		got, err := a.selectQueryExecutions(context.Background())
 
 		assert.NoError(t, err)
@@ -652,10 +622,10 @@ func TestSelectQueryExecutions(t *testing.T) {
 
 func TestShowResults(t *testing.T) {
 	tests := []struct {
-		results    []*stub.Result
-		selectLine bool
-		wants      []string
-		notWants   []string
+		results  []*stub.Result
+		idxs     []int
+		wants    []string
+		notWants []string
 	}{
 		{
 			// When three entries are selected
@@ -713,8 +683,8 @@ func TestShowResults(t *testing.T) {
 					SubmitTime: time.Date(2017, 7, 1, 3, 0, 0, 0, time.UTC),
 				},
 			},
-			selectLine: true,
-			wants:      []string{selectOutput, showDatabasesOutput, showTablesOutput},
+			idxs:  []int{0, 1, 2},
+			wants: []string{selectOutput, showDatabasesOutput, showTablesOutput},
 		},
 		// When no entry is selected
 		{
@@ -766,9 +736,9 @@ func TestShowResults(t *testing.T) {
 					},
 				},
 			},
-			selectLine: false,
-			wants:      []string{selectOutput},
-			notWants:   []string{showDatabasesOutput, showTablesOutput},
+			idxs:     []int{0},
+			wants:    []string{selectOutput},
+			notWants: []string{showDatabasesOutput, showTablesOutput},
 		},
 	}
 
@@ -777,7 +747,7 @@ func TestShowResults(t *testing.T) {
 		client := stub.NewClient(tt.results...)
 		cfg := &Config{Database: "sampledb"}
 		a := New(client, cfg, &out).WithWaitInterval(2 * testWaitInterval)
-		a.f = newStubFilter(tt.selectLine)
+		a.f = newStubFilter(tt.idxs...)
 		a.ShowResults()
 		got := out.String()
 
@@ -824,7 +794,7 @@ func TestShowResultsError(t *testing.T) {
 		a := New(client, &Config{Database: "sampledb"}, &out).
 			WithStderr(&out).
 			WithWaitInterval(testWaitInterval)
-		f := newStubFilter(true)
+		f := newStubFilter()
 		f.errMsg = tt.errMsg
 		a.f = f
 		a.ShowResults()
@@ -846,7 +816,7 @@ func TestShowResultsCanceled(t *testing.T) {
 	a := New(client, &Config{Database: "sampledb"}, &out).
 		WithStderr(&out).
 		WithWaitInterval(testWaitInterval)
-	a.f = newStubFilter(true)
+	a.f = newStubFilter()
 	a.signalCh <- os.Interrupt
 	a.ShowResults()
 	got := out.String()
