@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	defaultConfigDir  = ".athenai"
+	defaultDir        = ".athenai"
 	defaultConfigFile = "config"
 )
 
@@ -96,6 +96,6 @@ func normalizeConfigPath(path string) (string, error) {
 		return "", errors.Wrap(err, "failed to find your home directory")
 	}
 
-	path = filepath.Join(home, defaultConfigDir, defaultConfigFile)
+	path = filepath.Join(home, defaultDir, defaultConfigFile)
 	return path, nil
 }
