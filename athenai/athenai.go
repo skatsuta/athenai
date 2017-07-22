@@ -40,6 +40,8 @@ const (
 	fetchingResultsMsg = "Fetching results..."
 	cancelingMsg       = "Canceling..."
 
+	replPrompt = "athenai> "
+
 	maxResults = 50
 
 	// http://docs.aws.amazon.com/athena/latest/ug/service-limits.html
@@ -279,7 +281,7 @@ func (a *Athenai) setupREPL() error {
 
 	historyFile := filepath.Join(os.TempDir(), ".athenai_history")
 	rl, err := readline.NewEx(&readline.Config{
-		Prompt:            "athenai> ",
+		Prompt:            replPrompt,
 		HistoryFile:       historyFile,
 		HistorySearchFold: true,
 		Stdin:             a.stdin,
