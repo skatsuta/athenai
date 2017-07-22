@@ -19,6 +19,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/athena"
 	"github.com/aws/aws-sdk-go/service/athena/athenaiface"
 	"github.com/chzyer/readline"
+	homedir "github.com/mitchellh/go-homedir"
 	"github.com/pkg/errors"
 	"github.com/skatsuta/athenai/exec"
 	"github.com/skatsuta/athenai/filter"
@@ -38,7 +39,8 @@ const (
 	fetchingResultsMsg = "Fetching results..."
 	cancelingMsg       = "Canceling..."
 
-	replPrompt = "athenai> "
+	replPrompt      = "athenai> "
+	historyFileName = "history"
 
 	maxResults = 50
 
@@ -277,7 +279,12 @@ func (a *Athenai) setupREPL() error {
 	}
 	a.mu.RUnlock()
 
-	historyFile := filepath.Join(os.TempDir(), ".athenai_history")
+	dir, err := ensureDefaultDir()
+	if err != nil {
+		return errors.Wrap(err, "error ensuring the default directory exists")
+	}
+
+	historyFile := filepath.Join(dir, historyFileName)
 	rl, err := readline.NewEx(&readline.Config{
 		Prompt:            replPrompt,
 		HistoryFile:       historyFile,
@@ -629,6 +636,19 @@ func createPrinter(out io.Writer, cfg *Config) print.Printer {
 	default:
 		return print.NewTable(out)
 	}
+}
+
+func ensureDefaultDir() (string, error) {
+	home, err := homedir.Dir()
+	if err != nil {
+		return "", errors.Wrap(err, "failed to find your home directory")
+	}
+
+	defaultDirPath := filepath.Join(home, defaultDir)
+	if err := os.MkdirAll(defaultDirPath, 0755); err != nil {
+		return "", errors.Wrap(err, "failed to create default directory")
+	}
+	return defaultDirPath, nil
 }
 
 func generateEntry(qx *athena.QueryExecution) string {
