@@ -218,6 +218,11 @@ func (a *Athenai) RunQuery(queries ...string) {
 		return
 	}
 
+	// Print progress messages
+	if !a.cfg.Silent {
+		go a.showProgressMsg(userCancelCtx, runningQueryMsg)
+	}
+
 	// Run each statement concurrently
 	chs := make([]chan *Either, l)
 	var wg sync.WaitGroup
@@ -240,11 +245,6 @@ func (a *Athenai) RunQuery(queries ...string) {
 			}()
 			a.runSingleQuery(userCancelCtx, query, ch)
 		}(stmt) // Capture stmt locally in order to use it in goroutines
-	}
-
-	// Print progress messages
-	if !a.cfg.Silent {
-		go a.showProgressMsg(userCancelCtx, runningQueryMsg)
 	}
 
 	go func() {
