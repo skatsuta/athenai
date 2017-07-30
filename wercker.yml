@@ -31,7 +31,7 @@ build:
     - script:
         name: go test
         code: |
-            ./scripts/test.sh
+            ./scripts/ci_test.sh
 
     # Report code coverage
     - script:
