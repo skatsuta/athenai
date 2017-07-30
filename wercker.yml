@@ -7,19 +7,14 @@ build:
     - setup-go-workspace
 
     # Run golint
-    - golint
+    - golint:
+        exclude: vendor
 
     # Show go version
     - script:
         name: go version
         code: |
             go version
-
-    # Get the dependencies
-    - script:
-        name: go get
-        code: |
-            go get -t -v ./...
 
     # Build the project
     - script:
