@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"io"
 	"io/ioutil"
 	"log"
 	"os"
@@ -19,7 +18,7 @@ var (
 	showVersion bool
 	cfgFile     string
 
-	stdout io.WriteCloser = os.Stdout
+	stdout = os.Stdout
 
 	config = &core.Config{}
 )
