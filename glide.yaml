@@ -9,7 +9,6 @@ import:
   - aws/session
   - service/athena
   - service/athena/athenaiface
-- package: github.com/chzyer/readline
 - package: github.com/google/btree
 - package: github.com/mitchellh/go-homedir
 - package: github.com/olekukonko/tablewriter
@@ -23,6 +22,8 @@ import:
 - package: github.com/spf13/cobra
 - package: gopkg.in/ini.v1
   version: ~1.28
+- package: github.com/skatsuta/readline
+  version: ~1.5
 testImport:
 - package: github.com/stretchr/testify
   version: ~1.1

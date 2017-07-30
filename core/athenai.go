@@ -18,12 +18,12 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/athena"
 	"github.com/aws/aws-sdk-go/service/athena/athenaiface"
-	"github.com/chzyer/readline"
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/pkg/errors"
 	"github.com/skatsuta/athenai/exec"
 	"github.com/skatsuta/athenai/filter"
 	"github.com/skatsuta/athenai/print"
+	"github.com/skatsuta/readline"
 	"github.com/skatsuta/spinner"
 )
 

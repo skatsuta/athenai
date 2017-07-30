@@ -11,11 +11,11 @@ import (
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/athena"
-	"github.com/chzyer/readline"
 	"github.com/pkg/errors"
 	"github.com/skatsuta/athenai/internal/bytes"
 	"github.com/skatsuta/athenai/internal/stub"
 	"github.com/skatsuta/athenai/internal/testhelper"
+	"github.com/skatsuta/readline"
 	"github.com/stretchr/testify/assert"
 )
 

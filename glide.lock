@@ -1,5 +1,5 @@
-hash: da03be84ec98c12acb29984a22395f2e868c3d5c1417de333f9f0a164b3bfc9c
-updated: 2017-07-30T22:30:56.760303581+09:00
+hash: a40ae97520691bccf53b6f7025a7f17244d2a897247b430531bb7badc832c602
+updated: 2017-07-30T22:50:59.785697382+09:00
 imports:
 - name: github.com/aws/aws-sdk-go
   version: 5e436e55ac5eddc739f26a2a209b3f4248ee8e0e
@@ -31,8 +31,6 @@ imports:
   - service/athena
   - service/athena/athenaiface
   - service/sts
-- name: github.com/chzyer/readline
-  version: 41eea22f717c616615e1e59aa06cf831f9901f35
 - name: github.com/davecgh/go-spew
   version: 6d212800a42e8ab5c146b8ace3490ee17e5225f9
   subpackages:
@@ -78,6 +76,8 @@ imports:
   - sig
 - name: github.com/pkg/errors
   version: 645ef00459ed84a119197bfb8d8205042c6df63d
+- name: github.com/skatsuta/readline
+  version: 41eea22f717c616615e1e59aa06cf831f9901f35
 - name: github.com/skatsuta/spinner
   version: 20966ddae6f0fbc74ab2db2d9f6b8a81905b6a29
 - name: github.com/spf13/cobra
