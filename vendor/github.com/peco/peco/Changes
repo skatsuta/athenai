@@ -1,0 +1,432 @@
+Changes
+=======
+
+v0.5.1 - 17 Mar 2017
+  Bugs/Fixes
+  * When --exec is used, and you come back from the external command,
+    you lost your selected location in the peco view. #410
+  Backwards Incompatible Change:
+  * --tty has been removed. it was not being used anyways.
+  Miscellaneous
+  * When scrolling right, you could potentially keep on scrolling
+    infinitely. This has bee addressed by #409, #412
+  * External commands specified in --exec now receive
+    PECO_FILENAME, PECO_LINE_COUNT, PECO_QUERY, and
+    PECO_MACHED_LINE_COUNT as environment variables
+  * Removed unused structs
+  * Fixed glide related Mkaefile actions
+
+v0.5.0 - 06 Mar 2017
+  Backwards Incompatible Change:
+  * ExecuteCommand has been removed. 
+  Features:
+  * A new command line option `--exec` has been added. This allows you to
+    execute external commands via shell, and should be used as replacement
+    to `ExecuteCommand`
+  * A new configuration option `MaxScanBufferSize` has been added. Whereas
+    bufio.Scanner (which peco internally relies on) only accepts lines that
+    are < 64kb when reading the input, specifying this option in the config
+    allows you to change this limit.
+    The default MaxScanBuferSize is 256kb.
+  Bugs/Fixes
+  * When executing external commands, the screen and the capturing of user
+    input would interfere when getting back to peco.
+
+v0.4.9 - 01 Mar 2017
+  Bugs/Fixes
+  * SavedSelection under `--selection-prefix` was not properly working
+    (#388)
+  * An outstanding bug from v0.4.0 where specifying `--query` for a large
+    enough input would lose results in the first query execution has been
+    fixed (#389)
+
+v0.4.8 - 26 Feb 2017
+  Features:
+  * A new command line option `--on-cancel` has been added. This allows you
+    to determine if the user has canceled the query, which can be useful in
+    a pipeline of commands.
+  * `OnCancel` does the equivalent of `--on-cancel` in the config file.
+  * A new command line option `--selection-prefix` has been added. This
+    allows you to use a string prefix instead of highlighting currently
+    selected lines.
+  * `SelectionPrefix` does the equivalent of `--selection-prefix` in the
+    config file.
+  Miscellaneous
+  * Build using go 1.8
+
+v0.4.7 - 17 Dec 2016
+  Bugs/Fixes
+  * A regression of #363 appeared again, because the test was not testing
+    for the correct behavior (#376)
+  Miscellaneous
+  * Internal house cleaning
+
+v0.4.6 - 14 Dec 2016
+  Features:
+  * A new fuzzy filter has now been added. See README for details (#369, #370)
+  Bugs/Fixes
+  * A very subtle timing issue that causes the search to be reset
+    has been resolved (#368)
+
+v0.4.5 - 30 Oct 2016
+  Bugs/Fixes
+  * v0.4.4 broke --select-1 :/ (#363)
+
+v0.4.4 - 23 Oct 2016 
+  Bugs/Fixes
+  * Fix to force a redraw of the screen when the query becomes empty (#346)
+  * Fix blocking when read from an slow input source is interrupted in
+    the middle (#359)
+  * Remove gratuitous use of panic that could happen occasionally when we
+    bail out of setup (like the scenario above)
+
+v0.4.3 - 05 Oct 2016
+  Bugs/Fixes
+  * Fix to apply InitialFilter setting from config file (#343)
+  * Fix --buffer-size option
+  * Fix --prompt option
+  * Fix deadlock when certain actions are combined in the custom
+    action sequence. This bug probably existed for a long time,
+    but probably nobody bothered to report or didn't use the
+    combinations that causes the deadlock (#345)
+  * Force redraw when SelectNone/RefreshScreen is called (#346)
+
+v0.4.2 - 23 Aug 2016
+  Bugs/Fixes
+  * Fix single key jump mode (#331, #332)
+
+v0.4.1 - 21 Aug 2016
+  Bugs/Fixes
+  * Fix a panic that went unnoticed (#328, #329)
+
+v0.4.0 - 19 Aug 2016
+  Miscellaneous:
+  * There is no real user visible change for this release
+  * Build using go 1.7
+  * LOTS of internal cleanup
+    * Eliminated (hopefully) all of potential races
+    * Remove silly embedded structs that existed all over the place
+    * New pipeline mechanism should allow slightly faster filtering
+    * Many fixes to properly release resources acquired by goroutines
+
+v0.3.6 - 11 May 2016
+  Features:
+  * Implement way to execute arbitrary commands via ExecuteCommand config
+  Bugs/Fixes:
+  * Fixed wrong default value for LayoutType
+  * Fixed wrong (actually lack of) extension for Windows binary
+  Miscellaneous:
+  * Changed textual cursor representation
+  * Changed dependency manager to glide
+  * Changed build system to... make. Yes. Make.
+  * Compile with go1.6
+
+v0.3.5 - 30 Oct 2015
+  Features:
+  * Implement --select-1 option (#278)
+  Bugs/Fixes:
+  * Do not switch lines when there's no output (#274)
+  Miscellaneous:
+  * Fix automatic gzip generation (#275)
+
+v0.3.4 - 29 Sep 2015
+  Features:
+  * Implemented SingleKeyJump mode, a.k.a. hit-a-hint
+  Bugs/Fixes:
+  * Fix a problem where lines were sometimes not highlighted
+  * Executing a query may sometimes result in a shorter list of entries
+    such that the page you were at before the query is no longer valid.
+    The cursor would now move to the closest page instead of an empty buffer
+  Miscellaneous:
+  * Only support go1.5 (we now use cross compilation and internal packages)
+  * `go run build/make.go build` will now build all of the peco release files
+
+v0.3.3 - 11 Jul 2015
+  Features:
+  * Implemented ScrollLeft/ScrollRight, to read long lines
+  * Implemented BackToInitialFilter, to make it easier to create combined actions
+    that change the filter type
+  Bugs/Fixes
+  * Build properly on *BSDs
+
+v0.3.2 - 24 Mar 2015
+  Bugs/Fixes
+  * Filtered results could be wrong when QueryExecutionDelay is set to 0 (#241)
+
+v0.3.1 - 24 Mar 2015
+  Bugs/Fixes
+  * Regexp filter was accidentally disabled (#239/#240). Now it's back
+
+v0.3.0 - 20 Mar 2015
+  * BEWARE! 50% of the code has been rewritten!
+  Features
+  * Matchers are now known as Filters
+  * Added StickySelection configuration option
+  * Added QueryExecutionDelay configuration option
+  * Added CustomFilter.BufferThreshold option
+  * For Windows, an extra space at the bottom has been added to facilitate
+    those users using an IM (which consumes an extra line)
+  Deprecations
+  * --no-ignore-case has been completely removed
+  * InitialMatcher configuration option has been deprecated. Use InitialFilter
+  * CustomMatcher configuration option has been deprecated. Use CustomFilter
+  * RotateMatcher action has been deprecated. Use RotateFilter
+  Miscellaneous
+  * To enable trace logs, compile with `-tags debug`, and enable the logs
+    via PECO_TRACE environment variable. e.g. `PECO_TRACE=1 peco ...`
+
+v0.2.12 - 27 Feb 2015
+  Bugs/Fixes
+  * Lines with tabs didn't display properly.
+  * Matches that would fail to hilight certain parts of the text
+    depending on the term order
+  * SelectNext/SelectPrevious actions were reversed (however, these were
+    deprecated anyways)
+  Miscellaneous
+  * You no longer need to tap our custom tap for peco to be installed from
+    homebrew.
+  * Custom matcher processing is fater now
+
+v0.2.11 - 16 Dec 2014
+  Features
+  * Add a InvertSelection action. Not default keymapping has been assigned
+    as of this change, so you need to explicitly set one in your config file.
+  * Display total entries in additin to number of pages
+  * Add experimental ToggleQuery action which enables/disables the current 
+    query. 
+  Miscellaneous
+  * Massive refactoring to avoid possible race conditions. Note that I am
+    not aware of any breakage caused by previous builds of peco. Even
+    without these changes you most likely did not see a race or it was
+    something you could totally ignore by simply redrawing the page.
+    However, since I was in the mood, and since go is awesome for providing
+    us the `-race` switch, I decided to silence these warnings.
+  * Fix handling of --layout option when no config file is not present.
+
+v0.2.10 - 24 Sep 2014
+  Bugs/Fixes
+  * There was a race condition in the way status messages were cleared,
+    which could leave a message to be not cleared. This has no serious
+    practical impact as it's just the status message, but has been fixed.
+  Miscellaneous
+  * We stopped using godep because it no longer allowed us to use -copy=false.
+    This should have no effect on users.
+  * Update termbox-go dependency
+  * Remove stdout hack
+
+v0.2.9 - 08 Sep 2014
+  Features
+  * Add SmartCase matcher, which automatically toggles between case sensitive
+    and insensitive modes depending on the case of your query.
+  * Ctrl-l is now "peco.RefreshScreen", which basically runs the current query
+    again
+  Bugs/Fixes
+  * User prompt is now draw *before* the filtering is executed.
+  * Be more strict about checking invalid matchers.
+  * Add more tests (work in progress...)
+
+v0.2.8 - 01 Sep 2014
+  Bugs/Fixes
+  * Fix in v0.2.7 was apparently not enough. Things should be fixed now.
+  * Long standing bugs against DeleteForwardWord/DeleteBackwardWord have
+    been fixed
+
+v0.2.7 - 01 Sep 2014
+  Bugs/Fixes
+  * A regression introduced in v0.2.6 for DeleteForwardChar/DeleteBackwardChar 
+    has been fixed
+  * Some entries in the Keymap section of the README was wrong, and has
+    been fixed
+
+v0.2.6 - 30 Aug 2014
+  Bugs/Fixes
+  * --prompt option was not properly working
+  Miscellaneous
+  * Bunch of internal cleanups to make testing easier
+
+v0.2.5 - 18 Aug 2014
+  Features
+  * Add --layout option, which allows you to switch between `top-down`
+    and `bottom-up` layout mode. This is equivalent of percol's
+    `--prompt-bottom --result-bottom-up`. Default is `top-down`.
+    The same option can be specified in the config file as "Layout"
+  Miscellaneous
+  * Because of the layout option, SelectNext/SelectPrevious and
+    SelectNextPage/SelectPreviousPage no longer made sense.
+    Now all of these are DEPRECATED, and are aliases to different
+    action names. See the README for the details.
+    In particular, you would need to configure your key bindings
+    using these if you want to use the `bottom-up` layout
+
+v0.2.4 - 13 Aug 2014
+  Features
+  * Add --initial-matcher command line option to specify which
+    matcher type to use upon start up. --no-ignore-case is deprecated
+  * Add InitialMatcher option to the config file. Matcher option is
+    deprecated.
+  Miscellaneous
+  * Binaries are now built using go1.3.1
+
+v0.2.3 - 28 Jul 2014
+  Bugs/Fixes
+  * Escape sequences are now stripped from input, so for example,
+    colored output can now be fed into peco. Filtering is done against
+    this stripped down buffer, but the original line is used for output.
+  * Some color specification combinations caused weird color variations
+    and in some worst cases caused crashes on Windows.
+
+v0.2.2 - 23 Jul 2014
+  Bugs/Fixes
+  * Fixed display of characters with ambigous width
+  Features
+  * on_bold style attribute has been added.
+
+v0.2.1 - 15 Jul 2014
+  Features
+  * Added the ability to setup custom combined keymap. You can now
+    assign multiple commands to one key sequence.
+  * Key sequence that is being processed currently is displayed in the
+    status message bar
+
+v0.2.0 - 07 Jul 2014
+  Bugs/Fixes
+  * Keymaps have gone through an overhaul. Hopefully it's easier for
+    people who want to modify it to hack on it than before.
+  * Piping multiple commands that use stdin now works properly
+    (v0.1.12 was affected)
+  * After multiple lines are selected, typing Enter (or "peco.Finish")
+    prints out only the selected lines, and no longer adds the line where
+    the cursor currently is placed on
+  Features
+  * --initial-index option has been added
+  * --buffer-size option has been added
+  * --prompt option has been added
+  * Background color can now be changed
+  * SelectAll/SelectNone/SelectVisible has bee added
+  * Keymaps can now handle key sequences. For example, "C-x,C-c" can now
+    be mapped to "peco.Cancel" for Emacs-like behavior
+  * Selection by range is implemented. Now you can start a selection,
+    move the cursor around, and select everything between the starting
+    line and the last line the cursor was on. No default keys are available
+    at this point, so assign peco.ToggleRangeMode to your favorite key
+
+v0.1.12 - 01 Jul 2014
+  Bugs/Fixes
+  * Properly report an error if specified file does not exist
+  Features
+  * Previously peco only read from fixed size input, but now it can
+    read from streaming input such as the result of tail -f <file>.
+    Do note that this buffer does take up memory, so you do not want
+    to be running it for large data.
+
+v0.1.11 - 30 Jun 2014
+  Bugs/Fixes
+  * CustoMatchers are now verified, i.e., exec.LookPath() is applied to
+    the first argument to check if the command is actually executable
+  * Exit code upon receiving signals are now non-zero, as it should have
+    been to start with
+  * Cross-compilation introduced problems with binary builds for darwin.
+    This has now been fixed, but if you do get your hands on peco binaries
+    before v0.1.11, don't expect it to read your config file.
+  * A panic that may occur when you send new queries in very fast succession
+    has been fixed for custom matchers.
+  Features
+  * C-c has been added to the default key binding. It causes peco to cancel
+    the operation (exits with a non-zero status code)
+
+v0.1.10 - 25 Jun 2014
+  Bugs/Fixes
+  * A panic that may occur when you send new queries in very fast succession
+    has been fixed
+  * Fixed the problem where Windows binaries were not able to handle Esc/Alt
+    correctly
+
+v0.1.9 - 25 Jun 2014
+  Bugs/Fixes
+  * Change the base go version to build binary to 1.3
+
+v0.1.8 - 25 Jun 2014
+  Bugs/Fixes
+  * Check for terminal update errors while drawing.
+  Features
+  * Support Alt key prefixes to keybindings (Note: currently does not work
+    on windows)
+
+v0.1.7 - 22 Jun 2014
+  Bugs/Fixes:
+  * Moved repository to a Github organization: http://github.com/peco/peco
+  * Because of the above change, a lot of links, imports needed fixing.
+  Features:
+  * Automatically set GOMAXPROCS to NumCPU. If you would like to
+    avoid this behavior, you can explicitly set GOMAXPROC env var to 1
+    (or whatever desired value)
+  Miscellaneous
+  * If you have cool uses for peco, please share them on the wiki:
+    https://github.com/peco/peco/wiki/Sample-Usage
+
+v0.1.6 - 18 Jun 2014
+  Bugs/Fixes:
+  * (You know you will get a bug report only AFTER you release a
+    new version :)
+  * Highlighting wide characters had some issues. This has been
+    there since the first release, apparently
+
+v0.1.5 - 18 Jun 2014
+  Features:
+  * Add experimental --null option
+  
+v0.1.4 - 17 Jun 2014
+  Bugs/Fixes:
+  * Check for ev.Ch and ev.Key (should fix input problems)
+  * Fix crashing issue on empty match
+  Features:
+  * In your config, setting the value to "-" will remove the
+    binding.
+  * Default ToggleSelect binding has been changed to
+    ToggleSelectAndSelectNext
+
+v0.1.3 - 17 Jun 2014
+  Bugs/Fixes:
+  * When dealing with fast/successive user input on large buffers,
+    peco was taking too long to execute queries.
+  * XDG style config directories are now searched, and if all fails,
+    falls back to the original ~/.peco/config.json
+  * Some internal cleanup
+  Features:
+  * Multiple line selection has been implemented. Ctrl-Space will
+    toggle the currently selected line, and peco will exit after
+    printing all the selected lines. Note that on OS X, Spotlight
+    by default captures these keys. You may need to reconfigure
+    your settings.
+  * Custom matchers via external processes have been implemented.
+    See the README for more details
+
+v0.1.2 - 16 Jun 2014
+  Bugs/Fixes:
+  * Multiple queries were not being match fully until the end of line
+    (i.e. matches showed up correctly, but the display was not)
+  * Going back to previous item from first item now pages back to last item.
+  * Sending INT/TERM to peco now properly exits.
+  * Some synchronization issues have been fixed (although, it would have
+    never manifested itself when we were running with non-buffered channels)
+  * Make sure default matcher is IgnoreCase
+  Features:
+  * RegExp match mode. e.g. match against "^root" or "2014-[0-9]+", etc
+  * Default match mode is now configurable.
+  * The entire selected line is now highlighted
+  * Styles (colors and what not) can now be configured.
+  * Add C-d as a default keymap for ForwardDelete
+  * Add EOF handler
+
+v0.1.1 - 12 Jun 2014
+  * Fix handling malformed input (e.g. cp932 or euc-jp)
+  * Make non case sensitive matching the default. C-r allows you to toggle
+    between match algorithms. You can also change the default behavior
+    by passing --no-ignore-case
+  * Fix terminal not being updated upon executing DeleteAll
+  * Fix prompt spacing
+  * Add more default keymappings
+  * Add peco --version
+
+v0.1.0 - 12 Jun 2014
+  * Initial versioned release
