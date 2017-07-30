@@ -10,7 +10,7 @@ import (
 
 	"github.com/aws/aws-sdk-go/service/athena"
 	"github.com/pkg/errors"
-	"github.com/skatsuta/athenai/athenai"
+	"github.com/skatsuta/athenai/core"
 	"github.com/skatsuta/athenai/internal/stub"
 	"github.com/skatsuta/athenai/internal/testhelper"
 	"github.com/stretchr/testify/assert"
@@ -54,7 +54,7 @@ func (fi *stubFileInfo) Mode() os.FileMode {
 }
 
 func TestRunRun(t *testing.T) {
-	cfg := &athenai.Config{
+	cfg := &core.Config{
 		Location: "s3://TestRunRunBucket/",
 	}
 
@@ -254,7 +254,7 @@ func TestRunRunOutputFile(t *testing.T) {
 			ScannedBytes: tt.scanned,
 			ResultSet:    tt.rs,
 		})
-		cfg := &athenai.Config{
+		cfg := &core.Config{
 			Location: "s3://bucket/",
 			Output:   tmpFile.Name(),
 		}
@@ -278,12 +278,12 @@ func TestRunRunOutputFile(t *testing.T) {
 func TestRunRunValidationError(t *testing.T) {
 	tests := []struct {
 		id   string
-		cfg  *athenai.Config
+		cfg  *core.Config
 		want string
 	}{
 		{
 			id:   "TestRunRunNoLocationError",
-			cfg:  &athenai.Config{},
+			cfg:  &core.Config{},
 			want: "location",
 		},
 	}

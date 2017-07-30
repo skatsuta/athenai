@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/skatsuta/athenai/athenai"
+	"github.com/skatsuta/athenai/core"
 	"github.com/skatsuta/athenai/internal/testhelper"
 	"github.com/stretchr/testify/assert"
 )
@@ -56,7 +56,7 @@ func TestInitConfigNoConfigFile(t *testing.T) {
 	tests := []struct {
 		cfgFile string
 		rawArgs []string
-		want    *athenai.Config
+		want    *core.Config
 	}{
 		{
 			cfgFile: "/no_existent_config",
@@ -66,7 +66,7 @@ func TestInitConfigNoConfigFile(t *testing.T) {
 				"--region", "us-east-2",
 				"--location", "s3://samplebucket/",
 			},
-			want: &athenai.Config{
+			want: &core.Config{
 				Section:  section,
 				Profile:  "testprofile",
 				Region:   "us-east-2",
@@ -86,7 +86,7 @@ func TestInitConfigNoConfigFile(t *testing.T) {
 }
 
 func TestInitConfigNoSection(t *testing.T) {
-	cfg := &athenai.Config{
+	cfg := &core.Config{
 		Section:  "default",
 		Profile:  "TestInitConfigNoSectionProfile",
 		Location: "s3://samplebucket-2/",
@@ -111,7 +111,7 @@ func TestInitConfigNoSection(t *testing.T) {
 }
 
 func TestInitConfigConfigFileNoArgs(t *testing.T) {
-	cfg := &athenai.Config{
+	cfg := &core.Config{
 		Section:  "default",
 		Profile:  "TestInitConfigConfigFileNoArgsProfile",
 		Region:   "eu-central-1",
@@ -132,7 +132,7 @@ func TestInitConfigConfigFileNoArgs(t *testing.T) {
 }
 
 func TestInitConfigConfigFileAndArgs(t *testing.T) {
-	cfg := &athenai.Config{
+	cfg := &core.Config{
 		Section:  "test",
 		Profile:  "TestInitConfigConfigFileAndArgs",
 		Region:   "eu-west-1",
@@ -159,11 +159,11 @@ func TestInitConfigConfigFileAndArgs(t *testing.T) {
 
 func TestNewClient(t *testing.T) {
 	tests := []struct {
-		cfg      *athenai.Config
+		cfg      *core.Config
 		logLevel aws.LogLevelType
 	}{
 		{
-			cfg: &athenai.Config{
+			cfg: &core.Config{
 				Debug:   true,
 				Profile: "TestNewClientProfile",
 				Region:  "us-east-1",

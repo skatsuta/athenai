@@ -11,7 +11,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/athena"
 	"github.com/pkg/errors"
-	"github.com/skatsuta/athenai/athenai"
+	"github.com/skatsuta/athenai/core"
 	"github.com/spf13/cobra"
 )
 
@@ -21,7 +21,7 @@ var (
 
 	stdout io.WriteCloser = os.Stdout
 
-	config = &athenai.Config{}
+	config = &core.Config{}
 )
 
 // RootCmd represents the base command when called without any subcommands
@@ -92,7 +92,7 @@ func printConfigFileWarning(err error) {
 	case *os.PathError:
 		log.Println("No config file found:", e)
 		fmt.Fprintf(os.Stderr, "No config file found on %s. Using only command line flags\n", e.Path)
-	case *athenai.SectionError:
+	case *core.SectionError:
 		log.Println("Error on section:", e)
 		fmt.Fprintf(os.Stderr, "Section '%s' not found in %s. Please check if the '%s' section exists "+
 			"in your config file and add it if it does not exist. Using only command line flags this time\n",
@@ -105,9 +105,9 @@ func printConfigFileWarning(err error) {
 
 // initConfig loads configurations from the config file and then override them by parsing flags.
 // rawArgs should be os.Args[1:].
-func initConfig(cfg *athenai.Config, cfgFile string, cmd *cobra.Command, rawArgs []string) {
+func initConfig(cfg *core.Config, cfgFile string, cmd *cobra.Command, rawArgs []string) {
 	log.Printf("Primitive config: %#v\n", cfg)
-	if err := athenai.LoadConfigFile(cfg, cfgFile); err != nil && !cfg.Silent {
+	if err := core.LoadConfigFile(cfg, cfgFile); err != nil && !cfg.Silent {
 		// Config file is optional so just print the error and not return it.
 		printConfigFileWarning(err)
 	}
@@ -117,7 +117,7 @@ func initConfig(cfg *athenai.Config, cfgFile string, cmd *cobra.Command, rawArgs
 }
 
 // newClient creates a new Athena client.
-func newClient(cfg *athenai.Config) *athena.Athena {
+func newClient(cfg *core.Config) *athena.Athena {
 	log.Printf("Creating Athena client: region = %s, profile = %s\n", cfg.Region, cfg.Profile)
 	c := aws.NewConfig().WithRegion(cfg.Region)
 	if cfg.Debug {

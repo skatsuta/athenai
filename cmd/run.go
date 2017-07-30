@@ -10,7 +10,7 @@ import (
 
 	"github.com/aws/aws-sdk-go/service/athena/athenaiface"
 	"github.com/pkg/errors"
-	"github.com/skatsuta/athenai/athenai"
+	"github.com/skatsuta/athenai/core"
 	"github.com/spf13/cobra"
 )
 
@@ -68,7 +68,7 @@ func init() {
 	f.UintVar(&config.Concurrent, "concurrent", 5, "The maximum number of concurrent query executions at a time. Usually no need to configure this value")
 }
 
-func validateConfigForRun(cfg *athenai.Config) error {
+func validateConfigForRun(cfg *core.Config) error {
 	if cfg == nil {
 		return errors.New("config is nil")
 	}
@@ -112,12 +112,12 @@ func appendStdinData(args []string, stdin io.Reader) []string {
 	return append(args, data)
 }
 
-func runRun(cmd *cobra.Command, args []string, client athenaiface.AthenaAPI, cfg *athenai.Config, stdin statReader, out io.Writer) (err error) {
+func runRun(cmd *cobra.Command, args []string, client athenaiface.AthenaAPI, cfg *core.Config, stdin statReader, out io.Writer) (err error) {
 	if e := validateConfigForRun(cfg); e != nil {
 		return errors.Wrap(e, "validation for run command failed")
 	}
 
-	a := athenai.New(client, cfg, out)
+	a := core.New(client, cfg, out)
 
 	// Read data on stdin and add it to args
 	if hasDataOn(stdin) {

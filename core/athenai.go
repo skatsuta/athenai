@@ -1,4 +1,4 @@
-package athenai
+package core
 
 import (
 	"context"

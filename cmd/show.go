@@ -3,7 +3,7 @@ package cmd
 import (
 	"os"
 
-	"github.com/skatsuta/athenai/athenai"
+	"github.com/skatsuta/athenai/core"
 	"github.com/spf13/cobra"
 )
 
@@ -14,7 +14,7 @@ var showCmd = &cobra.Command{
 	Long: `Shows the results of selected query executions that are complete.
 You can filter entries interactively, and select multiple query executions to show at a time.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		athenai.New(newClient(config), config, os.Stdout).ShowResults()
+		core.New(newClient(config), config, os.Stdout).ShowResults()
 	},
 	Example: `  # Show the results of query executions
   $ athenai show
