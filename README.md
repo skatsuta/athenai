@@ -530,6 +530,8 @@ Please follow the steps below to fix a bug or add a new feature, etc.
   * `git remote add fork https://github.com/yourname/athenai.git`
 1. Create your bug fix or feature branch
   * e.g. `git checkout -b your-working-branch`
+1. Change the code, add tests if necessary and make sure all tests passes
+  * `./scripts/test.sh`
 1. Commit your changes (please describe details of your commit in the commit message)
   * e.g. `git commit -am 'Fix a bug'`
 1. **Push to the `fork` branch (NOT to the `origin`)**
