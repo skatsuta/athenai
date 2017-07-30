@@ -27,14 +27,11 @@ var (
 // RootCmd represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
 	Use:   "athenai",
-	Short: "Athenai is a simple command line tool that accesses Amazon Athena",
+	Short: "Athenai is a simple and easy-to-use command line tool that runs SQL statements on Amazon Athena.",
 	// TODO
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Long: `Athenai is a simple and easy-to-use command line tool that runs SQL statements on Amazon Athena.
+With Athenai you can easily run multiple queries at a time on Amazon Athena and see the results
+in table or CSV format once the executions are complete.`,
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
 		log.SetFlags(log.LstdFlags | log.Lmicroseconds | log.Lshortfile)
 		if !config.Debug {

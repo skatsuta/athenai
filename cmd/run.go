@@ -17,18 +17,34 @@ import (
 // runCmd represents the run command
 var runCmd = &cobra.Command{
 	Use:   "run",
-	Short: "Run the SQL statements",
-	// TODO: fix description
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Runs (executes) the SQL query statements",
+	Long: `Runs (executes) the SQL query statements. You can run queries either on interactive (REPL) mode,
+from command line arguments or from an SQL file. Athenai waits for the query executions and shows
+the query results in table or CSV format once the executions are complete.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		return runRun(cmd, args, newClient(config), config, os.Stdin, stdout)
 	},
-	// TODO: add examples
+	Example: `  # Start interactive (REPL) mode
+  $ atheani run
+  # Then provide queries to execute
+  athenai> SELECT date, time, requestip, method, status FROM cloudfront_logs LIMIT 5;
+
+  # Run queries from command line arguments
+  $ athenai run "SELECT date, time, requestip, method, status FROM cloudfront_logs LIMIT 5;"
+
+  # Run queries from an SQL file
+  $ athenai run file://sample.sql
+  # Or provide queries via stdin
+  $ athenai run < sample.sql
+
+  # Specify the database and S3 location to use
+  $ athenai run --database sampledb --location s3://sample-bucket/ "SELECT date, time, requestip FROM cloudfront_logs LIMIT 5;"
+
+  # Print results in CSV format
+  $ athenai run --format csv "SELECT date, time, requestip FROM cloudfront_logs LIMIT 5;"
+
+  # Output (save) results to a file
+  $ athenai run --output /path/to/file "SELECT date, time, requestip FROM cloudfront_logs LIMIT 5;"`,
 }
 
 type stater interface {
