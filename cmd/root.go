@@ -89,7 +89,7 @@ func printConfigFileWarning(err error) {
 	switch e := cause.(type) {
 	case *os.PathError:
 		log.Println("No config file found:", e)
-		fmt.Fprintf(os.Stderr, "No config file found on %s. Using only command line flags\n", e.Path)
+		fmt.Fprintf(os.Stderr, "No config file found at '%s'. Using only command line flags\n", e.Path)
 	case *core.SectionError:
 		log.Println("Error on section:", e)
 		fmt.Fprintf(os.Stderr, "Section '%s' not found in %s. Please check if the '%s' section exists "+
