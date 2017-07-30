@@ -27,7 +27,6 @@ var (
 var RootCmd = &cobra.Command{
 	Use:   "athenai",
 	Short: "Athenai is a simple and easy-to-use command line tool that runs SQL statements on Amazon Athena.",
-	// TODO
 	Long: `Athenai is a simple and easy-to-use command line tool that runs SQL statements on Amazon Athena.
 With Athenai you can easily run multiple queries at a time on Amazon Athena and see the results
 in table or CSV format once the executions are complete.`,
