@@ -160,21 +160,21 @@ func (a *Athenai) runSingleQuery(ctx context.Context, query string, ch chan *Eit
 }
 
 func (a *Athenai) printResultOrErr(et *Either) {
-	if et.Left != nil {
-		r := et.Left.(print.Result)
-		a.print("\n")
-		a.printer.Print(r)
+	a.print("\n")
+
+	if err := et.Right; err != nil {
+		cause := errors.Cause(err)
+		switch e := cause.(type) {
+		case *exec.CanceledError:
+			log.Println(e) // Just log the error
+		default:
+			a.printErr(err, "query execution failed")
+		}
 		return
 	}
 
-	err := et.Right
-	cause := errors.Cause(err)
-	switch e := cause.(type) {
-	case *exec.CanceledError:
-		log.Println(e) // Just log the error
-	default:
-		a.printErr(err, "query execution failed")
-	}
+	r := et.Left.(print.Result)
+	a.printer.Print(r)
 }
 
 // RunQuery runs the given queries.
