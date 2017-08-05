@@ -97,9 +97,11 @@ func (q *Query) WithWaitInterval(interval time.Duration) *Query {
 // Start starts the specified query but does not wait for it to complete.
 func (q *Query) Start(ctx context.Context) error {
 	params := &athena.StartQueryExecutionInput{
-		QueryString:           &q.query,
-		QueryExecutionContext: &athena.QueryExecutionContext{Database: &q.Database},
-		ResultConfiguration:   &athena.ResultConfiguration{OutputLocation: &q.Location},
+		QueryString:         &q.query,
+		ResultConfiguration: &athena.ResultConfiguration{OutputLocation: &q.Location},
+	}
+	if q.Database != "" {
+		params.QueryExecutionContext = &athena.QueryExecutionContext{Database: &q.Database}
 	}
 
 	qx, err := q.client.StartQueryExecutionWithContext(ctx, params)
