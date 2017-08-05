@@ -35,7 +35,7 @@ With Athenai you can run multiple queries easily at a time on Amazon Athena and 
 
 Athenai is currently supported on macOS and Linux.
 
-### Installing from binary (Recommended)
+### Installing from binary
 
 [Download the archive](https://github.com/skatsuta/athenai/releases/latest), extract it and place the executable somewhere in `PATH`.
 For example,
@@ -47,15 +47,22 @@ $ tar -xzf athenai.tar.gz && mv athenai /usr/local/bin/ # or wherever you like i
 $ athenai --help
 ```
 
+### Installing via Homebrew (macOS only)
+
+Athenai provides [a repository for Homebrew](https://github.com/skatsuta/homebrew-athenai). If you use [Homebrew](https://brew.sh/), you can install the binary as follows:
+
+```bash
+$ brew install skatsuta/athenai/athenai
+```
 
 ### Installing from source
 
-If you use Go, you can build your binary from source using `go get`:
+If you use Go, you can build and install your binary from source using `go get`:
 
 ```bash
 $ go get -v github.com/skatsuta/athenai
 # ...
-$ athenai --help
+$ $GOPATH/bin/athenai --help
 ```
 
 
