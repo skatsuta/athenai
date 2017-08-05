@@ -33,6 +33,13 @@ func CreateStats(execTime, scannedBytes int64) *athena.QueryExecutionStatistics 
 	}
 }
 
+// CreateResultConfig creates a new *athena.ResultConfiguration.
+func CreateResultConfig(outputLocation string) *athena.ResultConfiguration {
+	return &athena.ResultConfiguration{
+		OutputLocation: &outputLocation,
+	}
+}
+
 const configFileTmpl = `
 [{{.Section}}]
 debug = {{.Debug}}

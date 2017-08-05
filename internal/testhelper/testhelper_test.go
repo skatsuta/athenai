@@ -89,6 +89,17 @@ func TestCreateStats(t *testing.T) {
 	}
 }
 
+func TestCreateResultConfig(t *testing.T) {
+	want := &athena.ResultConfiguration{
+		OutputLocation: aws.String("s3://samplebucket/"),
+	}
+
+	loc := "s3://samplebucket/"
+	got := CreateResultConfig(loc)
+
+	assert.Equal(t, want, got, "OutputLocation: %s", loc)
+}
+
 func TestCreateConfigFile(t *testing.T) {
 	cfg := &struct {
 		Debug    bool
