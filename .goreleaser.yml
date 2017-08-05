@@ -3,6 +3,7 @@ builds:
     goos:
       - darwin
       - linux
+      # - windows
     goarch:
       - 386
       - amd64
@@ -10,12 +11,16 @@ builds:
       - goos: darwin
         goarch: 386
 archive:
-  format: zip
+  name_template: '{{ .Binary }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
   replacements:
-    386: 32-bit
-    amd64: 64-bit
     darwin: macOS
     linux: Linux
+    windows: Windows
+    386: 32-bit
+    amd64: 64-bit
+  format_overrides:
+    - goos: windows
+      format: zip
 release:
   draft: false
 brew:
@@ -24,6 +29,7 @@ brew:
     name: homebrew-athenai
   folder: Formula
   homepage: https://github.com/skatsuta/athenai
-  description: Athenai is a simple and easy-to-use command line tool that runs SQL statements on Amazon Athena.
+  description: |
+    Athenai is a simple and easy-to-use command line tool that runs SQL query statements on Amazon Athena.
   install: |
     bin.install "athenai"
