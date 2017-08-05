@@ -25,6 +25,62 @@ type Printer interface {
 	Print(Result)
 }
 
+// printer is a filter that formats its input as a table in the output.
+type printer struct {
+	out io.Writer
+	fn  func(w io.Writer, rows [][]string)
+}
+
+// New returns a new Printer which prints to out corresponding to format.
+func New(out io.Writer, format string) Printer {
+	fn := printTable
+	if format == "csv" {
+		fn = printCSV
+	}
+
+	return &printer{
+		out: out,
+		fn:  fn,
+	}
+}
+
+func (p *printer) Print(r Result) {
+	info := r.Info()
+	rows := r.Rows()
+	if info == nil || rows == nil {
+		return
+	}
+
+	printHeader(p.out, info)
+
+	if len(rows) == 0 {
+		fmt.Fprintln(p.out, noOutput)
+	} else {
+		p.fn(p.out, rows)
+	}
+
+	printFooter(p.out, info)
+}
+
+// printTable prints the results in tabular form.
+func printTable(out io.Writer, rows [][]string) {
+	tw := tablewriter.NewWriter(out)
+	tw.AppendBulk(rows)
+	tw.Render()
+}
+
+// printCSV prints the results in CSV format.
+func printCSV(out io.Writer, rows [][]string) {
+	w := csv.NewWriter(out)
+	w.WriteAll(rows)
+	w.Flush()
+}
+
+// printHeader prints query information.
+func printHeader(w io.Writer, info *athena.QueryExecution) {
+	fmt.Fprintf(w, "Query: %s;\n", aws.StringValue(info.Query))
+}
+
 func logn(n, b float64) float64 {
 	return math.Log(n) / math.Log(b)
 }
@@ -59,78 +115,4 @@ func printFooter(w io.Writer, info *athena.QueryExecution) {
 	log.Printf("OutputLocation: %s\n", loc)
 	fmt.Fprintf(w, "Run time: %.2f seconds | Data scanned: %s\nLocation: %s\n",
 		float64(runTimeMs)/1000, FormatBytes(scannedBytes), loc)
-}
-
-// Table is a filter that formats its input as a table in the output.
-type Table struct {
-	w io.Writer
-}
-
-// NewTable creates a new Table which writes its output to w.
-func NewTable(w io.Writer) *Table {
-	return &Table{
-		w: w,
-	}
-}
-
-// Print prints a query executed, its results in tabular form, and the query statistics.
-func (t *Table) Print(r Result) {
-	if r.Info() == nil || r.Rows() == nil {
-		return
-	}
-
-	printInfo(t.w, r.Info())
-	t.printTable(r.Rows())
-	printFooter(t.w, r.Info())
-}
-
-// printTable prints the results in tabular form.
-func (t *Table) printTable(rows [][]string) {
-	if len(rows) == 0 {
-		fmt.Fprintln(t.w, noOutput)
-		return
-	}
-
-	tw := tablewriter.NewWriter(t.w)
-	tw.AppendBulk(rows)
-	tw.Render()
-}
-
-// CSV writes records in CSV format.
-type CSV struct {
-	w io.Writer
-}
-
-// NewCSV creates a new CSV which writes its output to w.
-func NewCSV(w io.Writer) *CSV {
-	return &CSV{w: w}
-}
-
-// Print prints a query execution id, an executed query, its results in CSV form
-// and the query statistics.
-func (c *CSV) Print(r Result) {
-	if r.Info() == nil || r.Rows() == nil {
-		return
-	}
-
-	printInfo(c.w, r.Info())
-	c.printCSV(r.Rows())
-	printFooter(c.w, r.Info())
-}
-
-func (c *CSV) printCSV(rows [][]string) {
-	if len(rows) == 0 {
-		fmt.Fprintln(c.w, noOutput)
-		return
-	}
-
-	writer := csv.NewWriter(c.w)
-	writer.WriteAll(rows)
-	writer.Flush()
-}
-
-// printInfo prints query information.
-func printInfo(w io.Writer, info *athena.QueryExecution) {
-	fmt.Fprintf(w, "QueryExecutionId: %s\nQuery: %s;\n",
-		aws.StringValue(info.QueryExecutionId), aws.StringValue(info.Query))
 }

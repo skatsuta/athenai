@@ -81,9 +81,9 @@ type Athenai struct {
 	stdout io.Writer
 	stderr io.Writer
 
-	rl      readlineCloser
-	f       filter.Filter
-	printer print.Printer
+	rl readlineCloser
+	f  filter.Filter
+	p  print.Printer
 
 	client athenaiface.AthenaAPI
 	cfg    *Config
@@ -102,7 +102,7 @@ func New(client athenaiface.AthenaAPI, cfg *Config, out io.Writer) *Athenai {
 		stdin:           os.Stdin,
 		stdout:          out,
 		stderr:          &safeWriter{w: os.Stderr},
-		printer:         createPrinter(out, cfg),
+		p:               print.New(out, cfg.Format),
 		cfg:             cfg,
 		client:          client,
 		refreshInterval: refreshInterval,
@@ -174,7 +174,7 @@ func (a *Athenai) printResultOrErr(et *Either) {
 	}
 
 	r := et.Left.(print.Result)
-	a.printer.Print(r)
+	a.p.Print(r)
 }
 
 // RunQuery runs the given queries.
@@ -627,15 +627,6 @@ func (a *Athenai) splitStmts(args []string) []string {
 	}
 
 	return stmts
-}
-
-func createPrinter(out io.Writer, cfg *Config) print.Printer {
-	switch cfg.Format {
-	case "csv":
-		return print.NewCSV(out)
-	default:
-		return print.NewTable(out)
-	}
 }
 
 func ensureDefaultDir() (string, error) {

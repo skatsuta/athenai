@@ -93,27 +93,27 @@ Location: s3://samplebucket/
 `
 )
 
-// mockedResult is a mock struct which implements Result interface for testing.
-type mockedResult struct {
+// stubResult is a mock struct which implements Result interface for testing.
+type stubResult struct {
 	info *athena.QueryExecution
 	data [][]string
 }
 
-func (m *mockedResult) Info() *athena.QueryExecution {
+func (m *stubResult) Info() *athena.QueryExecution {
 	return m.info
 }
 
-func (m *mockedResult) Rows() [][]string {
+func (m *stubResult) Rows() [][]string {
 	return m.data
 }
 
-func TestTablePrint(t *testing.T) {
+func TestTablePrinter(t *testing.T) {
 	tests := []struct {
-		r        Result
-		expected string
+		r    Result
+		want string
 	}{
 		{
-			r: &mockedResult{
+			r: &stubResult{
 				info: &athena.QueryExecution{
 					QueryExecutionId:    aws.String("TestTablePrint_ShowDatabases"),
 					Query:               aws.String("SHOW DATABASES"),
@@ -126,10 +126,10 @@ func TestTablePrint(t *testing.T) {
 					{"sampledb"},
 				},
 			},
-			expected: showDatabasesTable,
+			want: showDatabasesTable,
 		},
 		{
-			r: &mockedResult{
+			r: &stubResult{
 				info: &athena.QueryExecution{
 					QueryExecutionId:    aws.String("TestTablePrint_Select"),
 					Query:               aws.String("SELECT date, time, bytes FROM cloudfront_logs LIMIT 3"),
@@ -143,10 +143,10 @@ func TestTablePrint(t *testing.T) {
 					{"2014-07-05", "15:00:00", "4252"},
 				},
 			},
-			expected: selectTable,
+			want: selectTable,
 		},
 		{
-			r: &mockedResult{
+			r: &stubResult{
 				info: &athena.QueryExecution{
 					QueryExecutionId:    aws.String("TestTablePrint_CreateDatabase"),
 					Query:               aws.String("CREATE DATABASE test"),
@@ -155,7 +155,7 @@ func TestTablePrint(t *testing.T) {
 				},
 				data: [][]string{},
 			},
-			expected: createDatabaseTable,
+			want: createDatabaseTable,
 		},
 	}
 
@@ -163,10 +163,10 @@ func TestTablePrint(t *testing.T) {
 		var out bytes.Buffer
 		out.WriteString("\n")
 
-		tbl := NewTable(&out)
-		tbl.Print(tt.r)
+		p := New(&out, "table")
+		p.Print(tt.r)
 
-		assert.Contains(t, out.String(), tt.expected, "Result: %#v", tt.r)
+		assert.Contains(t, out.String(), tt.want, "Result: %#v", tt.r)
 	}
 }
 
@@ -198,13 +198,13 @@ Location: s3://samplebucket/
 `
 )
 
-func TestCSVPrint(t *testing.T) {
+func TestCSVPrinter(t *testing.T) {
 	tests := []struct {
-		r        Result
-		expected string
+		r    Result
+		want string
 	}{
 		{
-			r: &mockedResult{
+			r: &stubResult{
 				info: &athena.QueryExecution{
 					QueryExecutionId:    aws.String("TestCSVPrint_ShowDatabases"),
 					Query:               aws.String("SHOW DATABASES"),
@@ -217,10 +217,10 @@ func TestCSVPrint(t *testing.T) {
 					{"sampledb"},
 				},
 			},
-			expected: showDatabasesCSV,
+			want: showDatabasesCSV,
 		},
 		{
-			r: &mockedResult{
+			r: &stubResult{
 				info: &athena.QueryExecution{
 					QueryExecutionId:    aws.String("TestCSVPrint_Select"),
 					Query:               aws.String("SELECT date, time, bytes FROM cloudfront_logs LIMIT 3"),
@@ -234,10 +234,10 @@ func TestCSVPrint(t *testing.T) {
 					{"2014-07-05", "15:00:00", "4252"},
 				},
 			},
-			expected: selectCSV,
+			want: selectCSV,
 		},
 		{
-			r: &mockedResult{
+			r: &stubResult{
 				info: &athena.QueryExecution{
 					QueryExecutionId:    aws.String("TestCSVPrint_CreateDatabase"),
 					Query:               aws.String("CREATE DATABASE test"),
@@ -246,7 +246,7 @@ func TestCSVPrint(t *testing.T) {
 				},
 				data: [][]string{},
 			},
-			expected: createDatabaseCSV,
+			want: createDatabaseCSV,
 		},
 	}
 
@@ -254,9 +254,9 @@ func TestCSVPrint(t *testing.T) {
 		var out bytes.Buffer
 		out.WriteString("\n")
 
-		csv := NewCSV(&out)
-		csv.Print(tt.r)
+		p := New(&out, "csv")
+		p.Print(tt.r)
 
-		assert.Contains(t, out.String(), tt.expected, "Result: %#v", tt.r)
+		assert.Contains(t, out.String(), tt.want, "Result: %#v", tt.r)
 	}
 }
