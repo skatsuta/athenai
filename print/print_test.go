@@ -63,7 +63,6 @@ func TestPrintFooter(t *testing.T) {
 
 const (
 	showDatabasesTable = `
-QueryExecutionId: TestTablePrint_ShowDatabases
 Query: SHOW DATABASES;
 +-----------------+
 | cloudfront_logs |
@@ -75,7 +74,6 @@ Location: s3://samplebucket/
 `
 
 	selectTable = `
-QueryExecutionId: TestTablePrint_Select
 Query: SELECT date, time, bytes FROM cloudfront_logs LIMIT 3;
 +------------+----------+-------+
 | date       | time     | bytes |
@@ -88,7 +86,6 @@ Location: s3://samplebucket/
 `
 
 	createDatabaseTable = `
-QueryExecutionId: TestTablePrint_CreateDatabase
 Query: CREATE DATABASE test;
 (No output)
 Run time: 1.23 seconds | Data scanned: 0 B
@@ -175,7 +172,6 @@ func TestTablePrint(t *testing.T) {
 
 const (
 	showDatabasesCSV = `
-QueryExecutionId: TestCSVPrint_ShowDatabases
 Query: SHOW DATABASES;
 cloudfront_logs
 elb_logs
@@ -185,7 +181,6 @@ Location: s3://samplebucket/
 `
 
 	selectCSV = `
-QueryExecutionId: TestCSVPrint_Select
 Query: SELECT date, time, bytes FROM cloudfront_logs LIMIT 3;
 date,time,bytes
 2014-07-05,15:00:00,4260
@@ -196,7 +191,6 @@ Location: s3://samplebucket/
 `
 
 	createDatabaseCSV = `
-QueryExecutionId: TestCSVPrint_CreateDatabase
 Query: CREATE DATABASE test;
 (No output)
 Run time: 1.23 seconds | Data scanned: 0 B
