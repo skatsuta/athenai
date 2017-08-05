@@ -48,12 +48,17 @@ func FormatBytes(s int64) string {
 	return humanateBytes(s, 1000, sizes)
 }
 
-func printStats(w io.Writer, stats *athena.QueryExecutionStatistics) {
+// printFooter prints a footer for a query execution.
+func printFooter(w io.Writer, info *athena.QueryExecution) {
+	stats := info.Statistics
 	runTimeMs := aws.Int64Value(stats.EngineExecutionTimeInMillis)
 	scannedBytes := aws.Int64Value(stats.DataScannedInBytes)
+	loc := aws.StringValue(info.ResultConfiguration.OutputLocation)
 	log.Printf("EngineExecutionTimeInMillis: %d milliseconds\n", runTimeMs)
 	log.Printf("DataScannedInBytes: %d bytes\n", scannedBytes)
-	fmt.Fprintf(w, "Run time: %.2f seconds | Data scanned: %s\n", float64(runTimeMs)/1000, FormatBytes(scannedBytes))
+	log.Printf("OutputLocation: %s\n", loc)
+	fmt.Fprintf(w, "Run time: %.2f seconds | Data scanned: %s\nLocation: %s\n",
+		float64(runTimeMs)/1000, FormatBytes(scannedBytes), loc)
 }
 
 // Table is a filter that formats its input as a table in the output.
@@ -76,7 +81,7 @@ func (t *Table) Print(r Result) {
 
 	printInfo(t.w, r.Info())
 	t.printTable(r.Rows())
-	printStats(t.w, r.Info().Statistics)
+	printFooter(t.w, r.Info())
 }
 
 // printTable prints the results in tabular form.
@@ -110,7 +115,7 @@ func (c *CSV) Print(r Result) {
 
 	printInfo(c.w, r.Info())
 	c.printCSV(r.Rows())
-	printStats(c.w, r.Info().Statistics)
+	printFooter(c.w, r.Info())
 }
 
 func (c *CSV) printCSV(rows [][]string) {

@@ -14,6 +14,8 @@ import (
 	"github.com/skatsuta/athenai/internal/testhelper"
 )
 
+const outputLocation = "s3://samplebucket/"
+
 // FinalState represents a final state of a query execution, such as SUCCEEDED, FAILED or CANCELLED.
 type FinalState int
 
@@ -209,10 +211,11 @@ func (s *GetQueryExecutionStub) GetQueryExecution(input *athena.GetQueryExecutio
 
 	resp := &athena.GetQueryExecutionOutput{
 		QueryExecution: &athena.QueryExecution{
-			QueryExecutionId: &r.ID,
-			Query:            &r.Query,
-			Statistics:       testhelper.CreateStats(r.ExecTime, r.ScannedBytes),
-			Status:           &athena.QueryExecutionStatus{State: &state},
+			QueryExecutionId:    &r.ID,
+			Query:               &r.Query,
+			ResultConfiguration: testhelper.CreateResultConfig(outputLocation),
+			Statistics:          testhelper.CreateStats(r.ExecTime, r.ScannedBytes),
+			Status:              &athena.QueryExecutionStatus{State: &state},
 		},
 	}
 	return resp, nil
@@ -254,9 +257,10 @@ func (s *BatchGetQueryExecutionStub) BatchGetQueryExecution(input *athena.BatchG
 		l := len(stateFlow)
 		state := stateFlow[l-1]
 		qxs[i] = &athena.QueryExecution{
-			QueryExecutionId: &r.ID,
-			Query:            &r.Query,
-			Statistics:       testhelper.CreateStats(r.ExecTime, r.ScannedBytes),
+			QueryExecutionId:    &r.ID,
+			Query:               &r.Query,
+			ResultConfiguration: testhelper.CreateResultConfig(outputLocation),
+			Statistics:          testhelper.CreateStats(r.ExecTime, r.ScannedBytes),
 			Status: &athena.QueryExecutionStatus{
 				SubmissionDateTime: &r.SubmitTime,
 				State:              &state,

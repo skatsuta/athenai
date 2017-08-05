@@ -10,6 +10,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+const outputLocation = "s3://samplebucket/"
+
 func TestFormatBytes(t *testing.T) {
 	tests := []struct {
 		size     int64
@@ -30,24 +32,31 @@ func TestFormatBytes(t *testing.T) {
 	}
 }
 
-func TestPrintStats(t *testing.T) {
+func TestPrintFooter(t *testing.T) {
 	tests := []struct {
-		info     *athena.QueryExecutionStatistics
+		info     *athena.QueryExecution
 		expected string
 	}{
 		{
-			info:     testhelper.CreateStats(1234, 987654321),
-			expected: "Run time: 1.23 seconds | Data scanned: 987.65 MB\n",
+			info: &athena.QueryExecution{
+				Statistics:          testhelper.CreateStats(1234, 987654321),
+				ResultConfiguration: testhelper.CreateResultConfig(outputLocation),
+			},
+			expected: "Run time: 1.23 seconds | Data scanned: 987.65 MB\nLocation: s3://samplebucket/\n",
 		},
 		{
-			info:     testhelper.CreateStats(10, 10),
-			expected: "Run time: 0.01 seconds | Data scanned: 10 B\n",
+			info: &athena.QueryExecution{
+				Statistics:          testhelper.CreateStats(10, 10),
+				ResultConfiguration: testhelper.CreateResultConfig(outputLocation),
+			},
+			expected: "Run time: 0.01 seconds | Data scanned: 10 B\nLocation: s3://samplebucket/\n",
 		},
 	}
 
 	for _, tt := range tests {
 		var out bytes.Buffer
-		printStats(&out, tt.info)
+		printFooter(&out, tt.info)
+
 		assert.Equal(t, tt.expected, out.String(), "Info: %#v", tt.info)
 	}
 }
@@ -61,7 +70,9 @@ Query: SHOW DATABASES;
 | elb_logs        |
 | sampledb        |
 +-----------------+
-Run time: 0.12 seconds | Data scanned: 0 B`
+Run time: 0.12 seconds | Data scanned: 0 B
+Location: s3://samplebucket/
+`
 
 	selectTable = `
 QueryExecutionId: TestTablePrint_Select
@@ -72,13 +83,17 @@ Query: SELECT date, time, bytes FROM cloudfront_logs LIMIT 3;
 | 2014-07-05 | 15:00:00 |    10 |
 | 2014-07-05 | 15:00:00 |  4252 |
 +------------+----------+-------+
-Run time: 1.23 seconds | Data scanned: 56.79 KB`
+Run time: 1.23 seconds | Data scanned: 56.79 KB
+Location: s3://samplebucket/
+`
 
 	createDatabaseTable = `
 QueryExecutionId: TestTablePrint_CreateDatabase
 Query: CREATE DATABASE test;
 (No output)
-Run time: 1.23 seconds | Data scanned: 0 B`
+Run time: 1.23 seconds | Data scanned: 0 B
+Location: s3://samplebucket/
+`
 )
 
 // mockedResult is a mock struct which implements Result interface for testing.
@@ -103,9 +118,10 @@ func TestTablePrint(t *testing.T) {
 		{
 			r: &mockedResult{
 				info: &athena.QueryExecution{
-					QueryExecutionId: aws.String("TestTablePrint_ShowDatabases"),
-					Query:            aws.String("SHOW DATABASES"),
-					Statistics:       testhelper.CreateStats(123, 0),
+					QueryExecutionId:    aws.String("TestTablePrint_ShowDatabases"),
+					Query:               aws.String("SHOW DATABASES"),
+					Statistics:          testhelper.CreateStats(123, 0),
+					ResultConfiguration: testhelper.CreateResultConfig(outputLocation),
 				},
 				data: [][]string{
 					{"cloudfront_logs"},
@@ -118,9 +134,10 @@ func TestTablePrint(t *testing.T) {
 		{
 			r: &mockedResult{
 				info: &athena.QueryExecution{
-					QueryExecutionId: aws.String("TestTablePrint_Select"),
-					Query:            aws.String("SELECT date, time, bytes FROM cloudfront_logs LIMIT 3"),
-					Statistics:       testhelper.CreateStats(1234, 56789),
+					QueryExecutionId:    aws.String("TestTablePrint_Select"),
+					Query:               aws.String("SELECT date, time, bytes FROM cloudfront_logs LIMIT 3"),
+					Statistics:          testhelper.CreateStats(1234, 56789),
+					ResultConfiguration: testhelper.CreateResultConfig(outputLocation),
 				},
 				data: [][]string{
 					{"date", "time", "bytes"},
@@ -134,9 +151,10 @@ func TestTablePrint(t *testing.T) {
 		{
 			r: &mockedResult{
 				info: &athena.QueryExecution{
-					QueryExecutionId: aws.String("TestTablePrint_CreateDatabase"),
-					Query:            aws.String("CREATE DATABASE test"),
-					Statistics:       testhelper.CreateStats(1234, 0),
+					QueryExecutionId:    aws.String("TestTablePrint_CreateDatabase"),
+					Query:               aws.String("CREATE DATABASE test"),
+					Statistics:          testhelper.CreateStats(1234, 0),
+					ResultConfiguration: testhelper.CreateResultConfig(outputLocation),
 				},
 				data: [][]string{},
 			},
@@ -162,7 +180,9 @@ Query: SHOW DATABASES;
 cloudfront_logs
 elb_logs
 sampledb
-Run time: 0.12 seconds | Data scanned: 0 B`
+Run time: 0.12 seconds | Data scanned: 0 B
+Location: s3://samplebucket/
+`
 
 	selectCSV = `
 QueryExecutionId: TestCSVPrint_Select
@@ -171,13 +191,17 @@ date,time,bytes
 2014-07-05,15:00:00,4260
 2014-07-05,15:00:00,10
 2014-07-05,15:00:00,4252
-Run time: 1.23 seconds | Data scanned: 56.79 KB`
+Run time: 1.23 seconds | Data scanned: 56.79 KB
+Location: s3://samplebucket/
+`
 
 	createDatabaseCSV = `
 QueryExecutionId: TestCSVPrint_CreateDatabase
 Query: CREATE DATABASE test;
 (No output)
-Run time: 1.23 seconds | Data scanned: 0 B`
+Run time: 1.23 seconds | Data scanned: 0 B
+Location: s3://samplebucket/
+`
 )
 
 func TestCSVPrint(t *testing.T) {
@@ -188,9 +212,10 @@ func TestCSVPrint(t *testing.T) {
 		{
 			r: &mockedResult{
 				info: &athena.QueryExecution{
-					QueryExecutionId: aws.String("TestCSVPrint_ShowDatabases"),
-					Query:            aws.String("SHOW DATABASES"),
-					Statistics:       testhelper.CreateStats(123, 0),
+					QueryExecutionId:    aws.String("TestCSVPrint_ShowDatabases"),
+					Query:               aws.String("SHOW DATABASES"),
+					Statistics:          testhelper.CreateStats(123, 0),
+					ResultConfiguration: testhelper.CreateResultConfig(outputLocation),
 				},
 				data: [][]string{
 					{"cloudfront_logs"},
@@ -203,9 +228,10 @@ func TestCSVPrint(t *testing.T) {
 		{
 			r: &mockedResult{
 				info: &athena.QueryExecution{
-					QueryExecutionId: aws.String("TestCSVPrint_Select"),
-					Query:            aws.String("SELECT date, time, bytes FROM cloudfront_logs LIMIT 3"),
-					Statistics:       testhelper.CreateStats(1234, 56789),
+					QueryExecutionId:    aws.String("TestCSVPrint_Select"),
+					Query:               aws.String("SELECT date, time, bytes FROM cloudfront_logs LIMIT 3"),
+					Statistics:          testhelper.CreateStats(1234, 56789),
+					ResultConfiguration: testhelper.CreateResultConfig(outputLocation),
 				},
 				data: [][]string{
 					{"date", "time", "bytes"},
@@ -219,9 +245,10 @@ func TestCSVPrint(t *testing.T) {
 		{
 			r: &mockedResult{
 				info: &athena.QueryExecution{
-					QueryExecutionId: aws.String("TestCSVPrint_CreateDatabase"),
-					Query:            aws.String("CREATE DATABASE test"),
-					Statistics:       testhelper.CreateStats(1234, 0),
+					QueryExecutionId:    aws.String("TestCSVPrint_CreateDatabase"),
+					Query:               aws.String("CREATE DATABASE test"),
+					Statistics:          testhelper.CreateStats(1234, 0),
+					ResultConfiguration: testhelper.CreateResultConfig(outputLocation),
 				},
 				data: [][]string{},
 			},
