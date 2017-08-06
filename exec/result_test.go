@@ -31,7 +31,7 @@ func TestRows(t *testing.T) {
 					},
 				},
 			},
-			expected: [][]string{[]string{}},
+			expected: [][]string{{}},
 		},
 		{
 			result: &Result{
