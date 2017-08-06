@@ -383,11 +383,11 @@ func (a *Athenai) fetchQueryExecutions(ctx context.Context) ([]*athena.QueryExec
 	maxPages := calcMaxPages(c)
 	log.Printf("Paginating query executions to up to %.0f pages\n", maxPages)
 
-	ch := make(chan *Either, 1)
+	resultCh := make(chan *Either)
 	var wg sync.WaitGroup
 	doneCh := make(chan struct{})
 
-	if err := a.fetchQueryExecutionsInternal(ctx, maxPages, ch, &wg); err != nil {
+	if err := a.fetchQueryExecutionsInternal(ctx, maxPages, resultCh, &wg); err != nil {
 		return nil, errors.Wrap(err, "failed to fetch query executions")
 	}
 
@@ -400,7 +400,7 @@ func (a *Athenai) fetchQueryExecutions(ctx context.Context) ([]*athena.QueryExec
 Loop:
 	for {
 		select {
-		case item := <-ch:
+		case item := <-resultCh:
 			qxs = append(qxs, item.Left.([]*athena.QueryExecution)...)
 		case <-doneCh:
 			log.Printf("%d query executions have been fetched\n", len(qxs))
