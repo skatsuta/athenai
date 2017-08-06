@@ -5,6 +5,7 @@
 
 [![wercker status](https://app.wercker.com/status/554177081896c1c508e365ffa1c8cc26/s/master "wercker status")](https://app.wercker.com/project/byKey/554177081896c1c508e365ffa1c8cc26)
 [![codecov](https://codecov.io/gh/skatsuta/athenai/branch/master/graph/badge.svg?token=dkRnWrYYa9)](https://codecov.io/gh/skatsuta/athenai)
+[![Go Report Card](https://goreportcard.com/badge/github.com/skatsuta/athenai)](https://goreportcard.com/report/github.com/skatsuta/athenai)
 
 Have fun with Amazon Athena from command line! 🕊
 
