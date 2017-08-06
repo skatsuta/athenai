@@ -20,5 +20,6 @@ done
 
 set -x
 git tag -a $version
+git push origin master
 git push --tags
 goreleaser --rm-dist
