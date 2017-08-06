@@ -41,7 +41,7 @@ func TestSplitStmts(t *testing.T) {
 			`},
 			2,
 		},
-		{[]string{"", ";", "SELECT; SHOW; ", "; DECRIBE"}, 3},
+		{[]string{"", ";", "SELECT; SHOW; ", "; DESCRIBE"}, 3},
 	}
 
 	for _, tt := range tests {
