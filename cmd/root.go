@@ -36,6 +36,9 @@ in table or CSV format once the executions are complete.`,
 			// Disable debug log messages
 			log.SetOutput(ioutil.Discard)
 		}
+
+		log.Println("Athenai version:", commandVersion)
+
 		initConfig(config, cfgFile, cmd, os.Args[1:])
 		log.Printf("Initialized Config: %#v\n", config)
 
