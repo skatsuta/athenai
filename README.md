@@ -627,7 +627,7 @@ Please follow the steps below to fix a bug or add a new feature, etc.
 
 ## License
 
-[Apache License 2.0](https://github.com/skatsuta/athenai/blob/master/LICENCE)
+[Apache License 2.0](https://github.com/skatsuta/athenai/blob/master/LICENSE)
 
 
 ## Author
