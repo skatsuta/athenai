@@ -3,18 +3,18 @@ set -eu
 
 read -p "What is a new version number? " version
 
-read -p "Have you updated the version number in the source and CHANGELOG? [y/N] " yn
+read -p "Have you updated the version number in the source code and CHANGELOG.md? [y/N] " yn
 while true; do
   case $yn in
     [Yy]*)
       break
       ;;
     [Nn]*|'')
-      echo 'Please update README before releasing a new version.'
+      echo 'Please update them before releasing a new version.'
       exit 1
       ;;
     *)
-      echo "$yn: didn't match anything"
+      echo "Please enter y or n."
   esac
 done
 
