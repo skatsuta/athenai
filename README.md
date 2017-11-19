@@ -332,6 +332,54 @@ Run time: 1.27 seconds | Data scanned: 51 B
 Location: s3://aws-athenai-demo/36db3707-c0d7-416f-99af-aec3d6360583.csv
 ```
 
+### Running multiple statements sequantially
+
+![Running multiple statements sequantially](docs/run_seq.gif)
+
+When you run multiple statements with Athenai, it runs up to 5 statements concurrently at a time by default, and subsequent statements are executed once prior ones have finished.
+
+Sometimes, however, you may need to run each statement sequentially.
+For example, suppose you are going to run the following 3 statements (`CREATE DATABASE` => `CREATE TABLE` => `SELECT`):
+
+##### sample.sql
+
+```sql
+CREATE DATABASE IF NOT EXISTS testdb;
+
+CREATE EXTERNAL TABLE IF NOT EXISTS testdb.persons (
+  id INT,
+  name STRING,
+  age INT
+)
+ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+WITH SERDEPROPERTIES (
+  'separatorChar' = ',',
+  'quoteChar' = '\"',
+  'escapeChar' = '\\'
+)
+STORED AS TEXTFILE
+LOCATION 's3://aws-athenai-demo/csv/';
+
+SELECT * FROM testdb.persons;
+```
+
+In these statements the second and third one depend on the previous one of each respectively, so they cannot be executed concurrently and need to be run sequentially.
+
+In this case, you can specify the number of concurrent query executions by using `--concurrent/-c` flag.
+To run multiple statements sequentially, specify `--concurrent 1`:
+
+```
+$ athenai run --concurrent 1 < sample.sql
+```
+
+This command runs each statement sequentially and you should get the results you expect! 😄
+
+#### Caution
+
+Althrough it is possible for you to specify concurrency more than 5 with `--concurrent/-c` flag, it is not usually recommended because the default concurrency limits are 5 concurrent DDL and SELECT statements at a time, as described in [Service Limits of Amazon Athena](http://docs.aws.amazon.com/athena/latest/ug/service-limits.html).
+
+There is no problem if you have requsted a limit increase for the limit, however.
+
 ### Encrypting query results in Amazon S3
 
 You can encrypt query results in Amazon S3 by running queries with `--encrypt/-e` flag.
