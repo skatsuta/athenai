@@ -78,8 +78,8 @@ func validateConfigForRun(cfg *core.Config) error {
 	// For `run` command location config is required
 	log.Println("Validating output location:", cfg.Location)
 	if !strings.HasPrefix(cfg.Location, "s3://") {
-		return errors.New("valid `location` setting starting with 's3://' is required for the `run` command. " +
-			"Please specify it by using --location/-l flag or adding `location` setting into your config file.")
+		return errors.New("valid `location` setting starting with 's3://' is required for the `run` command.\n" +
+			"Please specify it using --location/-l flag or adding `location = s3://...` entry into your config file.")
 	}
 
 	// SSE_KMS or CSE_KMS encryption type requires an KMS key ARN or ID
