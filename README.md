@@ -283,6 +283,55 @@ Run time: 1.99 seconds | Data scanned: 101.27 KB
 Location: s3://aws-athenai-demo/686f3498-cb31-4731-84ed-5dce9614c6c3.csv
 ```
 
+### Running DDL statements to manipulate metadata
+
+![Running CREATE statements to create a database and table](docs/run_ddl.gif)
+
+Athenai supports not only `SELECT`, `SHOW` and `DESCRIBE` statements, but also DDL statements such as `CREATE`, `ALTER` and `DROP`.
+You can run any available DDL statements listed [here](http://docs.aws.amazon.com/athena/latest/ug/language-reference.html) to manipulate metadata.
+
+Since these statements show usually no results, the outputs of them are `(No output)` with query info, like the following:
+
+```
+$ athenai run "CREATE DATABASE testdb"
+⠳ Running query...
+Query: CREATE DATABASE testdb;
+(No output)
+Run time: 0.41 seconds | Data scanned: 0 B
+Location: s3://aws-athenai-demo/5fb06aaf-4123-49d0-b7fb-5876e99d788e.txt
+
+$ athenai run < /tmp/create_table.sql
+⠦ Running query...
+Query: CREATE EXTERNAL TABLE IF NOT EXISTS testdb.persons (
+  id INT,
+  name STRING,
+  age INT
+)
+ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+WITH SERDEPROPERTIES (
+  'separatorChar' = ',',
+  'quoteChar' = '\"',
+  'escapeChar' = '\\'
+)
+STORED AS TEXTFILE
+LOCATION 's3://aws-athenai-demo/csv/';
+(No output)
+Run time: 0.95 seconds | Data scanned: 0 B
+Location: s3://aws-athenai-demo/184344f3-3f6d-4fb9-9716-a89a7eb32ab6.txt
+
+$ athenai run "SELECT * FROM testdb.persons"
+⠴ Running query...
+Query: SELECT * FROM testdb.persons;
++----+---------+-----+
+| id | name    | age |
+|  1 | alice   |  20 |
+|  2 | bob     |  30 |
+|  3 | charlie |  40 |
++----+---------+-----+
+Run time: 1.27 seconds | Data scanned: 51 B
+Location: s3://aws-athenai-demo/36db3707-c0d7-416f-99af-aec3d6360583.csv
+```
+
 ### Encrypting query results in Amazon S3
 
 You can encrypt query results in Amazon S3 by running queries with `--encrypt/-e` flag.
