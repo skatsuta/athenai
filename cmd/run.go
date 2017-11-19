@@ -20,7 +20,7 @@ var runCmd = &cobra.Command{
 	Short: "Runs (executes) the SQL query statements",
 	Long: `Runs (executes) the SQL query statements. You can run queries either on interactive (REPL) mode,
 from command line arguments or from an SQL file. Athenai waits for the query executions and shows
-the query results in table or CSV format once the executions are complete.`,
+the query results in table or CSV format once the executions have finished.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		return runRun(cmd, args, newClient(config), config, os.Stdin, stdout)
 	},
@@ -39,6 +39,9 @@ the query results in table or CSV format once the executions are complete.`,
 
   # Specify the database and S3 location to use
   $ athenai run --database sampledb --location s3://sample-bucket/ "SELECT date, time, requestip FROM cloudfront_logs LIMIT 5;"
+
+  # Encrypt the query results in Amazon S3 (e.g. using SSE_KMS)
+  $ athenai run --encrypt SSE_KMS --kms $KMS_KEY_ARN "SELECT date, time, requestip FROM cloudfront_logs LIMIT 5;"
 
   # Print results in CSV format
   $ athenai run --format csv "SELECT date, time, requestip FROM cloudfront_logs LIMIT 5;"
