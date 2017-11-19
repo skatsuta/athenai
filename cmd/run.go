@@ -37,6 +37,12 @@ the query results in table or CSV format once the executions have finished.`,
   # Or provide queries via stdin
   $ athenai run < sample.sql
 
+  # Run DDL statements
+  $ athenai run "CREATE DATABASE IF NOT EXISTS testdb;"
+
+  # Run multiple statements sequentially
+  $ athenai run --concurrent 1 "CREATE DATABASE testdb; CREATE TABLE testdb.testtable (...); SELECT * FROM testdb.testtable;"
+
   # Specify the database and S3 location to use
   $ athenai run --database sampledb --location s3://sample-bucket/ "SELECT date, time, requestip FROM cloudfront_logs LIMIT 5;"
 
@@ -70,7 +76,7 @@ func init() {
 	f.StringVarP(&config.Encrypt, "encrypt", "e", "", "The encryption type for encrypting query results in Amazon S3. Valid values: SSE_S3, SSE_KMS, CSE_KMS")
 	f.StringVarP(&config.KMS, "kms", "k", "", `The KMS key ARN or ID used when "SSE_KMS" or "CSE_KMS" is specified in the encryption type`)
 	f.StringVarP(&config.Format, "format", "f", "table", "The formatting style for command output. Valid values: table, csv")
-	f.UintVar(&config.Concurrent, "concurrent", 5, "The maximum number of concurrent query executions at a time. Usually no need to configure this value")
+	f.UintVarP(&config.Concurrent, "concurrent", "c", 5, "The maximum number of concurrent query executions at a time. To run multiple queries sequentially, specify 1")
 }
 
 func validateConfigForRun(cfg *core.Config) error {
