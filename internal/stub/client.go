@@ -59,6 +59,16 @@ func NewStartQueryExecutionStub(rs ...*Result) *StartQueryExecutionStub {
 // StartQueryExecution runs the SQL query statements contained in the Query string.
 // It returns an error if a query other than SELECT, SHOW or DESCRIBE statement is given.
 func (s *StartQueryExecutionStub) StartQueryExecution(input *athena.StartQueryExecutionInput) (*athena.StartQueryExecutionOutput, error) {
+	// Validate encryption configuration
+	enc := input.ResultConfiguration.EncryptionConfiguration
+	if enc != nil {
+		opt := aws.StringValue(enc.EncryptionOption)
+		key := aws.StringValue(enc.KmsKey)
+		if (opt == "SSE_KMS" || opt == "CSE_KMS") && key == "" {
+			return nil, errors.New("KMS Customer Master Key ID is null or empty")
+		}
+	}
+
 	query := aws.StringValue(input.QueryString)
 	r, ok := s.results[query]
 	if !ok {

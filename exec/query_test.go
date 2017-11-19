@@ -17,6 +17,8 @@ const testWaitInterval = 10 * time.Millisecond
 var cfg = &QueryConfig{
 	Database: "sampledb",
 	Location: "s3://bucket/prefix/",
+	Encrypt:  "SSE_KMS",
+	KMS:      "test-kms-key",
 }
 
 func newQuery(client athenaiface.AthenaAPI, cfg *QueryConfig, query string) *Query {
@@ -73,6 +75,20 @@ func TestStartError(t *testing.T) {
 		if assert.Error(t, err) {
 			assert.Contains(t, err.Error(), tt.want, "Query: %q", tt.query)
 		}
+	}
+}
+
+func TestStartKMSKeyNotProvidedError(t *testing.T) {
+	want := "KMS Customer Master Key ID is null or empty"
+
+	query := "SELECT * FROM test"
+	cfg := &QueryConfig{Encrypt: "SSE_KMS"}
+	client := stub.NewStartQueryExecutionStub(&stub.Result{Query: query})
+	q := NewQuery(client, cfg, query)
+	err := q.Start(context.Background())
+
+	if assert.Error(t, err) {
+		assert.Contains(t, err.Error(), want, "Cfg: %#v, Query: %q", cfg, query)
 	}
 }
 

@@ -46,6 +46,8 @@ func (e *CanceledError) String() string {
 type QueryConfig struct {
 	Database string
 	Location string
+	Encrypt  string
+	KMS      string // Required only if Encrypt = (SSE_KMS|CSE_KMS)
 }
 
 // Query represents a query to be executed.
@@ -102,6 +104,12 @@ func (q *Query) Start(ctx context.Context) error {
 	}
 	if q.Database != "" {
 		params.QueryExecutionContext = &athena.QueryExecutionContext{Database: &q.Database}
+	}
+	if q.Encrypt != "" {
+		params.ResultConfiguration.EncryptionConfiguration = &athena.EncryptionConfiguration{
+			EncryptionOption: &q.Encrypt,
+			KmsKey:           &q.KMS,
+		}
 	}
 
 	qx, err := q.client.StartQueryExecutionWithContext(ctx, params)

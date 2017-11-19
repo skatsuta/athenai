@@ -40,6 +40,8 @@ func (c *Config) QueryConfig() *exec.QueryConfig {
 	return &exec.QueryConfig{
 		Database: c.Database,
 		Location: c.Location,
+		Encrypt:  c.Encrypt,
+		KMS:      c.KMS,
 	}
 }
 
