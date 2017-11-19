@@ -282,6 +282,49 @@ Run time: 1.99 seconds | Data scanned: 101.27 KB
 Location: s3://aws-athenai-demo/686f3498-cb31-4731-84ed-5dce9614c6c3.csv
 ```
 
+### Encrypting query results in Amazon S3
+
+You can encrypt query results in Amazon S3 by running queries with `--encrypt/-e` flag.
+The following encryption types are currently available.
+
+* [Amazon S3 server-side encryption with Amazon S3-managed keys](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingServerSideEncryption.html) (**`SSE_S3`**)
+* [Server-side encryption with KMS-managed keys](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html) (**`SSE_KMS`**)
+* [Client-side encryption with KMS-managed keys](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingClientSideEncryption.html) (**`CSE_KMS`**)
+
+If you use `SSE_KMS` or `CSE_KMS`, you also need to provide your KMS key ARN or ID using `--kms/-k` flag.
+
+See [EncryptionConfiguration data type on Amazon Athena API Reference](http://docs.aws.amazon.com/athena/latest/APIReference/API_EncryptionConfiguration.html) for more details about parameters for encryption configuration.
+
+##### Using Amazon S3 server-side encryption with Amazon S3-managed keys (`SSE_S3`)
+
+```
+$ athenai run --encrypt SSE_S3 ...
+```
+
+##### Using server-side encryption with KMS-managed keys (`SSE_KMS`)
+
+```
+$ athenai run --encrypt SSE_KMS --kms $YOUR_KMS_KEY_ARN_OR_ID ...
+```
+
+##### Using client-side encryption with KMS-managed keys (`CSE_KMS`)
+
+```
+$ athenai run --encrypt CSE_KMS --kms $YOUR_KMS_KEY_ARN_OR_ID ...
+```
+
+#### Notes
+
+If you want to make every query result executed by Athenai encrypted, I recommend you to add these encryption configurations to your `~/.athenai/config` file.
+For example, to use `SSE_KMS`, add these lines into your `default` section:
+
+```ini
+encrypt = SSE_KMS
+kms = <YOUR_KMS_KEY_ARN_OR_ID_HERE>
+```
+
+It eliminates the need of specifying the encryption flags every time and ensures your every query result will be encrypted with `SSE_KMS`.
+
 ### Canceling queries
 
 ![Canceling queries](docs/run_cancel.gif)
@@ -488,6 +531,13 @@ database = sampledb
 
 # Output location in S3 where query results will be stored
 location = s3://aws-athena-query-results-<YOUR_ACCOUNT_ID>-us-east-1/
+
+# Encryption configuration for query results
+## Encryption type
+## Valid values: SSE_S3, SSE_KMS, CSE_KMS
+encrypt = SSE_KMS
+## KMS key ARN or ID used for SSE_KMS or CSE_KMS
+kms = <YOUR_KMS_KEY_ARN_OR_ID>
 
 # Turn on debug logging
 # Default: false
