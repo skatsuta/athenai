@@ -376,9 +376,9 @@ This command runs each statement sequentially and you should get the results you
 
 #### Caution
 
-Althrough it is possible for you to specify concurrency more than 5 with `--concurrent/-c` flag, it is not usually recommended because the default concurrency limits are 5 concurrent DDL and SELECT statements at a time, as described in [Service Limits of Amazon Athena](http://docs.aws.amazon.com/athena/latest/ug/service-limits.html).
+Althrough it is possible for you to specify concurrency to more than 5 with `--concurrent/-c` flag, usually it is not recommended because the default concurrency limits are 5 concurrent DDL and SELECT statements at a time, as described in [Service Limits of Amazon Athena](http://docs.aws.amazon.com/athena/latest/ug/service-limits.html).
 
-There is no problem if you have requsted a limit increase for the limit, however.
+There is no problem if you have requested a limit increase for the limit, however 😉
 
 ### Encrypting query results in Amazon S3
 
@@ -730,7 +730,7 @@ Location: s3://my-elb-logs-query-results/3334a6f3-2de1-4e6b-b144-32de59645cee.tx
 
 ### Note: precedence of configuration values
 
-Command line flags have higher priority than config file, so if you specify flags explicitly when running a command, values in the config file are overridden by the flags.
+**Command line flags have higher priority than config file**, so if you specify flags explicitly when running a command, values in the config file are overridden by the flags.
 
 
 ## Bug report & feature request
@@ -768,7 +768,9 @@ Please follow the steps below to fix a bug or add a new feature, etc.
    $ ./scripts/test.sh
    ```
 1. Commit your changes
-  * Please describe the details of your commit in the commit message and include a corresponding GitHub issue number if it exists
+
+   Please describe the details of your commit in the commit message and include a corresponding GitHub issue number if it exists.
+
 1. **Push to the `fork` (NOT to the `origin`)**
    ```
    $ git push fork
