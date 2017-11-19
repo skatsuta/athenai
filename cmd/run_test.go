@@ -286,6 +286,11 @@ func TestRunRunValidationError(t *testing.T) {
 			cfg:  &core.Config{},
 			want: "location",
 		},
+		{
+			id:   "TestRunRunNoKMSError",
+			cfg:  &core.Config{Location: "s3://bucket/", Encrypt: "SSE_KMS"},
+			want: "KMS key",
+		},
 	}
 
 	for _, tt := range tests {

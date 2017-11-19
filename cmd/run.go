@@ -64,6 +64,8 @@ func init() {
 	f := runCmd.Flags()
 	f.StringVarP(&config.Database, "database", "d", "", "The name of the database")
 	f.StringVarP(&config.Location, "location", "l", "", `The location in S3 where query results are stored. For example, "s3://bucket_name/prefix/"`)
+	f.StringVarP(&config.Encrypt, "encrypt", "e", "", "The encryption type for encrypting query results in Amazon S3. Valid values: SSE_S3, SSE_KMS, CSE_KMS")
+	f.StringVarP(&config.KMS, "kms", "k", "", `The KMS key ARN or ID used when "SSE_KMS" or "CSE_KMS" is specified in the encryption type`)
 	f.StringVarP(&config.Format, "format", "f", "table", "The formatting style for command output. Valid values: table, csv")
 	f.UintVar(&config.Concurrent, "concurrent", 5, "The maximum number of concurrent query executions at a time. Usually no need to configure this value")
 }
@@ -78,6 +80,16 @@ func validateConfigForRun(cfg *core.Config) error {
 	if !strings.HasPrefix(cfg.Location, "s3://") {
 		return errors.New("valid `location` setting starting with 's3://' is required for the `run` command. " +
 			"Please specify it by using --location/-l flag or adding `location` setting into your config file.")
+	}
+
+	// SSE_KMS or CSE_KMS encryption type requires an KMS key ARN or ID
+	if cfg.Encrypt == "SSE_KMS" || cfg.Encrypt == "CSE_KMS" {
+		log.Printf(`Encryption type "%s" is specified; validating KMS key: %s\n`, cfg.Encrypt, cfg.KMS)
+		// We cannot check the validity of KMS ARN or ID locally, so just check whether the KMS option is provided or not
+		if cfg.KMS == "" {
+			return errors.New(`KMS key ARN or ID is required when you use "SSE_KMS" or "CSE_KMS" encryption type.` +
+				"\nPlease specify it using --kms/-k flag or adding `kms = ...` entry into your config file.")
+		}
 	}
 
 	return nil
