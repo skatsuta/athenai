@@ -16,7 +16,7 @@ Have fun with Amazon Athena from command line! 🕊
 
 Athenai is a simple and easy-to-use command line tool that runs SQL query statements on [Amazon Athena](https://aws.amazon.com/athena/).
 
-With Athenai you can run multiple queries easily at a time on Amazon Athena and see the results in table or CSV format once the executions are complete.
+With Athenai you can run multiple queries easily at a time on Amazon Athena and see the results in table or CSV format once the executions have finished.
 
 "A picture is worth a thousand words." See the **[Demo](#demo)** section to see how it works 👀
 
@@ -30,7 +30,7 @@ With Athenai you can run multiple queries easily at a time on Amazon Athena and 
 
 - **Easy to use**: provide queries, wait for query executions and see the results once the executions have finished.
 - **Various input methods**: REPL, command line arguments or SQL file.
-- **Concurrent executions**: run multiple queries concurrently in one command.
+- **Concurrent executions**: run multiple queries concurrently at a time.
 - **Query cancellation**: cancel queries if `Ctrl-C` is pressed during the executions.
 
 
@@ -44,7 +44,7 @@ Athenai is currently supported on macOS and Linux.
 For example,
 
 ```bash
-# Please replace ${VERSION}, ${OS} and ${ARCH} in the following with appropriate values for your environment.
+# Please replace ${VERSION}, ${OS} and ${ARCH} with appropriate values for your platform.
 $ curl -sL https://github.com/skatsuta/athenai/releases/download/${VERSION}/athenai_${OS}_${ARCH}.tar.gz -o athenai.tar.gz
 $ tar -xzf athenai.tar.gz && mv athenai /usr/local/bin/ # or wherever you like in PATH
 $ athenai --help
@@ -74,29 +74,30 @@ $ $GOPATH/bin/athenai --help
 ### AWS creadentitals (Required)
 
 Before using this tool, you need to set up AWS credentials just like using AWS CLI or AWS SDK.
-If you already use them, you probably do not need this step and just skip to the next **[Default configuration file](#default-configuration-file-optional-)** section! 🚀
+If you already use them and have sufficient IAM permissions to use Amazon Athena, you may not need this step 😊.
+In that case just skip to the next **[Default configuration file](#default-configuration-file-optional-)** section! 🚀
 
 To set up AWS credentials, there are mainly three ways:
 
 * [Configuring environment variables](http://docs.aws.amazon.com/cli/latest/userguide/cli-environment.html): simple, but not recommended.
-* [Configuring shared credentials file (`~/.aws/credentials`)](http://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html): recommended for use on local computers.
+* [Configuring shared credentials file (`$HOME/.aws/credentials`)](http://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html): recommended for use on local computers.
 * [Configuring instance profile](http://docs.aws.amazon.com/cli/latest/userguide/cli-metadata.html): recommended for use on EC2 instances.
 
 Please follow one of the above instructions corresponding to your use case.
 
-After setting it up, make sure your IAM user or role to use has correct Athena and S3 permissions.
+After setting it up, make sure your IAM user or role to use has correct Amazon Athena and Amazon S3 permissions.
 **To use Athenai, [AmazonAthenaFullAccess Managed Policy](http://docs.aws.amazon.com/athena/latest/ug/access.html#amazonathenafullaccess-managed-policy-contents) has to be attached to your IAM user or role to use.**
 
 ### Default configuration file (Optional; Recommended)
 
-You can optionally set your default configuration values into `~/.athenai/config` to simplify every command execution.
+You can optionally set your default configuration values into your `$HOME/.athenai/config` file to simplify every command execution.
 
-Write the following into `~/.athenai/config` and save it.<br>
-(Modify the `profile` value if you use another profile in your `~/.aws/credentials`, instead of `default`.)
+Write the following into `$HOME/.athenai/config` and save it.<br>
+(Modify the `profile` value if you use another profile in your `$HOME/.aws/credentials`, instead of `default`.)
 
 ```ini
 [default]
-# (Optional) Profile in your ~/.aws/credentials file
+# (Optional) Profile in your $HOME/.aws/credentials file
 profile = default
 # AWS region
 region = us-east-1
@@ -113,10 +114,10 @@ See the **[Configuration file](#configuration-file)** section for more details.
 
 ## Usage
 
-#### Note: config option flags
+#### Note: option flags
 
-In this section, I suppose we have set up [the default configuration file](#default-configuration-file-optional-) already and I omit config option flags to describe the main usage simply.
-If you haven't done it yet or want to override the default values in the config file, run a command with flags like this:
+In this section, it is assumed that you have already set up [the default configuration file](#default-configuration-file-optional-recommended), and option flags are omitted in order to describe the main usage as simply as possible.
+If you haven't done it yet or want to override the default values in your config file, run a command with flags like this:
 
 ```
 $ athenai run \
@@ -127,7 +128,7 @@ $ athenai run \
   "SELECT date, time, bytes, requestip, method, status FROM cloudfront_logs LIMIT 5;"
 ```
 
-Please modify the `--profile` flag if you use another profile in your `~/.aws/credentials`, instead of `default`.
+(Modify the `--profile` flag if you use another profile in your `$HOME/.aws/credentials`, instead of `default`.)
 
 ### Running queries interactively (REPL mode)
 
@@ -180,16 +181,16 @@ In REPL mode you can use common key shortcuts just like on most shells. For exam
 
 Key | Action
 :---:|---
-`↑`/`Ctrl-P` | Go to the previous history
-`↓`/`Ctrl-N` | Go to the next history
-`Ctrl-A` | Go to the beginning of the line
-`Ctrl-E` | Go to the end of the line
+`↑`/`Ctrl-P` | Move to the previous line in history
+`↓`/`Ctrl-N` | Move to the next line in history
+`Ctrl-A` | Move cursor to the beginning of the line
+`Ctrl-E` | Move cursor to the end of the line
 `Ctrl-H` | Delete a character
 
 and so on.
 Available shortcuts are listed [here](https://github.com/chzyer/readline/blob/master/doc/shortcut.md).
 
-Query history is saved to `~/.athenai/history` automatically.
+Your query history is automatically saved to `$HOME/.athenai/history` file.
 
 To exit REPL, press `Ctrl-C` or `Ctrl-D` on empty line.
 
@@ -313,10 +314,10 @@ $ athenai run --encrypt SSE_KMS --kms $YOUR_KMS_KEY_ARN_OR_ID ...
 $ athenai run --encrypt CSE_KMS --kms $YOUR_KMS_KEY_ARN_OR_ID ...
 ```
 
-#### Notes
+#### Note
 
-If you want to make every query result executed by Athenai encrypted, I recommend you to add these encryption configurations to your `~/.athenai/config` file.
-For example, to use `SSE_KMS`, add these lines into your `default` section:
+If you want to make every query result executed by Athenai encrypted, I recommend you to add these encryption configurations to your `$HOME/.athenai/config` file.
+For example, to use `SSE_KMS` encryption type, add these lines into your `default` section:
 
 ```ini
 encrypt = SSE_KMS
@@ -337,6 +338,8 @@ $ athenai run "SELECT * FROM sampledb.cloudfront_logs"   # Oops! Full scan by mi
 ⠋ Canceling...
 $ # Whew! That was close.
 ```
+
+Athenai calls [StopQueryExecution API](http://docs.aws.amazon.com/athena/latest/APIReference/API_StopQueryExecution.html) to stop the query executions once `Ctrl-C` is pressed, so charges for the queries should stop too.
 
 ### Showing results of completed query executions
 
@@ -363,16 +366,16 @@ QUERY>                                                                          
 ```
 
 Athenai uses [peco/peco](https://github.com/peco/peco) as a library that performs interactive filtering.
-Frequently used key mappings are:
+Frequently used key mappings are as follows:
 
 Key | Action
 :---:|---
 `↑`/`Ctrl-P` | Move up
 `↓`/`Ctrl-N` | Move down
-`Ctrl-Space` | Select/unselect each entry
-`Ctrl-A` | Go to the beginning of the QUERY line
-`Ctrl-E` | Go to the end of the QUERY line
-`Ctrl-H` | Delete a character in the QUERY line
+`Ctrl-Space` | Select/Unselect each entry
+`Ctrl-A` | Move cursor to the beginning of the line
+`Ctrl-E` | Move cursor to the end of the line
+`Ctrl-H` | Delete a character
 
 Available key mappings are listed [here](https://github.com/peco/peco#default-keymap).
 You can select multiple entries by pressing `Ctrl-Space` on each entry.
@@ -428,7 +431,7 @@ Note that `athenai show --count 0` may be very slow depending on the total numbe
 
 ![Printing results in CSV format](docs/format_csv.gif)
 
-If you want to print query results in CSV format, specify `--format/-f csv` flag.
+If you want to print query results in CSV format instead of table format, specify `--format/-f csv` flag.
 
 ```
 $ athenai run --format csv "SELECT date, time, bytes, requestip, method, status FROM sampledb.cloudfront_logs LIMIT 5;"
@@ -444,7 +447,7 @@ Run time: 2.20 seconds | Data scanned: 101.27 KB
 Location: s3://aws-athenai-demo/ad90ad38-15fe-4f61-9c0d-2a648bb2f8f3.csv
 ```
 
-You can use this flag with `athenai show` command too.
+You can also use this flag with `athenai show` command.
 
 ```
 $ athenai show --format csv
@@ -508,7 +511,7 @@ Location: s3://aws-athenai-demo/be70bc11-6234-4960-ab81-608749c3a4b8.csv
 
 ## Configuration file
 
-You can save your configurations into `~/.athenai/config` file to simplify every command execution.
+You can save your configurations into `$HOME/.athenai/config` file to simplify every command execution.
 
 ### File format
 
@@ -518,7 +521,7 @@ Here are available settings:
 ```ini
 # Section name
 [default]
-# Profile in your ~/.aws/credentials file
+# Profile in your $HOME/.aws/credentials file
 # Default: default
 profile = default
 
@@ -599,11 +602,11 @@ Location: s3://my-elb-logs-query-results/401e35ec-6b91-4bbf-a45f-bd144b17e199.tx
 ```
 
 Note that you can also specify all of the above configuration values via command line flags when running a command.
-See each command's `--help` output for more details.
+See each command's `--help` message for more details.
 
 ### Location of configuration file
 
-By default Athenai loads `~/.athenai/config` automatically and use values in the file.
+By default Athenai loads `$HOME/.athenai/config` automatically and use values in the file.
 If Athenai cannot find or fails to load the config file at the location, it ignores the file and uses command line flags only.
 
 If you want to use another config file at another location, use `--config` flag to specify its path (also don't forget to specify `--section` unless `default`):
@@ -646,16 +649,16 @@ However, in order to solve your issue quickly and avoid duplicate effort, please
 
 ## Contributing
 
-Your contribution is always welcome! 😆
+Your contributions are always welcome! 😆
 
 Please follow the steps below to fix a bug or add a new feature, etc.
 
-1. [Fork this repo](https://github.com/skatsuta/athenai/fork)
-1. **Clone THIS repo (NOT your forked one)**
+1. [Fork the original repo](https://github.com/skatsuta/athenai/fork)
+1. **Clone the ORIGINAL repo (NOT your fork)**
    ```
    $ git clone https://github.com/skatsuta/athenai.git
    ```
-1. **Add your forked repo as a new remote named `fork`**
+1. **Add your fork as a new remote named `fork`**
    ```
    $ git remote add fork https://github.com/yourname/athenai.git
    ```
@@ -667,7 +670,8 @@ Please follow the steps below to fix a bug or add a new feature, etc.
    ```
    $ ./scripts/test.sh
    ```
-1. Commit your changes (please describe details of your commit in the commit message)
+1. Commit your changes
+  * Please describe the details of your commit in the commit message and include a corresponding GitHub issue number if it exists
 1. **Push to the `fork` (NOT to the `origin`)**
    ```
    $ git push fork
