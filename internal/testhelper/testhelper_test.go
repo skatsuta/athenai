@@ -109,6 +109,8 @@ func TestCreateConfigFile(t *testing.T) {
 		Region   string
 		Database string
 		Location string
+		Encrypt  string
+		KMS      string
 	}{
 		Debug:    true,
 		Silent:   true,
@@ -117,6 +119,8 @@ func TestCreateConfigFile(t *testing.T) {
 		Region:   "us-east-1",
 		Database: "sampledb",
 		Location: "s3://testbucket/",
+		Encrypt:  "SSE_KMS",
+		KMS:      "test-kms-key",
 	}
 
 	dir, file, cleanup, err := CreateConfigFile("TestCreateConfigFile", cfg)

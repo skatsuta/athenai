@@ -48,6 +48,8 @@ profile = {{.Profile}}
 region = {{.Region}}
 database = {{.Database}}
 location = {{.Location}}
+encrypt = {{.Encrypt}}
+kms = {{.KMS}}
 `
 
 // CreateConfigFile creates a new config file in a tempporary directory based on cfg's data.

@@ -19,6 +19,8 @@ func TestLoadConfigFile(t *testing.T) {
 		Region:   "us-west-1",
 		Database: "testdb",
 		Location: "s3://testloadfilebucket/prefix",
+		Encrypt:  "SSE_KMS",
+		KMS:      "test-kms-key",
 	}
 
 	_, file, cleanup, err := testhelper.CreateConfigFile("TestLoadConfigFile", want)

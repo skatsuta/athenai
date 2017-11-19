@@ -26,6 +26,8 @@ type Config struct {
 	Region     string `ini:"region"`
 	Database   string `ini:"database"`
 	Location   string `ini:"location"`
+	Encrypt    string `ini:"encrypt"`
+	KMS        string `ini:"kms"`
 	Format     string `ini:"format"`
 	Count      uint   `ini:"count"`
 	Concurrent uint   `ini:"concurrent"`
