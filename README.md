@@ -14,9 +14,9 @@ Have fun with Amazon Athena from command line! 🕊
 
 ## Overview
 
-Athenai is a simple and easy-to-use command line tool that runs SQL query statements on [Amazon Athena](https://aws.amazon.com/athena/).
+Athenai is a simple and easy-to-use command line tool that runs SQL statements on [Amazon Athena](https://aws.amazon.com/athena/).
 
-With Athenai you can run multiple queries easily at a time on Amazon Athena and see the results in table or CSV format once the executions have finished.
+With Athenai you can run multiple queries easily at a time on Amazon Athena and can see the results in table or CSV format interactively once the executions have finished.
 
 "A picture is worth a thousand words." See the **[Demo](#demo)** section to see how it works 👀
 
@@ -46,7 +46,8 @@ For example,
 ```bash
 # Please replace ${VERSION}, ${OS} and ${ARCH} with appropriate values for your platform.
 $ curl -sL https://github.com/skatsuta/athenai/releases/download/${VERSION}/athenai_${OS}_${ARCH}.tar.gz -o athenai.tar.gz
-$ tar -xzf athenai.tar.gz && mv athenai /usr/local/bin/ # or wherever you like in PATH
+$ tar -xzf athenai.tar.gz
+$ mv athenai /usr/local/bin/ # or wherever you like in PATH
 $ athenai --help
 ```
 
@@ -56,6 +57,7 @@ Athenai provides [a repository for Homebrew](https://github.com/skatsuta/homebre
 
 ```bash
 $ brew install skatsuta/athenai/athenai
+$ athenai --help
 ```
 
 ### Installing from source
@@ -74,7 +76,7 @@ $ $GOPATH/bin/athenai --help
 ### AWS creadentitals (Required)
 
 Before using this tool, you need to set up AWS credentials just like using AWS CLI or AWS SDK.
-If you already use them and have sufficient IAM permissions to use Amazon Athena, you may not need this step 😊.
+If you already use them and have sufficient IAM permissions to use Amazon Athena, you may not need this step 😊
 In that case just skip to the next **[Default configuration file](#default-configuration-file-optional-)** section! 🚀
 
 To set up AWS credentials, there are mainly three ways:
@@ -107,7 +109,7 @@ database = sampledb
 location = s3://aws-athena-query-results-<YOUR_ACCOUNT_ID>-us-east-1/
 ```
 
-Afterwards Athenai loads the configuration automatically and you can omit the option flags when running commands.
+Then Athenai loads the configuration file automatically and you can omit the option flags when running commands.
 
 See the **[Configuration file](#configuration-file)** section for more details.
 
@@ -116,7 +118,7 @@ See the **[Configuration file](#configuration-file)** section for more details.
 
 #### Note: option flags
 
-In this section, it is assumed that you have already set up [the default configuration file](#default-configuration-file-optional-recommended), and option flags are omitted in order to describe the main usage as simply as possible.
+In this section, it is assumed that you have already set up [the default configuration file](#default-configuration-file-optional-recommended), and option flags are omitted to describe the main usage as simply as possible.
 If you haven't done it yet or want to override the default values in your config file, run a command with flags like this:
 
 ```
@@ -190,7 +192,7 @@ Key | Action
 and so on.
 Available shortcuts are listed [here](https://github.com/chzyer/readline/blob/master/doc/shortcut.md).
 
-Your query history is automatically saved to `$HOME/.athenai/history` file.
+Your query history is saved to the `$HOME/.athenai/history` file automatically.
 
 To exit REPL, press `Ctrl-C` or `Ctrl-D` on empty line.
 
@@ -290,7 +292,7 @@ Location: s3://aws-athenai-demo/686f3498-cb31-4731-84ed-5dce9614c6c3.csv
 Athenai supports not only `SELECT`, `SHOW` and `DESCRIBE` statements, but also DDL statements such as `CREATE`, `ALTER` and `DROP`.
 You can run any available DDL statements listed [here](http://docs.aws.amazon.com/athena/latest/ug/language-reference.html) to manipulate metadata.
 
-Since these statements show usually no results, the outputs of them are `(No output)` with query info, like the following:
+Since these statements usually show no results, the outputs of them are `(No output)` with query info, like the following:
 
 ```
 $ athenai run "CREATE DATABASE testdb"
@@ -332,7 +334,7 @@ Run time: 1.27 seconds | Data scanned: 51 B
 Location: s3://aws-athenai-demo/36db3707-c0d7-416f-99af-aec3d6360583.csv
 ```
 
-### Running multiple statements sequantially
+### Running multiple statements sequentially
 
 ![Running multiple statements sequantially](docs/run_seq.gif)
 
@@ -365,7 +367,7 @@ SELECT * FROM testdb.persons;
 
 In these statements the second and third one depend on the previous one of each respectively, so they cannot be executed concurrently and need to be run sequentially.
 
-In this case, you can specify the number of concurrent query executions by using `--concurrent/-c` flag.
+In this case, you can specify the maximum number of concurrent query executions by using `--concurrent/-c` flag.
 To run multiple statements sequentially, specify `--concurrent 1`:
 
 ```
@@ -376,7 +378,7 @@ This command runs each statement sequentially and you should get the results you
 
 #### Caution
 
-Althrough it is possible for you to specify concurrency to more than 5 with `--concurrent/-c` flag, usually it is not recommended because the default concurrency limits are 5 concurrent DDL and SELECT statements at a time, as described in [Service Limits of Amazon Athena](http://docs.aws.amazon.com/athena/latest/ug/service-limits.html).
+Althrough it is possible for you to specify max concurrency to more than 5 with `--concurrent/-c` flag, usually it is not recommended because the default concurrency limits are 5 concurrent DDL and SELECT statements at a time, as described in [Service Limits of Amazon Athena](http://docs.aws.amazon.com/athena/latest/ug/service-limits.html).
 
 There is no problem if you have requested a limit increase for the limit, however 😉
 
@@ -413,7 +415,7 @@ $ athenai run --encrypt CSE_KMS --kms $YOUR_KMS_KEY_ARN_OR_ID ...
 
 #### Note
 
-If you want to make every query result executed by Athenai encrypted, I recommend you to add these encryption configurations to your `$HOME/.athenai/config` file.
+If you want to make every query result executed by Athenai encrypted, I recommend you add these encryption configurations to your `$HOME/.athenai/config` file.
 For example, to use `SSE_KMS` encryption type, add these lines into your `default` section:
 
 ```ini
