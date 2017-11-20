@@ -108,19 +108,18 @@ const opOutputService1TestCaseOperation1 = "OperationName"
 
 // OutputService1TestCaseOperation1Request generates a "aws/request.Request" representing the
 // client's request for the OutputService1TestCaseOperation1 operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See OutputService1TestCaseOperation1 for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the OutputService1TestCaseOperation1 method directly
-// instead.
+// See OutputService1TestCaseOperation1 for more information on using the OutputService1TestCaseOperation1
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the OutputService1TestCaseOperation1Request method.
 //    req, resp := client.OutputService1TestCaseOperation1Request(params)
@@ -177,19 +176,18 @@ const opOutputService1TestCaseOperation2 = "OperationName"
 
 // OutputService1TestCaseOperation2Request generates a "aws/request.Request" representing the
 // client's request for the OutputService1TestCaseOperation2 operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See OutputService1TestCaseOperation2 for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the OutputService1TestCaseOperation2 method directly
-// instead.
+// See OutputService1TestCaseOperation2 for more information on using the OutputService1TestCaseOperation2
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the OutputService1TestCaseOperation2Request method.
 //    req, resp := client.OutputService1TestCaseOperation2Request(params)
@@ -246,8 +244,20 @@ type OutputService1TestShapeOutputService1TestCaseOperation1Input struct {
 	_ struct{} `type:"structure"`
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *OutputService1TestShapeOutputService1TestCaseOperation1Input) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
+}
+
 type OutputService1TestShapeOutputService1TestCaseOperation2Input struct {
 	_ struct{} `type:"structure"`
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *OutputService1TestShapeOutputService1TestCaseOperation2Input) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
 }
 
 type OutputService1TestShapeOutputService1TestCaseOperation2Output struct {
@@ -342,6 +352,67 @@ func (s *OutputService1TestShapeOutputService1TestCaseOperation2Output) SetTrueB
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *OutputService1TestShapeOutputService1TestCaseOperation2Output) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Char != nil {
+		v := *s.Char
+
+		e.SetValue(protocol.BodyTarget, "Char", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Double != nil {
+		v := *s.Double
+
+		e.SetValue(protocol.BodyTarget, "Double", protocol.Float64Value(v), protocol.Metadata{})
+	}
+	if s.FalseBool != nil {
+		v := *s.FalseBool
+
+		e.SetValue(protocol.BodyTarget, "FalseBool", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.Float != nil {
+		v := *s.Float
+
+		e.SetValue(protocol.BodyTarget, "Float", protocol.Float64Value(v), protocol.Metadata{})
+	}
+	if s.ImaHeader != nil {
+		v := *s.ImaHeader
+
+		e.SetValue(protocol.HeaderTarget, "ImaHeader", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ImaHeaderLocation != nil {
+		v := *s.ImaHeaderLocation
+
+		e.SetValue(protocol.HeaderTarget, "X-Foo", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Long != nil {
+		v := *s.Long
+
+		e.SetValue(protocol.BodyTarget, "Long", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.Num != nil {
+		v := *s.Num
+
+		e.SetValue(protocol.BodyTarget, "FooNum", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.Str != nil {
+		v := *s.Str
+
+		e.SetValue(protocol.BodyTarget, "Str", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Timestamp != nil {
+		v := *s.Timestamp
+
+		e.SetValue(protocol.BodyTarget, "Timestamp", protocol.TimeValue{V: v, Format: protocol.ISO8601TimeFormat}, protocol.Metadata{})
+	}
+	if s.TrueBool != nil {
+		v := *s.TrueBool
+
+		e.SetValue(protocol.BodyTarget, "TrueBool", protocol.BoolValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // OutputService2ProtocolTest provides the API operation methods for making requests to
 // . See this package's package overview docs
 // for details on the service.
@@ -405,19 +476,18 @@ const opOutputService2TestCaseOperation1 = "OperationName"
 
 // OutputService2TestCaseOperation1Request generates a "aws/request.Request" representing the
 // client's request for the OutputService2TestCaseOperation1 operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See OutputService2TestCaseOperation1 for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the OutputService2TestCaseOperation1 method directly
-// instead.
+// See OutputService2TestCaseOperation1 for more information on using the OutputService2TestCaseOperation1
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the OutputService2TestCaseOperation1Request method.
 //    req, resp := client.OutputService2TestCaseOperation1Request(params)
@@ -474,6 +544,12 @@ type OutputService2TestShapeOutputService2TestCaseOperation1Input struct {
 	_ struct{} `type:"structure"`
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *OutputService2TestShapeOutputService2TestCaseOperation1Input) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
+}
+
 type OutputService2TestShapeOutputService2TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
 
@@ -485,6 +561,17 @@ type OutputService2TestShapeOutputService2TestCaseOperation1Output struct {
 func (s *OutputService2TestShapeOutputService2TestCaseOperation1Output) SetBlob(v []byte) *OutputService2TestShapeOutputService2TestCaseOperation1Output {
 	s.Blob = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *OutputService2TestShapeOutputService2TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Blob != nil {
+		v := s.Blob
+
+		e.SetValue(protocol.BodyTarget, "Blob", protocol.BytesValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // OutputService3ProtocolTest provides the API operation methods for making requests to
@@ -550,19 +637,18 @@ const opOutputService3TestCaseOperation1 = "OperationName"
 
 // OutputService3TestCaseOperation1Request generates a "aws/request.Request" representing the
 // client's request for the OutputService3TestCaseOperation1 operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See OutputService3TestCaseOperation1 for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the OutputService3TestCaseOperation1 method directly
-// instead.
+// See OutputService3TestCaseOperation1 for more information on using the OutputService3TestCaseOperation1
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the OutputService3TestCaseOperation1Request method.
 //    req, resp := client.OutputService3TestCaseOperation1Request(params)
@@ -619,6 +705,12 @@ type OutputService3TestShapeOutputService3TestCaseOperation1Input struct {
 	_ struct{} `type:"structure"`
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *OutputService3TestShapeOutputService3TestCaseOperation1Input) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
+}
+
 type OutputService3TestShapeOutputService3TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
 
@@ -629,6 +721,17 @@ type OutputService3TestShapeOutputService3TestCaseOperation1Output struct {
 func (s *OutputService3TestShapeOutputService3TestCaseOperation1Output) SetListMember(v []*string) *OutputService3TestShapeOutputService3TestCaseOperation1Output {
 	s.ListMember = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *OutputService3TestShapeOutputService3TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.ListMember) > 0 {
+		v := s.ListMember
+
+		e.SetList(protocol.BodyTarget, "ListMember", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // OutputService4ProtocolTest provides the API operation methods for making requests to
@@ -694,19 +797,18 @@ const opOutputService4TestCaseOperation1 = "OperationName"
 
 // OutputService4TestCaseOperation1Request generates a "aws/request.Request" representing the
 // client's request for the OutputService4TestCaseOperation1 operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See OutputService4TestCaseOperation1 for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the OutputService4TestCaseOperation1 method directly
-// instead.
+// See OutputService4TestCaseOperation1 for more information on using the OutputService4TestCaseOperation1
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the OutputService4TestCaseOperation1Request method.
 //    req, resp := client.OutputService4TestCaseOperation1Request(params)
@@ -763,6 +865,12 @@ type OutputService4TestShapeOutputService4TestCaseOperation1Input struct {
 	_ struct{} `type:"structure"`
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *OutputService4TestShapeOutputService4TestCaseOperation1Input) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
+}
+
 type OutputService4TestShapeOutputService4TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
 
@@ -773,6 +881,17 @@ type OutputService4TestShapeOutputService4TestCaseOperation1Output struct {
 func (s *OutputService4TestShapeOutputService4TestCaseOperation1Output) SetListMember(v []*string) *OutputService4TestShapeOutputService4TestCaseOperation1Output {
 	s.ListMember = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *OutputService4TestShapeOutputService4TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.ListMember) > 0 {
+		v := s.ListMember
+
+		e.SetList(protocol.BodyTarget, "ListMember", protocol.EncodeStringList(v), protocol.Metadata{ListLocationName: "item"})
+	}
+
+	return nil
 }
 
 // OutputService5ProtocolTest provides the API operation methods for making requests to
@@ -838,19 +957,18 @@ const opOutputService5TestCaseOperation1 = "OperationName"
 
 // OutputService5TestCaseOperation1Request generates a "aws/request.Request" representing the
 // client's request for the OutputService5TestCaseOperation1 operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See OutputService5TestCaseOperation1 for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the OutputService5TestCaseOperation1 method directly
-// instead.
+// See OutputService5TestCaseOperation1 for more information on using the OutputService5TestCaseOperation1
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the OutputService5TestCaseOperation1Request method.
 //    req, resp := client.OutputService5TestCaseOperation1Request(params)
@@ -907,6 +1025,12 @@ type OutputService5TestShapeOutputService5TestCaseOperation1Input struct {
 	_ struct{} `type:"structure"`
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *OutputService5TestShapeOutputService5TestCaseOperation1Input) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
+}
+
 type OutputService5TestShapeOutputService5TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
 
@@ -917,6 +1041,17 @@ type OutputService5TestShapeOutputService5TestCaseOperation1Output struct {
 func (s *OutputService5TestShapeOutputService5TestCaseOperation1Output) SetListMember(v []*string) *OutputService5TestShapeOutputService5TestCaseOperation1Output {
 	s.ListMember = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *OutputService5TestShapeOutputService5TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.ListMember) > 0 {
+		v := s.ListMember
+
+		e.SetList(protocol.BodyTarget, "ListMember", protocol.EncodeStringList(v), protocol.Metadata{Flatten: true})
+	}
+
+	return nil
 }
 
 // OutputService6ProtocolTest provides the API operation methods for making requests to
@@ -982,19 +1117,18 @@ const opOutputService6TestCaseOperation1 = "OperationName"
 
 // OutputService6TestCaseOperation1Request generates a "aws/request.Request" representing the
 // client's request for the OutputService6TestCaseOperation1 operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See OutputService6TestCaseOperation1 for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the OutputService6TestCaseOperation1 method directly
-// instead.
+// See OutputService6TestCaseOperation1 for more information on using the OutputService6TestCaseOperation1
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the OutputService6TestCaseOperation1Request method.
 //    req, resp := client.OutputService6TestCaseOperation1Request(params)
@@ -1051,6 +1185,12 @@ type OutputService6TestShapeOutputService6TestCaseOperation1Input struct {
 	_ struct{} `type:"structure"`
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *OutputService6TestShapeOutputService6TestCaseOperation1Input) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
+}
+
 type OutputService6TestShapeOutputService6TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
 
@@ -1063,6 +1203,17 @@ func (s *OutputService6TestShapeOutputService6TestCaseOperation1Output) SetMap(v
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *OutputService6TestShapeOutputService6TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Map) > 0 {
+		v := s.Map
+
+		e.SetMap(protocol.BodyTarget, "Map", encodeOutputService6TestShapeSingleStructureMap(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type OutputService6TestShapeSingleStructure struct {
 	_ struct{} `type:"structure"`
 
@@ -1073,6 +1224,25 @@ type OutputService6TestShapeSingleStructure struct {
 func (s *OutputService6TestShapeSingleStructure) SetFoo(v string) *OutputService6TestShapeSingleStructure {
 	s.Foo = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *OutputService6TestShapeSingleStructure) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Foo != nil {
+		v := *s.Foo
+
+		e.SetValue(protocol.BodyTarget, "foo", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeOutputService6TestShapeSingleStructureMap(vs map[string]*OutputService6TestShapeSingleStructure) func(protocol.MapEncoder) {
+	return func(me protocol.MapEncoder) {
+		for k, v := range vs {
+			me.MapSetFields(k, v)
+		}
+	}
 }
 
 // OutputService7ProtocolTest provides the API operation methods for making requests to
@@ -1138,19 +1308,18 @@ const opOutputService7TestCaseOperation1 = "OperationName"
 
 // OutputService7TestCaseOperation1Request generates a "aws/request.Request" representing the
 // client's request for the OutputService7TestCaseOperation1 operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See OutputService7TestCaseOperation1 for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the OutputService7TestCaseOperation1 method directly
-// instead.
+// See OutputService7TestCaseOperation1 for more information on using the OutputService7TestCaseOperation1
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the OutputService7TestCaseOperation1Request method.
 //    req, resp := client.OutputService7TestCaseOperation1Request(params)
@@ -1207,6 +1376,12 @@ type OutputService7TestShapeOutputService7TestCaseOperation1Input struct {
 	_ struct{} `type:"structure"`
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *OutputService7TestShapeOutputService7TestCaseOperation1Input) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
+}
+
 type OutputService7TestShapeOutputService7TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
 
@@ -1217,6 +1392,17 @@ type OutputService7TestShapeOutputService7TestCaseOperation1Output struct {
 func (s *OutputService7TestShapeOutputService7TestCaseOperation1Output) SetMap(v map[string]*string) *OutputService7TestShapeOutputService7TestCaseOperation1Output {
 	s.Map = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *OutputService7TestShapeOutputService7TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Map) > 0 {
+		v := s.Map
+
+		e.SetMap(protocol.BodyTarget, "Map", protocol.EncodeStringMap(v), protocol.Metadata{Flatten: true})
+	}
+
+	return nil
 }
 
 // OutputService8ProtocolTest provides the API operation methods for making requests to
@@ -1282,19 +1468,18 @@ const opOutputService8TestCaseOperation1 = "OperationName"
 
 // OutputService8TestCaseOperation1Request generates a "aws/request.Request" representing the
 // client's request for the OutputService8TestCaseOperation1 operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See OutputService8TestCaseOperation1 for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the OutputService8TestCaseOperation1 method directly
-// instead.
+// See OutputService8TestCaseOperation1 for more information on using the OutputService8TestCaseOperation1
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the OutputService8TestCaseOperation1Request method.
 //    req, resp := client.OutputService8TestCaseOperation1Request(params)
@@ -1351,6 +1536,12 @@ type OutputService8TestShapeOutputService8TestCaseOperation1Input struct {
 	_ struct{} `type:"structure"`
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *OutputService8TestShapeOutputService8TestCaseOperation1Input) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
+}
+
 type OutputService8TestShapeOutputService8TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
 
@@ -1361,6 +1552,17 @@ type OutputService8TestShapeOutputService8TestCaseOperation1Output struct {
 func (s *OutputService8TestShapeOutputService8TestCaseOperation1Output) SetMap(v map[string]*string) *OutputService8TestShapeOutputService8TestCaseOperation1Output {
 	s.Map = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *OutputService8TestShapeOutputService8TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Map) > 0 {
+		v := s.Map
+
+		e.SetMap(protocol.BodyTarget, "Map", protocol.EncodeStringMap(v), protocol.Metadata{MapLocationNameKey: "foo", MapLocationNameValue: "bar"})
+	}
+
+	return nil
 }
 
 // OutputService9ProtocolTest provides the API operation methods for making requests to
@@ -1426,19 +1628,18 @@ const opOutputService9TestCaseOperation1 = "OperationName"
 
 // OutputService9TestCaseOperation1Request generates a "aws/request.Request" representing the
 // client's request for the OutputService9TestCaseOperation1 operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See OutputService9TestCaseOperation1 for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the OutputService9TestCaseOperation1 method directly
-// instead.
+// See OutputService9TestCaseOperation1 for more information on using the OutputService9TestCaseOperation1
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the OutputService9TestCaseOperation1Request method.
 //    req, resp := client.OutputService9TestCaseOperation1Request(params)
@@ -1495,6 +1696,12 @@ type OutputService9TestShapeOutputService9TestCaseOperation1Input struct {
 	_ struct{} `type:"structure"`
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *OutputService9TestShapeOutputService9TestCaseOperation1Input) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
+}
+
 type OutputService9TestShapeOutputService9TestCaseOperation1Output struct {
 	_ struct{} `type:"structure" payload:"Data"`
 
@@ -1515,6 +1722,22 @@ func (s *OutputService9TestShapeOutputService9TestCaseOperation1Output) SetHeade
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *OutputService9TestShapeOutputService9TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Data != nil {
+		v := s.Data
+
+		e.SetFields(protocol.PayloadTarget, "Data", v, protocol.Metadata{})
+	}
+	if s.Header != nil {
+		v := *s.Header
+
+		e.SetValue(protocol.HeaderTarget, "X-Foo", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type OutputService9TestShapeSingleStructure struct {
 	_ struct{} `type:"structure"`
 
@@ -1525,6 +1748,17 @@ type OutputService9TestShapeSingleStructure struct {
 func (s *OutputService9TestShapeSingleStructure) SetFoo(v string) *OutputService9TestShapeSingleStructure {
 	s.Foo = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *OutputService9TestShapeSingleStructure) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Foo != nil {
+		v := *s.Foo
+
+		e.SetValue(protocol.BodyTarget, "Foo", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // OutputService10ProtocolTest provides the API operation methods for making requests to
@@ -1590,19 +1824,18 @@ const opOutputService10TestCaseOperation1 = "OperationName"
 
 // OutputService10TestCaseOperation1Request generates a "aws/request.Request" representing the
 // client's request for the OutputService10TestCaseOperation1 operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See OutputService10TestCaseOperation1 for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the OutputService10TestCaseOperation1 method directly
-// instead.
+// See OutputService10TestCaseOperation1 for more information on using the OutputService10TestCaseOperation1
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the OutputService10TestCaseOperation1Request method.
 //    req, resp := client.OutputService10TestCaseOperation1Request(params)
@@ -1659,6 +1892,12 @@ type OutputService10TestShapeOutputService10TestCaseOperation1Input struct {
 	_ struct{} `type:"structure"`
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *OutputService10TestShapeOutputService10TestCaseOperation1Input) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
+}
+
 type OutputService10TestShapeOutputService10TestCaseOperation1Output struct {
 	_ struct{} `type:"structure" payload:"Stream"`
 
@@ -1669,6 +1908,17 @@ type OutputService10TestShapeOutputService10TestCaseOperation1Output struct {
 func (s *OutputService10TestShapeOutputService10TestCaseOperation1Output) SetStream(v []byte) *OutputService10TestShapeOutputService10TestCaseOperation1Output {
 	s.Stream = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *OutputService10TestShapeOutputService10TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Stream != nil {
+		v := s.Stream
+
+		e.SetStream(protocol.PayloadTarget, "Stream", protocol.BytesStream(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // OutputService11ProtocolTest provides the API operation methods for making requests to
@@ -1734,19 +1984,18 @@ const opOutputService11TestCaseOperation1 = "OperationName"
 
 // OutputService11TestCaseOperation1Request generates a "aws/request.Request" representing the
 // client's request for the OutputService11TestCaseOperation1 operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See OutputService11TestCaseOperation1 for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the OutputService11TestCaseOperation1 method directly
-// instead.
+// See OutputService11TestCaseOperation1 for more information on using the OutputService11TestCaseOperation1
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the OutputService11TestCaseOperation1Request method.
 //    req, resp := client.OutputService11TestCaseOperation1Request(params)
@@ -1801,6 +2050,12 @@ func (c *OutputService11ProtocolTest) OutputService11TestCaseOperation1WithConte
 
 type OutputService11TestShapeOutputService11TestCaseOperation1Input struct {
 	_ struct{} `type:"structure"`
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *OutputService11TestShapeOutputService11TestCaseOperation1Input) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
 }
 
 type OutputService11TestShapeOutputService11TestCaseOperation1Output struct {
@@ -1879,6 +2134,57 @@ func (s *OutputService11TestShapeOutputService11TestCaseOperation1Output) SetTru
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *OutputService11TestShapeOutputService11TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Char != nil {
+		v := *s.Char
+
+		e.SetValue(protocol.HeaderTarget, "x-char", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Double != nil {
+		v := *s.Double
+
+		e.SetValue(protocol.HeaderTarget, "x-double", protocol.Float64Value(v), protocol.Metadata{})
+	}
+	if s.FalseBool != nil {
+		v := *s.FalseBool
+
+		e.SetValue(protocol.HeaderTarget, "x-false-bool", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.Float != nil {
+		v := *s.Float
+
+		e.SetValue(protocol.HeaderTarget, "x-float", protocol.Float64Value(v), protocol.Metadata{})
+	}
+	if s.Integer != nil {
+		v := *s.Integer
+
+		e.SetValue(protocol.HeaderTarget, "x-int", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.Long != nil {
+		v := *s.Long
+
+		e.SetValue(protocol.HeaderTarget, "x-long", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.Str != nil {
+		v := *s.Str
+
+		e.SetValue(protocol.HeaderTarget, "x-str", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Timestamp != nil {
+		v := *s.Timestamp
+
+		e.SetValue(protocol.HeaderTarget, "x-timestamp", protocol.TimeValue{V: v, Format: protocol.RFC822TimeFromat}, protocol.Metadata{})
+	}
+	if s.TrueBool != nil {
+		v := *s.TrueBool
+
+		e.SetValue(protocol.HeaderTarget, "x-true-bool", protocol.BoolValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // OutputService12ProtocolTest provides the API operation methods for making requests to
 // . See this package's package overview docs
 // for details on the service.
@@ -1942,19 +2248,18 @@ const opOutputService12TestCaseOperation1 = "OperationName"
 
 // OutputService12TestCaseOperation1Request generates a "aws/request.Request" representing the
 // client's request for the OutputService12TestCaseOperation1 operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See OutputService12TestCaseOperation1 for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the OutputService12TestCaseOperation1 method directly
-// instead.
+// See OutputService12TestCaseOperation1 for more information on using the OutputService12TestCaseOperation1
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the OutputService12TestCaseOperation1Request method.
 //    req, resp := client.OutputService12TestCaseOperation1Request(params)
@@ -2011,6 +2316,12 @@ type OutputService12TestShapeOutputService12TestCaseOperation1Input struct {
 	_ struct{} `type:"structure"`
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *OutputService12TestShapeOutputService12TestCaseOperation1Input) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
+}
+
 type OutputService12TestShapeOutputService12TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
 
@@ -2021,6 +2332,17 @@ type OutputService12TestShapeOutputService12TestCaseOperation1Output struct {
 func (s *OutputService12TestShapeOutputService12TestCaseOperation1Output) SetFoo(v string) *OutputService12TestShapeOutputService12TestCaseOperation1Output {
 	s.Foo = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *OutputService12TestShapeOutputService12TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Foo != nil {
+		v := *s.Foo
+
+		e.SetValue(protocol.BodyTarget, "Foo", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 //

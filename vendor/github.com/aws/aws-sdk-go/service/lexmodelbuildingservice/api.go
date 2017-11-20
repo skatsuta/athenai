@@ -17,19 +17,18 @@ const opCreateBotVersion = "CreateBotVersion"
 
 // CreateBotVersionRequest generates a "aws/request.Request" representing the
 // client's request for the CreateBotVersion operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See CreateBotVersion for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the CreateBotVersion method directly
-// instead.
+// See CreateBotVersion for more information on using the CreateBotVersion
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the CreateBotVersionRequest method.
 //    req, resp := client.CreateBotVersionRequest(params)
@@ -125,19 +124,18 @@ const opCreateIntentVersion = "CreateIntentVersion"
 
 // CreateIntentVersionRequest generates a "aws/request.Request" representing the
 // client's request for the CreateIntentVersion operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See CreateIntentVersion for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the CreateIntentVersion method directly
-// instead.
+// See CreateIntentVersion for more information on using the CreateIntentVersion
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the CreateIntentVersionRequest method.
 //    req, resp := client.CreateIntentVersionRequest(params)
@@ -235,19 +233,18 @@ const opCreateSlotTypeVersion = "CreateSlotTypeVersion"
 
 // CreateSlotTypeVersionRequest generates a "aws/request.Request" representing the
 // client's request for the CreateSlotTypeVersion operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See CreateSlotTypeVersion for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the CreateSlotTypeVersion method directly
-// instead.
+// See CreateSlotTypeVersion for more information on using the CreateSlotTypeVersion
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the CreateSlotTypeVersionRequest method.
 //    req, resp := client.CreateSlotTypeVersionRequest(params)
@@ -344,19 +341,18 @@ const opDeleteBot = "DeleteBot"
 
 // DeleteBotRequest generates a "aws/request.Request" representing the
 // client's request for the DeleteBot operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DeleteBot for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DeleteBot method directly
-// instead.
+// See DeleteBot for more information on using the DeleteBot
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DeleteBotRequest method.
 //    req, resp := client.DeleteBotRequest(params)
@@ -462,19 +458,18 @@ const opDeleteBotAlias = "DeleteBotAlias"
 
 // DeleteBotAliasRequest generates a "aws/request.Request" representing the
 // client's request for the DeleteBotAlias operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DeleteBotAlias for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DeleteBotAlias method directly
-// instead.
+// See DeleteBotAlias for more information on using the DeleteBotAlias
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DeleteBotAliasRequest method.
 //    req, resp := client.DeleteBotAliasRequest(params)
@@ -579,19 +574,18 @@ const opDeleteBotChannelAssociation = "DeleteBotChannelAssociation"
 
 // DeleteBotChannelAssociationRequest generates a "aws/request.Request" representing the
 // client's request for the DeleteBotChannelAssociation operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DeleteBotChannelAssociation for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DeleteBotChannelAssociation method directly
-// instead.
+// See DeleteBotChannelAssociation for more information on using the DeleteBotChannelAssociation
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DeleteBotChannelAssociationRequest method.
 //    req, resp := client.DeleteBotChannelAssociationRequest(params)
@@ -678,19 +672,18 @@ const opDeleteBotVersion = "DeleteBotVersion"
 
 // DeleteBotVersionRequest generates a "aws/request.Request" representing the
 // client's request for the DeleteBotVersion operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DeleteBotVersion for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DeleteBotVersion method directly
-// instead.
+// See DeleteBotVersion for more information on using the DeleteBotVersion
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DeleteBotVersionRequest method.
 //    req, resp := client.DeleteBotVersionRequest(params)
@@ -790,19 +783,18 @@ const opDeleteIntent = "DeleteIntent"
 
 // DeleteIntentRequest generates a "aws/request.Request" representing the
 // client's request for the DeleteIntent operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DeleteIntent for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DeleteIntent method directly
-// instead.
+// See DeleteIntent for more information on using the DeleteIntent
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DeleteIntentRequest method.
 //    req, resp := client.DeleteIntentRequest(params)
@@ -912,19 +904,18 @@ const opDeleteIntentVersion = "DeleteIntentVersion"
 
 // DeleteIntentVersionRequest generates a "aws/request.Request" representing the
 // client's request for the DeleteIntentVersion operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DeleteIntentVersion for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DeleteIntentVersion method directly
-// instead.
+// See DeleteIntentVersion for more information on using the DeleteIntentVersion
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DeleteIntentVersionRequest method.
 //    req, resp := client.DeleteIntentVersionRequest(params)
@@ -1024,19 +1015,18 @@ const opDeleteSlotType = "DeleteSlotType"
 
 // DeleteSlotTypeRequest generates a "aws/request.Request" representing the
 // client's request for the DeleteSlotType operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DeleteSlotType for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DeleteSlotType method directly
-// instead.
+// See DeleteSlotType for more information on using the DeleteSlotType
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DeleteSlotTypeRequest method.
 //    req, resp := client.DeleteSlotTypeRequest(params)
@@ -1148,19 +1138,18 @@ const opDeleteSlotTypeVersion = "DeleteSlotTypeVersion"
 
 // DeleteSlotTypeVersionRequest generates a "aws/request.Request" representing the
 // client's request for the DeleteSlotTypeVersion operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DeleteSlotTypeVersion for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DeleteSlotTypeVersion method directly
-// instead.
+// See DeleteSlotTypeVersion for more information on using the DeleteSlotTypeVersion
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DeleteSlotTypeVersionRequest method.
 //    req, resp := client.DeleteSlotTypeVersionRequest(params)
@@ -1260,19 +1249,18 @@ const opDeleteUtterances = "DeleteUtterances"
 
 // DeleteUtterancesRequest generates a "aws/request.Request" representing the
 // client's request for the DeleteUtterances operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DeleteUtterances for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DeleteUtterances method directly
-// instead.
+// See DeleteUtterances for more information on using the DeleteUtterances
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DeleteUtterancesRequest method.
 //    req, resp := client.DeleteUtterancesRequest(params)
@@ -1363,19 +1351,18 @@ const opGetBot = "GetBot"
 
 // GetBotRequest generates a "aws/request.Request" representing the
 // client's request for the GetBot operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetBot for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetBot method directly
-// instead.
+// See GetBot for more information on using the GetBot
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetBotRequest method.
 //    req, resp := client.GetBotRequest(params)
@@ -1407,7 +1394,7 @@ func (c *LexModelBuildingService) GetBotRequest(input *GetBotInput) (req *reques
 // Returns metadata information for a specific bot. You must provide the bot
 // name and the bot version or alias.
 //
-// The GetBot operation requires permissions for the lex:GetBot action.
+// This operation requires permissions for the lex:GetBot action.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
@@ -1457,19 +1444,18 @@ const opGetBotAlias = "GetBotAlias"
 
 // GetBotAliasRequest generates a "aws/request.Request" representing the
 // client's request for the GetBotAlias operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetBotAlias for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetBotAlias method directly
-// instead.
+// See GetBotAlias for more information on using the GetBotAlias
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetBotAliasRequest method.
 //    req, resp := client.GetBotAliasRequest(params)
@@ -1551,19 +1537,18 @@ const opGetBotAliases = "GetBotAliases"
 
 // GetBotAliasesRequest generates a "aws/request.Request" representing the
 // client's request for the GetBotAliases operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetBotAliases for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetBotAliases method directly
-// instead.
+// See GetBotAliases for more information on using the GetBotAliases
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetBotAliasesRequest method.
 //    req, resp := client.GetBotAliasesRequest(params)
@@ -1696,19 +1681,18 @@ const opGetBotChannelAssociation = "GetBotChannelAssociation"
 
 // GetBotChannelAssociationRequest generates a "aws/request.Request" representing the
 // client's request for the GetBotChannelAssociation operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetBotChannelAssociation for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetBotChannelAssociation method directly
-// instead.
+// See GetBotChannelAssociation for more information on using the GetBotChannelAssociation
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetBotChannelAssociationRequest method.
 //    req, resp := client.GetBotChannelAssociationRequest(params)
@@ -1791,19 +1775,18 @@ const opGetBotChannelAssociations = "GetBotChannelAssociations"
 
 // GetBotChannelAssociationsRequest generates a "aws/request.Request" representing the
 // client's request for the GetBotChannelAssociations operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetBotChannelAssociations for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetBotChannelAssociations method directly
-// instead.
+// See GetBotChannelAssociations for more information on using the GetBotChannelAssociations
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetBotChannelAssociationsRequest method.
 //    req, resp := client.GetBotChannelAssociationsRequest(params)
@@ -1937,19 +1920,18 @@ const opGetBotVersions = "GetBotVersions"
 
 // GetBotVersionsRequest generates a "aws/request.Request" representing the
 // client's request for the GetBotVersions operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetBotVersions for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetBotVersions method directly
-// instead.
+// See GetBotVersions for more information on using the GetBotVersions
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetBotVersionsRequest method.
 //    req, resp := client.GetBotVersionsRequest(params)
@@ -2094,19 +2076,18 @@ const opGetBots = "GetBots"
 
 // GetBotsRequest generates a "aws/request.Request" representing the
 // client's request for the GetBots operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetBots for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetBots method directly
-// instead.
+// See GetBots for more information on using the GetBots
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetBotsRequest method.
 //    req, resp := client.GetBotsRequest(params)
@@ -2250,19 +2231,18 @@ const opGetBuiltinIntent = "GetBuiltinIntent"
 
 // GetBuiltinIntentRequest generates a "aws/request.Request" representing the
 // client's request for the GetBuiltinIntent operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetBuiltinIntent for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetBuiltinIntent method directly
-// instead.
+// See GetBuiltinIntent for more information on using the GetBuiltinIntent
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetBuiltinIntentRequest method.
 //    req, resp := client.GetBuiltinIntentRequest(params)
@@ -2343,19 +2323,18 @@ const opGetBuiltinIntents = "GetBuiltinIntents"
 
 // GetBuiltinIntentsRequest generates a "aws/request.Request" representing the
 // client's request for the GetBuiltinIntents operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetBuiltinIntents for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetBuiltinIntents method directly
-// instead.
+// See GetBuiltinIntents for more information on using the GetBuiltinIntents
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetBuiltinIntentsRequest method.
 //    req, resp := client.GetBuiltinIntentsRequest(params)
@@ -2488,19 +2467,18 @@ const opGetBuiltinSlotTypes = "GetBuiltinSlotTypes"
 
 // GetBuiltinSlotTypesRequest generates a "aws/request.Request" representing the
 // client's request for the GetBuiltinSlotTypes operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetBuiltinSlotTypes for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetBuiltinSlotTypes method directly
-// instead.
+// See GetBuiltinSlotTypes for more information on using the GetBuiltinSlotTypes
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetBuiltinSlotTypesRequest method.
 //    req, resp := client.GetBuiltinSlotTypesRequest(params)
@@ -2632,23 +2610,112 @@ func (c *LexModelBuildingService) GetBuiltinSlotTypesPagesWithContext(ctx aws.Co
 	return p.Err()
 }
 
+const opGetExport = "GetExport"
+
+// GetExportRequest generates a "aws/request.Request" representing the
+// client's request for the GetExport operation. The "output" return
+// value will be populated with the request's response once the request complets
+// successfuly.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See GetExport for more information on using the GetExport
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the GetExportRequest method.
+//    req, resp := client.GetExportRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetExport
+func (c *LexModelBuildingService) GetExportRequest(input *GetExportInput) (req *request.Request, output *GetExportOutput) {
+	op := &request.Operation{
+		Name:       opGetExport,
+		HTTPMethod: "GET",
+		HTTPPath:   "/exports/",
+	}
+
+	if input == nil {
+		input = &GetExportInput{}
+	}
+
+	output = &GetExportOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// GetExport API operation for Amazon Lex Model Building Service.
+//
+// Exports the contents of a Amazon Lex resource in a specified format.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Lex Model Building Service's
+// API operation GetExport for usage and error information.
+//
+// Returned Error Codes:
+//   * ErrCodeNotFoundException "NotFoundException"
+//   The resource specified in the request was not found. Check the resource and
+//   try again.
+//
+//   * ErrCodeLimitExceededException "LimitExceededException"
+//   The request exceeded a limit. Try your request again.
+//
+//   * ErrCodeInternalFailureException "InternalFailureException"
+//   An internal Amazon Lex error occurred. Try your request again.
+//
+//   * ErrCodeBadRequestException "BadRequestException"
+//   The request is not well formed. For example, a value is invalid or a required
+//   field is missing. Check the field values, and try again.
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetExport
+func (c *LexModelBuildingService) GetExport(input *GetExportInput) (*GetExportOutput, error) {
+	req, out := c.GetExportRequest(input)
+	return out, req.Send()
+}
+
+// GetExportWithContext is the same as GetExport with the addition of
+// the ability to pass a context and additional request options.
+//
+// See GetExport for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *LexModelBuildingService) GetExportWithContext(ctx aws.Context, input *GetExportInput, opts ...request.Option) (*GetExportOutput, error) {
+	req, out := c.GetExportRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
 const opGetIntent = "GetIntent"
 
 // GetIntentRequest generates a "aws/request.Request" representing the
 // client's request for the GetIntent operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetIntent for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetIntent method directly
-// instead.
+// See GetIntent for more information on using the GetIntent
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetIntentRequest method.
 //    req, resp := client.GetIntentRequest(params)
@@ -2730,19 +2797,18 @@ const opGetIntentVersions = "GetIntentVersions"
 
 // GetIntentVersionsRequest generates a "aws/request.Request" representing the
 // client's request for the GetIntentVersions operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetIntentVersions for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetIntentVersions method directly
-// instead.
+// See GetIntentVersions for more information on using the GetIntentVersions
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetIntentVersionsRequest method.
 //    req, resp := client.GetIntentVersionsRequest(params)
@@ -2887,19 +2953,18 @@ const opGetIntents = "GetIntents"
 
 // GetIntentsRequest generates a "aws/request.Request" representing the
 // client's request for the GetIntents operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetIntents for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetIntents method directly
-// instead.
+// See GetIntents for more information on using the GetIntents
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetIntentsRequest method.
 //    req, resp := client.GetIntentsRequest(params)
@@ -3042,19 +3107,18 @@ const opGetSlotType = "GetSlotType"
 
 // GetSlotTypeRequest generates a "aws/request.Request" representing the
 // client's request for the GetSlotType operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetSlotType for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetSlotType method directly
-// instead.
+// See GetSlotType for more information on using the GetSlotType
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetSlotTypeRequest method.
 //    req, resp := client.GetSlotTypeRequest(params)
@@ -3136,19 +3200,18 @@ const opGetSlotTypeVersions = "GetSlotTypeVersions"
 
 // GetSlotTypeVersionsRequest generates a "aws/request.Request" representing the
 // client's request for the GetSlotTypeVersions operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetSlotTypeVersions for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetSlotTypeVersions method directly
-// instead.
+// See GetSlotTypeVersions for more information on using the GetSlotTypeVersions
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetSlotTypeVersionsRequest method.
 //    req, resp := client.GetSlotTypeVersionsRequest(params)
@@ -3293,19 +3356,18 @@ const opGetSlotTypes = "GetSlotTypes"
 
 // GetSlotTypesRequest generates a "aws/request.Request" representing the
 // client's request for the GetSlotTypes operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetSlotTypes for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetSlotTypes method directly
-// instead.
+// See GetSlotTypes for more information on using the GetSlotTypes
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetSlotTypesRequest method.
 //    req, resp := client.GetSlotTypesRequest(params)
@@ -3448,19 +3510,18 @@ const opGetUtterancesView = "GetUtterancesView"
 
 // GetUtterancesViewRequest generates a "aws/request.Request" representing the
 // client's request for the GetUtterancesView operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetUtterancesView for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetUtterancesView method directly
-// instead.
+// See GetUtterancesView for more information on using the GetUtterancesView
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetUtterancesViewRequest method.
 //    req, resp := client.GetUtterancesViewRequest(params)
@@ -3558,19 +3619,18 @@ const opPutBot = "PutBot"
 
 // PutBotRequest generates a "aws/request.Request" representing the
 // client's request for the PutBot operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See PutBot for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the PutBot method directly
-// instead.
+// See PutBot for more information on using the PutBot
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the PutBotRequest method.
 //    req, resp := client.PutBotRequest(params)
@@ -3664,19 +3724,18 @@ const opPutBotAlias = "PutBotAlias"
 
 // PutBotAliasRequest generates a "aws/request.Request" representing the
 // client's request for the PutBotAlias operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See PutBotAlias for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the PutBotAlias method directly
-// instead.
+// See PutBotAlias for more information on using the PutBotAlias
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the PutBotAliasRequest method.
 //    req, resp := client.PutBotAliasRequest(params)
@@ -3762,19 +3821,18 @@ const opPutIntent = "PutIntent"
 
 // PutIntentRequest generates a "aws/request.Request" representing the
 // client's request for the PutIntent operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See PutIntent for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the PutIntent method directly
-// instead.
+// See PutIntent for more information on using the PutIntent
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the PutIntentRequest method.
 //    req, resp := client.PutIntentRequest(params)
@@ -3899,19 +3957,18 @@ const opPutSlotType = "PutSlotType"
 
 // PutSlotTypeRequest generates a "aws/request.Request" representing the
 // client's request for the PutSlotType operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See PutSlotType for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the PutSlotType method directly
-// instead.
+// See PutSlotType for more information on using the PutSlotType
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the PutSlotTypeRequest method.
 //    req, resp := client.PutSlotTypeRequest(params)
@@ -4080,6 +4137,55 @@ func (s *BotAliasMetadata) SetName(v string) *BotAliasMetadata {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *BotAliasMetadata) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BotName != nil {
+		v := *s.BotName
+
+		e.SetValue(protocol.BodyTarget, "botName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.BotVersion != nil {
+		v := *s.BotVersion
+
+		e.SetValue(protocol.BodyTarget, "botVersion", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Checksum != nil {
+		v := *s.Checksum
+
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
+
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		e.SetValue(protocol.BodyTarget, "description", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.LastUpdatedDate != nil {
+		v := *s.LastUpdatedDate
+
+		e.SetValue(protocol.BodyTarget, "lastUpdatedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeBotAliasMetadataList(vs []*BotAliasMetadata) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
+}
+
 // Represents an association between an Amazon Lex bot and an external messaging
 // platform.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/BotChannelAssociation
@@ -4166,6 +4272,55 @@ func (s *BotChannelAssociation) SetType(v string) *BotChannelAssociation {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *BotChannelAssociation) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BotAlias != nil {
+		v := *s.BotAlias
+
+		e.SetValue(protocol.BodyTarget, "botAlias", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.BotConfiguration) > 0 {
+		v := s.BotConfiguration
+
+		e.SetMap(protocol.BodyTarget, "botConfiguration", protocol.EncodeStringMap(v), protocol.Metadata{})
+	}
+	if s.BotName != nil {
+		v := *s.BotName
+
+		e.SetValue(protocol.BodyTarget, "botName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
+
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		e.SetValue(protocol.BodyTarget, "description", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Type != nil {
+		v := *s.Type
+
+		e.SetValue(protocol.BodyTarget, "type", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeBotChannelAssociationList(vs []*BotChannelAssociation) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
+}
+
 // Provides information about a bot. .
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/BotMetadata
 type BotMetadata struct {
@@ -4237,6 +4392,50 @@ func (s *BotMetadata) SetVersion(v string) *BotMetadata {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *BotMetadata) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
+
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		e.SetValue(protocol.BodyTarget, "description", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.LastUpdatedDate != nil {
+		v := *s.LastUpdatedDate
+
+		e.SetValue(protocol.BodyTarget, "lastUpdatedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Status != nil {
+		v := *s.Status
+
+		e.SetValue(protocol.BodyTarget, "status", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		e.SetValue(protocol.BodyTarget, "version", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeBotMetadataList(vs []*BotMetadata) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
+}
+
 // Provides metadata for a built-in intent.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/BuiltinIntentMetadata
 type BuiltinIntentMetadata struct {
@@ -4273,6 +4472,30 @@ func (s *BuiltinIntentMetadata) SetSupportedLocales(v []*string) *BuiltinIntentM
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *BuiltinIntentMetadata) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Signature != nil {
+		v := *s.Signature
+
+		e.SetValue(protocol.BodyTarget, "signature", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.SupportedLocales) > 0 {
+		v := s.SupportedLocales
+
+		e.SetList(protocol.BodyTarget, "supportedLocales", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeBuiltinIntentMetadataList(vs []*BuiltinIntentMetadata) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
+}
+
 // Provides information about a slot used in a built-in intent.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/BuiltinIntentSlot
 type BuiltinIntentSlot struct {
@@ -4296,6 +4519,25 @@ func (s BuiltinIntentSlot) GoString() string {
 func (s *BuiltinIntentSlot) SetName(v string) *BuiltinIntentSlot {
 	s.Name = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *BuiltinIntentSlot) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeBuiltinIntentSlotList(vs []*BuiltinIntentSlot) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
 }
 
 // Provides information about a built in slot type.
@@ -4332,6 +4574,30 @@ func (s *BuiltinSlotTypeMetadata) SetSignature(v string) *BuiltinSlotTypeMetadat
 func (s *BuiltinSlotTypeMetadata) SetSupportedLocales(v []*string) *BuiltinSlotTypeMetadata {
 	s.SupportedLocales = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *BuiltinSlotTypeMetadata) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Signature != nil {
+		v := *s.Signature
+
+		e.SetValue(protocol.BodyTarget, "signature", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.SupportedLocales) > 0 {
+		v := s.SupportedLocales
+
+		e.SetList(protocol.BodyTarget, "supportedLocales", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeBuiltinSlotTypeMetadataList(vs []*BuiltinSlotTypeMetadata) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
 }
 
 // Specifies a Lambda function that verifies requests to a bot or fulfills the
@@ -4396,6 +4662,22 @@ func (s *CodeHook) SetUri(v string) *CodeHook {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CodeHook) MarshalFields(e protocol.FieldEncoder) error {
+	if s.MessageVersion != nil {
+		v := *s.MessageVersion
+
+		e.SetValue(protocol.BodyTarget, "messageVersion", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Uri != nil {
+		v := *s.Uri
+
+		e.SetValue(protocol.BodyTarget, "uri", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/CreateBotVersionRequest
 type CreateBotVersionInput struct {
 	_ struct{} `type:"structure"`
@@ -4450,6 +4732,22 @@ func (s *CreateBotVersionInput) SetChecksum(v string) *CreateBotVersionInput {
 func (s *CreateBotVersionInput) SetName(v string) *CreateBotVersionInput {
 	s.Name = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CreateBotVersionInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Checksum != nil {
+		v := *s.Checksum
+
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.PathTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/CreateBotVersionResponse
@@ -4507,7 +4805,7 @@ type CreateBotVersionOutput struct {
 	IdleSessionTTLInSeconds *int64 `locationName:"idleSessionTTLInSeconds" min:"60" type:"integer"`
 
 	// An array of Intent objects. For more information, see PutBot.
-	Intents []*Intent `locationName:"intents" min:"1" type:"list"`
+	Intents []*Intent `locationName:"intents" type:"list"`
 
 	// The date when the $LATEST version of this bot was updated.
 	LastUpdatedDate *time.Time `locationName:"lastUpdatedDate" type:"timestamp" timestampFormat:"unix"`
@@ -4632,6 +4930,87 @@ func (s *CreateBotVersionOutput) SetVoiceId(v string) *CreateBotVersionOutput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CreateBotVersionOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AbortStatement != nil {
+		v := s.AbortStatement
+
+		e.SetFields(protocol.BodyTarget, "abortStatement", v, protocol.Metadata{})
+	}
+	if s.Checksum != nil {
+		v := *s.Checksum
+
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ChildDirected != nil {
+		v := *s.ChildDirected
+
+		e.SetValue(protocol.BodyTarget, "childDirected", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.ClarificationPrompt != nil {
+		v := s.ClarificationPrompt
+
+		e.SetFields(protocol.BodyTarget, "clarificationPrompt", v, protocol.Metadata{})
+	}
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
+
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		e.SetValue(protocol.BodyTarget, "description", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.FailureReason != nil {
+		v := *s.FailureReason
+
+		e.SetValue(protocol.BodyTarget, "failureReason", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.IdleSessionTTLInSeconds != nil {
+		v := *s.IdleSessionTTLInSeconds
+
+		e.SetValue(protocol.BodyTarget, "idleSessionTTLInSeconds", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if len(s.Intents) > 0 {
+		v := s.Intents
+
+		e.SetList(protocol.BodyTarget, "intents", encodeIntentList(v), protocol.Metadata{})
+	}
+	if s.LastUpdatedDate != nil {
+		v := *s.LastUpdatedDate
+
+		e.SetValue(protocol.BodyTarget, "lastUpdatedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Locale != nil {
+		v := *s.Locale
+
+		e.SetValue(protocol.BodyTarget, "locale", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Status != nil {
+		v := *s.Status
+
+		e.SetValue(protocol.BodyTarget, "status", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		e.SetValue(protocol.BodyTarget, "version", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.VoiceId != nil {
+		v := *s.VoiceId
+
+		e.SetValue(protocol.BodyTarget, "voiceId", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/CreateIntentVersionRequest
 type CreateIntentVersionInput struct {
 	_ struct{} `type:"structure"`
@@ -4686,6 +5065,22 @@ func (s *CreateIntentVersionInput) SetChecksum(v string) *CreateIntentVersionInp
 func (s *CreateIntentVersionInput) SetName(v string) *CreateIntentVersionInput {
 	s.Name = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CreateIntentVersionInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Checksum != nil {
+		v := *s.Checksum
+
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.PathTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/CreateIntentVersionResponse
@@ -4843,6 +5238,87 @@ func (s *CreateIntentVersionOutput) SetVersion(v string) *CreateIntentVersionOut
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CreateIntentVersionOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Checksum != nil {
+		v := *s.Checksum
+
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ConclusionStatement != nil {
+		v := s.ConclusionStatement
+
+		e.SetFields(protocol.BodyTarget, "conclusionStatement", v, protocol.Metadata{})
+	}
+	if s.ConfirmationPrompt != nil {
+		v := s.ConfirmationPrompt
+
+		e.SetFields(protocol.BodyTarget, "confirmationPrompt", v, protocol.Metadata{})
+	}
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
+
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		e.SetValue(protocol.BodyTarget, "description", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.DialogCodeHook != nil {
+		v := s.DialogCodeHook
+
+		e.SetFields(protocol.BodyTarget, "dialogCodeHook", v, protocol.Metadata{})
+	}
+	if s.FollowUpPrompt != nil {
+		v := s.FollowUpPrompt
+
+		e.SetFields(protocol.BodyTarget, "followUpPrompt", v, protocol.Metadata{})
+	}
+	if s.FulfillmentActivity != nil {
+		v := s.FulfillmentActivity
+
+		e.SetFields(protocol.BodyTarget, "fulfillmentActivity", v, protocol.Metadata{})
+	}
+	if s.LastUpdatedDate != nil {
+		v := *s.LastUpdatedDate
+
+		e.SetValue(protocol.BodyTarget, "lastUpdatedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ParentIntentSignature != nil {
+		v := *s.ParentIntentSignature
+
+		e.SetValue(protocol.BodyTarget, "parentIntentSignature", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.RejectionStatement != nil {
+		v := s.RejectionStatement
+
+		e.SetFields(protocol.BodyTarget, "rejectionStatement", v, protocol.Metadata{})
+	}
+	if len(s.SampleUtterances) > 0 {
+		v := s.SampleUtterances
+
+		e.SetList(protocol.BodyTarget, "sampleUtterances", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+	if len(s.Slots) > 0 {
+		v := s.Slots
+
+		e.SetList(protocol.BodyTarget, "slots", encodeSlotList(v), protocol.Metadata{})
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		e.SetValue(protocol.BodyTarget, "version", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/CreateSlotTypeVersionRequest
 type CreateSlotTypeVersionInput struct {
 	_ struct{} `type:"structure"`
@@ -4899,6 +5375,22 @@ func (s *CreateSlotTypeVersionInput) SetName(v string) *CreateSlotTypeVersionInp
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CreateSlotTypeVersionInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Checksum != nil {
+		v := *s.Checksum
+
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.PathTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/CreateSlotTypeVersionResponse
 type CreateSlotTypeVersionOutput struct {
 	_ struct{} `type:"structure"`
@@ -4922,6 +5414,10 @@ type CreateSlotTypeVersionOutput struct {
 
 	// The name of the slot type.
 	Name *string `locationName:"name" min:"1" type:"string"`
+
+	// The strategy that Amazon Lex uses to determine the value of the slot. For
+	// more information, see PutSlotType.
+	ValueSelectionStrategy *string `locationName:"valueSelectionStrategy" type:"string" enum:"SlotValueSelectionStrategy"`
 
 	// The version assigned to the new slot type version.
 	Version *string `locationName:"version" min:"1" type:"string"`
@@ -4973,10 +5469,62 @@ func (s *CreateSlotTypeVersionOutput) SetName(v string) *CreateSlotTypeVersionOu
 	return s
 }
 
+// SetValueSelectionStrategy sets the ValueSelectionStrategy field's value.
+func (s *CreateSlotTypeVersionOutput) SetValueSelectionStrategy(v string) *CreateSlotTypeVersionOutput {
+	s.ValueSelectionStrategy = &v
+	return s
+}
+
 // SetVersion sets the Version field's value.
 func (s *CreateSlotTypeVersionOutput) SetVersion(v string) *CreateSlotTypeVersionOutput {
 	s.Version = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CreateSlotTypeVersionOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Checksum != nil {
+		v := *s.Checksum
+
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
+
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		e.SetValue(protocol.BodyTarget, "description", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.EnumerationValues) > 0 {
+		v := s.EnumerationValues
+
+		e.SetList(protocol.BodyTarget, "enumerationValues", encodeEnumerationValueList(v), protocol.Metadata{})
+	}
+	if s.LastUpdatedDate != nil {
+		v := *s.LastUpdatedDate
+
+		e.SetValue(protocol.BodyTarget, "lastUpdatedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ValueSelectionStrategy != nil {
+		v := *s.ValueSelectionStrategy
+
+		e.SetValue(protocol.BodyTarget, "valueSelectionStrategy", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		e.SetValue(protocol.BodyTarget, "version", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteBotAliasRequest
@@ -5038,6 +5586,22 @@ func (s *DeleteBotAliasInput) SetName(v string) *DeleteBotAliasInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteBotAliasInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BotName != nil {
+		v := *s.BotName
+
+		e.SetValue(protocol.PathTarget, "botName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.PathTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteBotAliasOutput
 type DeleteBotAliasOutput struct {
 	_ struct{} `type:"structure"`
@@ -5051,6 +5615,12 @@ func (s DeleteBotAliasOutput) String() string {
 // GoString returns the string representation
 func (s DeleteBotAliasOutput) GoString() string {
 	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteBotAliasOutput) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteBotChannelAssociationRequest
@@ -5130,6 +5700,27 @@ func (s *DeleteBotChannelAssociationInput) SetName(v string) *DeleteBotChannelAs
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteBotChannelAssociationInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BotAlias != nil {
+		v := *s.BotAlias
+
+		e.SetValue(protocol.PathTarget, "aliasName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.BotName != nil {
+		v := *s.BotName
+
+		e.SetValue(protocol.PathTarget, "botName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.PathTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteBotChannelAssociationOutput
 type DeleteBotChannelAssociationOutput struct {
 	_ struct{} `type:"structure"`
@@ -5143,6 +5734,12 @@ func (s DeleteBotChannelAssociationOutput) String() string {
 // GoString returns the string representation
 func (s DeleteBotChannelAssociationOutput) GoString() string {
 	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteBotChannelAssociationOutput) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteBotRequest
@@ -5187,6 +5784,17 @@ func (s *DeleteBotInput) SetName(v string) *DeleteBotInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteBotInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.PathTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteBotOutput
 type DeleteBotOutput struct {
 	_ struct{} `type:"structure"`
@@ -5200,6 +5808,12 @@ func (s DeleteBotOutput) String() string {
 // GoString returns the string representation
 func (s DeleteBotOutput) GoString() string {
 	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteBotOutput) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteBotVersionRequest
@@ -5262,6 +5876,22 @@ func (s *DeleteBotVersionInput) SetVersion(v string) *DeleteBotVersionInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteBotVersionInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.PathTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		e.SetValue(protocol.PathTarget, "version", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteBotVersionOutput
 type DeleteBotVersionOutput struct {
 	_ struct{} `type:"structure"`
@@ -5275,6 +5905,12 @@ func (s DeleteBotVersionOutput) String() string {
 // GoString returns the string representation
 func (s DeleteBotVersionOutput) GoString() string {
 	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteBotVersionOutput) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteIntentRequest
@@ -5319,6 +5955,17 @@ func (s *DeleteIntentInput) SetName(v string) *DeleteIntentInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteIntentInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.PathTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteIntentOutput
 type DeleteIntentOutput struct {
 	_ struct{} `type:"structure"`
@@ -5332,6 +5979,12 @@ func (s DeleteIntentOutput) String() string {
 // GoString returns the string representation
 func (s DeleteIntentOutput) GoString() string {
 	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteIntentOutput) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteIntentVersionRequest
@@ -5394,6 +6047,22 @@ func (s *DeleteIntentVersionInput) SetVersion(v string) *DeleteIntentVersionInpu
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteIntentVersionInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.PathTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		e.SetValue(protocol.PathTarget, "version", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteIntentVersionOutput
 type DeleteIntentVersionOutput struct {
 	_ struct{} `type:"structure"`
@@ -5407,6 +6076,12 @@ func (s DeleteIntentVersionOutput) String() string {
 // GoString returns the string representation
 func (s DeleteIntentVersionOutput) GoString() string {
 	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteIntentVersionOutput) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteSlotTypeRequest
@@ -5451,6 +6126,17 @@ func (s *DeleteSlotTypeInput) SetName(v string) *DeleteSlotTypeInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteSlotTypeInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.PathTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteSlotTypeOutput
 type DeleteSlotTypeOutput struct {
 	_ struct{} `type:"structure"`
@@ -5464,6 +6150,12 @@ func (s DeleteSlotTypeOutput) String() string {
 // GoString returns the string representation
 func (s DeleteSlotTypeOutput) GoString() string {
 	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteSlotTypeOutput) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteSlotTypeVersionRequest
@@ -5526,6 +6218,22 @@ func (s *DeleteSlotTypeVersionInput) SetVersion(v string) *DeleteSlotTypeVersion
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteSlotTypeVersionInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.PathTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		e.SetValue(protocol.PathTarget, "version", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteSlotTypeVersionOutput
 type DeleteSlotTypeVersionOutput struct {
 	_ struct{} `type:"structure"`
@@ -5539,6 +6247,12 @@ func (s DeleteSlotTypeVersionOutput) String() string {
 // GoString returns the string representation
 func (s DeleteSlotTypeVersionOutput) GoString() string {
 	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteSlotTypeVersionOutput) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteUtterancesRequest
@@ -5603,6 +6317,22 @@ func (s *DeleteUtterancesInput) SetUserId(v string) *DeleteUtterancesInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteUtterancesInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BotName != nil {
+		v := *s.BotName
+
+		e.SetValue(protocol.PathTarget, "botName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.UserId != nil {
+		v := *s.UserId
+
+		e.SetValue(protocol.PathTarget, "userId", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteUtterancesOutput
 type DeleteUtterancesOutput struct {
 	_ struct{} `type:"structure"`
@@ -5616,6 +6346,12 @@ func (s DeleteUtterancesOutput) String() string {
 // GoString returns the string representation
 func (s DeleteUtterancesOutput) GoString() string {
 	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteUtterancesOutput) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
 }
 
 // Each slot type can have a set of values. Each enumeration value represents
@@ -5633,6 +6369,9 @@ func (s DeleteUtterancesOutput) GoString() string {
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/EnumerationValue
 type EnumerationValue struct {
 	_ struct{} `type:"structure"`
+
+	// Additional values related to the slot type value.
+	Synonyms []*string `locationName:"synonyms" type:"list"`
 
 	// The value of the slot type.
 	//
@@ -5666,10 +6405,40 @@ func (s *EnumerationValue) Validate() error {
 	return nil
 }
 
+// SetSynonyms sets the Synonyms field's value.
+func (s *EnumerationValue) SetSynonyms(v []*string) *EnumerationValue {
+	s.Synonyms = v
+	return s
+}
+
 // SetValue sets the Value field's value.
 func (s *EnumerationValue) SetValue(v string) *EnumerationValue {
 	s.Value = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *EnumerationValue) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Synonyms) > 0 {
+		v := s.Synonyms
+
+		e.SetList(protocol.BodyTarget, "synonyms", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+	if s.Value != nil {
+		v := *s.Value
+
+		e.SetValue(protocol.BodyTarget, "value", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeEnumerationValueList(vs []*EnumerationValue) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
 }
 
 // A prompt for additional activity after an intent is fulfilled. For example,
@@ -5737,6 +6506,22 @@ func (s *FollowUpPrompt) SetPrompt(v *Prompt) *FollowUpPrompt {
 func (s *FollowUpPrompt) SetRejectionStatement(v *Statement) *FollowUpPrompt {
 	s.RejectionStatement = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *FollowUpPrompt) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Prompt != nil {
+		v := s.Prompt
+
+		e.SetFields(protocol.BodyTarget, "prompt", v, protocol.Metadata{})
+	}
+	if s.RejectionStatement != nil {
+		v := s.RejectionStatement
+
+		e.SetFields(protocol.BodyTarget, "rejectionStatement", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Describes how the intent is fulfilled after the user provides all of the
@@ -5811,6 +6596,22 @@ func (s *FulfillmentActivity) SetType(v string) *FulfillmentActivity {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *FulfillmentActivity) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CodeHook != nil {
+		v := s.CodeHook
+
+		e.SetFields(protocol.BodyTarget, "codeHook", v, protocol.Metadata{})
+	}
+	if s.Type != nil {
+		v := *s.Type
+
+		e.SetValue(protocol.BodyTarget, "type", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBotAliasRequest
 type GetBotAliasInput struct {
 	_ struct{} `type:"structure"`
@@ -5868,6 +6669,22 @@ func (s *GetBotAliasInput) SetBotName(v string) *GetBotAliasInput {
 func (s *GetBotAliasInput) SetName(v string) *GetBotAliasInput {
 	s.Name = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetBotAliasInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BotName != nil {
+		v := *s.BotName
+
+		e.SetValue(protocol.PathTarget, "botName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.PathTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBotAliasResponse
@@ -5947,6 +6764,47 @@ func (s *GetBotAliasOutput) SetLastUpdatedDate(v time.Time) *GetBotAliasOutput {
 func (s *GetBotAliasOutput) SetName(v string) *GetBotAliasOutput {
 	s.Name = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetBotAliasOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BotName != nil {
+		v := *s.BotName
+
+		e.SetValue(protocol.BodyTarget, "botName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.BotVersion != nil {
+		v := *s.BotVersion
+
+		e.SetValue(protocol.BodyTarget, "botVersion", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Checksum != nil {
+		v := *s.Checksum
+
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
+
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		e.SetValue(protocol.BodyTarget, "description", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.LastUpdatedDate != nil {
+		v := *s.LastUpdatedDate
+
+		e.SetValue(protocol.BodyTarget, "lastUpdatedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBotAliasesRequest
@@ -6030,6 +6888,32 @@ func (s *GetBotAliasesInput) SetNextToken(v string) *GetBotAliasesInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetBotAliasesInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BotName != nil {
+		v := *s.BotName
+
+		e.SetValue(protocol.PathTarget, "botName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
+
+		e.SetValue(protocol.QueryTarget, "maxResults", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.NameContains != nil {
+		v := *s.NameContains
+
+		e.SetValue(protocol.QueryTarget, "nameContains", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.QueryTarget, "nextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBotAliasesResponse
 type GetBotAliasesOutput struct {
 	_ struct{} `type:"structure"`
@@ -6064,6 +6948,22 @@ func (s *GetBotAliasesOutput) SetBotAliases(v []*BotAliasMetadata) *GetBotAliase
 func (s *GetBotAliasesOutput) SetNextToken(v string) *GetBotAliasesOutput {
 	s.NextToken = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetBotAliasesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.BotAliases) > 0 {
+		v := s.BotAliases
+
+		e.SetList(protocol.BodyTarget, "BotAliases", encodeBotAliasMetadataList(v), protocol.Metadata{})
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.BodyTarget, "nextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBotChannelAssociationRequest
@@ -6144,6 +7044,27 @@ func (s *GetBotChannelAssociationInput) SetName(v string) *GetBotChannelAssociat
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetBotChannelAssociationInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BotAlias != nil {
+		v := *s.BotAlias
+
+		e.SetValue(protocol.PathTarget, "aliasName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.BotName != nil {
+		v := *s.BotName
+
+		e.SetValue(protocol.PathTarget, "botName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.PathTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBotChannelAssociationResponse
 type GetBotChannelAssociationOutput struct {
 	_ struct{} `type:"structure"`
@@ -6222,6 +7143,47 @@ func (s *GetBotChannelAssociationOutput) SetName(v string) *GetBotChannelAssocia
 func (s *GetBotChannelAssociationOutput) SetType(v string) *GetBotChannelAssociationOutput {
 	s.Type = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetBotChannelAssociationOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BotAlias != nil {
+		v := *s.BotAlias
+
+		e.SetValue(protocol.BodyTarget, "botAlias", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.BotConfiguration) > 0 {
+		v := s.BotConfiguration
+
+		e.SetMap(protocol.BodyTarget, "botConfiguration", protocol.EncodeStringMap(v), protocol.Metadata{})
+	}
+	if s.BotName != nil {
+		v := *s.BotName
+
+		e.SetValue(protocol.BodyTarget, "botName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
+
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		e.SetValue(protocol.BodyTarget, "description", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Type != nil {
+		v := *s.Type
+
+		e.SetValue(protocol.BodyTarget, "type", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBotChannelAssociationsRequest
@@ -6324,6 +7286,37 @@ func (s *GetBotChannelAssociationsInput) SetNextToken(v string) *GetBotChannelAs
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetBotChannelAssociationsInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BotAlias != nil {
+		v := *s.BotAlias
+
+		e.SetValue(protocol.PathTarget, "aliasName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.BotName != nil {
+		v := *s.BotName
+
+		e.SetValue(protocol.PathTarget, "botName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
+
+		e.SetValue(protocol.QueryTarget, "maxResults", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.NameContains != nil {
+		v := *s.NameContains
+
+		e.SetValue(protocol.QueryTarget, "nameContains", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.QueryTarget, "nextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBotChannelAssociationsResponse
 type GetBotChannelAssociationsOutput struct {
 	_ struct{} `type:"structure"`
@@ -6359,6 +7352,22 @@ func (s *GetBotChannelAssociationsOutput) SetBotChannelAssociations(v []*BotChan
 func (s *GetBotChannelAssociationsOutput) SetNextToken(v string) *GetBotChannelAssociationsOutput {
 	s.NextToken = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetBotChannelAssociationsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.BotChannelAssociations) > 0 {
+		v := s.BotChannelAssociations
+
+		e.SetList(protocol.BodyTarget, "botChannelAssociations", encodeBotChannelAssociationList(v), protocol.Metadata{})
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.BodyTarget, "nextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBotRequest
@@ -6417,6 +7426,22 @@ func (s *GetBotInput) SetVersionOrAlias(v string) *GetBotInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetBotInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.PathTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.VersionOrAlias != nil {
+		v := *s.VersionOrAlias
+
+		e.SetValue(protocol.PathTarget, "versionoralias", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBotResponse
 type GetBotOutput struct {
 	_ struct{} `type:"structure"`
@@ -6472,7 +7497,7 @@ type GetBotOutput struct {
 	IdleSessionTTLInSeconds *int64 `locationName:"idleSessionTTLInSeconds" min:"60" type:"integer"`
 
 	// An array of intent objects. For more information, see PutBot.
-	Intents []*Intent `locationName:"intents" min:"1" type:"list"`
+	Intents []*Intent `locationName:"intents" type:"list"`
 
 	// The date that the bot was updated. When you create a resource, the creation
 	// date and last updated date are the same.
@@ -6598,6 +7623,87 @@ func (s *GetBotOutput) SetVoiceId(v string) *GetBotOutput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetBotOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AbortStatement != nil {
+		v := s.AbortStatement
+
+		e.SetFields(protocol.BodyTarget, "abortStatement", v, protocol.Metadata{})
+	}
+	if s.Checksum != nil {
+		v := *s.Checksum
+
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ChildDirected != nil {
+		v := *s.ChildDirected
+
+		e.SetValue(protocol.BodyTarget, "childDirected", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.ClarificationPrompt != nil {
+		v := s.ClarificationPrompt
+
+		e.SetFields(protocol.BodyTarget, "clarificationPrompt", v, protocol.Metadata{})
+	}
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
+
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		e.SetValue(protocol.BodyTarget, "description", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.FailureReason != nil {
+		v := *s.FailureReason
+
+		e.SetValue(protocol.BodyTarget, "failureReason", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.IdleSessionTTLInSeconds != nil {
+		v := *s.IdleSessionTTLInSeconds
+
+		e.SetValue(protocol.BodyTarget, "idleSessionTTLInSeconds", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if len(s.Intents) > 0 {
+		v := s.Intents
+
+		e.SetList(protocol.BodyTarget, "intents", encodeIntentList(v), protocol.Metadata{})
+	}
+	if s.LastUpdatedDate != nil {
+		v := *s.LastUpdatedDate
+
+		e.SetValue(protocol.BodyTarget, "lastUpdatedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Locale != nil {
+		v := *s.Locale
+
+		e.SetValue(protocol.BodyTarget, "locale", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Status != nil {
+		v := *s.Status
+
+		e.SetValue(protocol.BodyTarget, "status", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		e.SetValue(protocol.BodyTarget, "version", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.VoiceId != nil {
+		v := *s.VoiceId
+
+		e.SetValue(protocol.BodyTarget, "voiceId", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBotVersionsRequest
 type GetBotVersionsInput struct {
 	_ struct{} `type:"structure"`
@@ -6665,6 +7771,27 @@ func (s *GetBotVersionsInput) SetNextToken(v string) *GetBotVersionsInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetBotVersionsInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.MaxResults != nil {
+		v := *s.MaxResults
+
+		e.SetValue(protocol.QueryTarget, "maxResults", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.PathTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.QueryTarget, "nextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBotVersionsResponse
 type GetBotVersionsOutput struct {
 	_ struct{} `type:"structure"`
@@ -6700,6 +7827,22 @@ func (s *GetBotVersionsOutput) SetBots(v []*BotMetadata) *GetBotVersionsOutput {
 func (s *GetBotVersionsOutput) SetNextToken(v string) *GetBotVersionsOutput {
 	s.NextToken = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetBotVersionsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Bots) > 0 {
+		v := s.Bots
+
+		e.SetList(protocol.BodyTarget, "bots", encodeBotMetadataList(v), protocol.Metadata{})
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.BodyTarget, "nextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBotsRequest
@@ -6766,6 +7909,27 @@ func (s *GetBotsInput) SetNextToken(v string) *GetBotsInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetBotsInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.MaxResults != nil {
+		v := *s.MaxResults
+
+		e.SetValue(protocol.QueryTarget, "maxResults", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.NameContains != nil {
+		v := *s.NameContains
+
+		e.SetValue(protocol.QueryTarget, "nameContains", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.QueryTarget, "nextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBotsResponse
 type GetBotsOutput struct {
 	_ struct{} `type:"structure"`
@@ -6798,6 +7962,22 @@ func (s *GetBotsOutput) SetBots(v []*BotMetadata) *GetBotsOutput {
 func (s *GetBotsOutput) SetNextToken(v string) *GetBotsOutput {
 	s.NextToken = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetBotsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Bots) > 0 {
+		v := s.Bots
+
+		e.SetList(protocol.BodyTarget, "bots", encodeBotMetadataList(v), protocol.Metadata{})
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.BodyTarget, "nextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBuiltinIntentRequest
@@ -6841,6 +8021,17 @@ func (s *GetBuiltinIntentInput) SetSignature(v string) *GetBuiltinIntentInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetBuiltinIntentInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Signature != nil {
+		v := *s.Signature
+
+		e.SetValue(protocol.PathTarget, "signature", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBuiltinIntentResponse
 type GetBuiltinIntentOutput struct {
 	_ struct{} `type:"structure"`
@@ -6882,6 +8073,27 @@ func (s *GetBuiltinIntentOutput) SetSlots(v []*BuiltinIntentSlot) *GetBuiltinInt
 func (s *GetBuiltinIntentOutput) SetSupportedLocales(v []*string) *GetBuiltinIntentOutput {
 	s.SupportedLocales = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetBuiltinIntentOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Signature != nil {
+		v := *s.Signature
+
+		e.SetValue(protocol.BodyTarget, "signature", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Slots) > 0 {
+		v := s.Slots
+
+		e.SetList(protocol.BodyTarget, "slots", encodeBuiltinIntentSlotList(v), protocol.Metadata{})
+	}
+	if len(s.SupportedLocales) > 0 {
+		v := s.SupportedLocales
+
+		e.SetList(protocol.BodyTarget, "supportedLocales", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBuiltinIntentsRequest
@@ -6954,6 +8166,32 @@ func (s *GetBuiltinIntentsInput) SetSignatureContains(v string) *GetBuiltinInten
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetBuiltinIntentsInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Locale != nil {
+		v := *s.Locale
+
+		e.SetValue(protocol.QueryTarget, "locale", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
+
+		e.SetValue(protocol.QueryTarget, "maxResults", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.QueryTarget, "nextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.SignatureContains != nil {
+		v := *s.SignatureContains
+
+		e.SetValue(protocol.QueryTarget, "signatureContains", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBuiltinIntentsResponse
 type GetBuiltinIntentsOutput struct {
 	_ struct{} `type:"structure"`
@@ -6988,6 +8226,22 @@ func (s *GetBuiltinIntentsOutput) SetIntents(v []*BuiltinIntentMetadata) *GetBui
 func (s *GetBuiltinIntentsOutput) SetNextToken(v string) *GetBuiltinIntentsOutput {
 	s.NextToken = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetBuiltinIntentsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Intents) > 0 {
+		v := s.Intents
+
+		e.SetList(protocol.BodyTarget, "intents", encodeBuiltinIntentMetadataList(v), protocol.Metadata{})
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.BodyTarget, "nextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBuiltinSlotTypesRequest
@@ -7060,6 +8314,32 @@ func (s *GetBuiltinSlotTypesInput) SetSignatureContains(v string) *GetBuiltinSlo
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetBuiltinSlotTypesInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Locale != nil {
+		v := *s.Locale
+
+		e.SetValue(protocol.QueryTarget, "locale", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
+
+		e.SetValue(protocol.QueryTarget, "maxResults", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.QueryTarget, "nextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.SignatureContains != nil {
+		v := *s.SignatureContains
+
+		e.SetValue(protocol.QueryTarget, "signatureContains", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBuiltinSlotTypesResponse
 type GetBuiltinSlotTypesOutput struct {
 	_ struct{} `type:"structure"`
@@ -7093,6 +8373,264 @@ func (s *GetBuiltinSlotTypesOutput) SetNextToken(v string) *GetBuiltinSlotTypesO
 func (s *GetBuiltinSlotTypesOutput) SetSlotTypes(v []*BuiltinSlotTypeMetadata) *GetBuiltinSlotTypesOutput {
 	s.SlotTypes = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetBuiltinSlotTypesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.BodyTarget, "nextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.SlotTypes) > 0 {
+		v := s.SlotTypes
+
+		e.SetList(protocol.BodyTarget, "slotTypes", encodeBuiltinSlotTypeMetadataList(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetExportRequest
+type GetExportInput struct {
+	_ struct{} `type:"structure"`
+
+	// The format of the exported data.
+	//
+	// ExportType is a required field
+	ExportType *string `location:"querystring" locationName:"exportType" type:"string" required:"true" enum:"ExportType"`
+
+	// The name of the bot to export.
+	//
+	// Name is a required field
+	Name *string `location:"querystring" locationName:"name" min:"1" type:"string" required:"true"`
+
+	// The type of resource to export.
+	//
+	// ResourceType is a required field
+	ResourceType *string `location:"querystring" locationName:"resourceType" type:"string" required:"true" enum:"ResourceType"`
+
+	// The version of the bot to export.
+	//
+	// Version is a required field
+	Version *string `location:"querystring" locationName:"version" min:"1" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s GetExportInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetExportInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *GetExportInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "GetExportInput"}
+	if s.ExportType == nil {
+		invalidParams.Add(request.NewErrParamRequired("ExportType"))
+	}
+	if s.Name == nil {
+		invalidParams.Add(request.NewErrParamRequired("Name"))
+	}
+	if s.Name != nil && len(*s.Name) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("Name", 1))
+	}
+	if s.ResourceType == nil {
+		invalidParams.Add(request.NewErrParamRequired("ResourceType"))
+	}
+	if s.Version == nil {
+		invalidParams.Add(request.NewErrParamRequired("Version"))
+	}
+	if s.Version != nil && len(*s.Version) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("Version", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetExportType sets the ExportType field's value.
+func (s *GetExportInput) SetExportType(v string) *GetExportInput {
+	s.ExportType = &v
+	return s
+}
+
+// SetName sets the Name field's value.
+func (s *GetExportInput) SetName(v string) *GetExportInput {
+	s.Name = &v
+	return s
+}
+
+// SetResourceType sets the ResourceType field's value.
+func (s *GetExportInput) SetResourceType(v string) *GetExportInput {
+	s.ResourceType = &v
+	return s
+}
+
+// SetVersion sets the Version field's value.
+func (s *GetExportInput) SetVersion(v string) *GetExportInput {
+	s.Version = &v
+	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetExportInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ExportType != nil {
+		v := *s.ExportType
+
+		e.SetValue(protocol.QueryTarget, "exportType", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.QueryTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ResourceType != nil {
+		v := *s.ResourceType
+
+		e.SetValue(protocol.QueryTarget, "resourceType", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		e.SetValue(protocol.QueryTarget, "version", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetExportResponse
+type GetExportOutput struct {
+	_ struct{} `type:"structure"`
+
+	// The status of the export.
+	//
+	//    * IN_PROGRESS - The export is in progress.
+	//
+	//    * READY - The export is complete.
+	//
+	//    * FAILED - The export could not be completed.
+	ExportStatus *string `locationName:"exportStatus" type:"string" enum:"ExportStatus"`
+
+	// The format of the exported data.
+	ExportType *string `locationName:"exportType" type:"string" enum:"ExportType"`
+
+	// If status is FAILED, Amazon Lex provides the reason that it failed to export
+	// the resource.
+	FailureReason *string `locationName:"failureReason" type:"string"`
+
+	// The name of the bot being exported.
+	Name *string `locationName:"name" min:"1" type:"string"`
+
+	// The type of the exported resource.
+	ResourceType *string `locationName:"resourceType" type:"string" enum:"ResourceType"`
+
+	// An S3 pre-signed URL that provides the location of the exported resource.
+	// The exported resource is a ZIP archive that contains the exported resource
+	// in JSON format. The structure of the archive may change. Your code should
+	// not rely on the archive structure.
+	Url *string `locationName:"url" type:"string"`
+
+	// The version of the bot being exported.
+	Version *string `locationName:"version" min:"1" type:"string"`
+}
+
+// String returns the string representation
+func (s GetExportOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetExportOutput) GoString() string {
+	return s.String()
+}
+
+// SetExportStatus sets the ExportStatus field's value.
+func (s *GetExportOutput) SetExportStatus(v string) *GetExportOutput {
+	s.ExportStatus = &v
+	return s
+}
+
+// SetExportType sets the ExportType field's value.
+func (s *GetExportOutput) SetExportType(v string) *GetExportOutput {
+	s.ExportType = &v
+	return s
+}
+
+// SetFailureReason sets the FailureReason field's value.
+func (s *GetExportOutput) SetFailureReason(v string) *GetExportOutput {
+	s.FailureReason = &v
+	return s
+}
+
+// SetName sets the Name field's value.
+func (s *GetExportOutput) SetName(v string) *GetExportOutput {
+	s.Name = &v
+	return s
+}
+
+// SetResourceType sets the ResourceType field's value.
+func (s *GetExportOutput) SetResourceType(v string) *GetExportOutput {
+	s.ResourceType = &v
+	return s
+}
+
+// SetUrl sets the Url field's value.
+func (s *GetExportOutput) SetUrl(v string) *GetExportOutput {
+	s.Url = &v
+	return s
+}
+
+// SetVersion sets the Version field's value.
+func (s *GetExportOutput) SetVersion(v string) *GetExportOutput {
+	s.Version = &v
+	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetExportOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ExportStatus != nil {
+		v := *s.ExportStatus
+
+		e.SetValue(protocol.BodyTarget, "exportStatus", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ExportType != nil {
+		v := *s.ExportType
+
+		e.SetValue(protocol.BodyTarget, "exportType", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.FailureReason != nil {
+		v := *s.FailureReason
+
+		e.SetValue(protocol.BodyTarget, "failureReason", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ResourceType != nil {
+		v := *s.ResourceType
+
+		e.SetValue(protocol.BodyTarget, "resourceType", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Url != nil {
+		v := *s.Url
+
+		e.SetValue(protocol.BodyTarget, "url", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		e.SetValue(protocol.BodyTarget, "version", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetIntentRequest
@@ -7152,6 +8690,22 @@ func (s *GetIntentInput) SetName(v string) *GetIntentInput {
 func (s *GetIntentInput) SetVersion(v string) *GetIntentInput {
 	s.Version = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetIntentInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.PathTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		e.SetValue(protocol.PathTarget, "version", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetIntentResponse
@@ -7310,6 +8864,87 @@ func (s *GetIntentOutput) SetVersion(v string) *GetIntentOutput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetIntentOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Checksum != nil {
+		v := *s.Checksum
+
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ConclusionStatement != nil {
+		v := s.ConclusionStatement
+
+		e.SetFields(protocol.BodyTarget, "conclusionStatement", v, protocol.Metadata{})
+	}
+	if s.ConfirmationPrompt != nil {
+		v := s.ConfirmationPrompt
+
+		e.SetFields(protocol.BodyTarget, "confirmationPrompt", v, protocol.Metadata{})
+	}
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
+
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		e.SetValue(protocol.BodyTarget, "description", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.DialogCodeHook != nil {
+		v := s.DialogCodeHook
+
+		e.SetFields(protocol.BodyTarget, "dialogCodeHook", v, protocol.Metadata{})
+	}
+	if s.FollowUpPrompt != nil {
+		v := s.FollowUpPrompt
+
+		e.SetFields(protocol.BodyTarget, "followUpPrompt", v, protocol.Metadata{})
+	}
+	if s.FulfillmentActivity != nil {
+		v := s.FulfillmentActivity
+
+		e.SetFields(protocol.BodyTarget, "fulfillmentActivity", v, protocol.Metadata{})
+	}
+	if s.LastUpdatedDate != nil {
+		v := *s.LastUpdatedDate
+
+		e.SetValue(protocol.BodyTarget, "lastUpdatedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ParentIntentSignature != nil {
+		v := *s.ParentIntentSignature
+
+		e.SetValue(protocol.BodyTarget, "parentIntentSignature", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.RejectionStatement != nil {
+		v := s.RejectionStatement
+
+		e.SetFields(protocol.BodyTarget, "rejectionStatement", v, protocol.Metadata{})
+	}
+	if len(s.SampleUtterances) > 0 {
+		v := s.SampleUtterances
+
+		e.SetList(protocol.BodyTarget, "sampleUtterances", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+	if len(s.Slots) > 0 {
+		v := s.Slots
+
+		e.SetList(protocol.BodyTarget, "slots", encodeSlotList(v), protocol.Metadata{})
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		e.SetValue(protocol.BodyTarget, "version", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetIntentVersionsRequest
 type GetIntentVersionsInput struct {
 	_ struct{} `type:"structure"`
@@ -7377,6 +9012,27 @@ func (s *GetIntentVersionsInput) SetNextToken(v string) *GetIntentVersionsInput 
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetIntentVersionsInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.MaxResults != nil {
+		v := *s.MaxResults
+
+		e.SetValue(protocol.QueryTarget, "maxResults", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.PathTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.QueryTarget, "nextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetIntentVersionsResponse
 type GetIntentVersionsOutput struct {
 	_ struct{} `type:"structure"`
@@ -7412,6 +9068,22 @@ func (s *GetIntentVersionsOutput) SetIntents(v []*IntentMetadata) *GetIntentVers
 func (s *GetIntentVersionsOutput) SetNextToken(v string) *GetIntentVersionsOutput {
 	s.NextToken = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetIntentVersionsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Intents) > 0 {
+		v := s.Intents
+
+		e.SetList(protocol.BodyTarget, "intents", encodeIntentMetadataList(v), protocol.Metadata{})
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.BodyTarget, "nextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetIntentsRequest
@@ -7477,6 +9149,27 @@ func (s *GetIntentsInput) SetNextToken(v string) *GetIntentsInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetIntentsInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.MaxResults != nil {
+		v := *s.MaxResults
+
+		e.SetValue(protocol.QueryTarget, "maxResults", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.NameContains != nil {
+		v := *s.NameContains
+
+		e.SetValue(protocol.QueryTarget, "nameContains", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.QueryTarget, "nextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetIntentsResponse
 type GetIntentsOutput struct {
 	_ struct{} `type:"structure"`
@@ -7509,6 +9202,22 @@ func (s *GetIntentsOutput) SetIntents(v []*IntentMetadata) *GetIntentsOutput {
 func (s *GetIntentsOutput) SetNextToken(v string) *GetIntentsOutput {
 	s.NextToken = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetIntentsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Intents) > 0 {
+		v := s.Intents
+
+		e.SetList(protocol.BodyTarget, "intents", encodeIntentMetadataList(v), protocol.Metadata{})
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.BodyTarget, "nextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetSlotTypeRequest
@@ -7570,6 +9279,22 @@ func (s *GetSlotTypeInput) SetVersion(v string) *GetSlotTypeInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetSlotTypeInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.PathTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		e.SetValue(protocol.PathTarget, "version", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetSlotTypeResponse
 type GetSlotTypeOutput struct {
 	_ struct{} `type:"structure"`
@@ -7593,6 +9318,10 @@ type GetSlotTypeOutput struct {
 
 	// The name of the slot type.
 	Name *string `locationName:"name" min:"1" type:"string"`
+
+	// The strategy that Amazon Lex uses to determine the value of the slot. For
+	// more information, see PutSlotType.
+	ValueSelectionStrategy *string `locationName:"valueSelectionStrategy" type:"string" enum:"SlotValueSelectionStrategy"`
 
 	// The version of the slot type.
 	Version *string `locationName:"version" min:"1" type:"string"`
@@ -7644,10 +9373,62 @@ func (s *GetSlotTypeOutput) SetName(v string) *GetSlotTypeOutput {
 	return s
 }
 
+// SetValueSelectionStrategy sets the ValueSelectionStrategy field's value.
+func (s *GetSlotTypeOutput) SetValueSelectionStrategy(v string) *GetSlotTypeOutput {
+	s.ValueSelectionStrategy = &v
+	return s
+}
+
 // SetVersion sets the Version field's value.
 func (s *GetSlotTypeOutput) SetVersion(v string) *GetSlotTypeOutput {
 	s.Version = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetSlotTypeOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Checksum != nil {
+		v := *s.Checksum
+
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
+
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		e.SetValue(protocol.BodyTarget, "description", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.EnumerationValues) > 0 {
+		v := s.EnumerationValues
+
+		e.SetList(protocol.BodyTarget, "enumerationValues", encodeEnumerationValueList(v), protocol.Metadata{})
+	}
+	if s.LastUpdatedDate != nil {
+		v := *s.LastUpdatedDate
+
+		e.SetValue(protocol.BodyTarget, "lastUpdatedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ValueSelectionStrategy != nil {
+		v := *s.ValueSelectionStrategy
+
+		e.SetValue(protocol.BodyTarget, "valueSelectionStrategy", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		e.SetValue(protocol.BodyTarget, "version", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetSlotTypeVersionsRequest
@@ -7717,6 +9498,27 @@ func (s *GetSlotTypeVersionsInput) SetNextToken(v string) *GetSlotTypeVersionsIn
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetSlotTypeVersionsInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.MaxResults != nil {
+		v := *s.MaxResults
+
+		e.SetValue(protocol.QueryTarget, "maxResults", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.PathTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.QueryTarget, "nextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetSlotTypeVersionsResponse
 type GetSlotTypeVersionsOutput struct {
 	_ struct{} `type:"structure"`
@@ -7752,6 +9554,22 @@ func (s *GetSlotTypeVersionsOutput) SetNextToken(v string) *GetSlotTypeVersionsO
 func (s *GetSlotTypeVersionsOutput) SetSlotTypes(v []*SlotTypeMetadata) *GetSlotTypeVersionsOutput {
 	s.SlotTypes = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetSlotTypeVersionsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.BodyTarget, "nextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.SlotTypes) > 0 {
+		v := s.SlotTypes
+
+		e.SetList(protocol.BodyTarget, "slotTypes", encodeSlotTypeMetadataList(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetSlotTypesRequest
@@ -7818,6 +9636,27 @@ func (s *GetSlotTypesInput) SetNextToken(v string) *GetSlotTypesInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetSlotTypesInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.MaxResults != nil {
+		v := *s.MaxResults
+
+		e.SetValue(protocol.QueryTarget, "maxResults", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.NameContains != nil {
+		v := *s.NameContains
+
+		e.SetValue(protocol.QueryTarget, "nameContains", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.QueryTarget, "nextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetSlotTypesResponse
 type GetSlotTypesOutput struct {
 	_ struct{} `type:"structure"`
@@ -7851,6 +9690,22 @@ func (s *GetSlotTypesOutput) SetNextToken(v string) *GetSlotTypesOutput {
 func (s *GetSlotTypesOutput) SetSlotTypes(v []*SlotTypeMetadata) *GetSlotTypesOutput {
 	s.SlotTypes = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetSlotTypesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.BodyTarget, "nextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.SlotTypes) > 0 {
+		v := s.SlotTypes
+
+		e.SetList(protocol.BodyTarget, "slotTypes", encodeSlotTypeMetadataList(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetUtterancesViewRequest
@@ -7928,6 +9783,27 @@ func (s *GetUtterancesViewInput) SetStatusType(v string) *GetUtterancesViewInput
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetUtterancesViewInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BotName != nil {
+		v := *s.BotName
+
+		e.SetValue(protocol.PathTarget, "botname", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.BotVersions) > 0 {
+		v := s.BotVersions
+
+		e.SetList(protocol.QueryTarget, "bot_versions", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+	if s.StatusType != nil {
+		v := *s.StatusType
+
+		e.SetValue(protocol.QueryTarget, "status_type", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetUtterancesViewResponse
 type GetUtterancesViewOutput struct {
 	_ struct{} `type:"structure"`
@@ -7961,6 +9837,22 @@ func (s *GetUtterancesViewOutput) SetBotName(v string) *GetUtterancesViewOutput 
 func (s *GetUtterancesViewOutput) SetUtterances(v []*UtteranceList) *GetUtterancesViewOutput {
 	s.Utterances = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetUtterancesViewOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BotName != nil {
+		v := *s.BotName
+
+		e.SetValue(protocol.BodyTarget, "botName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Utterances) > 0 {
+		v := s.Utterances
+
+		e.SetList(protocol.BodyTarget, "utterances", encodeUtteranceListList(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Identifies the specific version of an intent.
@@ -8021,6 +9913,30 @@ func (s *Intent) SetIntentName(v string) *Intent {
 func (s *Intent) SetIntentVersion(v string) *Intent {
 	s.IntentVersion = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *Intent) MarshalFields(e protocol.FieldEncoder) error {
+	if s.IntentName != nil {
+		v := *s.IntentName
+
+		e.SetValue(protocol.BodyTarget, "intentName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.IntentVersion != nil {
+		v := *s.IntentVersion
+
+		e.SetValue(protocol.BodyTarget, "intentVersion", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeIntentList(vs []*Intent) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
 }
 
 // Provides information about an intent.
@@ -8085,6 +10001,45 @@ func (s *IntentMetadata) SetVersion(v string) *IntentMetadata {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *IntentMetadata) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
+
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		e.SetValue(protocol.BodyTarget, "description", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.LastUpdatedDate != nil {
+		v := *s.LastUpdatedDate
+
+		e.SetValue(protocol.BodyTarget, "lastUpdatedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		e.SetValue(protocol.BodyTarget, "version", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeIntentMetadataList(vs []*IntentMetadata) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
+}
+
 // The message object that provides the message text and its type.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/Message
 type Message struct {
@@ -8140,6 +10095,30 @@ func (s *Message) SetContent(v string) *Message {
 func (s *Message) SetContentType(v string) *Message {
 	s.ContentType = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *Message) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Content != nil {
+		v := *s.Content
+
+		e.SetValue(protocol.BodyTarget, "content", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ContentType != nil {
+		v := *s.ContentType
+
+		e.SetValue(protocol.BodyTarget, "contentType", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeMessageList(vs []*Message) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
 }
 
 // Obtains information from the user. To define a prompt, provide one or more
@@ -8229,6 +10208,27 @@ func (s *Prompt) SetMessages(v []*Message) *Prompt {
 func (s *Prompt) SetResponseCard(v string) *Prompt {
 	s.ResponseCard = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *Prompt) MarshalFields(e protocol.FieldEncoder) error {
+	if s.MaxAttempts != nil {
+		v := *s.MaxAttempts
+
+		e.SetValue(protocol.BodyTarget, "maxAttempts", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if len(s.Messages) > 0 {
+		v := s.Messages
+
+		e.SetList(protocol.BodyTarget, "messages", encodeMessageList(v), protocol.Metadata{})
+	}
+	if s.ResponseCard != nil {
+		v := *s.ResponseCard
+
+		e.SetValue(protocol.BodyTarget, "responseCard", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/PutBotAliasRequest
@@ -8333,6 +10333,37 @@ func (s *PutBotAliasInput) SetName(v string) *PutBotAliasInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *PutBotAliasInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BotName != nil {
+		v := *s.BotName
+
+		e.SetValue(protocol.PathTarget, "botName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.BotVersion != nil {
+		v := *s.BotVersion
+
+		e.SetValue(protocol.BodyTarget, "botVersion", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Checksum != nil {
+		v := *s.Checksum
+
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		e.SetValue(protocol.BodyTarget, "description", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.PathTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/PutBotAliasResponse
 type PutBotAliasOutput struct {
 	_ struct{} `type:"structure"`
@@ -8410,6 +10441,47 @@ func (s *PutBotAliasOutput) SetLastUpdatedDate(v time.Time) *PutBotAliasOutput {
 func (s *PutBotAliasOutput) SetName(v string) *PutBotAliasOutput {
 	s.Name = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *PutBotAliasOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BotName != nil {
+		v := *s.BotName
+
+		e.SetValue(protocol.BodyTarget, "botName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.BotVersion != nil {
+		v := *s.BotVersion
+
+		e.SetValue(protocol.BodyTarget, "botVersion", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Checksum != nil {
+		v := *s.Checksum
+
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
+
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		e.SetValue(protocol.BodyTarget, "description", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.LastUpdatedDate != nil {
+		v := *s.LastUpdatedDate
+
+		e.SetValue(protocol.BodyTarget, "lastUpdatedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/PutBotRequest
@@ -8506,7 +10578,7 @@ type PutBotInput struct {
 	// An array of Intent objects. Each intent represents a command that a user
 	// can express. For example, a pizza ordering bot might support an OrderPizza
 	// intent. For more information, see how-it-works.
-	Intents []*Intent `locationName:"intents" min:"1" type:"list"`
+	Intents []*Intent `locationName:"intents" type:"list"`
 
 	// Specifies the target locale for the bot. Any intent used in the bot must
 	// be compatible with the locale of the bot.
@@ -8553,9 +10625,6 @@ func (s *PutBotInput) Validate() error {
 	}
 	if s.IdleSessionTTLInSeconds != nil && *s.IdleSessionTTLInSeconds < 60 {
 		invalidParams.Add(request.NewErrParamMinValue("IdleSessionTTLInSeconds", 60))
-	}
-	if s.Intents != nil && len(s.Intents) < 1 {
-		invalidParams.Add(request.NewErrParamMinLen("Intents", 1))
 	}
 	if s.Locale == nil {
 		invalidParams.Add(request.NewErrParamRequired("Locale"))
@@ -8659,6 +10728,67 @@ func (s *PutBotInput) SetVoiceId(v string) *PutBotInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *PutBotInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AbortStatement != nil {
+		v := s.AbortStatement
+
+		e.SetFields(protocol.BodyTarget, "abortStatement", v, protocol.Metadata{})
+	}
+	if s.Checksum != nil {
+		v := *s.Checksum
+
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ChildDirected != nil {
+		v := *s.ChildDirected
+
+		e.SetValue(protocol.BodyTarget, "childDirected", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.ClarificationPrompt != nil {
+		v := s.ClarificationPrompt
+
+		e.SetFields(protocol.BodyTarget, "clarificationPrompt", v, protocol.Metadata{})
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		e.SetValue(protocol.BodyTarget, "description", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.IdleSessionTTLInSeconds != nil {
+		v := *s.IdleSessionTTLInSeconds
+
+		e.SetValue(protocol.BodyTarget, "idleSessionTTLInSeconds", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if len(s.Intents) > 0 {
+		v := s.Intents
+
+		e.SetList(protocol.BodyTarget, "intents", encodeIntentList(v), protocol.Metadata{})
+	}
+	if s.Locale != nil {
+		v := *s.Locale
+
+		e.SetValue(protocol.BodyTarget, "locale", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.PathTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ProcessBehavior != nil {
+		v := *s.ProcessBehavior
+
+		e.SetValue(protocol.BodyTarget, "processBehavior", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.VoiceId != nil {
+		v := *s.VoiceId
+
+		e.SetValue(protocol.BodyTarget, "voiceId", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/PutBotResponse
 type PutBotOutput struct {
 	_ struct{} `type:"structure"`
@@ -8714,7 +10844,7 @@ type PutBotOutput struct {
 	IdleSessionTTLInSeconds *int64 `locationName:"idleSessionTTLInSeconds" min:"60" type:"integer"`
 
 	// An array of Intent objects. For more information, see PutBot.
-	Intents []*Intent `locationName:"intents" min:"1" type:"list"`
+	Intents []*Intent `locationName:"intents" type:"list"`
 
 	// The date that the bot was updated. When you create a resource, the creation
 	// date and last updated date are the same.
@@ -8844,6 +10974,87 @@ func (s *PutBotOutput) SetVoiceId(v string) *PutBotOutput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *PutBotOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AbortStatement != nil {
+		v := s.AbortStatement
+
+		e.SetFields(protocol.BodyTarget, "abortStatement", v, protocol.Metadata{})
+	}
+	if s.Checksum != nil {
+		v := *s.Checksum
+
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ChildDirected != nil {
+		v := *s.ChildDirected
+
+		e.SetValue(protocol.BodyTarget, "childDirected", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.ClarificationPrompt != nil {
+		v := s.ClarificationPrompt
+
+		e.SetFields(protocol.BodyTarget, "clarificationPrompt", v, protocol.Metadata{})
+	}
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
+
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		e.SetValue(protocol.BodyTarget, "description", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.FailureReason != nil {
+		v := *s.FailureReason
+
+		e.SetValue(protocol.BodyTarget, "failureReason", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.IdleSessionTTLInSeconds != nil {
+		v := *s.IdleSessionTTLInSeconds
+
+		e.SetValue(protocol.BodyTarget, "idleSessionTTLInSeconds", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if len(s.Intents) > 0 {
+		v := s.Intents
+
+		e.SetList(protocol.BodyTarget, "intents", encodeIntentList(v), protocol.Metadata{})
+	}
+	if s.LastUpdatedDate != nil {
+		v := *s.LastUpdatedDate
+
+		e.SetValue(protocol.BodyTarget, "lastUpdatedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Locale != nil {
+		v := *s.Locale
+
+		e.SetValue(protocol.BodyTarget, "locale", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Status != nil {
+		v := *s.Status
+
+		e.SetValue(protocol.BodyTarget, "status", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		e.SetValue(protocol.BodyTarget, "version", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.VoiceId != nil {
+		v := *s.VoiceId
+
+		e.SetValue(protocol.BodyTarget, "voiceId", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/PutIntentRequest
 type PutIntentInput struct {
 	_ struct{} `type:"structure"`
@@ -8918,9 +11129,9 @@ type PutIntentInput struct {
 	// You can specify only one.
 	FollowUpPrompt *FollowUpPrompt `locationName:"followUpPrompt" type:"structure"`
 
-	// Describes how the intent is fulfilled. For example, after a user provides
-	// all of the information for a pizza order, fulfillmentActivity defines how
-	// the bot places an order with a local pizza store.
+	// Required. Describes how the intent is fulfilled. For example, after a user
+	// provides all of the information for a pizza order, fulfillmentActivity defines
+	// how the bot places an order with a local pizza store.
 	//
 	// You might configure Amazon Lex to return all of the intent information to
 	// the client application, or direct it to invoke a Lambda function that can
@@ -8960,7 +11171,7 @@ type PutIntentInput struct {
 
 	// An array of intent slots. At runtime, Amazon Lex elicits required slot values
 	// from the user using prompts defined in the slots. For more information, see
-	// <xref linkend="how-it-works"/>.
+	// how-it-works.
 	Slots []*Slot `locationName:"slots" type:"list"`
 }
 
@@ -9100,6 +11311,72 @@ func (s *PutIntentInput) SetSampleUtterances(v []*string) *PutIntentInput {
 func (s *PutIntentInput) SetSlots(v []*Slot) *PutIntentInput {
 	s.Slots = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *PutIntentInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Checksum != nil {
+		v := *s.Checksum
+
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ConclusionStatement != nil {
+		v := s.ConclusionStatement
+
+		e.SetFields(protocol.BodyTarget, "conclusionStatement", v, protocol.Metadata{})
+	}
+	if s.ConfirmationPrompt != nil {
+		v := s.ConfirmationPrompt
+
+		e.SetFields(protocol.BodyTarget, "confirmationPrompt", v, protocol.Metadata{})
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		e.SetValue(protocol.BodyTarget, "description", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.DialogCodeHook != nil {
+		v := s.DialogCodeHook
+
+		e.SetFields(protocol.BodyTarget, "dialogCodeHook", v, protocol.Metadata{})
+	}
+	if s.FollowUpPrompt != nil {
+		v := s.FollowUpPrompt
+
+		e.SetFields(protocol.BodyTarget, "followUpPrompt", v, protocol.Metadata{})
+	}
+	if s.FulfillmentActivity != nil {
+		v := s.FulfillmentActivity
+
+		e.SetFields(protocol.BodyTarget, "fulfillmentActivity", v, protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.PathTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ParentIntentSignature != nil {
+		v := *s.ParentIntentSignature
+
+		e.SetValue(protocol.BodyTarget, "parentIntentSignature", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.RejectionStatement != nil {
+		v := s.RejectionStatement
+
+		e.SetFields(protocol.BodyTarget, "rejectionStatement", v, protocol.Metadata{})
+	}
+	if len(s.SampleUtterances) > 0 {
+		v := s.SampleUtterances
+
+		e.SetList(protocol.BodyTarget, "sampleUtterances", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+	if len(s.Slots) > 0 {
+		v := s.Slots
+
+		e.SetList(protocol.BodyTarget, "slots", encodeSlotList(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/PutIntentResponse
@@ -9260,6 +11537,87 @@ func (s *PutIntentOutput) SetVersion(v string) *PutIntentOutput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *PutIntentOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Checksum != nil {
+		v := *s.Checksum
+
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ConclusionStatement != nil {
+		v := s.ConclusionStatement
+
+		e.SetFields(protocol.BodyTarget, "conclusionStatement", v, protocol.Metadata{})
+	}
+	if s.ConfirmationPrompt != nil {
+		v := s.ConfirmationPrompt
+
+		e.SetFields(protocol.BodyTarget, "confirmationPrompt", v, protocol.Metadata{})
+	}
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
+
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		e.SetValue(protocol.BodyTarget, "description", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.DialogCodeHook != nil {
+		v := s.DialogCodeHook
+
+		e.SetFields(protocol.BodyTarget, "dialogCodeHook", v, protocol.Metadata{})
+	}
+	if s.FollowUpPrompt != nil {
+		v := s.FollowUpPrompt
+
+		e.SetFields(protocol.BodyTarget, "followUpPrompt", v, protocol.Metadata{})
+	}
+	if s.FulfillmentActivity != nil {
+		v := s.FulfillmentActivity
+
+		e.SetFields(protocol.BodyTarget, "fulfillmentActivity", v, protocol.Metadata{})
+	}
+	if s.LastUpdatedDate != nil {
+		v := *s.LastUpdatedDate
+
+		e.SetValue(protocol.BodyTarget, "lastUpdatedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ParentIntentSignature != nil {
+		v := *s.ParentIntentSignature
+
+		e.SetValue(protocol.BodyTarget, "parentIntentSignature", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.RejectionStatement != nil {
+		v := s.RejectionStatement
+
+		e.SetFields(protocol.BodyTarget, "rejectionStatement", v, protocol.Metadata{})
+	}
+	if len(s.SampleUtterances) > 0 {
+		v := s.SampleUtterances
+
+		e.SetList(protocol.BodyTarget, "sampleUtterances", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+	if len(s.Slots) > 0 {
+		v := s.Slots
+
+		e.SetList(protocol.BodyTarget, "slots", encodeSlotList(v), protocol.Metadata{})
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		e.SetValue(protocol.BodyTarget, "version", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/PutSlotTypeRequest
 type PutSlotTypeInput struct {
 	_ struct{} `type:"structure"`
@@ -9279,7 +11637,16 @@ type PutSlotTypeInput struct {
 	Description *string `locationName:"description" type:"string"`
 
 	// A list of EnumerationValue objects that defines the values that the slot
-	// type can take.
+	// type can take. Each value can have a list of synonyms, which are additional
+	// values that help train the machine learning model about the values that it
+	// resolves for a slot.
+	//
+	// When Amazon Lex resolves a slot value, it generates a resolution list that
+	// contains up to five possible values for the slot. If you are using a Lambda
+	// function, this resolution list is passed to the function. If you are not
+	// using a Lambda function you can choose to return the value that the user
+	// entered or the first value in the resolution list as the slot value. The
+	// valueSelectionStrategy field indicates the option to use.
 	EnumerationValues []*EnumerationValue `locationName:"enumerationValues" min:"1" type:"list"`
 
 	// The name of the slot type. The name is not case sensitive.
@@ -9293,6 +11660,19 @@ type PutSlotTypeInput struct {
 	//
 	// Name is a required field
 	Name *string `location:"uri" locationName:"name" min:"1" type:"string" required:"true"`
+
+	// Determines the slot resolution strategy that Amazon Lex uses to return slot
+	// type values. The field can be set to one of the following values:
+	//
+	//    * ORIGINAL_VALUE - Returns the value entered by the user, if the user
+	//    value is similar to the slot value.
+	//
+	//    * TOP_RESOLUTION - If there is a resolution list for the slot, return
+	//    the first value in the resolution list as the slot type value. If there
+	//    is no resolution list, null is returned.
+	//
+	// If you don't specify the valueSelectionStrategy, the default is ORIGINAL_VALUE.
+	ValueSelectionStrategy *string `locationName:"valueSelectionStrategy" type:"string" enum:"SlotValueSelectionStrategy"`
 }
 
 // String returns the string representation
@@ -9358,6 +11738,43 @@ func (s *PutSlotTypeInput) SetName(v string) *PutSlotTypeInput {
 	return s
 }
 
+// SetValueSelectionStrategy sets the ValueSelectionStrategy field's value.
+func (s *PutSlotTypeInput) SetValueSelectionStrategy(v string) *PutSlotTypeInput {
+	s.ValueSelectionStrategy = &v
+	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *PutSlotTypeInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Checksum != nil {
+		v := *s.Checksum
+
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		e.SetValue(protocol.BodyTarget, "description", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.EnumerationValues) > 0 {
+		v := s.EnumerationValues
+
+		e.SetList(protocol.BodyTarget, "enumerationValues", encodeEnumerationValueList(v), protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.PathTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ValueSelectionStrategy != nil {
+		v := *s.ValueSelectionStrategy
+
+		e.SetValue(protocol.BodyTarget, "valueSelectionStrategy", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/PutSlotTypeResponse
 type PutSlotTypeOutput struct {
 	_ struct{} `type:"structure"`
@@ -9381,6 +11798,10 @@ type PutSlotTypeOutput struct {
 
 	// The name of the slot type.
 	Name *string `locationName:"name" min:"1" type:"string"`
+
+	// The slot resolution strategy that Amazon Lex uses to determine the value
+	// of the slot. For more information, see PutSlotType.
+	ValueSelectionStrategy *string `locationName:"valueSelectionStrategy" type:"string" enum:"SlotValueSelectionStrategy"`
 
 	// The version of the slot type. For a new slot type, the version is always
 	// $LATEST.
@@ -9433,10 +11854,62 @@ func (s *PutSlotTypeOutput) SetName(v string) *PutSlotTypeOutput {
 	return s
 }
 
+// SetValueSelectionStrategy sets the ValueSelectionStrategy field's value.
+func (s *PutSlotTypeOutput) SetValueSelectionStrategy(v string) *PutSlotTypeOutput {
+	s.ValueSelectionStrategy = &v
+	return s
+}
+
 // SetVersion sets the Version field's value.
 func (s *PutSlotTypeOutput) SetVersion(v string) *PutSlotTypeOutput {
 	s.Version = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *PutSlotTypeOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Checksum != nil {
+		v := *s.Checksum
+
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
+
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		e.SetValue(protocol.BodyTarget, "description", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.EnumerationValues) > 0 {
+		v := s.EnumerationValues
+
+		e.SetList(protocol.BodyTarget, "enumerationValues", encodeEnumerationValueList(v), protocol.Metadata{})
+	}
+	if s.LastUpdatedDate != nil {
+		v := *s.LastUpdatedDate
+
+		e.SetValue(protocol.BodyTarget, "lastUpdatedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ValueSelectionStrategy != nil {
+		v := *s.ValueSelectionStrategy
+
+		e.SetValue(protocol.BodyTarget, "valueSelectionStrategy", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		e.SetValue(protocol.BodyTarget, "version", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Describes the resource that refers to the resource that you are attempting
@@ -9475,6 +11948,22 @@ func (s *ResourceReference) SetName(v string) *ResourceReference {
 func (s *ResourceReference) SetVersion(v string) *ResourceReference {
 	s.Version = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *ResourceReference) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		e.SetValue(protocol.BodyTarget, "version", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Identifies the version of a specific slot.
@@ -9622,6 +12111,65 @@ func (s *Slot) SetValueElicitationPrompt(v *Prompt) *Slot {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *Slot) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Description != nil {
+		v := *s.Description
+
+		e.SetValue(protocol.BodyTarget, "description", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Priority != nil {
+		v := *s.Priority
+
+		e.SetValue(protocol.BodyTarget, "priority", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.ResponseCard != nil {
+		v := *s.ResponseCard
+
+		e.SetValue(protocol.BodyTarget, "responseCard", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.SampleUtterances) > 0 {
+		v := s.SampleUtterances
+
+		e.SetList(protocol.BodyTarget, "sampleUtterances", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+	if s.SlotConstraint != nil {
+		v := *s.SlotConstraint
+
+		e.SetValue(protocol.BodyTarget, "slotConstraint", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.SlotType != nil {
+		v := *s.SlotType
+
+		e.SetValue(protocol.BodyTarget, "slotType", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.SlotTypeVersion != nil {
+		v := *s.SlotTypeVersion
+
+		e.SetValue(protocol.BodyTarget, "slotTypeVersion", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ValueElicitationPrompt != nil {
+		v := s.ValueElicitationPrompt
+
+		e.SetFields(protocol.BodyTarget, "valueElicitationPrompt", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeSlotList(vs []*Slot) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
+}
+
 // Provides information about a slot type..
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/SlotTypeMetadata
 type SlotTypeMetadata struct {
@@ -9682,6 +12230,45 @@ func (s *SlotTypeMetadata) SetName(v string) *SlotTypeMetadata {
 func (s *SlotTypeMetadata) SetVersion(v string) *SlotTypeMetadata {
 	s.Version = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *SlotTypeMetadata) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
+
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		e.SetValue(protocol.BodyTarget, "description", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.LastUpdatedDate != nil {
+		v := *s.LastUpdatedDate
+
+		e.SetValue(protocol.BodyTarget, "lastUpdatedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		e.SetValue(protocol.BodyTarget, "version", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeSlotTypeMetadataList(vs []*SlotTypeMetadata) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
 }
 
 // A collection of messages that convey information to the user. At runtime,
@@ -9753,6 +12340,22 @@ func (s *Statement) SetResponseCard(v string) *Statement {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *Statement) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Messages) > 0 {
+		v := s.Messages
+
+		e.SetList(protocol.BodyTarget, "messages", encodeMessageList(v), protocol.Metadata{})
+	}
+	if s.ResponseCard != nil {
+		v := *s.ResponseCard
+
+		e.SetValue(protocol.BodyTarget, "responseCard", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Provides information about a single utterance that was made to your bot.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/UtteranceData
 type UtteranceData struct {
@@ -9815,6 +12418,45 @@ func (s *UtteranceData) SetUtteranceString(v string) *UtteranceData {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UtteranceData) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Count != nil {
+		v := *s.Count
+
+		e.SetValue(protocol.BodyTarget, "count", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.DistinctUsers != nil {
+		v := *s.DistinctUsers
+
+		e.SetValue(protocol.BodyTarget, "distinctUsers", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.FirstUtteredDate != nil {
+		v := *s.FirstUtteredDate
+
+		e.SetValue(protocol.BodyTarget, "firstUtteredDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.LastUtteredDate != nil {
+		v := *s.LastUtteredDate
+
+		e.SetValue(protocol.BodyTarget, "lastUtteredDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.UtteranceString != nil {
+		v := *s.UtteranceString
+
+		e.SetValue(protocol.BodyTarget, "utteranceString", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeUtteranceDataList(vs []*UtteranceData) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
+}
+
 // Provides a list of utterances that have been made to a specific version of
 // your bot. The list contains a maximum of 100 utterances.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/UtteranceList
@@ -9851,6 +12493,30 @@ func (s *UtteranceList) SetUtterances(v []*UtteranceData) *UtteranceList {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UtteranceList) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BotVersion != nil {
+		v := *s.BotVersion
+
+		e.SetValue(protocol.BodyTarget, "botVersion", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Utterances) > 0 {
+		v := s.Utterances
+
+		e.SetList(protocol.BodyTarget, "utterances", encodeUtteranceDataList(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeUtteranceListList(vs []*UtteranceList) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
+}
+
 const (
 	// ChannelTypeFacebook is a ChannelType enum value
 	ChannelTypeFacebook = "Facebook"
@@ -9868,6 +12534,22 @@ const (
 
 	// ContentTypeSsml is a ContentType enum value
 	ContentTypeSsml = "SSML"
+)
+
+const (
+	// ExportStatusInProgress is a ExportStatus enum value
+	ExportStatusInProgress = "IN_PROGRESS"
+
+	// ExportStatusReady is a ExportStatus enum value
+	ExportStatusReady = "READY"
+
+	// ExportStatusFailed is a ExportStatus enum value
+	ExportStatusFailed = "FAILED"
+)
+
+const (
+	// ExportTypeAlexaSkillsKit is a ExportType enum value
+	ExportTypeAlexaSkillsKit = "ALEXA_SKILLS_KIT"
 )
 
 const (
@@ -9906,11 +12588,24 @@ const (
 )
 
 const (
+	// ResourceTypeBot is a ResourceType enum value
+	ResourceTypeBot = "BOT"
+)
+
+const (
 	// SlotConstraintRequired is a SlotConstraint enum value
 	SlotConstraintRequired = "Required"
 
 	// SlotConstraintOptional is a SlotConstraint enum value
 	SlotConstraintOptional = "Optional"
+)
+
+const (
+	// SlotValueSelectionStrategyOriginalValue is a SlotValueSelectionStrategy enum value
+	SlotValueSelectionStrategyOriginalValue = "ORIGINAL_VALUE"
+
+	// SlotValueSelectionStrategyTopResolution is a SlotValueSelectionStrategy enum value
+	SlotValueSelectionStrategyTopResolution = "TOP_RESOLUTION"
 )
 
 const (

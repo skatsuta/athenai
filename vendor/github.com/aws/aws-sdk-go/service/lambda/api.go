@@ -17,19 +17,18 @@ const opAddPermission = "AddPermission"
 
 // AddPermissionRequest generates a "aws/request.Request" representing the
 // client's request for the AddPermission operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See AddPermission for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the AddPermission method directly
-// instead.
+// See AddPermission for more information on using the AddPermission
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the AddPermissionRequest method.
 //    req, resp := client.AddPermissionRequest(params)
@@ -38,6 +37,8 @@ const opAddPermission = "AddPermission"
 //    if err == nil { // resp is now filled
 //        fmt.Println(resp)
 //    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/AddPermission
 func (c *Lambda) AddPermissionRequest(input *AddPermissionInput) (req *request.Request, output *AddPermissionOutput) {
 	op := &request.Operation{
 		Name:       opAddPermission,
@@ -102,6 +103,7 @@ func (c *Lambda) AddPermissionRequest(input *AddPermissionInput) (req *request.R
 //
 //   * ErrCodeTooManyRequestsException "TooManyRequestsException"
 //
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/AddPermission
 func (c *Lambda) AddPermission(input *AddPermissionInput) (*AddPermissionOutput, error) {
 	req, out := c.AddPermissionRequest(input)
 	return out, req.Send()
@@ -127,19 +129,18 @@ const opCreateAlias = "CreateAlias"
 
 // CreateAliasRequest generates a "aws/request.Request" representing the
 // client's request for the CreateAlias operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See CreateAlias for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the CreateAlias method directly
-// instead.
+// See CreateAlias for more information on using the CreateAlias
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the CreateAliasRequest method.
 //    req, resp := client.CreateAliasRequest(params)
@@ -148,6 +149,8 @@ const opCreateAlias = "CreateAlias"
 //    if err == nil { // resp is now filled
 //        fmt.Println(resp)
 //    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/CreateAlias
 func (c *Lambda) CreateAliasRequest(input *CreateAliasInput) (req *request.Request, output *AliasConfiguration) {
 	op := &request.Operation{
 		Name:       opCreateAlias,
@@ -199,6 +202,7 @@ func (c *Lambda) CreateAliasRequest(input *CreateAliasInput) (req *request.Reque
 //
 //   * ErrCodeTooManyRequestsException "TooManyRequestsException"
 //
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/CreateAlias
 func (c *Lambda) CreateAlias(input *CreateAliasInput) (*AliasConfiguration, error) {
 	req, out := c.CreateAliasRequest(input)
 	return out, req.Send()
@@ -224,19 +228,18 @@ const opCreateEventSourceMapping = "CreateEventSourceMapping"
 
 // CreateEventSourceMappingRequest generates a "aws/request.Request" representing the
 // client's request for the CreateEventSourceMapping operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See CreateEventSourceMapping for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the CreateEventSourceMapping method directly
-// instead.
+// See CreateEventSourceMapping for more information on using the CreateEventSourceMapping
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the CreateEventSourceMappingRequest method.
 //    req, resp := client.CreateEventSourceMappingRequest(params)
@@ -245,6 +248,8 @@ const opCreateEventSourceMapping = "CreateEventSourceMapping"
 //    if err == nil { // resp is now filled
 //        fmt.Println(resp)
 //    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/CreateEventSourceMapping
 func (c *Lambda) CreateEventSourceMappingRequest(input *CreateEventSourceMappingInput) (req *request.Request, output *EventSourceMappingConfiguration) {
 	op := &request.Operation{
 		Name:       opCreateEventSourceMapping,
@@ -316,6 +321,7 @@ func (c *Lambda) CreateEventSourceMappingRequest(input *CreateEventSourceMapping
 //   The resource (for example, a Lambda function or access policy statement)
 //   specified in the request does not exist.
 //
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/CreateEventSourceMapping
 func (c *Lambda) CreateEventSourceMapping(input *CreateEventSourceMappingInput) (*EventSourceMappingConfiguration, error) {
 	req, out := c.CreateEventSourceMappingRequest(input)
 	return out, req.Send()
@@ -341,19 +347,18 @@ const opCreateFunction = "CreateFunction"
 
 // CreateFunctionRequest generates a "aws/request.Request" representing the
 // client's request for the CreateFunction operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See CreateFunction for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the CreateFunction method directly
-// instead.
+// See CreateFunction for more information on using the CreateFunction
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the CreateFunctionRequest method.
 //    req, resp := client.CreateFunctionRequest(params)
@@ -362,6 +367,8 @@ const opCreateFunction = "CreateFunction"
 //    if err == nil { // resp is now filled
 //        fmt.Println(resp)
 //    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/CreateFunction
 func (c *Lambda) CreateFunctionRequest(input *CreateFunctionInput) (req *request.Request, output *FunctionConfiguration) {
 	op := &request.Operation{
 		Name:       opCreateFunction,
@@ -421,6 +428,7 @@ func (c *Lambda) CreateFunctionRequest(input *CreateFunctionInput) (req *request
 //   * ErrCodeCodeStorageExceededException "CodeStorageExceededException"
 //   You have exceeded your maximum total code size per account. Limits (http://docs.aws.amazon.com/lambda/latest/dg/limits.html)
 //
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/CreateFunction
 func (c *Lambda) CreateFunction(input *CreateFunctionInput) (*FunctionConfiguration, error) {
 	req, out := c.CreateFunctionRequest(input)
 	return out, req.Send()
@@ -446,19 +454,18 @@ const opDeleteAlias = "DeleteAlias"
 
 // DeleteAliasRequest generates a "aws/request.Request" representing the
 // client's request for the DeleteAlias operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DeleteAlias for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DeleteAlias method directly
-// instead.
+// See DeleteAlias for more information on using the DeleteAlias
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DeleteAliasRequest method.
 //    req, resp := client.DeleteAliasRequest(params)
@@ -467,6 +474,8 @@ const opDeleteAlias = "DeleteAlias"
 //    if err == nil { // resp is now filled
 //        fmt.Println(resp)
 //    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteAlias
 func (c *Lambda) DeleteAliasRequest(input *DeleteAliasInput) (req *request.Request, output *DeleteAliasOutput) {
 	op := &request.Operation{
 		Name:       opDeleteAlias,
@@ -512,6 +521,7 @@ func (c *Lambda) DeleteAliasRequest(input *DeleteAliasInput) (req *request.Reque
 //
 //   * ErrCodeTooManyRequestsException "TooManyRequestsException"
 //
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteAlias
 func (c *Lambda) DeleteAlias(input *DeleteAliasInput) (*DeleteAliasOutput, error) {
 	req, out := c.DeleteAliasRequest(input)
 	return out, req.Send()
@@ -537,19 +547,18 @@ const opDeleteEventSourceMapping = "DeleteEventSourceMapping"
 
 // DeleteEventSourceMappingRequest generates a "aws/request.Request" representing the
 // client's request for the DeleteEventSourceMapping operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DeleteEventSourceMapping for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DeleteEventSourceMapping method directly
-// instead.
+// See DeleteEventSourceMapping for more information on using the DeleteEventSourceMapping
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DeleteEventSourceMappingRequest method.
 //    req, resp := client.DeleteEventSourceMappingRequest(params)
@@ -558,6 +567,8 @@ const opDeleteEventSourceMapping = "DeleteEventSourceMapping"
 //    if err == nil { // resp is now filled
 //        fmt.Println(resp)
 //    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteEventSourceMapping
 func (c *Lambda) DeleteEventSourceMappingRequest(input *DeleteEventSourceMappingInput) (req *request.Request, output *EventSourceMappingConfiguration) {
 	op := &request.Operation{
 		Name:       opDeleteEventSourceMapping,
@@ -606,6 +617,7 @@ func (c *Lambda) DeleteEventSourceMappingRequest(input *DeleteEventSourceMapping
 //
 //   * ErrCodeTooManyRequestsException "TooManyRequestsException"
 //
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteEventSourceMapping
 func (c *Lambda) DeleteEventSourceMapping(input *DeleteEventSourceMappingInput) (*EventSourceMappingConfiguration, error) {
 	req, out := c.DeleteEventSourceMappingRequest(input)
 	return out, req.Send()
@@ -631,19 +643,18 @@ const opDeleteFunction = "DeleteFunction"
 
 // DeleteFunctionRequest generates a "aws/request.Request" representing the
 // client's request for the DeleteFunction operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DeleteFunction for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DeleteFunction method directly
-// instead.
+// See DeleteFunction for more information on using the DeleteFunction
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DeleteFunctionRequest method.
 //    req, resp := client.DeleteFunctionRequest(params)
@@ -652,6 +663,8 @@ const opDeleteFunction = "DeleteFunction"
 //    if err == nil { // resp is now filled
 //        fmt.Println(resp)
 //    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteFunction
 func (c *Lambda) DeleteFunctionRequest(input *DeleteFunctionInput) (req *request.Request, output *DeleteFunctionOutput) {
 	op := &request.Operation{
 		Name:       opDeleteFunction,
@@ -713,6 +726,7 @@ func (c *Lambda) DeleteFunctionRequest(input *DeleteFunctionInput) (req *request
 //   * ErrCodeResourceConflictException "ResourceConflictException"
 //   The resource already exists.
 //
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteFunction
 func (c *Lambda) DeleteFunction(input *DeleteFunctionInput) (*DeleteFunctionOutput, error) {
 	req, out := c.DeleteFunctionRequest(input)
 	return out, req.Send()
@@ -738,19 +752,18 @@ const opGetAccountSettings = "GetAccountSettings"
 
 // GetAccountSettingsRequest generates a "aws/request.Request" representing the
 // client's request for the GetAccountSettings operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetAccountSettings for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetAccountSettings method directly
-// instead.
+// See GetAccountSettings for more information on using the GetAccountSettings
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetAccountSettingsRequest method.
 //    req, resp := client.GetAccountSettingsRequest(params)
@@ -759,6 +772,8 @@ const opGetAccountSettings = "GetAccountSettings"
 //    if err == nil { // resp is now filled
 //        fmt.Println(resp)
 //    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetAccountSettings
 func (c *Lambda) GetAccountSettingsRequest(input *GetAccountSettingsInput) (req *request.Request, output *GetAccountSettingsOutput) {
 	op := &request.Operation{
 		Name:       opGetAccountSettings,
@@ -798,6 +813,7 @@ func (c *Lambda) GetAccountSettingsRequest(input *GetAccountSettingsInput) (req 
 //   * ErrCodeServiceException "ServiceException"
 //   The AWS Lambda service encountered an internal error.
 //
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetAccountSettings
 func (c *Lambda) GetAccountSettings(input *GetAccountSettingsInput) (*GetAccountSettingsOutput, error) {
 	req, out := c.GetAccountSettingsRequest(input)
 	return out, req.Send()
@@ -823,19 +839,18 @@ const opGetAlias = "GetAlias"
 
 // GetAliasRequest generates a "aws/request.Request" representing the
 // client's request for the GetAlias operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetAlias for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetAlias method directly
-// instead.
+// See GetAlias for more information on using the GetAlias
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetAliasRequest method.
 //    req, resp := client.GetAliasRequest(params)
@@ -844,6 +859,8 @@ const opGetAlias = "GetAlias"
 //    if err == nil { // resp is now filled
 //        fmt.Println(resp)
 //    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetAlias
 func (c *Lambda) GetAliasRequest(input *GetAliasInput) (req *request.Request, output *AliasConfiguration) {
 	op := &request.Operation{
 		Name:       opGetAlias,
@@ -892,6 +909,7 @@ func (c *Lambda) GetAliasRequest(input *GetAliasInput) (req *request.Request, ou
 //
 //   * ErrCodeTooManyRequestsException "TooManyRequestsException"
 //
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetAlias
 func (c *Lambda) GetAlias(input *GetAliasInput) (*AliasConfiguration, error) {
 	req, out := c.GetAliasRequest(input)
 	return out, req.Send()
@@ -917,19 +935,18 @@ const opGetEventSourceMapping = "GetEventSourceMapping"
 
 // GetEventSourceMappingRequest generates a "aws/request.Request" representing the
 // client's request for the GetEventSourceMapping operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetEventSourceMapping for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetEventSourceMapping method directly
-// instead.
+// See GetEventSourceMapping for more information on using the GetEventSourceMapping
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetEventSourceMappingRequest method.
 //    req, resp := client.GetEventSourceMappingRequest(params)
@@ -938,6 +955,8 @@ const opGetEventSourceMapping = "GetEventSourceMapping"
 //    if err == nil { // resp is now filled
 //        fmt.Println(resp)
 //    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetEventSourceMapping
 func (c *Lambda) GetEventSourceMappingRequest(input *GetEventSourceMappingInput) (req *request.Request, output *EventSourceMappingConfiguration) {
 	op := &request.Operation{
 		Name:       opGetEventSourceMapping,
@@ -985,6 +1004,7 @@ func (c *Lambda) GetEventSourceMappingRequest(input *GetEventSourceMappingInput)
 //
 //   * ErrCodeTooManyRequestsException "TooManyRequestsException"
 //
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetEventSourceMapping
 func (c *Lambda) GetEventSourceMapping(input *GetEventSourceMappingInput) (*EventSourceMappingConfiguration, error) {
 	req, out := c.GetEventSourceMappingRequest(input)
 	return out, req.Send()
@@ -1010,19 +1030,18 @@ const opGetFunction = "GetFunction"
 
 // GetFunctionRequest generates a "aws/request.Request" representing the
 // client's request for the GetFunction operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetFunction for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetFunction method directly
-// instead.
+// See GetFunction for more information on using the GetFunction
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetFunctionRequest method.
 //    req, resp := client.GetFunctionRequest(params)
@@ -1031,6 +1050,8 @@ const opGetFunction = "GetFunction"
 //    if err == nil { // resp is now filled
 //        fmt.Println(resp)
 //    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetFunction
 func (c *Lambda) GetFunctionRequest(input *GetFunctionInput) (req *request.Request, output *GetFunctionOutput) {
 	op := &request.Operation{
 		Name:       opGetFunction,
@@ -1087,6 +1108,7 @@ func (c *Lambda) GetFunctionRequest(input *GetFunctionInput) (req *request.Reque
 //   will also get this exception if you have selected a deprecated runtime, such
 //   as Node v0.10.42.
 //
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetFunction
 func (c *Lambda) GetFunction(input *GetFunctionInput) (*GetFunctionOutput, error) {
 	req, out := c.GetFunctionRequest(input)
 	return out, req.Send()
@@ -1112,19 +1134,18 @@ const opGetFunctionConfiguration = "GetFunctionConfiguration"
 
 // GetFunctionConfigurationRequest generates a "aws/request.Request" representing the
 // client's request for the GetFunctionConfiguration operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetFunctionConfiguration for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetFunctionConfiguration method directly
-// instead.
+// See GetFunctionConfiguration for more information on using the GetFunctionConfiguration
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetFunctionConfigurationRequest method.
 //    req, resp := client.GetFunctionConfigurationRequest(params)
@@ -1133,6 +1154,8 @@ const opGetFunctionConfiguration = "GetFunctionConfiguration"
 //    if err == nil { // resp is now filled
 //        fmt.Println(resp)
 //    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetFunctionConfiguration
 func (c *Lambda) GetFunctionConfigurationRequest(input *GetFunctionConfigurationInput) (req *request.Request, output *FunctionConfiguration) {
 	op := &request.Operation{
 		Name:       opGetFunctionConfiguration,
@@ -1189,6 +1212,7 @@ func (c *Lambda) GetFunctionConfigurationRequest(input *GetFunctionConfiguration
 //   will also get this exception if you have selected a deprecated runtime, such
 //   as Node v0.10.42.
 //
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetFunctionConfiguration
 func (c *Lambda) GetFunctionConfiguration(input *GetFunctionConfigurationInput) (*FunctionConfiguration, error) {
 	req, out := c.GetFunctionConfigurationRequest(input)
 	return out, req.Send()
@@ -1214,19 +1238,18 @@ const opGetPolicy = "GetPolicy"
 
 // GetPolicyRequest generates a "aws/request.Request" representing the
 // client's request for the GetPolicy operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetPolicy for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetPolicy method directly
-// instead.
+// See GetPolicy for more information on using the GetPolicy
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetPolicyRequest method.
 //    req, resp := client.GetPolicyRequest(params)
@@ -1235,6 +1258,8 @@ const opGetPolicy = "GetPolicy"
 //    if err == nil { // resp is now filled
 //        fmt.Println(resp)
 //    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetPolicy
 func (c *Lambda) GetPolicyRequest(input *GetPolicyInput) (req *request.Request, output *GetPolicyOutput) {
 	op := &request.Operation{
 		Name:       opGetPolicy,
@@ -1286,6 +1311,7 @@ func (c *Lambda) GetPolicyRequest(input *GetPolicyInput) (req *request.Request, 
 //   will also get this exception if you have selected a deprecated runtime, such
 //   as Node v0.10.42.
 //
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetPolicy
 func (c *Lambda) GetPolicy(input *GetPolicyInput) (*GetPolicyOutput, error) {
 	req, out := c.GetPolicyRequest(input)
 	return out, req.Send()
@@ -1311,19 +1337,18 @@ const opInvoke = "Invoke"
 
 // InvokeRequest generates a "aws/request.Request" representing the
 // client's request for the Invoke operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See Invoke for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the Invoke method directly
-// instead.
+// See Invoke for more information on using the Invoke
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the InvokeRequest method.
 //    req, resp := client.InvokeRequest(params)
@@ -1332,6 +1357,8 @@ const opInvoke = "Invoke"
 //    if err == nil { // resp is now filled
 //        fmt.Println(resp)
 //    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/Invoke
 func (c *Lambda) InvokeRequest(input *InvokeInput) (req *request.Request, output *InvokeOutput) {
 	op := &request.Operation{
 		Name:       opInvoke,
@@ -1445,6 +1472,7 @@ func (c *Lambda) InvokeRequest(input *InvokeInput) (req *request.Request, output
 //   * ErrCodeInvalidRuntimeException "InvalidRuntimeException"
 //   The runtime or runtime version specified is not supported.
 //
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/Invoke
 func (c *Lambda) Invoke(input *InvokeInput) (*InvokeOutput, error) {
 	req, out := c.InvokeRequest(input)
 	return out, req.Send()
@@ -1470,19 +1498,18 @@ const opInvokeAsync = "InvokeAsync"
 
 // InvokeAsyncRequest generates a "aws/request.Request" representing the
 // client's request for the InvokeAsync operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See InvokeAsync for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the InvokeAsync method directly
-// instead.
+// See InvokeAsync for more information on using the InvokeAsync
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the InvokeAsyncRequest method.
 //    req, resp := client.InvokeAsyncRequest(params)
@@ -1491,6 +1518,8 @@ const opInvokeAsync = "InvokeAsync"
 //    if err == nil { // resp is now filled
 //        fmt.Println(resp)
 //    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/InvokeAsync
 func (c *Lambda) InvokeAsyncRequest(input *InvokeAsyncInput) (req *request.Request, output *InvokeAsyncOutput) {
 	if c.Client.Config.Logger != nil {
 		c.Client.Config.Logger.Log("This operation, InvokeAsync, has been deprecated")
@@ -1541,6 +1570,7 @@ func (c *Lambda) InvokeAsyncRequest(input *InvokeAsyncInput) (req *request.Reque
 //   * ErrCodeInvalidRuntimeException "InvalidRuntimeException"
 //   The runtime or runtime version specified is not supported.
 //
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/InvokeAsync
 func (c *Lambda) InvokeAsync(input *InvokeAsyncInput) (*InvokeAsyncOutput, error) {
 	req, out := c.InvokeAsyncRequest(input)
 	return out, req.Send()
@@ -1566,19 +1596,18 @@ const opListAliases = "ListAliases"
 
 // ListAliasesRequest generates a "aws/request.Request" representing the
 // client's request for the ListAliases operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See ListAliases for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the ListAliases method directly
-// instead.
+// See ListAliases for more information on using the ListAliases
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the ListAliasesRequest method.
 //    req, resp := client.ListAliasesRequest(params)
@@ -1587,6 +1616,8 @@ const opListAliases = "ListAliases"
 //    if err == nil { // resp is now filled
 //        fmt.Println(resp)
 //    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListAliases
 func (c *Lambda) ListAliasesRequest(input *ListAliasesInput) (req *request.Request, output *ListAliasesOutput) {
 	op := &request.Operation{
 		Name:       opListAliases,
@@ -1636,6 +1667,7 @@ func (c *Lambda) ListAliasesRequest(input *ListAliasesInput) (req *request.Reque
 //
 //   * ErrCodeTooManyRequestsException "TooManyRequestsException"
 //
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListAliases
 func (c *Lambda) ListAliases(input *ListAliasesInput) (*ListAliasesOutput, error) {
 	req, out := c.ListAliasesRequest(input)
 	return out, req.Send()
@@ -1661,19 +1693,18 @@ const opListEventSourceMappings = "ListEventSourceMappings"
 
 // ListEventSourceMappingsRequest generates a "aws/request.Request" representing the
 // client's request for the ListEventSourceMappings operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See ListEventSourceMappings for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the ListEventSourceMappings method directly
-// instead.
+// See ListEventSourceMappings for more information on using the ListEventSourceMappings
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the ListEventSourceMappingsRequest method.
 //    req, resp := client.ListEventSourceMappingsRequest(params)
@@ -1682,6 +1713,8 @@ const opListEventSourceMappings = "ListEventSourceMappings"
 //    if err == nil { // resp is now filled
 //        fmt.Println(resp)
 //    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListEventSourceMappings
 func (c *Lambda) ListEventSourceMappingsRequest(input *ListEventSourceMappingsInput) (req *request.Request, output *ListEventSourceMappingsOutput) {
 	op := &request.Operation{
 		Name:       opListEventSourceMappings,
@@ -1744,6 +1777,7 @@ func (c *Lambda) ListEventSourceMappingsRequest(input *ListEventSourceMappingsIn
 //
 //   * ErrCodeTooManyRequestsException "TooManyRequestsException"
 //
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListEventSourceMappings
 func (c *Lambda) ListEventSourceMappings(input *ListEventSourceMappingsInput) (*ListEventSourceMappingsOutput, error) {
 	req, out := c.ListEventSourceMappingsRequest(input)
 	return out, req.Send()
@@ -1819,19 +1853,18 @@ const opListFunctions = "ListFunctions"
 
 // ListFunctionsRequest generates a "aws/request.Request" representing the
 // client's request for the ListFunctions operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See ListFunctions for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the ListFunctions method directly
-// instead.
+// See ListFunctions for more information on using the ListFunctions
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the ListFunctionsRequest method.
 //    req, resp := client.ListFunctionsRequest(params)
@@ -1840,6 +1873,8 @@ const opListFunctions = "ListFunctions"
 //    if err == nil { // resp is now filled
 //        fmt.Println(resp)
 //    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListFunctions
 func (c *Lambda) ListFunctionsRequest(input *ListFunctionsInput) (req *request.Request, output *ListFunctionsOutput) {
 	op := &request.Operation{
 		Name:       opListFunctions,
@@ -1894,6 +1929,7 @@ func (c *Lambda) ListFunctionsRequest(input *ListFunctionsInput) (req *request.R
 //   will also get this exception if you have selected a deprecated runtime, such
 //   as Node v0.10.42.
 //
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListFunctions
 func (c *Lambda) ListFunctions(input *ListFunctionsInput) (*ListFunctionsOutput, error) {
 	req, out := c.ListFunctionsRequest(input)
 	return out, req.Send()
@@ -1969,19 +2005,18 @@ const opListTags = "ListTags"
 
 // ListTagsRequest generates a "aws/request.Request" representing the
 // client's request for the ListTags operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See ListTags for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the ListTags method directly
-// instead.
+// See ListTags for more information on using the ListTags
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the ListTagsRequest method.
 //    req, resp := client.ListTagsRequest(params)
@@ -1990,6 +2025,8 @@ const opListTags = "ListTags"
 //    if err == nil { // resp is now filled
 //        fmt.Println(resp)
 //    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListTags
 func (c *Lambda) ListTagsRequest(input *ListTagsInput) (req *request.Request, output *ListTagsOutput) {
 	op := &request.Operation{
 		Name:       opListTags,
@@ -2035,6 +2072,7 @@ func (c *Lambda) ListTagsRequest(input *ListTagsInput) (req *request.Request, ou
 //
 //   * ErrCodeTooManyRequestsException "TooManyRequestsException"
 //
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListTags
 func (c *Lambda) ListTags(input *ListTagsInput) (*ListTagsOutput, error) {
 	req, out := c.ListTagsRequest(input)
 	return out, req.Send()
@@ -2060,19 +2098,18 @@ const opListVersionsByFunction = "ListVersionsByFunction"
 
 // ListVersionsByFunctionRequest generates a "aws/request.Request" representing the
 // client's request for the ListVersionsByFunction operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See ListVersionsByFunction for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the ListVersionsByFunction method directly
-// instead.
+// See ListVersionsByFunction for more information on using the ListVersionsByFunction
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the ListVersionsByFunctionRequest method.
 //    req, resp := client.ListVersionsByFunctionRequest(params)
@@ -2081,6 +2118,8 @@ const opListVersionsByFunction = "ListVersionsByFunction"
 //    if err == nil { // resp is now filled
 //        fmt.Println(resp)
 //    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListVersionsByFunction
 func (c *Lambda) ListVersionsByFunctionRequest(input *ListVersionsByFunctionInput) (req *request.Request, output *ListVersionsByFunctionOutput) {
 	op := &request.Operation{
 		Name:       opListVersionsByFunction,
@@ -2126,6 +2165,7 @@ func (c *Lambda) ListVersionsByFunctionRequest(input *ListVersionsByFunctionInpu
 //
 //   * ErrCodeTooManyRequestsException "TooManyRequestsException"
 //
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListVersionsByFunction
 func (c *Lambda) ListVersionsByFunction(input *ListVersionsByFunctionInput) (*ListVersionsByFunctionOutput, error) {
 	req, out := c.ListVersionsByFunctionRequest(input)
 	return out, req.Send()
@@ -2151,19 +2191,18 @@ const opPublishVersion = "PublishVersion"
 
 // PublishVersionRequest generates a "aws/request.Request" representing the
 // client's request for the PublishVersion operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See PublishVersion for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the PublishVersion method directly
-// instead.
+// See PublishVersion for more information on using the PublishVersion
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the PublishVersionRequest method.
 //    req, resp := client.PublishVersionRequest(params)
@@ -2172,6 +2211,8 @@ const opPublishVersion = "PublishVersion"
 //    if err == nil { // resp is now filled
 //        fmt.Println(resp)
 //    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/PublishVersion
 func (c *Lambda) PublishVersionRequest(input *PublishVersionInput) (req *request.Request, output *FunctionConfiguration) {
 	op := &request.Operation{
 		Name:       opPublishVersion,
@@ -2223,6 +2264,7 @@ func (c *Lambda) PublishVersionRequest(input *PublishVersionInput) (req *request
 //   * ErrCodeCodeStorageExceededException "CodeStorageExceededException"
 //   You have exceeded your maximum total code size per account. Limits (http://docs.aws.amazon.com/lambda/latest/dg/limits.html)
 //
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/PublishVersion
 func (c *Lambda) PublishVersion(input *PublishVersionInput) (*FunctionConfiguration, error) {
 	req, out := c.PublishVersionRequest(input)
 	return out, req.Send()
@@ -2248,19 +2290,18 @@ const opRemovePermission = "RemovePermission"
 
 // RemovePermissionRequest generates a "aws/request.Request" representing the
 // client's request for the RemovePermission operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See RemovePermission for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the RemovePermission method directly
-// instead.
+// See RemovePermission for more information on using the RemovePermission
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the RemovePermissionRequest method.
 //    req, resp := client.RemovePermissionRequest(params)
@@ -2269,6 +2310,8 @@ const opRemovePermission = "RemovePermission"
 //    if err == nil { // resp is now filled
 //        fmt.Println(resp)
 //    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/RemovePermission
 func (c *Lambda) RemovePermissionRequest(input *RemovePermissionInput) (req *request.Request, output *RemovePermissionOutput) {
 	op := &request.Operation{
 		Name:       opRemovePermission,
@@ -2327,6 +2370,7 @@ func (c *Lambda) RemovePermissionRequest(input *RemovePermissionInput) (req *req
 //
 //   * ErrCodeTooManyRequestsException "TooManyRequestsException"
 //
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/RemovePermission
 func (c *Lambda) RemovePermission(input *RemovePermissionInput) (*RemovePermissionOutput, error) {
 	req, out := c.RemovePermissionRequest(input)
 	return out, req.Send()
@@ -2352,19 +2396,18 @@ const opTagResource = "TagResource"
 
 // TagResourceRequest generates a "aws/request.Request" representing the
 // client's request for the TagResource operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See TagResource for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the TagResource method directly
-// instead.
+// See TagResource for more information on using the TagResource
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the TagResourceRequest method.
 //    req, resp := client.TagResourceRequest(params)
@@ -2373,6 +2416,8 @@ const opTagResource = "TagResource"
 //    if err == nil { // resp is now filled
 //        fmt.Println(resp)
 //    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/TagResource
 func (c *Lambda) TagResourceRequest(input *TagResourceInput) (req *request.Request, output *TagResourceOutput) {
 	op := &request.Operation{
 		Name:       opTagResource,
@@ -2421,6 +2466,7 @@ func (c *Lambda) TagResourceRequest(input *TagResourceInput) (req *request.Reque
 //
 //   * ErrCodeTooManyRequestsException "TooManyRequestsException"
 //
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/TagResource
 func (c *Lambda) TagResource(input *TagResourceInput) (*TagResourceOutput, error) {
 	req, out := c.TagResourceRequest(input)
 	return out, req.Send()
@@ -2446,19 +2492,18 @@ const opUntagResource = "UntagResource"
 
 // UntagResourceRequest generates a "aws/request.Request" representing the
 // client's request for the UntagResource operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See UntagResource for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the UntagResource method directly
-// instead.
+// See UntagResource for more information on using the UntagResource
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the UntagResourceRequest method.
 //    req, resp := client.UntagResourceRequest(params)
@@ -2467,6 +2512,8 @@ const opUntagResource = "UntagResource"
 //    if err == nil { // resp is now filled
 //        fmt.Println(resp)
 //    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UntagResource
 func (c *Lambda) UntagResourceRequest(input *UntagResourceInput) (req *request.Request, output *UntagResourceOutput) {
 	op := &request.Operation{
 		Name:       opUntagResource,
@@ -2514,6 +2561,7 @@ func (c *Lambda) UntagResourceRequest(input *UntagResourceInput) (req *request.R
 //
 //   * ErrCodeTooManyRequestsException "TooManyRequestsException"
 //
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UntagResource
 func (c *Lambda) UntagResource(input *UntagResourceInput) (*UntagResourceOutput, error) {
 	req, out := c.UntagResourceRequest(input)
 	return out, req.Send()
@@ -2539,19 +2587,18 @@ const opUpdateAlias = "UpdateAlias"
 
 // UpdateAliasRequest generates a "aws/request.Request" representing the
 // client's request for the UpdateAlias operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See UpdateAlias for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the UpdateAlias method directly
-// instead.
+// See UpdateAlias for more information on using the UpdateAlias
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the UpdateAliasRequest method.
 //    req, resp := client.UpdateAliasRequest(params)
@@ -2560,6 +2607,8 @@ const opUpdateAlias = "UpdateAlias"
 //    if err == nil { // resp is now filled
 //        fmt.Println(resp)
 //    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateAlias
 func (c *Lambda) UpdateAliasRequest(input *UpdateAliasInput) (req *request.Request, output *AliasConfiguration) {
 	op := &request.Operation{
 		Name:       opUpdateAlias,
@@ -2608,6 +2657,7 @@ func (c *Lambda) UpdateAliasRequest(input *UpdateAliasInput) (req *request.Reque
 //
 //   * ErrCodeTooManyRequestsException "TooManyRequestsException"
 //
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateAlias
 func (c *Lambda) UpdateAlias(input *UpdateAliasInput) (*AliasConfiguration, error) {
 	req, out := c.UpdateAliasRequest(input)
 	return out, req.Send()
@@ -2633,19 +2683,18 @@ const opUpdateEventSourceMapping = "UpdateEventSourceMapping"
 
 // UpdateEventSourceMappingRequest generates a "aws/request.Request" representing the
 // client's request for the UpdateEventSourceMapping operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See UpdateEventSourceMapping for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the UpdateEventSourceMapping method directly
-// instead.
+// See UpdateEventSourceMapping for more information on using the UpdateEventSourceMapping
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the UpdateEventSourceMappingRequest method.
 //    req, resp := client.UpdateEventSourceMappingRequest(params)
@@ -2654,6 +2703,8 @@ const opUpdateEventSourceMapping = "UpdateEventSourceMapping"
 //    if err == nil { // resp is now filled
 //        fmt.Println(resp)
 //    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateEventSourceMapping
 func (c *Lambda) UpdateEventSourceMappingRequest(input *UpdateEventSourceMappingInput) (req *request.Request, output *EventSourceMappingConfiguration) {
 	op := &request.Operation{
 		Name:       opUpdateEventSourceMapping,
@@ -2717,6 +2768,7 @@ func (c *Lambda) UpdateEventSourceMappingRequest(input *UpdateEventSourceMapping
 //   * ErrCodeResourceConflictException "ResourceConflictException"
 //   The resource already exists.
 //
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateEventSourceMapping
 func (c *Lambda) UpdateEventSourceMapping(input *UpdateEventSourceMappingInput) (*EventSourceMappingConfiguration, error) {
 	req, out := c.UpdateEventSourceMappingRequest(input)
 	return out, req.Send()
@@ -2742,19 +2794,18 @@ const opUpdateFunctionCode = "UpdateFunctionCode"
 
 // UpdateFunctionCodeRequest generates a "aws/request.Request" representing the
 // client's request for the UpdateFunctionCode operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See UpdateFunctionCode for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the UpdateFunctionCode method directly
-// instead.
+// See UpdateFunctionCode for more information on using the UpdateFunctionCode
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the UpdateFunctionCodeRequest method.
 //    req, resp := client.UpdateFunctionCodeRequest(params)
@@ -2763,6 +2814,8 @@ const opUpdateFunctionCode = "UpdateFunctionCode"
 //    if err == nil { // resp is now filled
 //        fmt.Println(resp)
 //    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateFunctionCode
 func (c *Lambda) UpdateFunctionCodeRequest(input *UpdateFunctionCodeInput) (req *request.Request, output *FunctionConfiguration) {
 	op := &request.Operation{
 		Name:       opUpdateFunctionCode,
@@ -2818,6 +2871,7 @@ func (c *Lambda) UpdateFunctionCodeRequest(input *UpdateFunctionCodeInput) (req 
 //   * ErrCodeCodeStorageExceededException "CodeStorageExceededException"
 //   You have exceeded your maximum total code size per account. Limits (http://docs.aws.amazon.com/lambda/latest/dg/limits.html)
 //
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateFunctionCode
 func (c *Lambda) UpdateFunctionCode(input *UpdateFunctionCodeInput) (*FunctionConfiguration, error) {
 	req, out := c.UpdateFunctionCodeRequest(input)
 	return out, req.Send()
@@ -2843,19 +2897,18 @@ const opUpdateFunctionConfiguration = "UpdateFunctionConfiguration"
 
 // UpdateFunctionConfigurationRequest generates a "aws/request.Request" representing the
 // client's request for the UpdateFunctionConfiguration operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See UpdateFunctionConfiguration for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the UpdateFunctionConfiguration method directly
-// instead.
+// See UpdateFunctionConfiguration for more information on using the UpdateFunctionConfiguration
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the UpdateFunctionConfigurationRequest method.
 //    req, resp := client.UpdateFunctionConfigurationRequest(params)
@@ -2864,6 +2917,8 @@ const opUpdateFunctionConfiguration = "UpdateFunctionConfiguration"
 //    if err == nil { // resp is now filled
 //        fmt.Println(resp)
 //    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateFunctionConfiguration
 func (c *Lambda) UpdateFunctionConfigurationRequest(input *UpdateFunctionConfigurationInput) (req *request.Request, output *FunctionConfiguration) {
 	op := &request.Operation{
 		Name:       opUpdateFunctionConfiguration,
@@ -2921,6 +2976,7 @@ func (c *Lambda) UpdateFunctionConfigurationRequest(input *UpdateFunctionConfigu
 //   * ErrCodeResourceConflictException "ResourceConflictException"
 //   The resource already exists.
 //
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateFunctionConfiguration
 func (c *Lambda) UpdateFunctionConfiguration(input *UpdateFunctionConfigurationInput) (*FunctionConfiguration, error) {
 	req, out := c.UpdateFunctionConfigurationRequest(input)
 	return out, req.Send()
@@ -2944,6 +3000,7 @@ func (c *Lambda) UpdateFunctionConfigurationWithContext(ctx aws.Context, input *
 
 // Provides limits of code size and concurrency associated with the current
 // account and region.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/AccountLimit
 type AccountLimit struct {
 	_ struct{} `type:"structure"`
 
@@ -3001,8 +3058,35 @@ func (s *AccountLimit) SetTotalCodeSize(v int64) *AccountLimit {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *AccountLimit) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CodeSizeUnzipped != nil {
+		v := *s.CodeSizeUnzipped
+
+		e.SetValue(protocol.BodyTarget, "CodeSizeUnzipped", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.CodeSizeZipped != nil {
+		v := *s.CodeSizeZipped
+
+		e.SetValue(protocol.BodyTarget, "CodeSizeZipped", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.ConcurrentExecutions != nil {
+		v := *s.ConcurrentExecutions
+
+		e.SetValue(protocol.BodyTarget, "ConcurrentExecutions", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.TotalCodeSize != nil {
+		v := *s.TotalCodeSize
+
+		e.SetValue(protocol.BodyTarget, "TotalCodeSize", protocol.Int64Value(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Provides code size usage and function count associated with the current account
 // and region.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/AccountUsage
 type AccountUsage struct {
 	_ struct{} `type:"structure"`
 
@@ -3035,6 +3119,23 @@ func (s *AccountUsage) SetTotalCodeSize(v int64) *AccountUsage {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *AccountUsage) MarshalFields(e protocol.FieldEncoder) error {
+	if s.FunctionCount != nil {
+		v := *s.FunctionCount
+
+		e.SetValue(protocol.BodyTarget, "FunctionCount", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.TotalCodeSize != nil {
+		v := *s.TotalCodeSize
+
+		e.SetValue(protocol.BodyTarget, "TotalCodeSize", protocol.Int64Value(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/AddPermissionRequest
 type AddPermissionInput struct {
 	_ struct{} `type:"structure"`
 
@@ -3205,6 +3306,53 @@ func (s *AddPermissionInput) SetStatementId(v string) *AddPermissionInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *AddPermissionInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Action != nil {
+		v := *s.Action
+
+		e.SetValue(protocol.BodyTarget, "Action", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.EventSourceToken != nil {
+		v := *s.EventSourceToken
+
+		e.SetValue(protocol.BodyTarget, "EventSourceToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Principal != nil {
+		v := *s.Principal
+
+		e.SetValue(protocol.BodyTarget, "Principal", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Qualifier != nil {
+		v := *s.Qualifier
+
+		e.SetValue(protocol.QueryTarget, "Qualifier", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.SourceAccount != nil {
+		v := *s.SourceAccount
+
+		e.SetValue(protocol.BodyTarget, "SourceAccount", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.SourceArn != nil {
+		v := *s.SourceArn
+
+		e.SetValue(protocol.BodyTarget, "SourceArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.StatementId != nil {
+		v := *s.StatementId
+
+		e.SetValue(protocol.BodyTarget, "StatementId", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/AddPermissionResponse
 type AddPermissionOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -3230,7 +3378,19 @@ func (s *AddPermissionOutput) SetStatement(v string) *AddPermissionOutput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *AddPermissionOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Statement != nil {
+		v := *s.Statement
+
+		e.SetValue(protocol.BodyTarget, "Statement", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Provides configuration information about a Lambda function version alias.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/AliasConfiguration
 type AliasConfiguration struct {
 	_ struct{} `type:"structure"`
 
@@ -3283,6 +3443,41 @@ func (s *AliasConfiguration) SetName(v string) *AliasConfiguration {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *AliasConfiguration) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AliasArn != nil {
+		v := *s.AliasArn
+
+		e.SetValue(protocol.BodyTarget, "AliasArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		e.SetValue(protocol.BodyTarget, "Description", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.FunctionVersion != nil {
+		v := *s.FunctionVersion
+
+		e.SetValue(protocol.BodyTarget, "FunctionVersion", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "Name", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeAliasConfigurationList(vs []*AliasConfiguration) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/CreateAliasRequest
 type CreateAliasInput struct {
 	_ struct{} `type:"structure"`
 
@@ -3369,6 +3564,33 @@ func (s *CreateAliasInput) SetName(v string) *CreateAliasInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CreateAliasInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Description != nil {
+		v := *s.Description
+
+		e.SetValue(protocol.BodyTarget, "Description", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.FunctionVersion != nil {
+		v := *s.FunctionVersion
+
+		e.SetValue(protocol.BodyTarget, "FunctionVersion", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "Name", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/CreateEventSourceMappingRequest
 type CreateEventSourceMappingInput struct {
 	_ struct{} `type:"structure"`
 
@@ -3496,6 +3718,43 @@ func (s *CreateEventSourceMappingInput) SetStartingPositionTimestamp(v time.Time
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CreateEventSourceMappingInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BatchSize != nil {
+		v := *s.BatchSize
+
+		e.SetValue(protocol.BodyTarget, "BatchSize", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.Enabled != nil {
+		v := *s.Enabled
+
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.EventSourceArn != nil {
+		v := *s.EventSourceArn
+
+		e.SetValue(protocol.BodyTarget, "EventSourceArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		e.SetValue(protocol.BodyTarget, "FunctionName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.StartingPosition != nil {
+		v := *s.StartingPosition
+
+		e.SetValue(protocol.BodyTarget, "StartingPosition", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.StartingPositionTimestamp != nil {
+		v := *s.StartingPositionTimestamp
+
+		e.SetValue(protocol.BodyTarget, "StartingPositionTimestamp", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/CreateFunctionRequest
 type CreateFunctionInput struct {
 	_ struct{} `type:"structure"`
 
@@ -3731,8 +3990,90 @@ func (s *CreateFunctionInput) SetVpcConfig(v *VpcConfig) *CreateFunctionInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CreateFunctionInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Code != nil {
+		v := s.Code
+
+		e.SetFields(protocol.BodyTarget, "Code", v, protocol.Metadata{})
+	}
+	if s.DeadLetterConfig != nil {
+		v := s.DeadLetterConfig
+
+		e.SetFields(protocol.BodyTarget, "DeadLetterConfig", v, protocol.Metadata{})
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		e.SetValue(protocol.BodyTarget, "Description", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Environment != nil {
+		v := s.Environment
+
+		e.SetFields(protocol.BodyTarget, "Environment", v, protocol.Metadata{})
+	}
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		e.SetValue(protocol.BodyTarget, "FunctionName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Handler != nil {
+		v := *s.Handler
+
+		e.SetValue(protocol.BodyTarget, "Handler", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.KMSKeyArn != nil {
+		v := *s.KMSKeyArn
+
+		e.SetValue(protocol.BodyTarget, "KMSKeyArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.MemorySize != nil {
+		v := *s.MemorySize
+
+		e.SetValue(protocol.BodyTarget, "MemorySize", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.Publish != nil {
+		v := *s.Publish
+
+		e.SetValue(protocol.BodyTarget, "Publish", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.Role != nil {
+		v := *s.Role
+
+		e.SetValue(protocol.BodyTarget, "Role", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Runtime != nil {
+		v := *s.Runtime
+
+		e.SetValue(protocol.BodyTarget, "Runtime", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Tags) > 0 {
+		v := s.Tags
+
+		e.SetMap(protocol.BodyTarget, "Tags", protocol.EncodeStringMap(v), protocol.Metadata{})
+	}
+	if s.Timeout != nil {
+		v := *s.Timeout
+
+		e.SetValue(protocol.BodyTarget, "Timeout", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.TracingConfig != nil {
+		v := s.TracingConfig
+
+		e.SetFields(protocol.BodyTarget, "TracingConfig", v, protocol.Metadata{})
+	}
+	if s.VpcConfig != nil {
+		v := s.VpcConfig
+
+		e.SetFields(protocol.BodyTarget, "VpcConfig", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // The parent object that contains the target ARN (Amazon Resource Name) of
 // an Amazon SQS queue or Amazon SNS topic.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeadLetterConfig
 type DeadLetterConfig struct {
 	_ struct{} `type:"structure"`
 
@@ -3757,6 +4098,18 @@ func (s *DeadLetterConfig) SetTargetArn(v string) *DeadLetterConfig {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeadLetterConfig) MarshalFields(e protocol.FieldEncoder) error {
+	if s.TargetArn != nil {
+		v := *s.TargetArn
+
+		e.SetValue(protocol.BodyTarget, "TargetArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteAliasRequest
 type DeleteAliasInput struct {
 	_ struct{} `type:"structure"`
 
@@ -3818,6 +4171,23 @@ func (s *DeleteAliasInput) SetName(v string) *DeleteAliasInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteAliasInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.PathTarget, "Name", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteAliasOutput
 type DeleteAliasOutput struct {
 	_ struct{} `type:"structure"`
 }
@@ -3832,6 +4202,13 @@ func (s DeleteAliasOutput) GoString() string {
 	return s.String()
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteAliasOutput) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteEventSourceMappingRequest
 type DeleteEventSourceMappingInput struct {
 	_ struct{} `type:"structure"`
 
@@ -3870,6 +4247,18 @@ func (s *DeleteEventSourceMappingInput) SetUUID(v string) *DeleteEventSourceMapp
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteEventSourceMappingInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.UUID != nil {
+		v := *s.UUID
+
+		e.SetValue(protocol.PathTarget, "UUID", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteFunctionRequest
 type DeleteFunctionInput struct {
 	_ struct{} `type:"structure"`
 
@@ -3944,6 +4333,23 @@ func (s *DeleteFunctionInput) SetQualifier(v string) *DeleteFunctionInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteFunctionInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Qualifier != nil {
+		v := *s.Qualifier
+
+		e.SetValue(protocol.QueryTarget, "Qualifier", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteFunctionOutput
 type DeleteFunctionOutput struct {
 	_ struct{} `type:"structure"`
 }
@@ -3958,7 +4364,14 @@ func (s DeleteFunctionOutput) GoString() string {
 	return s.String()
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteFunctionOutput) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
+}
+
 // The parent object that contains your environment's configuration settings.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/Environment
 type Environment struct {
 	_ struct{} `type:"structure"`
 
@@ -3982,8 +4395,20 @@ func (s *Environment) SetVariables(v map[string]*string) *Environment {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *Environment) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Variables) > 0 {
+		v := s.Variables
+
+		e.SetMap(protocol.BodyTarget, "Variables", protocol.EncodeStringMap(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // The parent object that contains error information associated with your configuration
 // settings.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/EnvironmentError
 type EnvironmentError struct {
 	_ struct{} `type:"structure"`
 
@@ -4016,8 +4441,25 @@ func (s *EnvironmentError) SetMessage(v string) *EnvironmentError {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *EnvironmentError) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ErrorCode != nil {
+		v := *s.ErrorCode
+
+		e.SetValue(protocol.BodyTarget, "ErrorCode", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Message != nil {
+		v := *s.Message
+
+		e.SetValue(protocol.BodyTarget, "Message", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // The parent object returned that contains your environment's configuration
 // settings or any error information associated with your configuration settings.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/EnvironmentResponse
 type EnvironmentResponse struct {
 	_ struct{} `type:"structure"`
 
@@ -4052,7 +4494,24 @@ func (s *EnvironmentResponse) SetVariables(v map[string]*string) *EnvironmentRes
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *EnvironmentResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Error != nil {
+		v := s.Error
+
+		e.SetFields(protocol.BodyTarget, "Error", v, protocol.Metadata{})
+	}
+	if len(s.Variables) > 0 {
+		v := s.Variables
+
+		e.SetMap(protocol.BodyTarget, "Variables", protocol.EncodeStringMap(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Describes mapping between an Amazon Kinesis stream and a Lambda function.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/EventSourceMappingConfiguration
 type EventSourceMappingConfiguration struct {
 	_ struct{} `type:"structure"`
 
@@ -4144,7 +4603,62 @@ func (s *EventSourceMappingConfiguration) SetUUID(v string) *EventSourceMappingC
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *EventSourceMappingConfiguration) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BatchSize != nil {
+		v := *s.BatchSize
+
+		e.SetValue(protocol.BodyTarget, "BatchSize", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.EventSourceArn != nil {
+		v := *s.EventSourceArn
+
+		e.SetValue(protocol.BodyTarget, "EventSourceArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.FunctionArn != nil {
+		v := *s.FunctionArn
+
+		e.SetValue(protocol.BodyTarget, "FunctionArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.LastModified != nil {
+		v := *s.LastModified
+
+		e.SetValue(protocol.BodyTarget, "LastModified", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.LastProcessingResult != nil {
+		v := *s.LastProcessingResult
+
+		e.SetValue(protocol.BodyTarget, "LastProcessingResult", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.State != nil {
+		v := *s.State
+
+		e.SetValue(protocol.BodyTarget, "State", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.StateTransitionReason != nil {
+		v := *s.StateTransitionReason
+
+		e.SetValue(protocol.BodyTarget, "StateTransitionReason", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.UUID != nil {
+		v := *s.UUID
+
+		e.SetValue(protocol.BodyTarget, "UUID", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeEventSourceMappingConfigurationList(vs []*EventSourceMappingConfiguration) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
+}
+
 // The code for the Lambda function.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/FunctionCode
 type FunctionCode struct {
 	_ struct{} `type:"structure"`
 
@@ -4223,7 +4737,34 @@ func (s *FunctionCode) SetZipFile(v []byte) *FunctionCode {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *FunctionCode) MarshalFields(e protocol.FieldEncoder) error {
+	if s.S3Bucket != nil {
+		v := *s.S3Bucket
+
+		e.SetValue(protocol.BodyTarget, "S3Bucket", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.S3Key != nil {
+		v := *s.S3Key
+
+		e.SetValue(protocol.BodyTarget, "S3Key", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.S3ObjectVersion != nil {
+		v := *s.S3ObjectVersion
+
+		e.SetValue(protocol.BodyTarget, "S3ObjectVersion", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ZipFile != nil {
+		v := s.ZipFile
+
+		e.SetValue(protocol.BodyTarget, "ZipFile", protocol.BytesValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // The object for the Lambda function location.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/FunctionCodeLocation
 type FunctionCodeLocation struct {
 	_ struct{} `type:"structure"`
 
@@ -4257,7 +4798,24 @@ func (s *FunctionCodeLocation) SetRepositoryType(v string) *FunctionCodeLocation
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *FunctionCodeLocation) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Location != nil {
+		v := *s.Location
+
+		e.SetValue(protocol.BodyTarget, "Location", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.RepositoryType != nil {
+		v := *s.RepositoryType
+
+		e.SetValue(protocol.BodyTarget, "RepositoryType", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // A complex type that describes function metadata.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/FunctionConfiguration
 type FunctionConfiguration struct {
 	_ struct{} `type:"structure"`
 
@@ -4446,6 +5004,111 @@ func (s *FunctionConfiguration) SetVpcConfig(v *VpcConfigResponse) *FunctionConf
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *FunctionConfiguration) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CodeSha256 != nil {
+		v := *s.CodeSha256
+
+		e.SetValue(protocol.BodyTarget, "CodeSha256", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.CodeSize != nil {
+		v := *s.CodeSize
+
+		e.SetValue(protocol.BodyTarget, "CodeSize", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.DeadLetterConfig != nil {
+		v := s.DeadLetterConfig
+
+		e.SetFields(protocol.BodyTarget, "DeadLetterConfig", v, protocol.Metadata{})
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		e.SetValue(protocol.BodyTarget, "Description", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Environment != nil {
+		v := s.Environment
+
+		e.SetFields(protocol.BodyTarget, "Environment", v, protocol.Metadata{})
+	}
+	if s.FunctionArn != nil {
+		v := *s.FunctionArn
+
+		e.SetValue(protocol.BodyTarget, "FunctionArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		e.SetValue(protocol.BodyTarget, "FunctionName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Handler != nil {
+		v := *s.Handler
+
+		e.SetValue(protocol.BodyTarget, "Handler", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.KMSKeyArn != nil {
+		v := *s.KMSKeyArn
+
+		e.SetValue(protocol.BodyTarget, "KMSKeyArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.LastModified != nil {
+		v := *s.LastModified
+
+		e.SetValue(protocol.BodyTarget, "LastModified", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.MasterArn != nil {
+		v := *s.MasterArn
+
+		e.SetValue(protocol.BodyTarget, "MasterArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.MemorySize != nil {
+		v := *s.MemorySize
+
+		e.SetValue(protocol.BodyTarget, "MemorySize", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.Role != nil {
+		v := *s.Role
+
+		e.SetValue(protocol.BodyTarget, "Role", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Runtime != nil {
+		v := *s.Runtime
+
+		e.SetValue(protocol.BodyTarget, "Runtime", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Timeout != nil {
+		v := *s.Timeout
+
+		e.SetValue(protocol.BodyTarget, "Timeout", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.TracingConfig != nil {
+		v := s.TracingConfig
+
+		e.SetFields(protocol.BodyTarget, "TracingConfig", v, protocol.Metadata{})
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		e.SetValue(protocol.BodyTarget, "Version", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.VpcConfig != nil {
+		v := s.VpcConfig
+
+		e.SetFields(protocol.BodyTarget, "VpcConfig", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeFunctionConfigurationList(vs []*FunctionConfiguration) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetAccountSettingsRequest
 type GetAccountSettingsInput struct {
 	_ struct{} `type:"structure"`
 }
@@ -4460,6 +5123,13 @@ func (s GetAccountSettingsInput) GoString() string {
 	return s.String()
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetAccountSettingsInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetAccountSettingsResponse
 type GetAccountSettingsOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -4494,6 +5164,23 @@ func (s *GetAccountSettingsOutput) SetAccountUsage(v *AccountUsage) *GetAccountS
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetAccountSettingsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AccountLimit != nil {
+		v := s.AccountLimit
+
+		e.SetFields(protocol.BodyTarget, "AccountLimit", v, protocol.Metadata{})
+	}
+	if s.AccountUsage != nil {
+		v := s.AccountUsage
+
+		e.SetFields(protocol.BodyTarget, "AccountUsage", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetAliasRequest
 type GetAliasInput struct {
 	_ struct{} `type:"structure"`
 
@@ -4556,6 +5243,23 @@ func (s *GetAliasInput) SetName(v string) *GetAliasInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetAliasInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.PathTarget, "Name", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetEventSourceMappingRequest
 type GetEventSourceMappingInput struct {
 	_ struct{} `type:"structure"`
 
@@ -4594,6 +5298,18 @@ func (s *GetEventSourceMappingInput) SetUUID(v string) *GetEventSourceMappingInp
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetEventSourceMappingInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.UUID != nil {
+		v := *s.UUID
+
+		e.SetValue(protocol.PathTarget, "UUID", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetFunctionConfigurationRequest
 type GetFunctionConfigurationInput struct {
 	_ struct{} `type:"structure"`
 
@@ -4661,6 +5377,23 @@ func (s *GetFunctionConfigurationInput) SetQualifier(v string) *GetFunctionConfi
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetFunctionConfigurationInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Qualifier != nil {
+		v := *s.Qualifier
+
+		e.SetValue(protocol.QueryTarget, "Qualifier", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetFunctionRequest
 type GetFunctionInput struct {
 	_ struct{} `type:"structure"`
 
@@ -4726,7 +5459,24 @@ func (s *GetFunctionInput) SetQualifier(v string) *GetFunctionInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetFunctionInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Qualifier != nil {
+		v := *s.Qualifier
+
+		e.SetValue(protocol.QueryTarget, "Qualifier", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // This response contains the object for the Lambda function location (see FunctionCodeLocation.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetFunctionResponse
 type GetFunctionOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -4768,6 +5518,28 @@ func (s *GetFunctionOutput) SetTags(v map[string]*string) *GetFunctionOutput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetFunctionOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Code != nil {
+		v := s.Code
+
+		e.SetFields(protocol.BodyTarget, "Code", v, protocol.Metadata{})
+	}
+	if s.Configuration != nil {
+		v := s.Configuration
+
+		e.SetFields(protocol.BodyTarget, "Configuration", v, protocol.Metadata{})
+	}
+	if len(s.Tags) > 0 {
+		v := s.Tags
+
+		e.SetMap(protocol.BodyTarget, "Tags", protocol.EncodeStringMap(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetPolicyRequest
 type GetPolicyInput struct {
 	_ struct{} `type:"structure"`
 
@@ -4833,6 +5605,23 @@ func (s *GetPolicyInput) SetQualifier(v string) *GetPolicyInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetPolicyInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Qualifier != nil {
+		v := *s.Qualifier
+
+		e.SetValue(protocol.QueryTarget, "Qualifier", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetPolicyResponse
 type GetPolicyOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -4858,6 +5647,18 @@ func (s *GetPolicyOutput) SetPolicy(v string) *GetPolicyOutput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetPolicyOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Policy != nil {
+		v := *s.Policy
+
+		e.SetValue(protocol.BodyTarget, "Policy", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/InvokeAsyncRequest
 type InvokeAsyncInput struct {
 	_ struct{} `deprecated:"true" type:"structure" payload:"InvokeArgs"`
 
@@ -4915,7 +5716,24 @@ func (s *InvokeAsyncInput) SetInvokeArgs(v io.ReadSeeker) *InvokeAsyncInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *InvokeAsyncInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.InvokeArgs != nil {
+		v := s.InvokeArgs
+
+		e.SetStream(protocol.PayloadTarget, "InvokeArgs", protocol.ReadSeekerStream{V: v}, protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Upon success, it returns empty response. Otherwise, throws an exception.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/InvokeAsyncResponse
 type InvokeAsyncOutput struct {
 	_ struct{} `deprecated:"true" type:"structure"`
 
@@ -4939,6 +5757,14 @@ func (s *InvokeAsyncOutput) SetStatus(v int64) *InvokeAsyncOutput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *InvokeAsyncOutput) MarshalFields(e protocol.FieldEncoder) error {
+	// ignoring invalid encode state, StatusCode. Status
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/InvocationRequest
 type InvokeInput struct {
 	_ struct{} `type:"structure" payload:"Payload"`
 
@@ -5056,7 +5882,44 @@ func (s *InvokeInput) SetQualifier(v string) *InvokeInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *InvokeInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ClientContext != nil {
+		v := *s.ClientContext
+
+		e.SetValue(protocol.HeaderTarget, "X-Amz-Client-Context", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.InvocationType != nil {
+		v := *s.InvocationType
+
+		e.SetValue(protocol.HeaderTarget, "X-Amz-Invocation-Type", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.LogType != nil {
+		v := *s.LogType
+
+		e.SetValue(protocol.HeaderTarget, "X-Amz-Log-Type", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Payload != nil {
+		v := s.Payload
+
+		e.SetStream(protocol.PayloadTarget, "Payload", protocol.BytesStream(v), protocol.Metadata{})
+	}
+	if s.Qualifier != nil {
+		v := *s.Qualifier
+
+		e.SetValue(protocol.QueryTarget, "Qualifier", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Upon success, returns an empty response. Otherwise, throws an exception.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/InvocationResponse
 type InvokeOutput struct {
 	_ struct{} `type:"structure" payload:"Payload"`
 
@@ -5122,6 +5985,29 @@ func (s *InvokeOutput) SetStatusCode(v int64) *InvokeOutput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *InvokeOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.FunctionError != nil {
+		v := *s.FunctionError
+
+		e.SetValue(protocol.HeaderTarget, "X-Amz-Function-Error", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.LogResult != nil {
+		v := *s.LogResult
+
+		e.SetValue(protocol.HeaderTarget, "X-Amz-Log-Result", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Payload != nil {
+		v := s.Payload
+
+		e.SetStream(protocol.PayloadTarget, "Payload", protocol.BytesStream(v), protocol.Metadata{})
+	}
+	// ignoring invalid encode state, StatusCode. StatusCode
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListAliasesRequest
 type ListAliasesInput struct {
 	_ struct{} `type:"structure"`
 
@@ -5202,6 +6088,33 @@ func (s *ListAliasesInput) SetMaxItems(v int64) *ListAliasesInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *ListAliasesInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.FunctionVersion != nil {
+		v := *s.FunctionVersion
+
+		e.SetValue(protocol.QueryTarget, "FunctionVersion", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Marker != nil {
+		v := *s.Marker
+
+		e.SetValue(protocol.QueryTarget, "Marker", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.MaxItems != nil {
+		v := *s.MaxItems
+
+		e.SetValue(protocol.QueryTarget, "MaxItems", protocol.Int64Value(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListAliasesResponse
 type ListAliasesOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -5234,6 +6147,23 @@ func (s *ListAliasesOutput) SetNextMarker(v string) *ListAliasesOutput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *ListAliasesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Aliases) > 0 {
+		v := s.Aliases
+
+		e.SetList(protocol.BodyTarget, "Aliases", encodeAliasConfigurationList(v), protocol.Metadata{})
+	}
+	if s.NextMarker != nil {
+		v := *s.NextMarker
+
+		e.SetValue(protocol.BodyTarget, "NextMarker", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListEventSourceMappingsRequest
 type ListEventSourceMappingsInput struct {
 	_ struct{} `type:"structure"`
 
@@ -5313,7 +6243,34 @@ func (s *ListEventSourceMappingsInput) SetMaxItems(v int64) *ListEventSourceMapp
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *ListEventSourceMappingsInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.EventSourceArn != nil {
+		v := *s.EventSourceArn
+
+		e.SetValue(protocol.QueryTarget, "EventSourceArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		e.SetValue(protocol.QueryTarget, "FunctionName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Marker != nil {
+		v := *s.Marker
+
+		e.SetValue(protocol.QueryTarget, "Marker", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.MaxItems != nil {
+		v := *s.MaxItems
+
+		e.SetValue(protocol.QueryTarget, "MaxItems", protocol.Int64Value(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Contains a list of event sources (see EventSourceMappingConfiguration)
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListEventSourceMappingsResponse
 type ListEventSourceMappingsOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -5346,6 +6303,23 @@ func (s *ListEventSourceMappingsOutput) SetNextMarker(v string) *ListEventSource
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *ListEventSourceMappingsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.EventSourceMappings) > 0 {
+		v := s.EventSourceMappings
+
+		e.SetList(protocol.BodyTarget, "EventSourceMappings", encodeEventSourceMappingConfigurationList(v), protocol.Metadata{})
+	}
+	if s.NextMarker != nil {
+		v := *s.NextMarker
+
+		e.SetValue(protocol.BodyTarget, "NextMarker", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListFunctionsRequest
 type ListFunctionsInput struct {
 	_ struct{} `type:"structure"`
 
@@ -5426,7 +6400,34 @@ func (s *ListFunctionsInput) SetMaxItems(v int64) *ListFunctionsInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *ListFunctionsInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.FunctionVersion != nil {
+		v := *s.FunctionVersion
+
+		e.SetValue(protocol.QueryTarget, "FunctionVersion", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Marker != nil {
+		v := *s.Marker
+
+		e.SetValue(protocol.QueryTarget, "Marker", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.MasterRegion != nil {
+		v := *s.MasterRegion
+
+		e.SetValue(protocol.QueryTarget, "MasterRegion", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.MaxItems != nil {
+		v := *s.MaxItems
+
+		e.SetValue(protocol.QueryTarget, "MaxItems", protocol.Int64Value(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Contains a list of AWS Lambda function configurations (see FunctionConfiguration.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListFunctionsResponse
 type ListFunctionsOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -5459,6 +6460,23 @@ func (s *ListFunctionsOutput) SetNextMarker(v string) *ListFunctionsOutput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *ListFunctionsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Functions) > 0 {
+		v := s.Functions
+
+		e.SetList(protocol.BodyTarget, "Functions", encodeFunctionConfigurationList(v), protocol.Metadata{})
+	}
+	if s.NextMarker != nil {
+		v := *s.NextMarker
+
+		e.SetValue(protocol.BodyTarget, "NextMarker", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListTagsRequest
 type ListTagsInput struct {
 	_ struct{} `type:"structure"`
 
@@ -5497,6 +6515,18 @@ func (s *ListTagsInput) SetResource(v string) *ListTagsInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *ListTagsInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Resource != nil {
+		v := *s.Resource
+
+		e.SetValue(protocol.PathTarget, "ARN", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListTagsResponse
 type ListTagsOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -5520,6 +6550,18 @@ func (s *ListTagsOutput) SetTags(v map[string]*string) *ListTagsOutput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *ListTagsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Tags) > 0 {
+		v := s.Tags
+
+		e.SetMap(protocol.BodyTarget, "Tags", protocol.EncodeStringMap(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListVersionsByFunctionRequest
 type ListVersionsByFunctionInput struct {
 	_ struct{} `type:"structure"`
 
@@ -5589,6 +6631,28 @@ func (s *ListVersionsByFunctionInput) SetMaxItems(v int64) *ListVersionsByFuncti
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *ListVersionsByFunctionInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Marker != nil {
+		v := *s.Marker
+
+		e.SetValue(protocol.QueryTarget, "Marker", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.MaxItems != nil {
+		v := *s.MaxItems
+
+		e.SetValue(protocol.QueryTarget, "MaxItems", protocol.Int64Value(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListVersionsByFunctionResponse
 type ListVersionsByFunctionOutput struct {
 	_ struct{} `type:"structure"`
 
@@ -5621,6 +6685,23 @@ func (s *ListVersionsByFunctionOutput) SetVersions(v []*FunctionConfiguration) *
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *ListVersionsByFunctionOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.NextMarker != nil {
+		v := *s.NextMarker
+
+		e.SetValue(protocol.BodyTarget, "NextMarker", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Versions) > 0 {
+		v := s.Versions
+
+		e.SetList(protocol.BodyTarget, "Versions", encodeFunctionConfigurationList(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/PublishVersionRequest
 type PublishVersionInput struct {
 	_ struct{} `type:"structure"`
 
@@ -5689,6 +6770,28 @@ func (s *PublishVersionInput) SetFunctionName(v string) *PublishVersionInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *PublishVersionInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CodeSha256 != nil {
+		v := *s.CodeSha256
+
+		e.SetValue(protocol.BodyTarget, "CodeSha256", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		e.SetValue(protocol.BodyTarget, "Description", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/RemovePermissionRequest
 type RemovePermissionInput struct {
 	_ struct{} `type:"structure"`
 
@@ -5768,6 +6871,28 @@ func (s *RemovePermissionInput) SetStatementId(v string) *RemovePermissionInput 
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *RemovePermissionInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Qualifier != nil {
+		v := *s.Qualifier
+
+		e.SetValue(protocol.QueryTarget, "Qualifier", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.StatementId != nil {
+		v := *s.StatementId
+
+		e.SetValue(protocol.PathTarget, "StatementId", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/RemovePermissionOutput
 type RemovePermissionOutput struct {
 	_ struct{} `type:"structure"`
 }
@@ -5782,6 +6907,13 @@ func (s RemovePermissionOutput) GoString() string {
 	return s.String()
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *RemovePermissionOutput) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/TagResourceRequest
 type TagResourceInput struct {
 	_ struct{} `type:"structure"`
 
@@ -5834,6 +6966,23 @@ func (s *TagResourceInput) SetTags(v map[string]*string) *TagResourceInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *TagResourceInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Resource != nil {
+		v := *s.Resource
+
+		e.SetValue(protocol.PathTarget, "ARN", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Tags) > 0 {
+		v := s.Tags
+
+		e.SetMap(protocol.BodyTarget, "Tags", protocol.EncodeStringMap(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/TagResourceOutput
 type TagResourceOutput struct {
 	_ struct{} `type:"structure"`
 }
@@ -5848,7 +6997,14 @@ func (s TagResourceOutput) GoString() string {
 	return s.String()
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *TagResourceOutput) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
+}
+
 // The parent object that contains your function's tracing settings.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/TracingConfig
 type TracingConfig struct {
 	_ struct{} `type:"structure"`
 
@@ -5876,7 +7032,19 @@ func (s *TracingConfig) SetMode(v string) *TracingConfig {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *TracingConfig) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Mode != nil {
+		v := *s.Mode
+
+		e.SetValue(protocol.BodyTarget, "Mode", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Parent object of the tracing information associated with your Lambda function.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/TracingConfigResponse
 type TracingConfigResponse struct {
 	_ struct{} `type:"structure"`
 
@@ -5900,6 +7068,18 @@ func (s *TracingConfigResponse) SetMode(v string) *TracingConfigResponse {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *TracingConfigResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Mode != nil {
+		v := *s.Mode
+
+		e.SetValue(protocol.BodyTarget, "Mode", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UntagResourceRequest
 type UntagResourceInput struct {
 	_ struct{} `type:"structure"`
 
@@ -5952,6 +7132,23 @@ func (s *UntagResourceInput) SetTagKeys(v []*string) *UntagResourceInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UntagResourceInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Resource != nil {
+		v := *s.Resource
+
+		e.SetValue(protocol.PathTarget, "ARN", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.TagKeys) > 0 {
+		v := s.TagKeys
+
+		e.SetList(protocol.QueryTarget, "tagKeys", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UntagResourceOutput
 type UntagResourceOutput struct {
 	_ struct{} `type:"structure"`
 }
@@ -5966,6 +7163,13 @@ func (s UntagResourceOutput) GoString() string {
 	return s.String()
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UntagResourceOutput) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateAliasRequest
 type UpdateAliasInput struct {
 	_ struct{} `type:"structure"`
 
@@ -6048,6 +7252,33 @@ func (s *UpdateAliasInput) SetName(v string) *UpdateAliasInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UpdateAliasInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Description != nil {
+		v := *s.Description
+
+		e.SetValue(protocol.BodyTarget, "Description", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.FunctionVersion != nil {
+		v := *s.FunctionVersion
+
+		e.SetValue(protocol.BodyTarget, "FunctionVersion", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.PathTarget, "Name", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateEventSourceMappingRequest
 type UpdateEventSourceMappingInput struct {
 	_ struct{} `type:"structure"`
 
@@ -6135,6 +7366,33 @@ func (s *UpdateEventSourceMappingInput) SetUUID(v string) *UpdateEventSourceMapp
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UpdateEventSourceMappingInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BatchSize != nil {
+		v := *s.BatchSize
+
+		e.SetValue(protocol.BodyTarget, "BatchSize", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.Enabled != nil {
+		v := *s.Enabled
+
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		e.SetValue(protocol.BodyTarget, "FunctionName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.UUID != nil {
+		v := *s.UUID
+
+		e.SetValue(protocol.PathTarget, "UUID", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateFunctionCodeRequest
 type UpdateFunctionCodeInput struct {
 	_ struct{} `type:"structure"`
 
@@ -6260,6 +7518,48 @@ func (s *UpdateFunctionCodeInput) SetZipFile(v []byte) *UpdateFunctionCodeInput 
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UpdateFunctionCodeInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DryRun != nil {
+		v := *s.DryRun
+
+		e.SetValue(protocol.BodyTarget, "DryRun", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Publish != nil {
+		v := *s.Publish
+
+		e.SetValue(protocol.BodyTarget, "Publish", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.S3Bucket != nil {
+		v := *s.S3Bucket
+
+		e.SetValue(protocol.BodyTarget, "S3Bucket", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.S3Key != nil {
+		v := *s.S3Key
+
+		e.SetValue(protocol.BodyTarget, "S3Key", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.S3ObjectVersion != nil {
+		v := *s.S3ObjectVersion
+
+		e.SetValue(protocol.BodyTarget, "S3ObjectVersion", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ZipFile != nil {
+		v := s.ZipFile
+
+		e.SetValue(protocol.BodyTarget, "ZipFile", protocol.BytesValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateFunctionConfigurationRequest
 type UpdateFunctionConfigurationInput struct {
 	_ struct{} `type:"structure"`
 
@@ -6442,10 +7742,77 @@ func (s *UpdateFunctionConfigurationInput) SetVpcConfig(v *VpcConfig) *UpdateFun
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UpdateFunctionConfigurationInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DeadLetterConfig != nil {
+		v := s.DeadLetterConfig
+
+		e.SetFields(protocol.BodyTarget, "DeadLetterConfig", v, protocol.Metadata{})
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		e.SetValue(protocol.BodyTarget, "Description", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Environment != nil {
+		v := s.Environment
+
+		e.SetFields(protocol.BodyTarget, "Environment", v, protocol.Metadata{})
+	}
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Handler != nil {
+		v := *s.Handler
+
+		e.SetValue(protocol.BodyTarget, "Handler", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.KMSKeyArn != nil {
+		v := *s.KMSKeyArn
+
+		e.SetValue(protocol.BodyTarget, "KMSKeyArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.MemorySize != nil {
+		v := *s.MemorySize
+
+		e.SetValue(protocol.BodyTarget, "MemorySize", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.Role != nil {
+		v := *s.Role
+
+		e.SetValue(protocol.BodyTarget, "Role", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Runtime != nil {
+		v := *s.Runtime
+
+		e.SetValue(protocol.BodyTarget, "Runtime", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Timeout != nil {
+		v := *s.Timeout
+
+		e.SetValue(protocol.BodyTarget, "Timeout", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.TracingConfig != nil {
+		v := s.TracingConfig
+
+		e.SetFields(protocol.BodyTarget, "TracingConfig", v, protocol.Metadata{})
+	}
+	if s.VpcConfig != nil {
+		v := s.VpcConfig
+
+		e.SetFields(protocol.BodyTarget, "VpcConfig", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // If your Lambda function accesses resources in a VPC, you provide this parameter
 // identifying the list of security group IDs and subnet IDs. These must belong
 // to the same VPC. You must provide at least one security group and one subnet
 // ID.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/VpcConfig
 type VpcConfig struct {
 	_ struct{} `type:"structure"`
 
@@ -6478,7 +7845,24 @@ func (s *VpcConfig) SetSubnetIds(v []*string) *VpcConfig {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *VpcConfig) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.SecurityGroupIds) > 0 {
+		v := s.SecurityGroupIds
+
+		e.SetList(protocol.BodyTarget, "SecurityGroupIds", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+	if len(s.SubnetIds) > 0 {
+		v := s.SubnetIds
+
+		e.SetList(protocol.BodyTarget, "SubnetIds", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // VPC configuration associated with your Lambda function.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/VpcConfigResponse
 type VpcConfigResponse struct {
 	_ struct{} `type:"structure"`
 
@@ -6518,6 +7902,27 @@ func (s *VpcConfigResponse) SetSubnetIds(v []*string) *VpcConfigResponse {
 func (s *VpcConfigResponse) SetVpcId(v string) *VpcConfigResponse {
 	s.VpcId = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *VpcConfigResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.SecurityGroupIds) > 0 {
+		v := s.SecurityGroupIds
+
+		e.SetList(protocol.BodyTarget, "SecurityGroupIds", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+	if len(s.SubnetIds) > 0 {
+		v := s.SubnetIds
+
+		e.SetList(protocol.BodyTarget, "SubnetIds", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+	if s.VpcId != nil {
+		v := *s.VpcId
+
+		e.SetValue(protocol.BodyTarget, "VpcId", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 const (

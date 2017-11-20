@@ -1,8 +1,8 @@
-hash: a40ae97520691bccf53b6f7025a7f17244d2a897247b430531bb7badc832c602
-updated: 2017-07-30T22:50:59.785697382+09:00
+hash: db6321ef5e607aea74b3026231a53cc2af067ef88ee8e39449080d52bcf31302
+updated: 2017-11-20T21:56:32.201802667+09:00
 imports:
 - name: github.com/aws/aws-sdk-go
-  version: 5e436e55ac5eddc739f26a2a209b3f4248ee8e0e
+  version: c29655f010eb79efd3df33ea20bbebb4fc80af95
   subpackages:
   - aws
   - aws/awserr
@@ -89,7 +89,7 @@ imports:
   subpackages:
   - unix
 - name: gopkg.in/ini.v1
-  version: d3de07a94d22b4a0972deb4b96d790c2c0ce8333
+  version: 32e4c1e6bc4e7d0d8451aa6b75200d19e37a536a
 testImports:
 - name: github.com/pmezard/go-difflib
   version: d8ed2627bdf02c080bf22230dbb337003b7aba2d

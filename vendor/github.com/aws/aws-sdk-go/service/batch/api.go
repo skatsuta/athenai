@@ -8,25 +8,25 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/awsutil"
 	"github.com/aws/aws-sdk-go/aws/request"
+	"github.com/aws/aws-sdk-go/private/protocol"
 )
 
 const opCancelJob = "CancelJob"
 
 // CancelJobRequest generates a "aws/request.Request" representing the
 // client's request for the CancelJob operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See CancelJob for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the CancelJob method directly
-// instead.
+// See CancelJob for more information on using the CancelJob
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the CancelJobRequest method.
 //    req, resp := client.CancelJobRequest(params)
@@ -103,19 +103,18 @@ const opCreateComputeEnvironment = "CreateComputeEnvironment"
 
 // CreateComputeEnvironmentRequest generates a "aws/request.Request" representing the
 // client's request for the CreateComputeEnvironment operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See CreateComputeEnvironment for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the CreateComputeEnvironment method directly
-// instead.
+// See CreateComputeEnvironment for more information on using the CreateComputeEnvironment
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the CreateComputeEnvironmentRequest method.
 //    req, resp := client.CreateComputeEnvironmentRequest(params)
@@ -149,11 +148,11 @@ func (c *Batch) CreateComputeEnvironmentRequest(input *CreateComputeEnvironmentI
 //
 // In a managed compute environment, AWS Batch manages the compute resources
 // within the environment, based on the compute resources that you specify.
-// Instances launched into a managed compute environment use the latest Amazon
-// ECS-optimized AMI. You can choose to use Amazon EC2 On-Demand instances in
-// your managed compute environment, or you can use Amazon EC2 Spot instances
-// that only launch when the Spot bid price is below a specified percentage
-// of the On-Demand price.
+// Instances launched into a managed compute environment use a recent, approved
+// version of the Amazon ECS-optimized AMI. You can choose to use Amazon EC2
+// On-Demand instances in your managed compute environment, or you can use Amazon
+// EC2 Spot instances that only launch when the Spot bid price is below a specified
+// percentage of the On-Demand price.
 //
 // In an unmanaged compute environment, you can manage your own compute resources.
 // This provides more compute resource configuration options, such as using
@@ -209,19 +208,18 @@ const opCreateJobQueue = "CreateJobQueue"
 
 // CreateJobQueueRequest generates a "aws/request.Request" representing the
 // client's request for the CreateJobQueue operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See CreateJobQueue for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the CreateJobQueue method directly
-// instead.
+// See CreateJobQueue for more information on using the CreateJobQueue
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the CreateJobQueueRequest method.
 //    req, resp := client.CreateJobQueueRequest(params)
@@ -302,19 +300,18 @@ const opDeleteComputeEnvironment = "DeleteComputeEnvironment"
 
 // DeleteComputeEnvironmentRequest generates a "aws/request.Request" representing the
 // client's request for the DeleteComputeEnvironment operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DeleteComputeEnvironment for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DeleteComputeEnvironment method directly
-// instead.
+// See DeleteComputeEnvironment for more information on using the DeleteComputeEnvironment
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DeleteComputeEnvironmentRequest method.
 //    req, resp := client.DeleteComputeEnvironmentRequest(params)
@@ -391,19 +388,18 @@ const opDeleteJobQueue = "DeleteJobQueue"
 
 // DeleteJobQueueRequest generates a "aws/request.Request" representing the
 // client's request for the DeleteJobQueue operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DeleteJobQueue for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DeleteJobQueue method directly
-// instead.
+// See DeleteJobQueue for more information on using the DeleteJobQueue
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DeleteJobQueueRequest method.
 //    req, resp := client.DeleteJobQueueRequest(params)
@@ -433,8 +429,8 @@ func (c *Batch) DeleteJobQueueRequest(input *DeleteJobQueueInput) (req *request.
 // DeleteJobQueue API operation for AWS Batch.
 //
 // Deletes the specified job queue. You must first disable submissions for a
-// queue with the UpdateJobQueue operation and terminate any jobs that have
-// not completed with the TerminateJob.
+// queue with the UpdateJobQueue operation. All jobs in the queue are terminated
+// when you delete a job queue.
 //
 // It is not necessary to disassociate compute environments from a queue before
 // submitting a DeleteJobQueue request.
@@ -481,19 +477,18 @@ const opDeregisterJobDefinition = "DeregisterJobDefinition"
 
 // DeregisterJobDefinitionRequest generates a "aws/request.Request" representing the
 // client's request for the DeregisterJobDefinition operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DeregisterJobDefinition for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DeregisterJobDefinition method directly
-// instead.
+// See DeregisterJobDefinition for more information on using the DeregisterJobDefinition
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DeregisterJobDefinitionRequest method.
 //    req, resp := client.DeregisterJobDefinitionRequest(params)
@@ -566,19 +561,18 @@ const opDescribeComputeEnvironments = "DescribeComputeEnvironments"
 
 // DescribeComputeEnvironmentsRequest generates a "aws/request.Request" representing the
 // client's request for the DescribeComputeEnvironments operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DescribeComputeEnvironments for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DescribeComputeEnvironments method directly
-// instead.
+// See DescribeComputeEnvironments for more information on using the DescribeComputeEnvironments
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DescribeComputeEnvironmentsRequest method.
 //    req, resp := client.DescribeComputeEnvironmentsRequest(params)
@@ -655,19 +649,18 @@ const opDescribeJobDefinitions = "DescribeJobDefinitions"
 
 // DescribeJobDefinitionsRequest generates a "aws/request.Request" representing the
 // client's request for the DescribeJobDefinitions operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DescribeJobDefinitions for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DescribeJobDefinitions method directly
-// instead.
+// See DescribeJobDefinitions for more information on using the DescribeJobDefinitions
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DescribeJobDefinitionsRequest method.
 //    req, resp := client.DescribeJobDefinitionsRequest(params)
@@ -741,19 +734,18 @@ const opDescribeJobQueues = "DescribeJobQueues"
 
 // DescribeJobQueuesRequest generates a "aws/request.Request" representing the
 // client's request for the DescribeJobQueues operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DescribeJobQueues for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DescribeJobQueues method directly
-// instead.
+// See DescribeJobQueues for more information on using the DescribeJobQueues
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DescribeJobQueuesRequest method.
 //    req, resp := client.DescribeJobQueuesRequest(params)
@@ -826,19 +818,18 @@ const opDescribeJobs = "DescribeJobs"
 
 // DescribeJobsRequest generates a "aws/request.Request" representing the
 // client's request for the DescribeJobs operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DescribeJobs for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DescribeJobs method directly
-// instead.
+// See DescribeJobs for more information on using the DescribeJobs
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DescribeJobsRequest method.
 //    req, resp := client.DescribeJobsRequest(params)
@@ -911,19 +902,18 @@ const opListJobs = "ListJobs"
 
 // ListJobsRequest generates a "aws/request.Request" representing the
 // client's request for the ListJobs operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See ListJobs for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the ListJobs method directly
-// instead.
+// See ListJobs for more information on using the ListJobs
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the ListJobsRequest method.
 //    req, resp := client.ListJobsRequest(params)
@@ -953,7 +943,8 @@ func (c *Batch) ListJobsRequest(input *ListJobsInput) (req *request.Request, out
 // ListJobs API operation for AWS Batch.
 //
 // Returns a list of task jobs for a specified job queue. You can filter the
-// results by job status with the jobStatus parameter.
+// results by job status with the jobStatus parameter. If you do not specify
+// a status, only RUNNING jobs are returned.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
@@ -997,19 +988,18 @@ const opRegisterJobDefinition = "RegisterJobDefinition"
 
 // RegisterJobDefinitionRequest generates a "aws/request.Request" representing the
 // client's request for the RegisterJobDefinition operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See RegisterJobDefinition for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the RegisterJobDefinition method directly
-// instead.
+// See RegisterJobDefinition for more information on using the RegisterJobDefinition
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the RegisterJobDefinitionRequest method.
 //    req, resp := client.RegisterJobDefinitionRequest(params)
@@ -1082,19 +1072,18 @@ const opSubmitJob = "SubmitJob"
 
 // SubmitJobRequest generates a "aws/request.Request" representing the
 // client's request for the SubmitJob operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See SubmitJob for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the SubmitJob method directly
-// instead.
+// See SubmitJob for more information on using the SubmitJob
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the SubmitJobRequest method.
 //    req, resp := client.SubmitJobRequest(params)
@@ -1168,19 +1157,18 @@ const opTerminateJob = "TerminateJob"
 
 // TerminateJobRequest generates a "aws/request.Request" representing the
 // client's request for the TerminateJob operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See TerminateJob for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the TerminateJob method directly
-// instead.
+// See TerminateJob for more information on using the TerminateJob
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the TerminateJobRequest method.
 //    req, resp := client.TerminateJobRequest(params)
@@ -1255,19 +1243,18 @@ const opUpdateComputeEnvironment = "UpdateComputeEnvironment"
 
 // UpdateComputeEnvironmentRequest generates a "aws/request.Request" representing the
 // client's request for the UpdateComputeEnvironment operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See UpdateComputeEnvironment for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the UpdateComputeEnvironment method directly
-// instead.
+// See UpdateComputeEnvironment for more information on using the UpdateComputeEnvironment
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the UpdateComputeEnvironmentRequest method.
 //    req, resp := client.UpdateComputeEnvironmentRequest(params)
@@ -1340,19 +1327,18 @@ const opUpdateJobQueue = "UpdateJobQueue"
 
 // UpdateJobQueueRequest generates a "aws/request.Request" representing the
 // client's request for the UpdateJobQueue operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See UpdateJobQueue for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the UpdateJobQueue method directly
-// instead.
+// See UpdateJobQueue for more information on using the UpdateJobQueue
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the UpdateJobQueueRequest method.
 //    req, resp := client.UpdateJobQueueRequest(params)
@@ -1433,6 +1419,11 @@ type AttemptContainerDetail struct {
 	// The exit code for the job attempt. A non-zero exit code is considered a failure.
 	ExitCode *int64 `locationName:"exitCode" type:"integer"`
 
+	// The name of the CloudWatch Logs log stream associated with the container.
+	// The log group for AWS Batch jobs is /aws/batch/job. Each container attempt
+	// receives a log stream name when they reach the RUNNING status.
+	LogStreamName *string `locationName:"logStreamName" type:"string"`
+
 	// A short (255 max characters) human-readable string to provide additional
 	// details about a running or stopped container.
 	Reason *string `locationName:"reason" type:"string"`
@@ -1464,6 +1455,12 @@ func (s *AttemptContainerDetail) SetExitCode(v int64) *AttemptContainerDetail {
 	return s
 }
 
+// SetLogStreamName sets the LogStreamName field's value.
+func (s *AttemptContainerDetail) SetLogStreamName(v string) *AttemptContainerDetail {
+	s.LogStreamName = &v
+	return s
+}
+
 // SetReason sets the Reason field's value.
 func (s *AttemptContainerDetail) SetReason(v string) *AttemptContainerDetail {
 	s.Reason = &v
@@ -1474,6 +1471,37 @@ func (s *AttemptContainerDetail) SetReason(v string) *AttemptContainerDetail {
 func (s *AttemptContainerDetail) SetTaskArn(v string) *AttemptContainerDetail {
 	s.TaskArn = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *AttemptContainerDetail) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ContainerInstanceArn != nil {
+		v := *s.ContainerInstanceArn
+
+		e.SetValue(protocol.BodyTarget, "containerInstanceArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ExitCode != nil {
+		v := *s.ExitCode
+
+		e.SetValue(protocol.BodyTarget, "exitCode", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.LogStreamName != nil {
+		v := *s.LogStreamName
+
+		e.SetValue(protocol.BodyTarget, "logStreamName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Reason != nil {
+		v := *s.Reason
+
+		e.SetValue(protocol.BodyTarget, "reason", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.TaskArn != nil {
+		v := *s.TaskArn
+
+		e.SetValue(protocol.BodyTarget, "taskArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // An object representing a job attempt.
@@ -1531,6 +1559,40 @@ func (s *AttemptDetail) SetStoppedAt(v int64) *AttemptDetail {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *AttemptDetail) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Container != nil {
+		v := s.Container
+
+		e.SetFields(protocol.BodyTarget, "container", v, protocol.Metadata{})
+	}
+	if s.StartedAt != nil {
+		v := *s.StartedAt
+
+		e.SetValue(protocol.BodyTarget, "startedAt", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.StatusReason != nil {
+		v := *s.StatusReason
+
+		e.SetValue(protocol.BodyTarget, "statusReason", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.StoppedAt != nil {
+		v := *s.StoppedAt
+
+		e.SetValue(protocol.BodyTarget, "stoppedAt", protocol.Int64Value(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeAttemptDetailList(vs []*AttemptDetail) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/CancelJobRequest
 type CancelJobInput struct {
 	_ struct{} `type:"structure"`
@@ -1586,6 +1648,22 @@ func (s *CancelJobInput) SetReason(v string) *CancelJobInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CancelJobInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.JobId != nil {
+		v := *s.JobId
+
+		e.SetValue(protocol.BodyTarget, "jobId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Reason != nil {
+		v := *s.Reason
+
+		e.SetValue(protocol.BodyTarget, "reason", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/CancelJobResponse
 type CancelJobOutput struct {
 	_ struct{} `type:"structure"`
@@ -1599,6 +1677,12 @@ func (s CancelJobOutput) String() string {
 // GoString returns the string representation
 func (s CancelJobOutput) GoString() string {
 	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CancelJobOutput) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
 }
 
 // An object representing an AWS Batch compute environment.
@@ -1709,6 +1793,65 @@ func (s *ComputeEnvironmentDetail) SetType(v string) *ComputeEnvironmentDetail {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *ComputeEnvironmentDetail) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ComputeEnvironmentArn != nil {
+		v := *s.ComputeEnvironmentArn
+
+		e.SetValue(protocol.BodyTarget, "computeEnvironmentArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ComputeEnvironmentName != nil {
+		v := *s.ComputeEnvironmentName
+
+		e.SetValue(protocol.BodyTarget, "computeEnvironmentName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ComputeResources != nil {
+		v := s.ComputeResources
+
+		e.SetFields(protocol.BodyTarget, "computeResources", v, protocol.Metadata{})
+	}
+	if s.EcsClusterArn != nil {
+		v := *s.EcsClusterArn
+
+		e.SetValue(protocol.BodyTarget, "ecsClusterArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ServiceRole != nil {
+		v := *s.ServiceRole
+
+		e.SetValue(protocol.BodyTarget, "serviceRole", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.State != nil {
+		v := *s.State
+
+		e.SetValue(protocol.BodyTarget, "state", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Status != nil {
+		v := *s.Status
+
+		e.SetValue(protocol.BodyTarget, "status", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.StatusReason != nil {
+		v := *s.StatusReason
+
+		e.SetValue(protocol.BodyTarget, "statusReason", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Type != nil {
+		v := *s.Type
+
+		e.SetValue(protocol.BodyTarget, "type", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeComputeEnvironmentDetailList(vs []*ComputeEnvironmentDetail) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
+}
+
 // The order in which compute environments are tried for job placement within
 // a queue. Compute environments are tried in ascending order. For example,
 // if two compute environments are associated with a job queue, the compute
@@ -1766,6 +1909,30 @@ func (s *ComputeEnvironmentOrder) SetOrder(v int64) *ComputeEnvironmentOrder {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *ComputeEnvironmentOrder) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ComputeEnvironment != nil {
+		v := *s.ComputeEnvironment
+
+		e.SetValue(protocol.BodyTarget, "computeEnvironment", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Order != nil {
+		v := *s.Order
+
+		e.SetValue(protocol.BodyTarget, "order", protocol.Int64Value(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeComputeEnvironmentOrderList(vs []*ComputeEnvironmentOrder) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
+}
+
 // An object representing an AWS Batch compute resource.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/ComputeResource
 type ComputeResource struct {
@@ -1787,8 +1954,11 @@ type ComputeResource struct {
 	// environment.
 	ImageId *string `locationName:"imageId" type:"string"`
 
-	// The Amazon ECS instance role applied to Amazon EC2 instances in a compute
-	// environment.
+	// The Amazon ECS instance profile applied to Amazon EC2 instances in a compute
+	// environment. You can specify the short name or full Amazon Resource Name
+	// (ARN) of an instance profile. For example, ecsInstanceRole or arn:aws:iam::<aws_account_id>:instance-profile/ecsInstanceRole.
+	// For more information, see Amazon ECS Instance Role (http://docs.aws.amazon.com/batch/latest/userguide/instance_IAM_role.html)
+	// in the AWS Batch User Guide.
 	//
 	// InstanceRole is a required field
 	InstanceRole *string `locationName:"instanceRole" type:"string" required:"true"`
@@ -1952,6 +2122,77 @@ func (s *ComputeResource) SetType(v string) *ComputeResource {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *ComputeResource) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BidPercentage != nil {
+		v := *s.BidPercentage
+
+		e.SetValue(protocol.BodyTarget, "bidPercentage", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.DesiredvCpus != nil {
+		v := *s.DesiredvCpus
+
+		e.SetValue(protocol.BodyTarget, "desiredvCpus", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.Ec2KeyPair != nil {
+		v := *s.Ec2KeyPair
+
+		e.SetValue(protocol.BodyTarget, "ec2KeyPair", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ImageId != nil {
+		v := *s.ImageId
+
+		e.SetValue(protocol.BodyTarget, "imageId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.InstanceRole != nil {
+		v := *s.InstanceRole
+
+		e.SetValue(protocol.BodyTarget, "instanceRole", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.InstanceTypes) > 0 {
+		v := s.InstanceTypes
+
+		e.SetList(protocol.BodyTarget, "instanceTypes", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+	if s.MaxvCpus != nil {
+		v := *s.MaxvCpus
+
+		e.SetValue(protocol.BodyTarget, "maxvCpus", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.MinvCpus != nil {
+		v := *s.MinvCpus
+
+		e.SetValue(protocol.BodyTarget, "minvCpus", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if len(s.SecurityGroupIds) > 0 {
+		v := s.SecurityGroupIds
+
+		e.SetList(protocol.BodyTarget, "securityGroupIds", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+	if s.SpotIamFleetRole != nil {
+		v := *s.SpotIamFleetRole
+
+		e.SetValue(protocol.BodyTarget, "spotIamFleetRole", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Subnets) > 0 {
+		v := s.Subnets
+
+		e.SetList(protocol.BodyTarget, "subnets", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+	if len(s.Tags) > 0 {
+		v := s.Tags
+
+		e.SetMap(protocol.BodyTarget, "tags", protocol.EncodeStringMap(v), protocol.Metadata{})
+	}
+	if s.Type != nil {
+		v := *s.Type
+
+		e.SetValue(protocol.BodyTarget, "type", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // An object representing the attributes of a compute environment that can be
 // updated.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/ComputeResourceUpdate
@@ -1996,6 +2237,27 @@ func (s *ComputeResourceUpdate) SetMinvCpus(v int64) *ComputeResourceUpdate {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *ComputeResourceUpdate) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DesiredvCpus != nil {
+		v := *s.DesiredvCpus
+
+		e.SetValue(protocol.BodyTarget, "desiredvCpus", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.MaxvCpus != nil {
+		v := *s.MaxvCpus
+
+		e.SetValue(protocol.BodyTarget, "maxvCpus", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.MinvCpus != nil {
+		v := *s.MinvCpus
+
+		e.SetValue(protocol.BodyTarget, "minvCpus", protocol.Int64Value(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // An object representing the details of a container that is part of a job.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/ContainerDetail
 type ContainerDetail struct {
@@ -2019,6 +2281,11 @@ type ContainerDetail struct {
 
 	// The Amazon Resource Name (ARN) associated with the job upon execution.
 	JobRoleArn *string `locationName:"jobRoleArn" type:"string"`
+
+	// The name of the CloudWatch Logs log stream associated with the container.
+	// The log group for AWS Batch jobs is /aws/batch/job. Each container attempt
+	// receives a log stream name when they reach the RUNNING status.
+	LogStreamName *string `locationName:"logStreamName" type:"string"`
 
 	// The number of MiB of memory reserved for the job.
 	Memory *int64 `locationName:"memory" type:"integer"`
@@ -2101,6 +2368,12 @@ func (s *ContainerDetail) SetJobRoleArn(v string) *ContainerDetail {
 	return s
 }
 
+// SetLogStreamName sets the LogStreamName field's value.
+func (s *ContainerDetail) SetLogStreamName(v string) *ContainerDetail {
+	s.LogStreamName = &v
+	return s
+}
+
 // SetMemory sets the Memory field's value.
 func (s *ContainerDetail) SetMemory(v int64) *ContainerDetail {
 	s.Memory = &v
@@ -2161,6 +2434,97 @@ func (s *ContainerDetail) SetVolumes(v []*Volume) *ContainerDetail {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *ContainerDetail) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Command) > 0 {
+		v := s.Command
+
+		e.SetList(protocol.BodyTarget, "command", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+	if s.ContainerInstanceArn != nil {
+		v := *s.ContainerInstanceArn
+
+		e.SetValue(protocol.BodyTarget, "containerInstanceArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Environment) > 0 {
+		v := s.Environment
+
+		e.SetList(protocol.BodyTarget, "environment", encodeKeyValuePairList(v), protocol.Metadata{})
+	}
+	if s.ExitCode != nil {
+		v := *s.ExitCode
+
+		e.SetValue(protocol.BodyTarget, "exitCode", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.Image != nil {
+		v := *s.Image
+
+		e.SetValue(protocol.BodyTarget, "image", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.JobRoleArn != nil {
+		v := *s.JobRoleArn
+
+		e.SetValue(protocol.BodyTarget, "jobRoleArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.LogStreamName != nil {
+		v := *s.LogStreamName
+
+		e.SetValue(protocol.BodyTarget, "logStreamName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Memory != nil {
+		v := *s.Memory
+
+		e.SetValue(protocol.BodyTarget, "memory", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if len(s.MountPoints) > 0 {
+		v := s.MountPoints
+
+		e.SetList(protocol.BodyTarget, "mountPoints", encodeMountPointList(v), protocol.Metadata{})
+	}
+	if s.Privileged != nil {
+		v := *s.Privileged
+
+		e.SetValue(protocol.BodyTarget, "privileged", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.ReadonlyRootFilesystem != nil {
+		v := *s.ReadonlyRootFilesystem
+
+		e.SetValue(protocol.BodyTarget, "readonlyRootFilesystem", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.Reason != nil {
+		v := *s.Reason
+
+		e.SetValue(protocol.BodyTarget, "reason", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.TaskArn != nil {
+		v := *s.TaskArn
+
+		e.SetValue(protocol.BodyTarget, "taskArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Ulimits) > 0 {
+		v := s.Ulimits
+
+		e.SetList(protocol.BodyTarget, "ulimits", encodeUlimitList(v), protocol.Metadata{})
+	}
+	if s.User != nil {
+		v := *s.User
+
+		e.SetValue(protocol.BodyTarget, "user", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Vcpus != nil {
+		v := *s.Vcpus
+
+		e.SetValue(protocol.BodyTarget, "vcpus", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if len(s.Volumes) > 0 {
+		v := s.Volumes
+
+		e.SetList(protocol.BodyTarget, "volumes", encodeVolumeList(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // The overrides that should be sent to a container.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/ContainerOverrides
 type ContainerOverrides struct {
@@ -2216,6 +2580,32 @@ func (s *ContainerOverrides) SetMemory(v int64) *ContainerOverrides {
 func (s *ContainerOverrides) SetVcpus(v int64) *ContainerOverrides {
 	s.Vcpus = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *ContainerOverrides) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Command) > 0 {
+		v := s.Command
+
+		e.SetList(protocol.BodyTarget, "command", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+	if len(s.Environment) > 0 {
+		v := s.Environment
+
+		e.SetList(protocol.BodyTarget, "environment", encodeKeyValuePairList(v), protocol.Metadata{})
+	}
+	if s.Memory != nil {
+		v := *s.Memory
+
+		e.SetValue(protocol.BodyTarget, "memory", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.Vcpus != nil {
+		v := *s.Vcpus
+
+		e.SetValue(protocol.BodyTarget, "vcpus", protocol.Int64Value(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Container properties are used in job definitions to describe the container
@@ -2275,6 +2665,7 @@ type ContainerProperties struct {
 	// parameter maps to Memory in the Create a container (https://docs.docker.com/engine/reference/api/docker_remote_api_v1.23/#create-a-container)
 	// section of the Docker Remote API (https://docs.docker.com/engine/reference/api/docker_remote_api_v1.23/)
 	// and the --memory option to docker run (https://docs.docker.com/engine/reference/run/).
+	// You must specify at least 4 MiB of memory for a job.
 	//
 	// Memory is a required field
 	Memory *int64 `locationName:"memory" type:"integer" required:"true"`
@@ -2315,7 +2706,8 @@ type ContainerProperties struct {
 	// in the Create a container (https://docs.docker.com/engine/reference/api/docker_remote_api_v1.23/#create-a-container)
 	// section of the Docker Remote API (https://docs.docker.com/engine/reference/api/docker_remote_api_v1.23/)
 	// and the --cpu-shares option to docker run (https://docs.docker.com/engine/reference/run/).
-	// Each vCPU is equivalent to 1,024 CPU shares.
+	// Each vCPU is equivalent to 1,024 CPU shares. You must specify at least 1
+	// vCPU.
 	//
 	// Vcpus is a required field
 	Vcpus *int64 `locationName:"vcpus" type:"integer" required:"true"`
@@ -2435,6 +2827,72 @@ func (s *ContainerProperties) SetVolumes(v []*Volume) *ContainerProperties {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *ContainerProperties) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Command) > 0 {
+		v := s.Command
+
+		e.SetList(protocol.BodyTarget, "command", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+	if len(s.Environment) > 0 {
+		v := s.Environment
+
+		e.SetList(protocol.BodyTarget, "environment", encodeKeyValuePairList(v), protocol.Metadata{})
+	}
+	if s.Image != nil {
+		v := *s.Image
+
+		e.SetValue(protocol.BodyTarget, "image", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.JobRoleArn != nil {
+		v := *s.JobRoleArn
+
+		e.SetValue(protocol.BodyTarget, "jobRoleArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Memory != nil {
+		v := *s.Memory
+
+		e.SetValue(protocol.BodyTarget, "memory", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if len(s.MountPoints) > 0 {
+		v := s.MountPoints
+
+		e.SetList(protocol.BodyTarget, "mountPoints", encodeMountPointList(v), protocol.Metadata{})
+	}
+	if s.Privileged != nil {
+		v := *s.Privileged
+
+		e.SetValue(protocol.BodyTarget, "privileged", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.ReadonlyRootFilesystem != nil {
+		v := *s.ReadonlyRootFilesystem
+
+		e.SetValue(protocol.BodyTarget, "readonlyRootFilesystem", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if len(s.Ulimits) > 0 {
+		v := s.Ulimits
+
+		e.SetList(protocol.BodyTarget, "ulimits", encodeUlimitList(v), protocol.Metadata{})
+	}
+	if s.User != nil {
+		v := *s.User
+
+		e.SetValue(protocol.BodyTarget, "user", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Vcpus != nil {
+		v := *s.Vcpus
+
+		e.SetValue(protocol.BodyTarget, "vcpus", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if len(s.Volumes) > 0 {
+		v := s.Volumes
+
+		e.SetList(protocol.BodyTarget, "volumes", encodeVolumeList(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/CreateComputeEnvironmentRequest
 type CreateComputeEnvironmentInput struct {
 	_ struct{} `type:"structure"`
@@ -2451,6 +2909,16 @@ type CreateComputeEnvironmentInput struct {
 
 	// The full Amazon Resource Name (ARN) of the IAM role that allows AWS Batch
 	// to make calls to other AWS services on your behalf.
+	//
+	// If your specified role has a path other than /, then you must either specify
+	// the full role ARN (this is recommended) or prefix the role name with the
+	// path.
+	//
+	// Depending on how you created your AWS Batch service role, its ARN may contain
+	// the service-role path prefix. When you only specify the name of the service
+	// role, AWS Batch assumes that your ARN does not use the service-role path
+	// prefix. Because of this, we recommend that you specify the full ARN of your
+	// service role when you create compute environments.
 	//
 	// ServiceRole is a required field
 	ServiceRole *string `locationName:"serviceRole" type:"string" required:"true"`
@@ -2530,6 +2998,37 @@ func (s *CreateComputeEnvironmentInput) SetType(v string) *CreateComputeEnvironm
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CreateComputeEnvironmentInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ComputeEnvironmentName != nil {
+		v := *s.ComputeEnvironmentName
+
+		e.SetValue(protocol.BodyTarget, "computeEnvironmentName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ComputeResources != nil {
+		v := s.ComputeResources
+
+		e.SetFields(protocol.BodyTarget, "computeResources", v, protocol.Metadata{})
+	}
+	if s.ServiceRole != nil {
+		v := *s.ServiceRole
+
+		e.SetValue(protocol.BodyTarget, "serviceRole", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.State != nil {
+		v := *s.State
+
+		e.SetValue(protocol.BodyTarget, "state", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Type != nil {
+		v := *s.Type
+
+		e.SetValue(protocol.BodyTarget, "type", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/CreateComputeEnvironmentResponse
 type CreateComputeEnvironmentOutput struct {
 	_ struct{} `type:"structure"`
@@ -2563,6 +3062,22 @@ func (s *CreateComputeEnvironmentOutput) SetComputeEnvironmentName(v string) *Cr
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CreateComputeEnvironmentOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ComputeEnvironmentArn != nil {
+		v := *s.ComputeEnvironmentArn
+
+		e.SetValue(protocol.BodyTarget, "computeEnvironmentArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ComputeEnvironmentName != nil {
+		v := *s.ComputeEnvironmentName
+
+		e.SetValue(protocol.BodyTarget, "computeEnvironmentName", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/CreateJobQueueRequest
 type CreateJobQueueInput struct {
 	_ struct{} `type:"structure"`
@@ -2581,11 +3096,11 @@ type CreateJobQueueInput struct {
 	// JobQueueName is a required field
 	JobQueueName *string `locationName:"jobQueueName" type:"string" required:"true"`
 
-	// The priority of the job queue. Job queues with a higher priority (or a lower
+	// The priority of the job queue. Job queues with a higher priority (or a higher
 	// integer value for the priority parameter) are evaluated first when associated
-	// with same compute environment. Priority is determined in ascending order,
-	// for example, a job queue with a priority value of 1 is given scheduling preference
-	// over a job queue with a priority value of 10.
+	// with same compute environment. Priority is determined in descending order,
+	// for example, a job queue with a priority value of 10 is given scheduling
+	// preference over a job queue with a priority value of 1.
 	//
 	// Priority is a required field
 	Priority *int64 `locationName:"priority" type:"integer" required:"true"`
@@ -2658,6 +3173,32 @@ func (s *CreateJobQueueInput) SetState(v string) *CreateJobQueueInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CreateJobQueueInput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.ComputeEnvironmentOrder) > 0 {
+		v := s.ComputeEnvironmentOrder
+
+		e.SetList(protocol.BodyTarget, "computeEnvironmentOrder", encodeComputeEnvironmentOrderList(v), protocol.Metadata{})
+	}
+	if s.JobQueueName != nil {
+		v := *s.JobQueueName
+
+		e.SetValue(protocol.BodyTarget, "jobQueueName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Priority != nil {
+		v := *s.Priority
+
+		e.SetValue(protocol.BodyTarget, "priority", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.State != nil {
+		v := *s.State
+
+		e.SetValue(protocol.BodyTarget, "state", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/CreateJobQueueResponse
 type CreateJobQueueOutput struct {
 	_ struct{} `type:"structure"`
@@ -2693,6 +3234,22 @@ func (s *CreateJobQueueOutput) SetJobQueueArn(v string) *CreateJobQueueOutput {
 func (s *CreateJobQueueOutput) SetJobQueueName(v string) *CreateJobQueueOutput {
 	s.JobQueueName = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CreateJobQueueOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.JobQueueArn != nil {
+		v := *s.JobQueueArn
+
+		e.SetValue(protocol.BodyTarget, "jobQueueArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.JobQueueName != nil {
+		v := *s.JobQueueName
+
+		e.SetValue(protocol.BodyTarget, "jobQueueName", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/DeleteComputeEnvironmentRequest
@@ -2734,6 +3291,17 @@ func (s *DeleteComputeEnvironmentInput) SetComputeEnvironment(v string) *DeleteC
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteComputeEnvironmentInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ComputeEnvironment != nil {
+		v := *s.ComputeEnvironment
+
+		e.SetValue(protocol.BodyTarget, "computeEnvironment", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/DeleteComputeEnvironmentResponse
 type DeleteComputeEnvironmentOutput struct {
 	_ struct{} `type:"structure"`
@@ -2747,6 +3315,12 @@ func (s DeleteComputeEnvironmentOutput) String() string {
 // GoString returns the string representation
 func (s DeleteComputeEnvironmentOutput) GoString() string {
 	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteComputeEnvironmentOutput) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/DeleteJobQueueRequest
@@ -2788,6 +3362,17 @@ func (s *DeleteJobQueueInput) SetJobQueue(v string) *DeleteJobQueueInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteJobQueueInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.JobQueue != nil {
+		v := *s.JobQueue
+
+		e.SetValue(protocol.BodyTarget, "jobQueue", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/DeleteJobQueueResponse
 type DeleteJobQueueOutput struct {
 	_ struct{} `type:"structure"`
@@ -2801,6 +3386,12 @@ func (s DeleteJobQueueOutput) String() string {
 // GoString returns the string representation
 func (s DeleteJobQueueOutput) GoString() string {
 	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteJobQueueOutput) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/DeregisterJobDefinitionRequest
@@ -2843,6 +3434,17 @@ func (s *DeregisterJobDefinitionInput) SetJobDefinition(v string) *DeregisterJob
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeregisterJobDefinitionInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.JobDefinition != nil {
+		v := *s.JobDefinition
+
+		e.SetValue(protocol.BodyTarget, "jobDefinition", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/DeregisterJobDefinitionResponse
 type DeregisterJobDefinitionOutput struct {
 	_ struct{} `type:"structure"`
@@ -2856,6 +3458,12 @@ func (s DeregisterJobDefinitionOutput) String() string {
 // GoString returns the string representation
 func (s DeregisterJobDefinitionOutput) GoString() string {
 	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeregisterJobDefinitionOutput) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/DescribeComputeEnvironmentsRequest
@@ -2915,6 +3523,27 @@ func (s *DescribeComputeEnvironmentsInput) SetNextToken(v string) *DescribeCompu
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DescribeComputeEnvironmentsInput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.ComputeEnvironments) > 0 {
+		v := s.ComputeEnvironments
+
+		e.SetList(protocol.BodyTarget, "computeEnvironments", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
+
+		e.SetValue(protocol.BodyTarget, "maxResults", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.BodyTarget, "nextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/DescribeComputeEnvironmentsResponse
 type DescribeComputeEnvironmentsOutput struct {
 	_ struct{} `type:"structure"`
@@ -2949,6 +3578,22 @@ func (s *DescribeComputeEnvironmentsOutput) SetComputeEnvironments(v []*ComputeE
 func (s *DescribeComputeEnvironmentsOutput) SetNextToken(v string) *DescribeComputeEnvironmentsOutput {
 	s.NextToken = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DescribeComputeEnvironmentsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.ComputeEnvironments) > 0 {
+		v := s.ComputeEnvironments
+
+		e.SetList(protocol.BodyTarget, "computeEnvironments", encodeComputeEnvironmentDetailList(v), protocol.Metadata{})
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.BodyTarget, "nextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/DescribeJobDefinitionsRequest
@@ -3025,6 +3670,37 @@ func (s *DescribeJobDefinitionsInput) SetStatus(v string) *DescribeJobDefinition
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DescribeJobDefinitionsInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.JobDefinitionName != nil {
+		v := *s.JobDefinitionName
+
+		e.SetValue(protocol.BodyTarget, "jobDefinitionName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.JobDefinitions) > 0 {
+		v := s.JobDefinitions
+
+		e.SetList(protocol.BodyTarget, "jobDefinitions", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
+
+		e.SetValue(protocol.BodyTarget, "maxResults", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.BodyTarget, "nextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Status != nil {
+		v := *s.Status
+
+		e.SetValue(protocol.BodyTarget, "status", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/DescribeJobDefinitionsResponse
 type DescribeJobDefinitionsOutput struct {
 	_ struct{} `type:"structure"`
@@ -3059,6 +3735,22 @@ func (s *DescribeJobDefinitionsOutput) SetJobDefinitions(v []*JobDefinition) *De
 func (s *DescribeJobDefinitionsOutput) SetNextToken(v string) *DescribeJobDefinitionsOutput {
 	s.NextToken = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DescribeJobDefinitionsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.JobDefinitions) > 0 {
+		v := s.JobDefinitions
+
+		e.SetList(protocol.BodyTarget, "jobDefinitions", encodeJobDefinitionList(v), protocol.Metadata{})
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.BodyTarget, "nextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/DescribeJobQueuesRequest
@@ -3117,6 +3809,27 @@ func (s *DescribeJobQueuesInput) SetNextToken(v string) *DescribeJobQueuesInput 
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DescribeJobQueuesInput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.JobQueues) > 0 {
+		v := s.JobQueues
+
+		e.SetList(protocol.BodyTarget, "jobQueues", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
+
+		e.SetValue(protocol.BodyTarget, "maxResults", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.BodyTarget, "nextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/DescribeJobQueuesResponse
 type DescribeJobQueuesOutput struct {
 	_ struct{} `type:"structure"`
@@ -3151,6 +3864,22 @@ func (s *DescribeJobQueuesOutput) SetJobQueues(v []*JobQueueDetail) *DescribeJob
 func (s *DescribeJobQueuesOutput) SetNextToken(v string) *DescribeJobQueuesOutput {
 	s.NextToken = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DescribeJobQueuesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.JobQueues) > 0 {
+		v := s.JobQueues
+
+		e.SetList(protocol.BodyTarget, "jobQueues", encodeJobQueueDetailList(v), protocol.Metadata{})
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.BodyTarget, "nextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/DescribeJobsRequest
@@ -3192,6 +3921,17 @@ func (s *DescribeJobsInput) SetJobs(v []*string) *DescribeJobsInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DescribeJobsInput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Jobs) > 0 {
+		v := s.Jobs
+
+		e.SetList(protocol.BodyTarget, "jobs", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/DescribeJobsResponse
 type DescribeJobsOutput struct {
 	_ struct{} `type:"structure"`
@@ -3214,6 +3954,17 @@ func (s DescribeJobsOutput) GoString() string {
 func (s *DescribeJobsOutput) SetJobs(v []*JobDetail) *DescribeJobsOutput {
 	s.Jobs = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DescribeJobsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Jobs) > 0 {
+		v := s.Jobs
+
+		e.SetList(protocol.BodyTarget, "jobs", encodeJobDetailList(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // The contents of the host parameter determine whether your data volume persists
@@ -3249,6 +4000,17 @@ func (s Host) GoString() string {
 func (s *Host) SetSourcePath(v string) *Host {
 	s.SourcePath = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *Host) MarshalFields(e protocol.FieldEncoder) error {
+	if s.SourcePath != nil {
+		v := *s.SourcePath
+
+		e.SetValue(protocol.BodyTarget, "sourcePath", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // An object representing an AWS Batch job definition.
@@ -3351,6 +4113,60 @@ func (s *JobDefinition) SetType(v string) *JobDefinition {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *JobDefinition) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ContainerProperties != nil {
+		v := s.ContainerProperties
+
+		e.SetFields(protocol.BodyTarget, "containerProperties", v, protocol.Metadata{})
+	}
+	if s.JobDefinitionArn != nil {
+		v := *s.JobDefinitionArn
+
+		e.SetValue(protocol.BodyTarget, "jobDefinitionArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.JobDefinitionName != nil {
+		v := *s.JobDefinitionName
+
+		e.SetValue(protocol.BodyTarget, "jobDefinitionName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Parameters) > 0 {
+		v := s.Parameters
+
+		e.SetMap(protocol.BodyTarget, "parameters", protocol.EncodeStringMap(v), protocol.Metadata{})
+	}
+	if s.RetryStrategy != nil {
+		v := s.RetryStrategy
+
+		e.SetFields(protocol.BodyTarget, "retryStrategy", v, protocol.Metadata{})
+	}
+	if s.Revision != nil {
+		v := *s.Revision
+
+		e.SetValue(protocol.BodyTarget, "revision", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.Status != nil {
+		v := *s.Status
+
+		e.SetValue(protocol.BodyTarget, "status", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Type != nil {
+		v := *s.Type
+
+		e.SetValue(protocol.BodyTarget, "type", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeJobDefinitionList(vs []*JobDefinition) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
+}
+
 // An object representing an AWS Batch job dependency.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/JobDependency
 type JobDependency struct {
@@ -3374,6 +4190,25 @@ func (s JobDependency) GoString() string {
 func (s *JobDependency) SetJobId(v string) *JobDependency {
 	s.JobId = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *JobDependency) MarshalFields(e protocol.FieldEncoder) error {
+	if s.JobId != nil {
+		v := *s.JobId
+
+		e.SetValue(protocol.BodyTarget, "jobId", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeJobDependencyList(vs []*JobDependency) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
 }
 
 // An object representing an AWS Batch job.
@@ -3537,6 +4372,90 @@ func (s *JobDetail) SetStoppedAt(v int64) *JobDetail {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *JobDetail) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Attempts) > 0 {
+		v := s.Attempts
+
+		e.SetList(protocol.BodyTarget, "attempts", encodeAttemptDetailList(v), protocol.Metadata{})
+	}
+	if s.Container != nil {
+		v := s.Container
+
+		e.SetFields(protocol.BodyTarget, "container", v, protocol.Metadata{})
+	}
+	if s.CreatedAt != nil {
+		v := *s.CreatedAt
+
+		e.SetValue(protocol.BodyTarget, "createdAt", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if len(s.DependsOn) > 0 {
+		v := s.DependsOn
+
+		e.SetList(protocol.BodyTarget, "dependsOn", encodeJobDependencyList(v), protocol.Metadata{})
+	}
+	if s.JobDefinition != nil {
+		v := *s.JobDefinition
+
+		e.SetValue(protocol.BodyTarget, "jobDefinition", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.JobId != nil {
+		v := *s.JobId
+
+		e.SetValue(protocol.BodyTarget, "jobId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.JobName != nil {
+		v := *s.JobName
+
+		e.SetValue(protocol.BodyTarget, "jobName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.JobQueue != nil {
+		v := *s.JobQueue
+
+		e.SetValue(protocol.BodyTarget, "jobQueue", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Parameters) > 0 {
+		v := s.Parameters
+
+		e.SetMap(protocol.BodyTarget, "parameters", protocol.EncodeStringMap(v), protocol.Metadata{})
+	}
+	if s.RetryStrategy != nil {
+		v := s.RetryStrategy
+
+		e.SetFields(protocol.BodyTarget, "retryStrategy", v, protocol.Metadata{})
+	}
+	if s.StartedAt != nil {
+		v := *s.StartedAt
+
+		e.SetValue(protocol.BodyTarget, "startedAt", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.Status != nil {
+		v := *s.Status
+
+		e.SetValue(protocol.BodyTarget, "status", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.StatusReason != nil {
+		v := *s.StatusReason
+
+		e.SetValue(protocol.BodyTarget, "statusReason", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.StoppedAt != nil {
+		v := *s.StoppedAt
+
+		e.SetValue(protocol.BodyTarget, "stoppedAt", protocol.Int64Value(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeJobDetailList(vs []*JobDetail) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
+}
+
 // An object representing the details of an AWS Batch job queue.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/JobQueueDetail
 type JobQueueDetail struct {
@@ -3629,6 +4548,55 @@ func (s *JobQueueDetail) SetStatusReason(v string) *JobQueueDetail {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *JobQueueDetail) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.ComputeEnvironmentOrder) > 0 {
+		v := s.ComputeEnvironmentOrder
+
+		e.SetList(protocol.BodyTarget, "computeEnvironmentOrder", encodeComputeEnvironmentOrderList(v), protocol.Metadata{})
+	}
+	if s.JobQueueArn != nil {
+		v := *s.JobQueueArn
+
+		e.SetValue(protocol.BodyTarget, "jobQueueArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.JobQueueName != nil {
+		v := *s.JobQueueName
+
+		e.SetValue(protocol.BodyTarget, "jobQueueName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Priority != nil {
+		v := *s.Priority
+
+		e.SetValue(protocol.BodyTarget, "priority", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.State != nil {
+		v := *s.State
+
+		e.SetValue(protocol.BodyTarget, "state", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Status != nil {
+		v := *s.Status
+
+		e.SetValue(protocol.BodyTarget, "status", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.StatusReason != nil {
+		v := *s.StatusReason
+
+		e.SetValue(protocol.BodyTarget, "statusReason", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeJobQueueDetailList(vs []*JobQueueDetail) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
+}
+
 // An object representing summary details of a job.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/JobSummary
 type JobSummary struct {
@@ -3667,6 +4635,30 @@ func (s *JobSummary) SetJobName(v string) *JobSummary {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *JobSummary) MarshalFields(e protocol.FieldEncoder) error {
+	if s.JobId != nil {
+		v := *s.JobId
+
+		e.SetValue(protocol.BodyTarget, "jobId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.JobName != nil {
+		v := *s.JobName
+
+		e.SetValue(protocol.BodyTarget, "jobName", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeJobSummaryList(vs []*JobSummary) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
+}
+
 // A key-value pair object.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/KeyValuePair
 type KeyValuePair struct {
@@ -3703,6 +4695,30 @@ func (s *KeyValuePair) SetValue(v string) *KeyValuePair {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *KeyValuePair) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Value != nil {
+		v := *s.Value
+
+		e.SetValue(protocol.BodyTarget, "value", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeKeyValuePairList(vs []*KeyValuePair) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/ListJobsRequest
 type ListJobsInput struct {
 	_ struct{} `type:"structure"`
@@ -3713,7 +4729,8 @@ type ListJobsInput struct {
 	// JobQueue is a required field
 	JobQueue *string `locationName:"jobQueue" type:"string" required:"true"`
 
-	// The job status with which to filter jobs in the specified queue.
+	// The job status with which to filter jobs in the specified queue. If you do
+	// not specify a status, only RUNNING jobs are returned.
 	JobStatus *string `locationName:"jobStatus" type:"string" enum:"JobStatus"`
 
 	// The maximum number of results returned by ListJobs in paginated output. When
@@ -3782,6 +4799,32 @@ func (s *ListJobsInput) SetNextToken(v string) *ListJobsInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *ListJobsInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.JobQueue != nil {
+		v := *s.JobQueue
+
+		e.SetValue(protocol.BodyTarget, "jobQueue", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.JobStatus != nil {
+		v := *s.JobStatus
+
+		e.SetValue(protocol.BodyTarget, "jobStatus", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
+
+		e.SetValue(protocol.BodyTarget, "maxResults", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.BodyTarget, "nextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/ListJobsResponse
 type ListJobsOutput struct {
 	_ struct{} `type:"structure"`
@@ -3818,6 +4861,22 @@ func (s *ListJobsOutput) SetJobSummaryList(v []*JobSummary) *ListJobsOutput {
 func (s *ListJobsOutput) SetNextToken(v string) *ListJobsOutput {
 	s.NextToken = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *ListJobsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.JobSummaryList) > 0 {
+		v := s.JobSummaryList
+
+		e.SetList(protocol.BodyTarget, "jobSummaryList", encodeJobSummaryList(v), protocol.Metadata{})
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.BodyTarget, "nextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Details on a Docker volume mount point that is used in a job's container
@@ -3865,6 +4924,35 @@ func (s *MountPoint) SetSourceVolume(v string) *MountPoint {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *MountPoint) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ContainerPath != nil {
+		v := *s.ContainerPath
+
+		e.SetValue(protocol.BodyTarget, "containerPath", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ReadOnly != nil {
+		v := *s.ReadOnly
+
+		e.SetValue(protocol.BodyTarget, "readOnly", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.SourceVolume != nil {
+		v := *s.SourceVolume
+
+		e.SetValue(protocol.BodyTarget, "sourceVolume", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeMountPointList(vs []*MountPoint) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/RegisterJobDefinitionRequest
 type RegisterJobDefinitionInput struct {
 	_ struct{} `type:"structure"`
@@ -3873,7 +4961,8 @@ type RegisterJobDefinitionInput struct {
 	// parameter is required if the type parameter is container.
 	ContainerProperties *ContainerProperties `locationName:"containerProperties" type:"structure"`
 
-	// The name of the job definition to register.
+	// The name of the job definition to register. Up to 128 letters (uppercase
+	// and lowercase), numbers, hyphens, and underscores are allowed.
 	//
 	// JobDefinitionName is a required field
 	JobDefinitionName *string `locationName:"jobDefinitionName" type:"string" required:"true"`
@@ -3955,6 +5044,37 @@ func (s *RegisterJobDefinitionInput) SetType(v string) *RegisterJobDefinitionInp
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *RegisterJobDefinitionInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ContainerProperties != nil {
+		v := s.ContainerProperties
+
+		e.SetFields(protocol.BodyTarget, "containerProperties", v, protocol.Metadata{})
+	}
+	if s.JobDefinitionName != nil {
+		v := *s.JobDefinitionName
+
+		e.SetValue(protocol.BodyTarget, "jobDefinitionName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Parameters) > 0 {
+		v := s.Parameters
+
+		e.SetMap(protocol.BodyTarget, "parameters", protocol.EncodeStringMap(v), protocol.Metadata{})
+	}
+	if s.RetryStrategy != nil {
+		v := s.RetryStrategy
+
+		e.SetFields(protocol.BodyTarget, "retryStrategy", v, protocol.Metadata{})
+	}
+	if s.Type != nil {
+		v := *s.Type
+
+		e.SetValue(protocol.BodyTarget, "type", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/RegisterJobDefinitionResponse
 type RegisterJobDefinitionOutput struct {
 	_ struct{} `type:"structure"`
@@ -4003,6 +5123,27 @@ func (s *RegisterJobDefinitionOutput) SetRevision(v int64) *RegisterJobDefinitio
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *RegisterJobDefinitionOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.JobDefinitionArn != nil {
+		v := *s.JobDefinitionArn
+
+		e.SetValue(protocol.BodyTarget, "jobDefinitionArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.JobDefinitionName != nil {
+		v := *s.JobDefinitionName
+
+		e.SetValue(protocol.BodyTarget, "jobDefinitionName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Revision != nil {
+		v := *s.Revision
+
+		e.SetValue(protocol.BodyTarget, "revision", protocol.Int64Value(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // The retry strategy associated with a job.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/RetryStrategy
 type RetryStrategy struct {
@@ -4030,6 +5171,17 @@ func (s *RetryStrategy) SetAttempts(v int64) *RetryStrategy {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *RetryStrategy) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Attempts != nil {
+		v := *s.Attempts
+
+		e.SetValue(protocol.BodyTarget, "attempts", protocol.Int64Value(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/SubmitJobRequest
 type SubmitJobInput struct {
 	_ struct{} `type:"structure"`
@@ -4044,7 +5196,7 @@ type SubmitJobInput struct {
 	ContainerOverrides *ContainerOverrides `locationName:"containerOverrides" type:"structure"`
 
 	// A list of job IDs on which this job depends. A job can depend upon a maximum
-	// of 100 jobs.
+	// of 20 jobs.
 	DependsOn []*JobDependency `locationName:"dependsOn" type:"list"`
 
 	// The job definition used by this job. This value can be either a name:revision
@@ -4053,9 +5205,9 @@ type SubmitJobInput struct {
 	// JobDefinition is a required field
 	JobDefinition *string `locationName:"jobDefinition" type:"string" required:"true"`
 
-	// The name of the job. A name must be 1 to 128 characters in length.
-	//
-	// Pattern: ^[a-zA-Z0-9_]+$
+	// The name of the job. The first character must be alphanumeric, and up to
+	// 128 letters (uppercase and lowercase), numbers, hyphens, and underscores
+	// are allowed.
 	//
 	// JobName is a required field
 	JobName *string `locationName:"jobName" type:"string" required:"true"`
@@ -4149,6 +5301,47 @@ func (s *SubmitJobInput) SetRetryStrategy(v *RetryStrategy) *SubmitJobInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *SubmitJobInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ContainerOverrides != nil {
+		v := s.ContainerOverrides
+
+		e.SetFields(protocol.BodyTarget, "containerOverrides", v, protocol.Metadata{})
+	}
+	if len(s.DependsOn) > 0 {
+		v := s.DependsOn
+
+		e.SetList(protocol.BodyTarget, "dependsOn", encodeJobDependencyList(v), protocol.Metadata{})
+	}
+	if s.JobDefinition != nil {
+		v := *s.JobDefinition
+
+		e.SetValue(protocol.BodyTarget, "jobDefinition", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.JobName != nil {
+		v := *s.JobName
+
+		e.SetValue(protocol.BodyTarget, "jobName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.JobQueue != nil {
+		v := *s.JobQueue
+
+		e.SetValue(protocol.BodyTarget, "jobQueue", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Parameters) > 0 {
+		v := s.Parameters
+
+		e.SetMap(protocol.BodyTarget, "parameters", protocol.EncodeStringMap(v), protocol.Metadata{})
+	}
+	if s.RetryStrategy != nil {
+		v := s.RetryStrategy
+
+		e.SetFields(protocol.BodyTarget, "retryStrategy", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/SubmitJobResponse
 type SubmitJobOutput struct {
 	_ struct{} `type:"structure"`
@@ -4184,6 +5377,22 @@ func (s *SubmitJobOutput) SetJobId(v string) *SubmitJobOutput {
 func (s *SubmitJobOutput) SetJobName(v string) *SubmitJobOutput {
 	s.JobName = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *SubmitJobOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.JobId != nil {
+		v := *s.JobId
+
+		e.SetValue(protocol.BodyTarget, "jobId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.JobName != nil {
+		v := *s.JobName
+
+		e.SetValue(protocol.BodyTarget, "jobName", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/TerminateJobRequest
@@ -4241,6 +5450,22 @@ func (s *TerminateJobInput) SetReason(v string) *TerminateJobInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *TerminateJobInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.JobId != nil {
+		v := *s.JobId
+
+		e.SetValue(protocol.BodyTarget, "jobId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Reason != nil {
+		v := *s.Reason
+
+		e.SetValue(protocol.BodyTarget, "reason", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/TerminateJobResponse
 type TerminateJobOutput struct {
 	_ struct{} `type:"structure"`
@@ -4254,6 +5479,12 @@ func (s TerminateJobOutput) String() string {
 // GoString returns the string representation
 func (s TerminateJobOutput) GoString() string {
 	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *TerminateJobOutput) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
 }
 
 // The ulimit settings to pass to the container.
@@ -4324,6 +5555,35 @@ func (s *Ulimit) SetSoftLimit(v int64) *Ulimit {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *Ulimit) MarshalFields(e protocol.FieldEncoder) error {
+	if s.HardLimit != nil {
+		v := *s.HardLimit
+
+		e.SetValue(protocol.BodyTarget, "hardLimit", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.SoftLimit != nil {
+		v := *s.SoftLimit
+
+		e.SetValue(protocol.BodyTarget, "softLimit", protocol.Int64Value(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeUlimitList(vs []*Ulimit) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/UpdateComputeEnvironmentRequest
 type UpdateComputeEnvironmentInput struct {
 	_ struct{} `type:"structure"`
@@ -4338,8 +5598,18 @@ type UpdateComputeEnvironmentInput struct {
 	// for a managed compute environment.
 	ComputeResources *ComputeResourceUpdate `locationName:"computeResources" type:"structure"`
 
-	// The name or full Amazon Resource Name (ARN) of the IAM role that allows AWS
-	// Batch to make calls to ECS, Auto Scaling, and EC2 on your behalf.
+	// The full Amazon Resource Name (ARN) of the IAM role that allows AWS Batch
+	// to make calls to other AWS services on your behalf.
+	//
+	// If your specified role has a path other than /, then you must either specify
+	// the full role ARN (this is recommended) or prefix the role name with the
+	// path.
+	//
+	// Depending on how you created your AWS Batch service role, its ARN may contain
+	// the service-role path prefix. When you only specify the name of the service
+	// role, AWS Batch assumes that your ARN does not use the service-role path
+	// prefix. Because of this, we recommend that you specify the full ARN of your
+	// service role when you create compute environments.
 	ServiceRole *string `locationName:"serviceRole" type:"string"`
 
 	// The state of the compute environment. Compute environments in the ENABLED
@@ -4395,6 +5665,32 @@ func (s *UpdateComputeEnvironmentInput) SetState(v string) *UpdateComputeEnviron
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UpdateComputeEnvironmentInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ComputeEnvironment != nil {
+		v := *s.ComputeEnvironment
+
+		e.SetValue(protocol.BodyTarget, "computeEnvironment", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ComputeResources != nil {
+		v := s.ComputeResources
+
+		e.SetFields(protocol.BodyTarget, "computeResources", v, protocol.Metadata{})
+	}
+	if s.ServiceRole != nil {
+		v := *s.ServiceRole
+
+		e.SetValue(protocol.BodyTarget, "serviceRole", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.State != nil {
+		v := *s.State
+
+		e.SetValue(protocol.BodyTarget, "state", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/UpdateComputeEnvironmentResponse
 type UpdateComputeEnvironmentOutput struct {
 	_ struct{} `type:"structure"`
@@ -4428,6 +5724,22 @@ func (s *UpdateComputeEnvironmentOutput) SetComputeEnvironmentName(v string) *Up
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UpdateComputeEnvironmentOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ComputeEnvironmentArn != nil {
+		v := *s.ComputeEnvironmentArn
+
+		e.SetValue(protocol.BodyTarget, "computeEnvironmentArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ComputeEnvironmentName != nil {
+		v := *s.ComputeEnvironmentName
+
+		e.SetValue(protocol.BodyTarget, "computeEnvironmentName", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/UpdateJobQueueRequest
 type UpdateJobQueueInput struct {
 	_ struct{} `type:"structure"`
@@ -4442,11 +5754,11 @@ type UpdateJobQueueInput struct {
 	// JobQueue is a required field
 	JobQueue *string `locationName:"jobQueue" type:"string" required:"true"`
 
-	// The priority of the job queue. Job queues with a higher priority (or a lower
+	// The priority of the job queue. Job queues with a higher priority (or a higher
 	// integer value for the priority parameter) are evaluated first when associated
-	// with same compute environment. Priority is determined in ascending order,
-	// for example, a job queue with a priority value of 1 is given scheduling preference
-	// over a job queue with a priority value of 10.
+	// with same compute environment. Priority is determined in descending order,
+	// for example, a job queue with a priority value of 10 is given scheduling
+	// preference over a job queue with a priority value of 1.
 	Priority *int64 `locationName:"priority" type:"integer"`
 
 	// Describes the queue's ability to accept new jobs.
@@ -4510,6 +5822,32 @@ func (s *UpdateJobQueueInput) SetState(v string) *UpdateJobQueueInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UpdateJobQueueInput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.ComputeEnvironmentOrder) > 0 {
+		v := s.ComputeEnvironmentOrder
+
+		e.SetList(protocol.BodyTarget, "computeEnvironmentOrder", encodeComputeEnvironmentOrderList(v), protocol.Metadata{})
+	}
+	if s.JobQueue != nil {
+		v := *s.JobQueue
+
+		e.SetValue(protocol.BodyTarget, "jobQueue", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Priority != nil {
+		v := *s.Priority
+
+		e.SetValue(protocol.BodyTarget, "priority", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.State != nil {
+		v := *s.State
+
+		e.SetValue(protocol.BodyTarget, "state", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/UpdateJobQueueResponse
 type UpdateJobQueueOutput struct {
 	_ struct{} `type:"structure"`
@@ -4541,6 +5879,22 @@ func (s *UpdateJobQueueOutput) SetJobQueueArn(v string) *UpdateJobQueueOutput {
 func (s *UpdateJobQueueOutput) SetJobQueueName(v string) *UpdateJobQueueOutput {
 	s.JobQueueName = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UpdateJobQueueOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.JobQueueArn != nil {
+		v := *s.JobQueueArn
+
+		e.SetValue(protocol.BodyTarget, "jobQueueArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.JobQueueName != nil {
+		v := *s.JobQueueName
+
+		e.SetValue(protocol.BodyTarget, "jobQueueName", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // A data volume used in a job's container properties.
@@ -4581,6 +5935,30 @@ func (s *Volume) SetHost(v *Host) *Volume {
 func (s *Volume) SetName(v string) *Volume {
 	s.Name = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *Volume) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Host != nil {
+		v := s.Host
+
+		e.SetFields(protocol.BodyTarget, "host", v, protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "name", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeVolumeList(vs []*Volume) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
 }
 
 const (

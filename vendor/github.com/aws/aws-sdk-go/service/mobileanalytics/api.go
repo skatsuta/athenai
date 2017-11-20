@@ -16,19 +16,18 @@ const opPutEvents = "PutEvents"
 
 // PutEventsRequest generates a "aws/request.Request" representing the
 // client's request for the PutEvents operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See PutEvents for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the PutEvents method directly
-// instead.
+// See PutEvents for more information on using the PutEvents
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the PutEventsRequest method.
 //    req, resp := client.PutEventsRequest(params)
@@ -201,6 +200,50 @@ func (s *Event) SetVersion(v string) *Event {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *Event) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Attributes) > 0 {
+		v := s.Attributes
+
+		e.SetMap(protocol.BodyTarget, "attributes", protocol.EncodeStringMap(v), protocol.Metadata{})
+	}
+	if s.EventType != nil {
+		v := *s.EventType
+
+		e.SetValue(protocol.BodyTarget, "eventType", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Metrics) > 0 {
+		v := s.Metrics
+
+		e.SetMap(protocol.BodyTarget, "metrics", protocol.EncodeFloat64Map(v), protocol.Metadata{})
+	}
+	if s.Session != nil {
+		v := s.Session
+
+		e.SetFields(protocol.BodyTarget, "session", v, protocol.Metadata{})
+	}
+	if s.Timestamp != nil {
+		v := *s.Timestamp
+
+		e.SetValue(protocol.BodyTarget, "timestamp", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		e.SetValue(protocol.BodyTarget, "version", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeEventList(vs []*Event) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
+}
+
 // A container for the data needed for a PutEvent operation
 type PutEventsInput struct {
 	_ struct{} `type:"structure"`
@@ -274,6 +317,27 @@ func (s *PutEventsInput) SetEvents(v []*Event) *PutEventsInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *PutEventsInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ClientContext != nil {
+		v := *s.ClientContext
+
+		e.SetValue(protocol.HeaderTarget, "x-amz-Client-Context", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ClientContextEncoding != nil {
+		v := *s.ClientContextEncoding
+
+		e.SetValue(protocol.HeaderTarget, "x-amz-Client-Context-Encoding", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Events) > 0 {
+		v := s.Events
+
+		e.SetList(protocol.BodyTarget, "events", encodeEventList(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type PutEventsOutput struct {
 	_ struct{} `type:"structure"`
 }
@@ -286,6 +350,12 @@ func (s PutEventsOutput) String() string {
 // GoString returns the string representation
 func (s PutEventsOutput) GoString() string {
 	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *PutEventsOutput) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
 }
 
 // Describes the session. Session information is required on ALL events.
@@ -352,4 +422,30 @@ func (s *Session) SetStartTimestamp(v string) *Session {
 func (s *Session) SetStopTimestamp(v string) *Session {
 	s.StopTimestamp = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *Session) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Duration != nil {
+		v := *s.Duration
+
+		e.SetValue(protocol.BodyTarget, "duration", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		e.SetValue(protocol.BodyTarget, "id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.StartTimestamp != nil {
+		v := *s.StartTimestamp
+
+		e.SetValue(protocol.BodyTarget, "startTimestamp", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.StopTimestamp != nil {
+		v := *s.StopTimestamp
+
+		e.SetValue(protocol.BodyTarget, "stopTimestamp", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }

@@ -6,25 +6,110 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/awsutil"
 	"github.com/aws/aws-sdk-go/aws/request"
+	"github.com/aws/aws-sdk-go/private/protocol"
 )
+
+const opCreateApp = "CreateApp"
+
+// CreateAppRequest generates a "aws/request.Request" representing the
+// client's request for the CreateApp operation. The "output" return
+// value will be populated with the request's response once the request complets
+// successfuly.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See CreateApp for more information on using the CreateApp
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the CreateAppRequest method.
+//    req, resp := client.CreateAppRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+func (c *Pinpoint) CreateAppRequest(input *CreateAppInput) (req *request.Request, output *CreateAppOutput) {
+	op := &request.Operation{
+		Name:       opCreateApp,
+		HTTPMethod: "POST",
+		HTTPPath:   "/v1/apps",
+	}
+
+	if input == nil {
+		input = &CreateAppInput{}
+	}
+
+	output = &CreateAppOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// CreateApp API operation for Amazon Pinpoint.
+//
+// Used to create an app.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Pinpoint's
+// API operation CreateApp for usage and error information.
+//
+// Returned Error Codes:
+//   * ErrCodeBadRequestException "BadRequestException"
+//
+//   * ErrCodeInternalServerErrorException "InternalServerErrorException"
+//
+//   * ErrCodeForbiddenException "ForbiddenException"
+//
+//   * ErrCodeNotFoundException "NotFoundException"
+//
+//   * ErrCodeMethodNotAllowedException "MethodNotAllowedException"
+//
+//   * ErrCodeTooManyRequestsException "TooManyRequestsException"
+//
+func (c *Pinpoint) CreateApp(input *CreateAppInput) (*CreateAppOutput, error) {
+	req, out := c.CreateAppRequest(input)
+	return out, req.Send()
+}
+
+// CreateAppWithContext is the same as CreateApp with the addition of
+// the ability to pass a context and additional request options.
+//
+// See CreateApp for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Pinpoint) CreateAppWithContext(ctx aws.Context, input *CreateAppInput, opts ...request.Option) (*CreateAppOutput, error) {
+	req, out := c.CreateAppRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
 
 const opCreateCampaign = "CreateCampaign"
 
 // CreateCampaignRequest generates a "aws/request.Request" representing the
 // client's request for the CreateCampaign operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See CreateCampaign for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the CreateCampaign method directly
-// instead.
+// See CreateCampaign for more information on using the CreateCampaign
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the CreateCampaignRequest method.
 //    req, resp := client.CreateCampaignRequest(params)
@@ -98,19 +183,18 @@ const opCreateImportJob = "CreateImportJob"
 
 // CreateImportJobRequest generates a "aws/request.Request" representing the
 // client's request for the CreateImportJob operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See CreateImportJob for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the CreateImportJob method directly
-// instead.
+// See CreateImportJob for more information on using the CreateImportJob
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the CreateImportJobRequest method.
 //    req, resp := client.CreateImportJobRequest(params)
@@ -184,19 +268,18 @@ const opCreateSegment = "CreateSegment"
 
 // CreateSegmentRequest generates a "aws/request.Request" representing the
 // client's request for the CreateSegment operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See CreateSegment for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the CreateSegment method directly
-// instead.
+// See CreateSegment for more information on using the CreateSegment
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the CreateSegmentRequest method.
 //    req, resp := client.CreateSegmentRequest(params)
@@ -270,19 +353,18 @@ const opDeleteApnsChannel = "DeleteApnsChannel"
 
 // DeleteApnsChannelRequest generates a "aws/request.Request" representing the
 // client's request for the DeleteApnsChannel operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DeleteApnsChannel for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DeleteApnsChannel method directly
-// instead.
+// See DeleteApnsChannel for more information on using the DeleteApnsChannel
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DeleteApnsChannelRequest method.
 //    req, resp := client.DeleteApnsChannelRequest(params)
@@ -356,19 +438,18 @@ const opDeleteApnsSandboxChannel = "DeleteApnsSandboxChannel"
 
 // DeleteApnsSandboxChannelRequest generates a "aws/request.Request" representing the
 // client's request for the DeleteApnsSandboxChannel operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DeleteApnsSandboxChannel for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DeleteApnsSandboxChannel method directly
-// instead.
+// See DeleteApnsSandboxChannel for more information on using the DeleteApnsSandboxChannel
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DeleteApnsSandboxChannelRequest method.
 //    req, resp := client.DeleteApnsSandboxChannelRequest(params)
@@ -438,23 +519,107 @@ func (c *Pinpoint) DeleteApnsSandboxChannelWithContext(ctx aws.Context, input *D
 	return out, req.Send()
 }
 
+const opDeleteApp = "DeleteApp"
+
+// DeleteAppRequest generates a "aws/request.Request" representing the
+// client's request for the DeleteApp operation. The "output" return
+// value will be populated with the request's response once the request complets
+// successfuly.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See DeleteApp for more information on using the DeleteApp
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the DeleteAppRequest method.
+//    req, resp := client.DeleteAppRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+func (c *Pinpoint) DeleteAppRequest(input *DeleteAppInput) (req *request.Request, output *DeleteAppOutput) {
+	op := &request.Operation{
+		Name:       opDeleteApp,
+		HTTPMethod: "DELETE",
+		HTTPPath:   "/v1/apps/{application-id}",
+	}
+
+	if input == nil {
+		input = &DeleteAppInput{}
+	}
+
+	output = &DeleteAppOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// DeleteApp API operation for Amazon Pinpoint.
+//
+// Deletes an app.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Pinpoint's
+// API operation DeleteApp for usage and error information.
+//
+// Returned Error Codes:
+//   * ErrCodeBadRequestException "BadRequestException"
+//
+//   * ErrCodeInternalServerErrorException "InternalServerErrorException"
+//
+//   * ErrCodeForbiddenException "ForbiddenException"
+//
+//   * ErrCodeNotFoundException "NotFoundException"
+//
+//   * ErrCodeMethodNotAllowedException "MethodNotAllowedException"
+//
+//   * ErrCodeTooManyRequestsException "TooManyRequestsException"
+//
+func (c *Pinpoint) DeleteApp(input *DeleteAppInput) (*DeleteAppOutput, error) {
+	req, out := c.DeleteAppRequest(input)
+	return out, req.Send()
+}
+
+// DeleteAppWithContext is the same as DeleteApp with the addition of
+// the ability to pass a context and additional request options.
+//
+// See DeleteApp for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Pinpoint) DeleteAppWithContext(ctx aws.Context, input *DeleteAppInput, opts ...request.Option) (*DeleteAppOutput, error) {
+	req, out := c.DeleteAppRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
 const opDeleteCampaign = "DeleteCampaign"
 
 // DeleteCampaignRequest generates a "aws/request.Request" representing the
 // client's request for the DeleteCampaign operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DeleteCampaign for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DeleteCampaign method directly
-// instead.
+// See DeleteCampaign for more information on using the DeleteCampaign
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DeleteCampaignRequest method.
 //    req, resp := client.DeleteCampaignRequest(params)
@@ -528,19 +693,18 @@ const opDeleteEmailChannel = "DeleteEmailChannel"
 
 // DeleteEmailChannelRequest generates a "aws/request.Request" representing the
 // client's request for the DeleteEmailChannel operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DeleteEmailChannel for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DeleteEmailChannel method directly
-// instead.
+// See DeleteEmailChannel for more information on using the DeleteEmailChannel
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DeleteEmailChannelRequest method.
 //    req, resp := client.DeleteEmailChannelRequest(params)
@@ -614,19 +778,18 @@ const opDeleteEventStream = "DeleteEventStream"
 
 // DeleteEventStreamRequest generates a "aws/request.Request" representing the
 // client's request for the DeleteEventStream operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DeleteEventStream for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DeleteEventStream method directly
-// instead.
+// See DeleteEventStream for more information on using the DeleteEventStream
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DeleteEventStreamRequest method.
 //    req, resp := client.DeleteEventStreamRequest(params)
@@ -700,19 +863,18 @@ const opDeleteGcmChannel = "DeleteGcmChannel"
 
 // DeleteGcmChannelRequest generates a "aws/request.Request" representing the
 // client's request for the DeleteGcmChannel operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DeleteGcmChannel for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DeleteGcmChannel method directly
-// instead.
+// See DeleteGcmChannel for more information on using the DeleteGcmChannel
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DeleteGcmChannelRequest method.
 //    req, resp := client.DeleteGcmChannelRequest(params)
@@ -786,19 +948,18 @@ const opDeleteSegment = "DeleteSegment"
 
 // DeleteSegmentRequest generates a "aws/request.Request" representing the
 // client's request for the DeleteSegment operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DeleteSegment for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DeleteSegment method directly
-// instead.
+// See DeleteSegment for more information on using the DeleteSegment
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DeleteSegmentRequest method.
 //    req, resp := client.DeleteSegmentRequest(params)
@@ -872,19 +1033,18 @@ const opDeleteSmsChannel = "DeleteSmsChannel"
 
 // DeleteSmsChannelRequest generates a "aws/request.Request" representing the
 // client's request for the DeleteSmsChannel operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DeleteSmsChannel for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DeleteSmsChannel method directly
-// instead.
+// See DeleteSmsChannel for more information on using the DeleteSmsChannel
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DeleteSmsChannelRequest method.
 //    req, resp := client.DeleteSmsChannelRequest(params)
@@ -958,19 +1118,18 @@ const opGetApnsChannel = "GetApnsChannel"
 
 // GetApnsChannelRequest generates a "aws/request.Request" representing the
 // client's request for the GetApnsChannel operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetApnsChannel for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetApnsChannel method directly
-// instead.
+// See GetApnsChannel for more information on using the GetApnsChannel
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetApnsChannelRequest method.
 //    req, resp := client.GetApnsChannelRequest(params)
@@ -1044,19 +1203,18 @@ const opGetApnsSandboxChannel = "GetApnsSandboxChannel"
 
 // GetApnsSandboxChannelRequest generates a "aws/request.Request" representing the
 // client's request for the GetApnsSandboxChannel operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetApnsSandboxChannel for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetApnsSandboxChannel method directly
-// instead.
+// See GetApnsSandboxChannel for more information on using the GetApnsSandboxChannel
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetApnsSandboxChannelRequest method.
 //    req, resp := client.GetApnsSandboxChannelRequest(params)
@@ -1126,23 +1284,107 @@ func (c *Pinpoint) GetApnsSandboxChannelWithContext(ctx aws.Context, input *GetA
 	return out, req.Send()
 }
 
+const opGetApp = "GetApp"
+
+// GetAppRequest generates a "aws/request.Request" representing the
+// client's request for the GetApp operation. The "output" return
+// value will be populated with the request's response once the request complets
+// successfuly.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See GetApp for more information on using the GetApp
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the GetAppRequest method.
+//    req, resp := client.GetAppRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+func (c *Pinpoint) GetAppRequest(input *GetAppInput) (req *request.Request, output *GetAppOutput) {
+	op := &request.Operation{
+		Name:       opGetApp,
+		HTTPMethod: "GET",
+		HTTPPath:   "/v1/apps/{application-id}",
+	}
+
+	if input == nil {
+		input = &GetAppInput{}
+	}
+
+	output = &GetAppOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// GetApp API operation for Amazon Pinpoint.
+//
+// Returns information about an app.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Pinpoint's
+// API operation GetApp for usage and error information.
+//
+// Returned Error Codes:
+//   * ErrCodeBadRequestException "BadRequestException"
+//
+//   * ErrCodeInternalServerErrorException "InternalServerErrorException"
+//
+//   * ErrCodeForbiddenException "ForbiddenException"
+//
+//   * ErrCodeNotFoundException "NotFoundException"
+//
+//   * ErrCodeMethodNotAllowedException "MethodNotAllowedException"
+//
+//   * ErrCodeTooManyRequestsException "TooManyRequestsException"
+//
+func (c *Pinpoint) GetApp(input *GetAppInput) (*GetAppOutput, error) {
+	req, out := c.GetAppRequest(input)
+	return out, req.Send()
+}
+
+// GetAppWithContext is the same as GetApp with the addition of
+// the ability to pass a context and additional request options.
+//
+// See GetApp for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Pinpoint) GetAppWithContext(ctx aws.Context, input *GetAppInput, opts ...request.Option) (*GetAppOutput, error) {
+	req, out := c.GetAppRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
 const opGetApplicationSettings = "GetApplicationSettings"
 
 // GetApplicationSettingsRequest generates a "aws/request.Request" representing the
 // client's request for the GetApplicationSettings operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetApplicationSettings for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetApplicationSettings method directly
-// instead.
+// See GetApplicationSettings for more information on using the GetApplicationSettings
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetApplicationSettingsRequest method.
 //    req, resp := client.GetApplicationSettingsRequest(params)
@@ -1212,23 +1454,107 @@ func (c *Pinpoint) GetApplicationSettingsWithContext(ctx aws.Context, input *Get
 	return out, req.Send()
 }
 
+const opGetApps = "GetApps"
+
+// GetAppsRequest generates a "aws/request.Request" representing the
+// client's request for the GetApps operation. The "output" return
+// value will be populated with the request's response once the request complets
+// successfuly.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See GetApps for more information on using the GetApps
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the GetAppsRequest method.
+//    req, resp := client.GetAppsRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+func (c *Pinpoint) GetAppsRequest(input *GetAppsInput) (req *request.Request, output *GetAppsOutput) {
+	op := &request.Operation{
+		Name:       opGetApps,
+		HTTPMethod: "GET",
+		HTTPPath:   "/v1/apps",
+	}
+
+	if input == nil {
+		input = &GetAppsInput{}
+	}
+
+	output = &GetAppsOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// GetApps API operation for Amazon Pinpoint.
+//
+// Returns information about your apps.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Pinpoint's
+// API operation GetApps for usage and error information.
+//
+// Returned Error Codes:
+//   * ErrCodeBadRequestException "BadRequestException"
+//
+//   * ErrCodeInternalServerErrorException "InternalServerErrorException"
+//
+//   * ErrCodeForbiddenException "ForbiddenException"
+//
+//   * ErrCodeNotFoundException "NotFoundException"
+//
+//   * ErrCodeMethodNotAllowedException "MethodNotAllowedException"
+//
+//   * ErrCodeTooManyRequestsException "TooManyRequestsException"
+//
+func (c *Pinpoint) GetApps(input *GetAppsInput) (*GetAppsOutput, error) {
+	req, out := c.GetAppsRequest(input)
+	return out, req.Send()
+}
+
+// GetAppsWithContext is the same as GetApps with the addition of
+// the ability to pass a context and additional request options.
+//
+// See GetApps for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *Pinpoint) GetAppsWithContext(ctx aws.Context, input *GetAppsInput, opts ...request.Option) (*GetAppsOutput, error) {
+	req, out := c.GetAppsRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
 const opGetCampaign = "GetCampaign"
 
 // GetCampaignRequest generates a "aws/request.Request" representing the
 // client's request for the GetCampaign operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetCampaign for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetCampaign method directly
-// instead.
+// See GetCampaign for more information on using the GetCampaign
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetCampaignRequest method.
 //    req, resp := client.GetCampaignRequest(params)
@@ -1302,19 +1628,18 @@ const opGetCampaignActivities = "GetCampaignActivities"
 
 // GetCampaignActivitiesRequest generates a "aws/request.Request" representing the
 // client's request for the GetCampaignActivities operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetCampaignActivities for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetCampaignActivities method directly
-// instead.
+// See GetCampaignActivities for more information on using the GetCampaignActivities
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetCampaignActivitiesRequest method.
 //    req, resp := client.GetCampaignActivitiesRequest(params)
@@ -1388,19 +1713,18 @@ const opGetCampaignVersion = "GetCampaignVersion"
 
 // GetCampaignVersionRequest generates a "aws/request.Request" representing the
 // client's request for the GetCampaignVersion operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetCampaignVersion for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetCampaignVersion method directly
-// instead.
+// See GetCampaignVersion for more information on using the GetCampaignVersion
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetCampaignVersionRequest method.
 //    req, resp := client.GetCampaignVersionRequest(params)
@@ -1474,19 +1798,18 @@ const opGetCampaignVersions = "GetCampaignVersions"
 
 // GetCampaignVersionsRequest generates a "aws/request.Request" representing the
 // client's request for the GetCampaignVersions operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetCampaignVersions for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetCampaignVersions method directly
-// instead.
+// See GetCampaignVersions for more information on using the GetCampaignVersions
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetCampaignVersionsRequest method.
 //    req, resp := client.GetCampaignVersionsRequest(params)
@@ -1560,19 +1883,18 @@ const opGetCampaigns = "GetCampaigns"
 
 // GetCampaignsRequest generates a "aws/request.Request" representing the
 // client's request for the GetCampaigns operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetCampaigns for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetCampaigns method directly
-// instead.
+// See GetCampaigns for more information on using the GetCampaigns
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetCampaignsRequest method.
 //    req, resp := client.GetCampaignsRequest(params)
@@ -1646,19 +1968,18 @@ const opGetEmailChannel = "GetEmailChannel"
 
 // GetEmailChannelRequest generates a "aws/request.Request" representing the
 // client's request for the GetEmailChannel operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetEmailChannel for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetEmailChannel method directly
-// instead.
+// See GetEmailChannel for more information on using the GetEmailChannel
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetEmailChannelRequest method.
 //    req, resp := client.GetEmailChannelRequest(params)
@@ -1732,19 +2053,18 @@ const opGetEndpoint = "GetEndpoint"
 
 // GetEndpointRequest generates a "aws/request.Request" representing the
 // client's request for the GetEndpoint operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetEndpoint for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetEndpoint method directly
-// instead.
+// See GetEndpoint for more information on using the GetEndpoint
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetEndpointRequest method.
 //    req, resp := client.GetEndpointRequest(params)
@@ -1818,19 +2138,18 @@ const opGetEventStream = "GetEventStream"
 
 // GetEventStreamRequest generates a "aws/request.Request" representing the
 // client's request for the GetEventStream operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetEventStream for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetEventStream method directly
-// instead.
+// See GetEventStream for more information on using the GetEventStream
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetEventStreamRequest method.
 //    req, resp := client.GetEventStreamRequest(params)
@@ -1904,19 +2223,18 @@ const opGetGcmChannel = "GetGcmChannel"
 
 // GetGcmChannelRequest generates a "aws/request.Request" representing the
 // client's request for the GetGcmChannel operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetGcmChannel for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetGcmChannel method directly
-// instead.
+// See GetGcmChannel for more information on using the GetGcmChannel
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetGcmChannelRequest method.
 //    req, resp := client.GetGcmChannelRequest(params)
@@ -1990,19 +2308,18 @@ const opGetImportJob = "GetImportJob"
 
 // GetImportJobRequest generates a "aws/request.Request" representing the
 // client's request for the GetImportJob operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetImportJob for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetImportJob method directly
-// instead.
+// See GetImportJob for more information on using the GetImportJob
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetImportJobRequest method.
 //    req, resp := client.GetImportJobRequest(params)
@@ -2076,19 +2393,18 @@ const opGetImportJobs = "GetImportJobs"
 
 // GetImportJobsRequest generates a "aws/request.Request" representing the
 // client's request for the GetImportJobs operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetImportJobs for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetImportJobs method directly
-// instead.
+// See GetImportJobs for more information on using the GetImportJobs
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetImportJobsRequest method.
 //    req, resp := client.GetImportJobsRequest(params)
@@ -2162,19 +2478,18 @@ const opGetSegment = "GetSegment"
 
 // GetSegmentRequest generates a "aws/request.Request" representing the
 // client's request for the GetSegment operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetSegment for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetSegment method directly
-// instead.
+// See GetSegment for more information on using the GetSegment
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetSegmentRequest method.
 //    req, resp := client.GetSegmentRequest(params)
@@ -2248,19 +2563,18 @@ const opGetSegmentImportJobs = "GetSegmentImportJobs"
 
 // GetSegmentImportJobsRequest generates a "aws/request.Request" representing the
 // client's request for the GetSegmentImportJobs operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetSegmentImportJobs for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetSegmentImportJobs method directly
-// instead.
+// See GetSegmentImportJobs for more information on using the GetSegmentImportJobs
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetSegmentImportJobsRequest method.
 //    req, resp := client.GetSegmentImportJobsRequest(params)
@@ -2334,19 +2648,18 @@ const opGetSegmentVersion = "GetSegmentVersion"
 
 // GetSegmentVersionRequest generates a "aws/request.Request" representing the
 // client's request for the GetSegmentVersion operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetSegmentVersion for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetSegmentVersion method directly
-// instead.
+// See GetSegmentVersion for more information on using the GetSegmentVersion
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetSegmentVersionRequest method.
 //    req, resp := client.GetSegmentVersionRequest(params)
@@ -2420,19 +2733,18 @@ const opGetSegmentVersions = "GetSegmentVersions"
 
 // GetSegmentVersionsRequest generates a "aws/request.Request" representing the
 // client's request for the GetSegmentVersions operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetSegmentVersions for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetSegmentVersions method directly
-// instead.
+// See GetSegmentVersions for more information on using the GetSegmentVersions
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetSegmentVersionsRequest method.
 //    req, resp := client.GetSegmentVersionsRequest(params)
@@ -2506,19 +2818,18 @@ const opGetSegments = "GetSegments"
 
 // GetSegmentsRequest generates a "aws/request.Request" representing the
 // client's request for the GetSegments operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetSegments for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetSegments method directly
-// instead.
+// See GetSegments for more information on using the GetSegments
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetSegmentsRequest method.
 //    req, resp := client.GetSegmentsRequest(params)
@@ -2592,19 +2903,18 @@ const opGetSmsChannel = "GetSmsChannel"
 
 // GetSmsChannelRequest generates a "aws/request.Request" representing the
 // client's request for the GetSmsChannel operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See GetSmsChannel for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the GetSmsChannel method directly
-// instead.
+// See GetSmsChannel for more information on using the GetSmsChannel
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the GetSmsChannelRequest method.
 //    req, resp := client.GetSmsChannelRequest(params)
@@ -2678,19 +2988,18 @@ const opPutEventStream = "PutEventStream"
 
 // PutEventStreamRequest generates a "aws/request.Request" representing the
 // client's request for the PutEventStream operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See PutEventStream for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the PutEventStream method directly
-// instead.
+// See PutEventStream for more information on using the PutEventStream
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the PutEventStreamRequest method.
 //    req, resp := client.PutEventStreamRequest(params)
@@ -2764,19 +3073,18 @@ const opSendMessages = "SendMessages"
 
 // SendMessagesRequest generates a "aws/request.Request" representing the
 // client's request for the SendMessages operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See SendMessages for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the SendMessages method directly
-// instead.
+// See SendMessages for more information on using the SendMessages
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the SendMessagesRequest method.
 //    req, resp := client.SendMessagesRequest(params)
@@ -2850,19 +3158,18 @@ const opUpdateApnsChannel = "UpdateApnsChannel"
 
 // UpdateApnsChannelRequest generates a "aws/request.Request" representing the
 // client's request for the UpdateApnsChannel operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See UpdateApnsChannel for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the UpdateApnsChannel method directly
-// instead.
+// See UpdateApnsChannel for more information on using the UpdateApnsChannel
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the UpdateApnsChannelRequest method.
 //    req, resp := client.UpdateApnsChannelRequest(params)
@@ -2936,19 +3243,18 @@ const opUpdateApnsSandboxChannel = "UpdateApnsSandboxChannel"
 
 // UpdateApnsSandboxChannelRequest generates a "aws/request.Request" representing the
 // client's request for the UpdateApnsSandboxChannel operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See UpdateApnsSandboxChannel for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the UpdateApnsSandboxChannel method directly
-// instead.
+// See UpdateApnsSandboxChannel for more information on using the UpdateApnsSandboxChannel
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the UpdateApnsSandboxChannelRequest method.
 //    req, resp := client.UpdateApnsSandboxChannelRequest(params)
@@ -3022,19 +3328,18 @@ const opUpdateApplicationSettings = "UpdateApplicationSettings"
 
 // UpdateApplicationSettingsRequest generates a "aws/request.Request" representing the
 // client's request for the UpdateApplicationSettings operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See UpdateApplicationSettings for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the UpdateApplicationSettings method directly
-// instead.
+// See UpdateApplicationSettings for more information on using the UpdateApplicationSettings
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the UpdateApplicationSettingsRequest method.
 //    req, resp := client.UpdateApplicationSettingsRequest(params)
@@ -3108,19 +3413,18 @@ const opUpdateCampaign = "UpdateCampaign"
 
 // UpdateCampaignRequest generates a "aws/request.Request" representing the
 // client's request for the UpdateCampaign operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See UpdateCampaign for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the UpdateCampaign method directly
-// instead.
+// See UpdateCampaign for more information on using the UpdateCampaign
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the UpdateCampaignRequest method.
 //    req, resp := client.UpdateCampaignRequest(params)
@@ -3194,19 +3498,18 @@ const opUpdateEmailChannel = "UpdateEmailChannel"
 
 // UpdateEmailChannelRequest generates a "aws/request.Request" representing the
 // client's request for the UpdateEmailChannel operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See UpdateEmailChannel for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the UpdateEmailChannel method directly
-// instead.
+// See UpdateEmailChannel for more information on using the UpdateEmailChannel
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the UpdateEmailChannelRequest method.
 //    req, resp := client.UpdateEmailChannelRequest(params)
@@ -3280,19 +3583,18 @@ const opUpdateEndpoint = "UpdateEndpoint"
 
 // UpdateEndpointRequest generates a "aws/request.Request" representing the
 // client's request for the UpdateEndpoint operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See UpdateEndpoint for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the UpdateEndpoint method directly
-// instead.
+// See UpdateEndpoint for more information on using the UpdateEndpoint
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the UpdateEndpointRequest method.
 //    req, resp := client.UpdateEndpointRequest(params)
@@ -3366,19 +3668,18 @@ const opUpdateEndpointsBatch = "UpdateEndpointsBatch"
 
 // UpdateEndpointsBatchRequest generates a "aws/request.Request" representing the
 // client's request for the UpdateEndpointsBatch operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See UpdateEndpointsBatch for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the UpdateEndpointsBatch method directly
-// instead.
+// See UpdateEndpointsBatch for more information on using the UpdateEndpointsBatch
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the UpdateEndpointsBatchRequest method.
 //    req, resp := client.UpdateEndpointsBatchRequest(params)
@@ -3452,19 +3753,18 @@ const opUpdateGcmChannel = "UpdateGcmChannel"
 
 // UpdateGcmChannelRequest generates a "aws/request.Request" representing the
 // client's request for the UpdateGcmChannel operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See UpdateGcmChannel for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the UpdateGcmChannel method directly
-// instead.
+// See UpdateGcmChannel for more information on using the UpdateGcmChannel
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the UpdateGcmChannelRequest method.
 //    req, resp := client.UpdateGcmChannelRequest(params)
@@ -3538,19 +3838,18 @@ const opUpdateSegment = "UpdateSegment"
 
 // UpdateSegmentRequest generates a "aws/request.Request" representing the
 // client's request for the UpdateSegment operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See UpdateSegment for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the UpdateSegment method directly
-// instead.
+// See UpdateSegment for more information on using the UpdateSegment
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the UpdateSegmentRequest method.
 //    req, resp := client.UpdateSegmentRequest(params)
@@ -3624,19 +3923,18 @@ const opUpdateSmsChannel = "UpdateSmsChannel"
 
 // UpdateSmsChannelRequest generates a "aws/request.Request" representing the
 // client's request for the UpdateSmsChannel operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See UpdateSmsChannel for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the UpdateSmsChannel method directly
-// instead.
+// See UpdateSmsChannel for more information on using the UpdateSmsChannel
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the UpdateSmsChannelRequest method.
 //    req, resp := client.UpdateSmsChannelRequest(params)
@@ -3748,6 +4046,27 @@ func (s *APNSChannelRequest) SetPrivateKey(v string) *APNSChannelRequest {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *APNSChannelRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Certificate != nil {
+		v := *s.Certificate
+
+		e.SetValue(protocol.BodyTarget, "Certificate", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Enabled != nil {
+		v := *s.Enabled
+
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.PrivateKey != nil {
+		v := *s.PrivateKey
+
+		e.SetValue(protocol.BodyTarget, "PrivateKey", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Apple Distribution Push Notification Service channel definition.
 type APNSChannelResponse struct {
 	_ struct{} `type:"structure"`
@@ -3761,7 +4080,7 @@ type APNSChannelResponse struct {
 	// If the channel is enabled for sending messages.
 	Enabled *bool `type:"boolean"`
 
-	// Channel ID. Not used, only for backwards compatibility.
+	// Channel ID. Not used. Present only for backwards compatibility.
 	Id *string `type:"string"`
 
 	// Is this channel archived
@@ -3842,6 +4161,57 @@ func (s *APNSChannelResponse) SetPlatform(v string) *APNSChannelResponse {
 func (s *APNSChannelResponse) SetVersion(v int64) *APNSChannelResponse {
 	s.Version = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *APNSChannelResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.CreationDate != nil {
+		v := *s.CreationDate
+
+		e.SetValue(protocol.BodyTarget, "CreationDate", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Enabled != nil {
+		v := *s.Enabled
+
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		e.SetValue(protocol.BodyTarget, "Id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.IsArchived != nil {
+		v := *s.IsArchived
+
+		e.SetValue(protocol.BodyTarget, "IsArchived", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.LastModifiedBy != nil {
+		v := *s.LastModifiedBy
+
+		e.SetValue(protocol.BodyTarget, "LastModifiedBy", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.LastModifiedDate != nil {
+		v := *s.LastModifiedDate
+
+		e.SetValue(protocol.BodyTarget, "LastModifiedDate", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Platform != nil {
+		v := *s.Platform
+
+		e.SetValue(protocol.BodyTarget, "Platform", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		e.SetValue(protocol.BodyTarget, "Version", protocol.Int64Value(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // APNS Message.
@@ -3992,6 +4362,82 @@ func (s *APNSMessage) SetUrl(v string) *APNSMessage {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *APNSMessage) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Action != nil {
+		v := *s.Action
+
+		e.SetValue(protocol.BodyTarget, "Action", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Badge != nil {
+		v := *s.Badge
+
+		e.SetValue(protocol.BodyTarget, "Badge", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.Body != nil {
+		v := *s.Body
+
+		e.SetValue(protocol.BodyTarget, "Body", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Category != nil {
+		v := *s.Category
+
+		e.SetValue(protocol.BodyTarget, "Category", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Data) > 0 {
+		v := s.Data
+
+		e.SetMap(protocol.BodyTarget, "Data", protocol.EncodeStringMap(v), protocol.Metadata{})
+	}
+	if s.MediaUrl != nil {
+		v := *s.MediaUrl
+
+		e.SetValue(protocol.BodyTarget, "MediaUrl", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.RawContent != nil {
+		v := *s.RawContent
+
+		e.SetValue(protocol.BodyTarget, "RawContent", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.SilentPush != nil {
+		v := *s.SilentPush
+
+		e.SetValue(protocol.BodyTarget, "SilentPush", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.Sound != nil {
+		v := *s.Sound
+
+		e.SetValue(protocol.BodyTarget, "Sound", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Substitutions) > 0 {
+		v := s.Substitutions
+
+		e.SetMap(protocol.BodyTarget, "Substitutions", func(me protocol.MapEncoder) {
+			for k, item := range v {
+				v := item
+				me.MapSetList(k, protocol.EncodeStringList(v))
+			}
+		}, protocol.Metadata{})
+	}
+	if s.ThreadId != nil {
+		v := *s.ThreadId
+
+		e.SetValue(protocol.BodyTarget, "ThreadId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Title != nil {
+		v := *s.Title
+
+		e.SetValue(protocol.BodyTarget, "Title", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Url != nil {
+		v := *s.Url
+
+		e.SetValue(protocol.BodyTarget, "Url", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Apple Development Push Notification Service channel definition.
 type APNSSandboxChannelRequest struct {
 	_ struct{} `type:"structure"`
@@ -4034,6 +4480,27 @@ func (s *APNSSandboxChannelRequest) SetPrivateKey(v string) *APNSSandboxChannelR
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *APNSSandboxChannelRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Certificate != nil {
+		v := *s.Certificate
+
+		e.SetValue(protocol.BodyTarget, "Certificate", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Enabled != nil {
+		v := *s.Enabled
+
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.PrivateKey != nil {
+		v := *s.PrivateKey
+
+		e.SetValue(protocol.BodyTarget, "PrivateKey", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Apple Development Push Notification Service channel definition.
 type APNSSandboxChannelResponse struct {
 	_ struct{} `type:"structure"`
@@ -4059,7 +4526,7 @@ type APNSSandboxChannelResponse struct {
 	// Last date this was updated
 	LastModifiedDate *string `type:"string"`
 
-	// The platform type. Will be APNS.
+	// The platform type. Will be APNS_SANDBOX.
 	Platform *string `type:"string"`
 
 	// Version of channel
@@ -4130,6 +4597,57 @@ func (s *APNSSandboxChannelResponse) SetVersion(v int64) *APNSSandboxChannelResp
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *APNSSandboxChannelResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.CreationDate != nil {
+		v := *s.CreationDate
+
+		e.SetValue(protocol.BodyTarget, "CreationDate", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Enabled != nil {
+		v := *s.Enabled
+
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		e.SetValue(protocol.BodyTarget, "Id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.IsArchived != nil {
+		v := *s.IsArchived
+
+		e.SetValue(protocol.BodyTarget, "IsArchived", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.LastModifiedBy != nil {
+		v := *s.LastModifiedBy
+
+		e.SetValue(protocol.BodyTarget, "LastModifiedBy", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.LastModifiedDate != nil {
+		v := *s.LastModifiedDate
+
+		e.SetValue(protocol.BodyTarget, "LastModifiedDate", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Platform != nil {
+		v := *s.Platform
+
+		e.SetValue(protocol.BodyTarget, "Platform", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		e.SetValue(protocol.BodyTarget, "Version", protocol.Int64Value(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Activities for campaign.
 type ActivitiesResponse struct {
 	_ struct{} `type:"structure"`
@@ -4152,6 +4670,17 @@ func (s ActivitiesResponse) GoString() string {
 func (s *ActivitiesResponse) SetItem(v []*ActivityResponse) *ActivitiesResponse {
 	s.Item = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *ActivitiesResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Item) > 0 {
+		v := s.Item
+
+		e.SetList(protocol.BodyTarget, "Item", encodeActivityResponseList(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Activity definition
@@ -4289,6 +4818,85 @@ func (s *ActivityResponse) SetTreatmentId(v string) *ActivityResponse {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *ActivityResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.CampaignId != nil {
+		v := *s.CampaignId
+
+		e.SetValue(protocol.BodyTarget, "CampaignId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.End != nil {
+		v := *s.End
+
+		e.SetValue(protocol.BodyTarget, "End", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		e.SetValue(protocol.BodyTarget, "Id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Result != nil {
+		v := *s.Result
+
+		e.SetValue(protocol.BodyTarget, "Result", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ScheduledStart != nil {
+		v := *s.ScheduledStart
+
+		e.SetValue(protocol.BodyTarget, "ScheduledStart", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Start != nil {
+		v := *s.Start
+
+		e.SetValue(protocol.BodyTarget, "Start", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.State != nil {
+		v := *s.State
+
+		e.SetValue(protocol.BodyTarget, "State", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.SuccessfulEndpointCount != nil {
+		v := *s.SuccessfulEndpointCount
+
+		e.SetValue(protocol.BodyTarget, "SuccessfulEndpointCount", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.TimezonesCompletedCount != nil {
+		v := *s.TimezonesCompletedCount
+
+		e.SetValue(protocol.BodyTarget, "TimezonesCompletedCount", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.TimezonesTotalCount != nil {
+		v := *s.TimezonesTotalCount
+
+		e.SetValue(protocol.BodyTarget, "TimezonesTotalCount", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.TotalEndpointCount != nil {
+		v := *s.TotalEndpointCount
+
+		e.SetValue(protocol.BodyTarget, "TotalEndpointCount", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.TreatmentId != nil {
+		v := *s.TreatmentId
+
+		e.SetValue(protocol.BodyTarget, "TreatmentId", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeActivityResponseList(vs []*ActivityResponse) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
+}
+
 // Address configuration.
 type AddressConfiguration struct {
 	_ struct{} `type:"structure"`
@@ -4296,7 +4904,7 @@ type AddressConfiguration struct {
 	// Body override. If specified will override default body.
 	BodyOverride *string `type:"string"`
 
-	// Type of channel of this address
+	// The channel type.Valid values: GCM | APNS | SMS | EMAIL
 	ChannelType *string `type:"string" enum:"ChannelType"`
 
 	Context map[string]*string `type:"map"`
@@ -4357,6 +4965,112 @@ func (s *AddressConfiguration) SetTitleOverride(v string) *AddressConfiguration 
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *AddressConfiguration) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BodyOverride != nil {
+		v := *s.BodyOverride
+
+		e.SetValue(protocol.BodyTarget, "BodyOverride", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ChannelType != nil {
+		v := *s.ChannelType
+
+		e.SetValue(protocol.BodyTarget, "ChannelType", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Context) > 0 {
+		v := s.Context
+
+		e.SetMap(protocol.BodyTarget, "Context", protocol.EncodeStringMap(v), protocol.Metadata{})
+	}
+	if s.RawContent != nil {
+		v := *s.RawContent
+
+		e.SetValue(protocol.BodyTarget, "RawContent", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Substitutions) > 0 {
+		v := s.Substitutions
+
+		e.SetMap(protocol.BodyTarget, "Substitutions", func(me protocol.MapEncoder) {
+			for k, item := range v {
+				v := item
+				me.MapSetList(k, protocol.EncodeStringList(v))
+			}
+		}, protocol.Metadata{})
+	}
+	if s.TitleOverride != nil {
+		v := *s.TitleOverride
+
+		e.SetValue(protocol.BodyTarget, "TitleOverride", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeAddressConfigurationMap(vs map[string]*AddressConfiguration) func(protocol.MapEncoder) {
+	return func(me protocol.MapEncoder) {
+		for k, v := range vs {
+			me.MapSetFields(k, v)
+		}
+	}
+}
+
+// Application Response.
+type ApplicationResponse struct {
+	_ struct{} `type:"structure"`
+
+	// The unique application ID.
+	Id *string `type:"string"`
+
+	// The display name of the application.
+	Name *string `type:"string"`
+}
+
+// String returns the string representation
+func (s ApplicationResponse) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ApplicationResponse) GoString() string {
+	return s.String()
+}
+
+// SetId sets the Id field's value.
+func (s *ApplicationResponse) SetId(v string) *ApplicationResponse {
+	s.Id = &v
+	return s
+}
+
+// SetName sets the Name field's value.
+func (s *ApplicationResponse) SetName(v string) *ApplicationResponse {
+	s.Name = &v
+	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *ApplicationResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Id != nil {
+		v := *s.Id
+
+		e.SetValue(protocol.BodyTarget, "Id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "Name", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeApplicationResponseList(vs []*ApplicationResponse) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
+}
+
 // Application settings.
 type ApplicationSettingsResource struct {
 	_ struct{} `type:"structure"`
@@ -4412,6 +5126,82 @@ func (s *ApplicationSettingsResource) SetQuietTime(v *QuietTime) *ApplicationSet
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *ApplicationSettingsResource) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.LastModifiedDate != nil {
+		v := *s.LastModifiedDate
+
+		e.SetValue(protocol.BodyTarget, "LastModifiedDate", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Limits != nil {
+		v := s.Limits
+
+		e.SetFields(protocol.BodyTarget, "Limits", v, protocol.Metadata{})
+	}
+	if s.QuietTime != nil {
+		v := s.QuietTime
+
+		e.SetFields(protocol.BodyTarget, "QuietTime", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Get Applications Result.
+type ApplicationsResponse struct {
+	_ struct{} `type:"structure"`
+
+	// List of applications returned in this page.
+	Item []*ApplicationResponse `type:"list"`
+
+	// The string that you use in a subsequent request to get the next page of results
+	// in a paginated response.
+	NextToken *string `type:"string"`
+}
+
+// String returns the string representation
+func (s ApplicationsResponse) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ApplicationsResponse) GoString() string {
+	return s.String()
+}
+
+// SetItem sets the Item field's value.
+func (s *ApplicationsResponse) SetItem(v []*ApplicationResponse) *ApplicationsResponse {
+	s.Item = v
+	return s
+}
+
+// SetNextToken sets the NextToken field's value.
+func (s *ApplicationsResponse) SetNextToken(v string) *ApplicationsResponse {
+	s.NextToken = &v
+	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *ApplicationsResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Item) > 0 {
+		v := s.Item
+
+		e.SetList(protocol.BodyTarget, "Item", encodeApplicationResponseList(v), protocol.Metadata{})
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Custom attibute dimension
 type AttributeDimension struct {
 	_ struct{} `type:"structure"`
@@ -4446,12 +5236,40 @@ func (s *AttributeDimension) SetValues(v []*string) *AttributeDimension {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *AttributeDimension) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AttributeType != nil {
+		v := *s.AttributeType
+
+		e.SetValue(protocol.BodyTarget, "AttributeType", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Values) > 0 {
+		v := s.Values
+
+		e.SetList(protocol.BodyTarget, "Values", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeAttributeDimensionMap(vs map[string]*AttributeDimension) func(protocol.MapEncoder) {
+	return func(me protocol.MapEncoder) {
+		for k, v := range vs {
+			me.MapSetFields(k, v)
+		}
+	}
+}
+
 // The email message configuration.
 type CampaignEmailMessage struct {
 	_ struct{} `type:"structure"`
 
 	// The email text body.
 	Body *string `type:"string"`
+
+	// The email address used to send the email from. Defaults to use FromAddress
+	// specified in the Email Channel.
+	FromAddress *string `type:"string"`
 
 	// The email html body.
 	HtmlBody *string `type:"string"`
@@ -4476,6 +5294,12 @@ func (s *CampaignEmailMessage) SetBody(v string) *CampaignEmailMessage {
 	return s
 }
 
+// SetFromAddress sets the FromAddress field's value.
+func (s *CampaignEmailMessage) SetFromAddress(v string) *CampaignEmailMessage {
+	s.FromAddress = &v
+	return s
+}
+
 // SetHtmlBody sets the HtmlBody field's value.
 func (s *CampaignEmailMessage) SetHtmlBody(v string) *CampaignEmailMessage {
 	s.HtmlBody = &v
@@ -4486,6 +5310,32 @@ func (s *CampaignEmailMessage) SetHtmlBody(v string) *CampaignEmailMessage {
 func (s *CampaignEmailMessage) SetTitle(v string) *CampaignEmailMessage {
 	s.Title = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CampaignEmailMessage) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Body != nil {
+		v := *s.Body
+
+		e.SetValue(protocol.BodyTarget, "Body", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.FromAddress != nil {
+		v := *s.FromAddress
+
+		e.SetValue(protocol.BodyTarget, "FromAddress", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.HtmlBody != nil {
+		v := *s.HtmlBody
+
+		e.SetValue(protocol.BodyTarget, "HtmlBody", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Title != nil {
+		v := *s.Title
+
+		e.SetValue(protocol.BodyTarget, "Title", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Campaign Limits are used to limit the number of messages that can be sent
@@ -4520,6 +5370,22 @@ func (s *CampaignLimits) SetDaily(v int64) *CampaignLimits {
 func (s *CampaignLimits) SetTotal(v int64) *CampaignLimits {
 	s.Total = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CampaignLimits) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Daily != nil {
+		v := *s.Daily
+
+		e.SetValue(protocol.BodyTarget, "Daily", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.Total != nil {
+		v := *s.Total
+
+		e.SetValue(protocol.BodyTarget, "Total", protocol.Int64Value(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Campaign definition
@@ -4712,6 +5578,115 @@ func (s *CampaignResponse) SetVersion(v int64) *CampaignResponse {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CampaignResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.AdditionalTreatments) > 0 {
+		v := s.AdditionalTreatments
+
+		e.SetList(protocol.BodyTarget, "AdditionalTreatments", encodeTreatmentResourceList(v), protocol.Metadata{})
+	}
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.CreationDate != nil {
+		v := *s.CreationDate
+
+		e.SetValue(protocol.BodyTarget, "CreationDate", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.DefaultState != nil {
+		v := s.DefaultState
+
+		e.SetFields(protocol.BodyTarget, "DefaultState", v, protocol.Metadata{})
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		e.SetValue(protocol.BodyTarget, "Description", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.HoldoutPercent != nil {
+		v := *s.HoldoutPercent
+
+		e.SetValue(protocol.BodyTarget, "HoldoutPercent", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		e.SetValue(protocol.BodyTarget, "Id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.IsPaused != nil {
+		v := *s.IsPaused
+
+		e.SetValue(protocol.BodyTarget, "IsPaused", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.LastModifiedDate != nil {
+		v := *s.LastModifiedDate
+
+		e.SetValue(protocol.BodyTarget, "LastModifiedDate", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Limits != nil {
+		v := s.Limits
+
+		e.SetFields(protocol.BodyTarget, "Limits", v, protocol.Metadata{})
+	}
+	if s.MessageConfiguration != nil {
+		v := s.MessageConfiguration
+
+		e.SetFields(protocol.BodyTarget, "MessageConfiguration", v, protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "Name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Schedule != nil {
+		v := s.Schedule
+
+		e.SetFields(protocol.BodyTarget, "Schedule", v, protocol.Metadata{})
+	}
+	if s.SegmentId != nil {
+		v := *s.SegmentId
+
+		e.SetValue(protocol.BodyTarget, "SegmentId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.SegmentVersion != nil {
+		v := *s.SegmentVersion
+
+		e.SetValue(protocol.BodyTarget, "SegmentVersion", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.State != nil {
+		v := s.State
+
+		e.SetFields(protocol.BodyTarget, "State", v, protocol.Metadata{})
+	}
+	if s.TreatmentDescription != nil {
+		v := *s.TreatmentDescription
+
+		e.SetValue(protocol.BodyTarget, "TreatmentDescription", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.TreatmentName != nil {
+		v := *s.TreatmentName
+
+		e.SetValue(protocol.BodyTarget, "TreatmentName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		e.SetValue(protocol.BodyTarget, "Version", protocol.Int64Value(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeCampaignResponseList(vs []*CampaignResponse) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
+}
+
 // SMS message configuration.
 type CampaignSmsMessage struct {
 	_ struct{} `type:"structure"`
@@ -4754,6 +5729,27 @@ func (s *CampaignSmsMessage) SetSenderId(v string) *CampaignSmsMessage {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CampaignSmsMessage) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Body != nil {
+		v := *s.Body
+
+		e.SetValue(protocol.BodyTarget, "Body", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.MessageType != nil {
+		v := *s.MessageType
+
+		e.SetValue(protocol.BodyTarget, "MessageType", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.SenderId != nil {
+		v := *s.SenderId
+
+		e.SetValue(protocol.BodyTarget, "SenderId", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // State of the Campaign
 type CampaignState struct {
 	_ struct{} `type:"structure"`
@@ -4778,6 +5774,17 @@ func (s CampaignState) GoString() string {
 func (s *CampaignState) SetCampaignStatus(v string) *CampaignState {
 	s.CampaignStatus = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CampaignState) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CampaignStatus != nil {
+		v := *s.CampaignStatus
+
+		e.SetValue(protocol.BodyTarget, "CampaignStatus", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // List of available campaigns.
@@ -4812,6 +5819,142 @@ func (s *CampaignsResponse) SetItem(v []*CampaignResponse) *CampaignsResponse {
 func (s *CampaignsResponse) SetNextToken(v string) *CampaignsResponse {
 	s.NextToken = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CampaignsResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Item) > 0 {
+		v := s.Item
+
+		e.SetList(protocol.BodyTarget, "Item", encodeCampaignResponseList(v), protocol.Metadata{})
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+type CreateAppInput struct {
+	_ struct{} `type:"structure" payload:"CreateApplicationRequest"`
+
+	// Application Request.
+	//
+	// CreateApplicationRequest is a required field
+	CreateApplicationRequest *CreateApplicationRequest `type:"structure" required:"true"`
+}
+
+// String returns the string representation
+func (s CreateAppInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateAppInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *CreateAppInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "CreateAppInput"}
+	if s.CreateApplicationRequest == nil {
+		invalidParams.Add(request.NewErrParamRequired("CreateApplicationRequest"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetCreateApplicationRequest sets the CreateApplicationRequest field's value.
+func (s *CreateAppInput) SetCreateApplicationRequest(v *CreateApplicationRequest) *CreateAppInput {
+	s.CreateApplicationRequest = v
+	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CreateAppInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CreateApplicationRequest != nil {
+		v := s.CreateApplicationRequest
+
+		e.SetFields(protocol.PayloadTarget, "CreateApplicationRequest", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
+type CreateAppOutput struct {
+	_ struct{} `type:"structure" payload:"ApplicationResponse"`
+
+	// Application Response.
+	//
+	// ApplicationResponse is a required field
+	ApplicationResponse *ApplicationResponse `type:"structure" required:"true"`
+}
+
+// String returns the string representation
+func (s CreateAppOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateAppOutput) GoString() string {
+	return s.String()
+}
+
+// SetApplicationResponse sets the ApplicationResponse field's value.
+func (s *CreateAppOutput) SetApplicationResponse(v *ApplicationResponse) *CreateAppOutput {
+	s.ApplicationResponse = v
+	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CreateAppOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationResponse != nil {
+		v := s.ApplicationResponse
+
+		e.SetFields(protocol.PayloadTarget, "ApplicationResponse", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
+// Application Request.
+type CreateApplicationRequest struct {
+	_ struct{} `type:"structure"`
+
+	// The display name of the application. Used in the Amazon Pinpoint console.
+	Name *string `type:"string"`
+}
+
+// String returns the string representation
+func (s CreateApplicationRequest) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateApplicationRequest) GoString() string {
+	return s.String()
+}
+
+// SetName sets the Name field's value.
+func (s *CreateApplicationRequest) SetName(v string) *CreateApplicationRequest {
+	s.Name = &v
+	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CreateApplicationRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "Name", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type CreateCampaignInput struct {
@@ -4864,6 +6007,22 @@ func (s *CreateCampaignInput) SetWriteCampaignRequest(v *WriteCampaignRequest) *
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CreateCampaignInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.WriteCampaignRequest != nil {
+		v := s.WriteCampaignRequest
+
+		e.SetFields(protocol.PayloadTarget, "WriteCampaignRequest", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type CreateCampaignOutput struct {
 	_ struct{} `type:"structure" payload:"CampaignResponse"`
 
@@ -4887,6 +6046,17 @@ func (s CreateCampaignOutput) GoString() string {
 func (s *CreateCampaignOutput) SetCampaignResponse(v *CampaignResponse) *CreateCampaignOutput {
 	s.CampaignResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CreateCampaignOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CampaignResponse != nil {
+		v := s.CampaignResponse
+
+		e.SetFields(protocol.PayloadTarget, "CampaignResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type CreateImportJobInput struct {
@@ -4937,6 +6107,22 @@ func (s *CreateImportJobInput) SetImportJobRequest(v *ImportJobRequest) *CreateI
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CreateImportJobInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ImportJobRequest != nil {
+		v := s.ImportJobRequest
+
+		e.SetFields(protocol.PayloadTarget, "ImportJobRequest", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type CreateImportJobOutput struct {
 	_ struct{} `type:"structure" payload:"ImportJobResponse"`
 
@@ -4958,6 +6144,17 @@ func (s CreateImportJobOutput) GoString() string {
 func (s *CreateImportJobOutput) SetImportJobResponse(v *ImportJobResponse) *CreateImportJobOutput {
 	s.ImportJobResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CreateImportJobOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ImportJobResponse != nil {
+		v := s.ImportJobResponse
+
+		e.SetFields(protocol.PayloadTarget, "ImportJobResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type CreateSegmentInput struct {
@@ -5010,6 +6207,22 @@ func (s *CreateSegmentInput) SetWriteSegmentRequest(v *WriteSegmentRequest) *Cre
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CreateSegmentInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.WriteSegmentRequest != nil {
+		v := s.WriteSegmentRequest
+
+		e.SetFields(protocol.PayloadTarget, "WriteSegmentRequest", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type CreateSegmentOutput struct {
 	_ struct{} `type:"structure" payload:"SegmentResponse"`
 
@@ -5033,6 +6246,17 @@ func (s CreateSegmentOutput) GoString() string {
 func (s *CreateSegmentOutput) SetSegmentResponse(v *SegmentResponse) *CreateSegmentOutput {
 	s.SegmentResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CreateSegmentOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.SegmentResponse != nil {
+		v := s.SegmentResponse
+
+		e.SetFields(protocol.PayloadTarget, "SegmentResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Default Message across push notification, email, and sms.
@@ -5065,6 +6289,27 @@ func (s *DefaultMessage) SetBody(v string) *DefaultMessage {
 func (s *DefaultMessage) SetSubstitutions(v map[string][]*string) *DefaultMessage {
 	s.Substitutions = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DefaultMessage) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Body != nil {
+		v := *s.Body
+
+		e.SetValue(protocol.BodyTarget, "Body", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Substitutions) > 0 {
+		v := s.Substitutions
+
+		e.SetMap(protocol.BodyTarget, "Substitutions", func(me protocol.MapEncoder) {
+			for k, item := range v {
+				v := item
+				me.MapSetList(k, protocol.EncodeStringList(v))
+			}
+		}, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Default Push Notification Message.
@@ -5151,6 +6396,52 @@ func (s *DefaultPushNotificationMessage) SetUrl(v string) *DefaultPushNotificati
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DefaultPushNotificationMessage) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Action != nil {
+		v := *s.Action
+
+		e.SetValue(protocol.BodyTarget, "Action", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Body != nil {
+		v := *s.Body
+
+		e.SetValue(protocol.BodyTarget, "Body", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Data) > 0 {
+		v := s.Data
+
+		e.SetMap(protocol.BodyTarget, "Data", protocol.EncodeStringMap(v), protocol.Metadata{})
+	}
+	if s.SilentPush != nil {
+		v := *s.SilentPush
+
+		e.SetValue(protocol.BodyTarget, "SilentPush", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if len(s.Substitutions) > 0 {
+		v := s.Substitutions
+
+		e.SetMap(protocol.BodyTarget, "Substitutions", func(me protocol.MapEncoder) {
+			for k, item := range v {
+				v := item
+				me.MapSetList(k, protocol.EncodeStringList(v))
+			}
+		}, protocol.Metadata{})
+	}
+	if s.Title != nil {
+		v := *s.Title
+
+		e.SetValue(protocol.BodyTarget, "Title", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Url != nil {
+		v := *s.Url
+
+		e.SetValue(protocol.BodyTarget, "Url", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type DeleteApnsChannelInput struct {
 	_ struct{} `type:"structure"`
 
@@ -5187,6 +6478,17 @@ func (s *DeleteApnsChannelInput) SetApplicationId(v string) *DeleteApnsChannelIn
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteApnsChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type DeleteApnsChannelOutput struct {
 	_ struct{} `type:"structure" payload:"APNSChannelResponse"`
 
@@ -5210,6 +6512,17 @@ func (s DeleteApnsChannelOutput) GoString() string {
 func (s *DeleteApnsChannelOutput) SetAPNSChannelResponse(v *APNSChannelResponse) *DeleteApnsChannelOutput {
 	s.APNSChannelResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteApnsChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.APNSChannelResponse != nil {
+		v := s.APNSChannelResponse
+
+		e.SetFields(protocol.PayloadTarget, "APNSChannelResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type DeleteApnsSandboxChannelInput struct {
@@ -5248,6 +6561,17 @@ func (s *DeleteApnsSandboxChannelInput) SetApplicationId(v string) *DeleteApnsSa
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteApnsSandboxChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type DeleteApnsSandboxChannelOutput struct {
 	_ struct{} `type:"structure" payload:"APNSSandboxChannelResponse"`
 
@@ -5271,6 +6595,100 @@ func (s DeleteApnsSandboxChannelOutput) GoString() string {
 func (s *DeleteApnsSandboxChannelOutput) SetAPNSSandboxChannelResponse(v *APNSSandboxChannelResponse) *DeleteApnsSandboxChannelOutput {
 	s.APNSSandboxChannelResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteApnsSandboxChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.APNSSandboxChannelResponse != nil {
+		v := s.APNSSandboxChannelResponse
+
+		e.SetFields(protocol.PayloadTarget, "APNSSandboxChannelResponse", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
+type DeleteAppInput struct {
+	_ struct{} `type:"structure"`
+
+	// ApplicationId is a required field
+	ApplicationId *string `location:"uri" locationName:"application-id" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s DeleteAppInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteAppInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DeleteAppInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "DeleteAppInput"}
+	if s.ApplicationId == nil {
+		invalidParams.Add(request.NewErrParamRequired("ApplicationId"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetApplicationId sets the ApplicationId field's value.
+func (s *DeleteAppInput) SetApplicationId(v string) *DeleteAppInput {
+	s.ApplicationId = &v
+	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteAppInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+type DeleteAppOutput struct {
+	_ struct{} `type:"structure" payload:"ApplicationResponse"`
+
+	// Application Response.
+	//
+	// ApplicationResponse is a required field
+	ApplicationResponse *ApplicationResponse `type:"structure" required:"true"`
+}
+
+// String returns the string representation
+func (s DeleteAppOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteAppOutput) GoString() string {
+	return s.String()
+}
+
+// SetApplicationResponse sets the ApplicationResponse field's value.
+func (s *DeleteAppOutput) SetApplicationResponse(v *ApplicationResponse) *DeleteAppOutput {
+	s.ApplicationResponse = v
+	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteAppOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationResponse != nil {
+		v := s.ApplicationResponse
+
+		e.SetFields(protocol.PayloadTarget, "ApplicationResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type DeleteCampaignInput struct {
@@ -5321,6 +6739,22 @@ func (s *DeleteCampaignInput) SetCampaignId(v string) *DeleteCampaignInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteCampaignInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.CampaignId != nil {
+		v := *s.CampaignId
+
+		e.SetValue(protocol.PathTarget, "campaign-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type DeleteCampaignOutput struct {
 	_ struct{} `type:"structure" payload:"CampaignResponse"`
 
@@ -5344,6 +6778,17 @@ func (s DeleteCampaignOutput) GoString() string {
 func (s *DeleteCampaignOutput) SetCampaignResponse(v *CampaignResponse) *DeleteCampaignOutput {
 	s.CampaignResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteCampaignOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CampaignResponse != nil {
+		v := s.CampaignResponse
+
+		e.SetFields(protocol.PayloadTarget, "CampaignResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type DeleteEmailChannelInput struct {
@@ -5382,6 +6827,17 @@ func (s *DeleteEmailChannelInput) SetApplicationId(v string) *DeleteEmailChannel
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteEmailChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type DeleteEmailChannelOutput struct {
 	_ struct{} `type:"structure" payload:"EmailChannelResponse"`
 
@@ -5405,6 +6861,17 @@ func (s DeleteEmailChannelOutput) GoString() string {
 func (s *DeleteEmailChannelOutput) SetEmailChannelResponse(v *EmailChannelResponse) *DeleteEmailChannelOutput {
 	s.EmailChannelResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteEmailChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.EmailChannelResponse != nil {
+		v := s.EmailChannelResponse
+
+		e.SetFields(protocol.PayloadTarget, "EmailChannelResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type DeleteEventStreamInput struct {
@@ -5445,6 +6912,17 @@ func (s *DeleteEventStreamInput) SetApplicationId(v string) *DeleteEventStreamIn
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteEventStreamInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type DeleteEventStreamOutput struct {
 	_ struct{} `type:"structure" payload:"EventStream"`
 
@@ -5468,6 +6946,17 @@ func (s DeleteEventStreamOutput) GoString() string {
 func (s *DeleteEventStreamOutput) SetEventStream(v *EventStream) *DeleteEventStreamOutput {
 	s.EventStream = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteEventStreamOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.EventStream != nil {
+		v := s.EventStream
+
+		e.SetFields(protocol.PayloadTarget, "EventStream", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type DeleteGcmChannelInput struct {
@@ -5506,6 +6995,17 @@ func (s *DeleteGcmChannelInput) SetApplicationId(v string) *DeleteGcmChannelInpu
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteGcmChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type DeleteGcmChannelOutput struct {
 	_ struct{} `type:"structure" payload:"GCMChannelResponse"`
 
@@ -5529,6 +7029,17 @@ func (s DeleteGcmChannelOutput) GoString() string {
 func (s *DeleteGcmChannelOutput) SetGCMChannelResponse(v *GCMChannelResponse) *DeleteGcmChannelOutput {
 	s.GCMChannelResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteGcmChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.GCMChannelResponse != nil {
+		v := s.GCMChannelResponse
+
+		e.SetFields(protocol.PayloadTarget, "GCMChannelResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type DeleteSegmentInput struct {
@@ -5579,6 +7090,22 @@ func (s *DeleteSegmentInput) SetSegmentId(v string) *DeleteSegmentInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteSegmentInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.SegmentId != nil {
+		v := *s.SegmentId
+
+		e.SetValue(protocol.PathTarget, "segment-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type DeleteSegmentOutput struct {
 	_ struct{} `type:"structure" payload:"SegmentResponse"`
 
@@ -5602,6 +7129,17 @@ func (s DeleteSegmentOutput) GoString() string {
 func (s *DeleteSegmentOutput) SetSegmentResponse(v *SegmentResponse) *DeleteSegmentOutput {
 	s.SegmentResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteSegmentOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.SegmentResponse != nil {
+		v := s.SegmentResponse
+
+		e.SetFields(protocol.PayloadTarget, "SegmentResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type DeleteSmsChannelInput struct {
@@ -5640,6 +7178,17 @@ func (s *DeleteSmsChannelInput) SetApplicationId(v string) *DeleteSmsChannelInpu
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteSmsChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type DeleteSmsChannelOutput struct {
 	_ struct{} `type:"structure" payload:"SMSChannelResponse"`
 
@@ -5663,6 +7212,17 @@ func (s DeleteSmsChannelOutput) GoString() string {
 func (s *DeleteSmsChannelOutput) SetSMSChannelResponse(v *SMSChannelResponse) *DeleteSmsChannelOutput {
 	s.SMSChannelResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteSmsChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.SMSChannelResponse != nil {
+		v := s.SMSChannelResponse
+
+		e.SetFields(protocol.PayloadTarget, "SMSChannelResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // The message configuration.
@@ -5725,6 +7285,37 @@ func (s *DirectMessageConfiguration) SetSMSMessage(v *SMSMessage) *DirectMessage
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DirectMessageConfiguration) MarshalFields(e protocol.FieldEncoder) error {
+	if s.APNSMessage != nil {
+		v := s.APNSMessage
+
+		e.SetFields(protocol.BodyTarget, "APNSMessage", v, protocol.Metadata{})
+	}
+	if s.DefaultMessage != nil {
+		v := s.DefaultMessage
+
+		e.SetFields(protocol.BodyTarget, "DefaultMessage", v, protocol.Metadata{})
+	}
+	if s.DefaultPushNotificationMessage != nil {
+		v := s.DefaultPushNotificationMessage
+
+		e.SetFields(protocol.BodyTarget, "DefaultPushNotificationMessage", v, protocol.Metadata{})
+	}
+	if s.GCMMessage != nil {
+		v := s.GCMMessage
+
+		e.SetFields(protocol.BodyTarget, "GCMMessage", v, protocol.Metadata{})
+	}
+	if s.SMSMessage != nil {
+		v := s.SMSMessage
+
+		e.SetFields(protocol.BodyTarget, "SMSMessage", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Email Channel Request
 type EmailChannelRequest struct {
 	_ struct{} `type:"structure"`
@@ -5777,11 +7368,37 @@ func (s *EmailChannelRequest) SetRoleArn(v string) *EmailChannelRequest {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *EmailChannelRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Enabled != nil {
+		v := *s.Enabled
+
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.FromAddress != nil {
+		v := *s.FromAddress
+
+		e.SetValue(protocol.BodyTarget, "FromAddress", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Identity != nil {
+		v := *s.Identity
+
+		e.SetValue(protocol.BodyTarget, "Identity", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.RoleArn != nil {
+		v := *s.RoleArn
+
+		e.SetValue(protocol.BodyTarget, "RoleArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Email Channel Response.
 type EmailChannelResponse struct {
 	_ struct{} `type:"structure"`
 
-	// Application id
+	// The unique ID of the application to which the email channel belongs.
 	ApplicationId *string `type:"string"`
 
 	// The date that the settings were last updated in ISO 8601 format.
@@ -5901,6 +7518,72 @@ func (s *EmailChannelResponse) SetVersion(v int64) *EmailChannelResponse {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *EmailChannelResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.CreationDate != nil {
+		v := *s.CreationDate
+
+		e.SetValue(protocol.BodyTarget, "CreationDate", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Enabled != nil {
+		v := *s.Enabled
+
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.FromAddress != nil {
+		v := *s.FromAddress
+
+		e.SetValue(protocol.BodyTarget, "FromAddress", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		e.SetValue(protocol.BodyTarget, "Id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Identity != nil {
+		v := *s.Identity
+
+		e.SetValue(protocol.BodyTarget, "Identity", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.IsArchived != nil {
+		v := *s.IsArchived
+
+		e.SetValue(protocol.BodyTarget, "IsArchived", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.LastModifiedBy != nil {
+		v := *s.LastModifiedBy
+
+		e.SetValue(protocol.BodyTarget, "LastModifiedBy", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.LastModifiedDate != nil {
+		v := *s.LastModifiedDate
+
+		e.SetValue(protocol.BodyTarget, "LastModifiedDate", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Platform != nil {
+		v := *s.Platform
+
+		e.SetValue(protocol.BodyTarget, "Platform", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.RoleArn != nil {
+		v := *s.RoleArn
+
+		e.SetValue(protocol.BodyTarget, "RoleArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		e.SetValue(protocol.BodyTarget, "Version", protocol.Int64Value(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Endpoint update request
 type EndpointBatchItem struct {
 	_ struct{} `type:"structure"`
@@ -5911,7 +7594,7 @@ type EndpointBatchItem struct {
 
 	Attributes map[string][]*string `type:"map"`
 
-	// The channel type.Valid values: APNS, GCM
+	// The channel type.Valid values: GCM | APNS | SMS | EMAIL
 	ChannelType *string `type:"string" enum:"ChannelType"`
 
 	// The endpoint demographic attributes.
@@ -5933,8 +7616,8 @@ type EndpointBatchItem struct {
 	Metrics map[string]*float64 `type:"map"`
 
 	// Indicates whether a user has opted out of receiving messages with one of
-	// the following values:ALL – User receives all messages.NONE – User receives
-	// no messages.
+	// the following values:ALL - User has opted out of all messages.NONE - Users
+	// has not opted out and receives all messages.
 	OptOut *string `type:"string"`
 
 	// The unique ID for the most recent request to update the endpoint.
@@ -6026,6 +7709,85 @@ func (s *EndpointBatchItem) SetUser(v *EndpointUser) *EndpointBatchItem {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *EndpointBatchItem) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Address != nil {
+		v := *s.Address
+
+		e.SetValue(protocol.BodyTarget, "Address", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Attributes) > 0 {
+		v := s.Attributes
+
+		e.SetMap(protocol.BodyTarget, "Attributes", func(me protocol.MapEncoder) {
+			for k, item := range v {
+				v := item
+				me.MapSetList(k, protocol.EncodeStringList(v))
+			}
+		}, protocol.Metadata{})
+	}
+	if s.ChannelType != nil {
+		v := *s.ChannelType
+
+		e.SetValue(protocol.BodyTarget, "ChannelType", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Demographic != nil {
+		v := s.Demographic
+
+		e.SetFields(protocol.BodyTarget, "Demographic", v, protocol.Metadata{})
+	}
+	if s.EffectiveDate != nil {
+		v := *s.EffectiveDate
+
+		e.SetValue(protocol.BodyTarget, "EffectiveDate", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.EndpointStatus != nil {
+		v := *s.EndpointStatus
+
+		e.SetValue(protocol.BodyTarget, "EndpointStatus", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		e.SetValue(protocol.BodyTarget, "Id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Location != nil {
+		v := s.Location
+
+		e.SetFields(protocol.BodyTarget, "Location", v, protocol.Metadata{})
+	}
+	if len(s.Metrics) > 0 {
+		v := s.Metrics
+
+		e.SetMap(protocol.BodyTarget, "Metrics", protocol.EncodeFloat64Map(v), protocol.Metadata{})
+	}
+	if s.OptOut != nil {
+		v := *s.OptOut
+
+		e.SetValue(protocol.BodyTarget, "OptOut", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.RequestId != nil {
+		v := *s.RequestId
+
+		e.SetValue(protocol.BodyTarget, "RequestId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.User != nil {
+		v := s.User
+
+		e.SetFields(protocol.BodyTarget, "User", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeEndpointBatchItemList(vs []*EndpointBatchItem) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
+}
+
 // Endpoint batch update request.
 type EndpointBatchRequest struct {
 	_ struct{} `type:"structure"`
@@ -6048,6 +7810,17 @@ func (s EndpointBatchRequest) GoString() string {
 func (s *EndpointBatchRequest) SetItem(v []*EndpointBatchItem) *EndpointBatchRequest {
 	s.Item = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *EndpointBatchRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Item) > 0 {
+		v := s.Item
+
+		e.SetList(protocol.BodyTarget, "Item", encodeEndpointBatchItemList(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Endpoint demographic data
@@ -6138,6 +7911,52 @@ func (s *EndpointDemographic) SetTimezone(v string) *EndpointDemographic {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *EndpointDemographic) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AppVersion != nil {
+		v := *s.AppVersion
+
+		e.SetValue(protocol.BodyTarget, "AppVersion", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Locale != nil {
+		v := *s.Locale
+
+		e.SetValue(protocol.BodyTarget, "Locale", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Make != nil {
+		v := *s.Make
+
+		e.SetValue(protocol.BodyTarget, "Make", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Model != nil {
+		v := *s.Model
+
+		e.SetValue(protocol.BodyTarget, "Model", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ModelVersion != nil {
+		v := *s.ModelVersion
+
+		e.SetValue(protocol.BodyTarget, "ModelVersion", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Platform != nil {
+		v := *s.Platform
+
+		e.SetValue(protocol.BodyTarget, "Platform", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.PlatformVersion != nil {
+		v := *s.PlatformVersion
+
+		e.SetValue(protocol.BodyTarget, "PlatformVersion", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Timezone != nil {
+		v := *s.Timezone
+
+		e.SetValue(protocol.BodyTarget, "Timezone", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Endpoint location data
 type EndpointLocation struct {
 	_ struct{} `type:"structure"`
@@ -6210,6 +8029,42 @@ func (s *EndpointLocation) SetRegion(v string) *EndpointLocation {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *EndpointLocation) MarshalFields(e protocol.FieldEncoder) error {
+	if s.City != nil {
+		v := *s.City
+
+		e.SetValue(protocol.BodyTarget, "City", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Country != nil {
+		v := *s.Country
+
+		e.SetValue(protocol.BodyTarget, "Country", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Latitude != nil {
+		v := *s.Latitude
+
+		e.SetValue(protocol.BodyTarget, "Latitude", protocol.Float64Value(v), protocol.Metadata{})
+	}
+	if s.Longitude != nil {
+		v := *s.Longitude
+
+		e.SetValue(protocol.BodyTarget, "Longitude", protocol.Float64Value(v), protocol.Metadata{})
+	}
+	if s.PostalCode != nil {
+		v := *s.PostalCode
+
+		e.SetValue(protocol.BodyTarget, "PostalCode", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Region != nil {
+		v := *s.Region
+
+		e.SetValue(protocol.BodyTarget, "Region", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Endpoint update request
 type EndpointRequest struct {
 	_ struct{} `type:"structure"`
@@ -6220,7 +8075,7 @@ type EndpointRequest struct {
 
 	Attributes map[string][]*string `type:"map"`
 
-	// The channel type.Valid values: APNS, GCM
+	// The channel type.Valid values: GCM | APNS | SMS | EMAIL
 	ChannelType *string `type:"string" enum:"ChannelType"`
 
 	// The endpoint demographic attributes.
@@ -6239,8 +8094,8 @@ type EndpointRequest struct {
 	Metrics map[string]*float64 `type:"map"`
 
 	// Indicates whether a user has opted out of receiving messages with one of
-	// the following values:ALL – User receives all messages.NONE – User receives
-	// no messages.
+	// the following values:ALL - User has opted out of all messages.NONE - Users
+	// has not opted out and receives all messages.
 	OptOut *string `type:"string"`
 
 	// The unique ID for the most recent request to update the endpoint.
@@ -6326,6 +8181,72 @@ func (s *EndpointRequest) SetUser(v *EndpointUser) *EndpointRequest {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *EndpointRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Address != nil {
+		v := *s.Address
+
+		e.SetValue(protocol.BodyTarget, "Address", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Attributes) > 0 {
+		v := s.Attributes
+
+		e.SetMap(protocol.BodyTarget, "Attributes", func(me protocol.MapEncoder) {
+			for k, item := range v {
+				v := item
+				me.MapSetList(k, protocol.EncodeStringList(v))
+			}
+		}, protocol.Metadata{})
+	}
+	if s.ChannelType != nil {
+		v := *s.ChannelType
+
+		e.SetValue(protocol.BodyTarget, "ChannelType", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Demographic != nil {
+		v := s.Demographic
+
+		e.SetFields(protocol.BodyTarget, "Demographic", v, protocol.Metadata{})
+	}
+	if s.EffectiveDate != nil {
+		v := *s.EffectiveDate
+
+		e.SetValue(protocol.BodyTarget, "EffectiveDate", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.EndpointStatus != nil {
+		v := *s.EndpointStatus
+
+		e.SetValue(protocol.BodyTarget, "EndpointStatus", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Location != nil {
+		v := s.Location
+
+		e.SetFields(protocol.BodyTarget, "Location", v, protocol.Metadata{})
+	}
+	if len(s.Metrics) > 0 {
+		v := s.Metrics
+
+		e.SetMap(protocol.BodyTarget, "Metrics", protocol.EncodeFloat64Map(v), protocol.Metadata{})
+	}
+	if s.OptOut != nil {
+		v := *s.OptOut
+
+		e.SetValue(protocol.BodyTarget, "OptOut", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.RequestId != nil {
+		v := *s.RequestId
+
+		e.SetValue(protocol.BodyTarget, "RequestId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.User != nil {
+		v := s.User
+
+		e.SetFields(protocol.BodyTarget, "User", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Endpoint response
 type EndpointResponse struct {
 	_ struct{} `type:"structure"`
@@ -6339,7 +8260,7 @@ type EndpointResponse struct {
 
 	Attributes map[string][]*string `type:"map"`
 
-	// The channel type.Valid values: APNS, GCM
+	// The channel type.Valid values: GCM | APNS | SMS | EMAIL
 	ChannelType *string `type:"string" enum:"ChannelType"`
 
 	// A number from 0 - 99 that represents the cohort the endpoint is assigned
@@ -6372,8 +8293,8 @@ type EndpointResponse struct {
 	Metrics map[string]*float64 `type:"map"`
 
 	// Indicates whether a user has opted out of receiving messages with one of
-	// the following values:ALL – User receives all messages.NONE – User receives
-	// no messages.
+	// the following values:ALL - User has opted out of all messages.NONE - Users
+	// has not opted out and receives all messages.
 	OptOut *string `type:"string"`
 
 	// The unique ID for the most recent request to update the endpoint.
@@ -6491,6 +8412,97 @@ func (s *EndpointResponse) SetUser(v *EndpointUser) *EndpointResponse {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *EndpointResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Address != nil {
+		v := *s.Address
+
+		e.SetValue(protocol.BodyTarget, "Address", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Attributes) > 0 {
+		v := s.Attributes
+
+		e.SetMap(protocol.BodyTarget, "Attributes", func(me protocol.MapEncoder) {
+			for k, item := range v {
+				v := item
+				me.MapSetList(k, protocol.EncodeStringList(v))
+			}
+		}, protocol.Metadata{})
+	}
+	if s.ChannelType != nil {
+		v := *s.ChannelType
+
+		e.SetValue(protocol.BodyTarget, "ChannelType", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.CohortId != nil {
+		v := *s.CohortId
+
+		e.SetValue(protocol.BodyTarget, "CohortId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.CreationDate != nil {
+		v := *s.CreationDate
+
+		e.SetValue(protocol.BodyTarget, "CreationDate", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Demographic != nil {
+		v := s.Demographic
+
+		e.SetFields(protocol.BodyTarget, "Demographic", v, protocol.Metadata{})
+	}
+	if s.EffectiveDate != nil {
+		v := *s.EffectiveDate
+
+		e.SetValue(protocol.BodyTarget, "EffectiveDate", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.EndpointStatus != nil {
+		v := *s.EndpointStatus
+
+		e.SetValue(protocol.BodyTarget, "EndpointStatus", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		e.SetValue(protocol.BodyTarget, "Id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Location != nil {
+		v := s.Location
+
+		e.SetFields(protocol.BodyTarget, "Location", v, protocol.Metadata{})
+	}
+	if len(s.Metrics) > 0 {
+		v := s.Metrics
+
+		e.SetMap(protocol.BodyTarget, "Metrics", protocol.EncodeFloat64Map(v), protocol.Metadata{})
+	}
+	if s.OptOut != nil {
+		v := *s.OptOut
+
+		e.SetValue(protocol.BodyTarget, "OptOut", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.RequestId != nil {
+		v := *s.RequestId
+
+		e.SetValue(protocol.BodyTarget, "RequestId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ShardId != nil {
+		v := *s.ShardId
+
+		e.SetValue(protocol.BodyTarget, "ShardId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.User != nil {
+		v := s.User
+
+		e.SetFields(protocol.BodyTarget, "User", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Endpoint user specific custom userAttributes
 type EndpointUser struct {
 	_ struct{} `type:"structure"`
@@ -6521,6 +8533,27 @@ func (s *EndpointUser) SetUserAttributes(v map[string][]*string) *EndpointUser {
 func (s *EndpointUser) SetUserId(v string) *EndpointUser {
 	s.UserId = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *EndpointUser) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.UserAttributes) > 0 {
+		v := s.UserAttributes
+
+		e.SetMap(protocol.BodyTarget, "UserAttributes", func(me protocol.MapEncoder) {
+			for k, item := range v {
+				v := item
+				me.MapSetList(k, protocol.EncodeStringList(v))
+			}
+		}, protocol.Metadata{})
+	}
+	if s.UserId != nil {
+		v := *s.UserId
+
+		e.SetValue(protocol.BodyTarget, "UserId", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Model for an event publishing subscription export.
@@ -6596,6 +8629,42 @@ func (s *EventStream) SetRoleArn(v string) *EventStream {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *EventStream) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.DestinationStreamArn != nil {
+		v := *s.DestinationStreamArn
+
+		e.SetValue(protocol.BodyTarget, "DestinationStreamArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ExternalId != nil {
+		v := *s.ExternalId
+
+		e.SetValue(protocol.BodyTarget, "ExternalId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.LastModifiedDate != nil {
+		v := *s.LastModifiedDate
+
+		e.SetValue(protocol.BodyTarget, "LastModifiedDate", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.LastUpdatedBy != nil {
+		v := *s.LastUpdatedBy
+
+		e.SetValue(protocol.BodyTarget, "LastUpdatedBy", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.RoleArn != nil {
+		v := *s.RoleArn
+
+		e.SetValue(protocol.BodyTarget, "RoleArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Google Cloud Messaging credentials
 type GCMChannelRequest struct {
 	_ struct{} `type:"structure"`
@@ -6629,6 +8698,22 @@ func (s *GCMChannelRequest) SetEnabled(v bool) *GCMChannelRequest {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GCMChannelRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApiKey != nil {
+		v := *s.ApiKey
+
+		e.SetValue(protocol.BodyTarget, "ApiKey", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Enabled != nil {
+		v := *s.Enabled
+
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Google Cloud Messaging channel definition
 type GCMChannelResponse struct {
 	_ struct{} `type:"structure"`
@@ -6645,7 +8730,7 @@ type GCMChannelResponse struct {
 	// If the channel is enabled for sending messages.
 	Enabled *bool `type:"boolean"`
 
-	// Channel ID. Not used, only for backwards compatibility.
+	// Channel ID. Not used. Present only for backwards compatibility.
 	Id *string `type:"string"`
 
 	// Is this channel archived
@@ -6732,6 +8817,62 @@ func (s *GCMChannelResponse) SetPlatform(v string) *GCMChannelResponse {
 func (s *GCMChannelResponse) SetVersion(v int64) *GCMChannelResponse {
 	s.Version = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GCMChannelResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.CreationDate != nil {
+		v := *s.CreationDate
+
+		e.SetValue(protocol.BodyTarget, "CreationDate", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Credential != nil {
+		v := *s.Credential
+
+		e.SetValue(protocol.BodyTarget, "Credential", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Enabled != nil {
+		v := *s.Enabled
+
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		e.SetValue(protocol.BodyTarget, "Id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.IsArchived != nil {
+		v := *s.IsArchived
+
+		e.SetValue(protocol.BodyTarget, "IsArchived", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.LastModifiedBy != nil {
+		v := *s.LastModifiedBy
+
+		e.SetValue(protocol.BodyTarget, "LastModifiedBy", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.LastModifiedDate != nil {
+		v := *s.LastModifiedDate
+
+		e.SetValue(protocol.BodyTarget, "LastModifiedDate", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Platform != nil {
+		v := *s.Platform
+
+		e.SetValue(protocol.BodyTarget, "Platform", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		e.SetValue(protocol.BodyTarget, "Version", protocol.Int64Value(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // GCM Message.
@@ -6900,6 +9041,92 @@ func (s *GCMMessage) SetUrl(v string) *GCMMessage {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GCMMessage) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Action != nil {
+		v := *s.Action
+
+		e.SetValue(protocol.BodyTarget, "Action", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Body != nil {
+		v := *s.Body
+
+		e.SetValue(protocol.BodyTarget, "Body", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.CollapseKey != nil {
+		v := *s.CollapseKey
+
+		e.SetValue(protocol.BodyTarget, "CollapseKey", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Data) > 0 {
+		v := s.Data
+
+		e.SetMap(protocol.BodyTarget, "Data", protocol.EncodeStringMap(v), protocol.Metadata{})
+	}
+	if s.IconReference != nil {
+		v := *s.IconReference
+
+		e.SetValue(protocol.BodyTarget, "IconReference", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ImageIconUrl != nil {
+		v := *s.ImageIconUrl
+
+		e.SetValue(protocol.BodyTarget, "ImageIconUrl", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ImageUrl != nil {
+		v := *s.ImageUrl
+
+		e.SetValue(protocol.BodyTarget, "ImageUrl", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.RawContent != nil {
+		v := *s.RawContent
+
+		e.SetValue(protocol.BodyTarget, "RawContent", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.RestrictedPackageName != nil {
+		v := *s.RestrictedPackageName
+
+		e.SetValue(protocol.BodyTarget, "RestrictedPackageName", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.SilentPush != nil {
+		v := *s.SilentPush
+
+		e.SetValue(protocol.BodyTarget, "SilentPush", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.SmallImageIconUrl != nil {
+		v := *s.SmallImageIconUrl
+
+		e.SetValue(protocol.BodyTarget, "SmallImageIconUrl", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Sound != nil {
+		v := *s.Sound
+
+		e.SetValue(protocol.BodyTarget, "Sound", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Substitutions) > 0 {
+		v := s.Substitutions
+
+		e.SetMap(protocol.BodyTarget, "Substitutions", func(me protocol.MapEncoder) {
+			for k, item := range v {
+				v := item
+				me.MapSetList(k, protocol.EncodeStringList(v))
+			}
+		}, protocol.Metadata{})
+	}
+	if s.Title != nil {
+		v := *s.Title
+
+		e.SetValue(protocol.BodyTarget, "Title", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Url != nil {
+		v := *s.Url
+
+		e.SetValue(protocol.BodyTarget, "Url", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type GetApnsChannelInput struct {
 	_ struct{} `type:"structure"`
 
@@ -6936,6 +9163,17 @@ func (s *GetApnsChannelInput) SetApplicationId(v string) *GetApnsChannelInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetApnsChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type GetApnsChannelOutput struct {
 	_ struct{} `type:"structure" payload:"APNSChannelResponse"`
 
@@ -6959,6 +9197,17 @@ func (s GetApnsChannelOutput) GoString() string {
 func (s *GetApnsChannelOutput) SetAPNSChannelResponse(v *APNSChannelResponse) *GetApnsChannelOutput {
 	s.APNSChannelResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetApnsChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.APNSChannelResponse != nil {
+		v := s.APNSChannelResponse
+
+		e.SetFields(protocol.PayloadTarget, "APNSChannelResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type GetApnsSandboxChannelInput struct {
@@ -6997,6 +9246,17 @@ func (s *GetApnsSandboxChannelInput) SetApplicationId(v string) *GetApnsSandboxC
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetApnsSandboxChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type GetApnsSandboxChannelOutput struct {
 	_ struct{} `type:"structure" payload:"APNSSandboxChannelResponse"`
 
@@ -7020,6 +9280,100 @@ func (s GetApnsSandboxChannelOutput) GoString() string {
 func (s *GetApnsSandboxChannelOutput) SetAPNSSandboxChannelResponse(v *APNSSandboxChannelResponse) *GetApnsSandboxChannelOutput {
 	s.APNSSandboxChannelResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetApnsSandboxChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.APNSSandboxChannelResponse != nil {
+		v := s.APNSSandboxChannelResponse
+
+		e.SetFields(protocol.PayloadTarget, "APNSSandboxChannelResponse", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
+type GetAppInput struct {
+	_ struct{} `type:"structure"`
+
+	// ApplicationId is a required field
+	ApplicationId *string `location:"uri" locationName:"application-id" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s GetAppInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetAppInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *GetAppInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "GetAppInput"}
+	if s.ApplicationId == nil {
+		invalidParams.Add(request.NewErrParamRequired("ApplicationId"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetApplicationId sets the ApplicationId field's value.
+func (s *GetAppInput) SetApplicationId(v string) *GetAppInput {
+	s.ApplicationId = &v
+	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetAppInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+type GetAppOutput struct {
+	_ struct{} `type:"structure" payload:"ApplicationResponse"`
+
+	// Application Response.
+	//
+	// ApplicationResponse is a required field
+	ApplicationResponse *ApplicationResponse `type:"structure" required:"true"`
+}
+
+// String returns the string representation
+func (s GetAppOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetAppOutput) GoString() string {
+	return s.String()
+}
+
+// SetApplicationResponse sets the ApplicationResponse field's value.
+func (s *GetAppOutput) SetApplicationResponse(v *ApplicationResponse) *GetAppOutput {
+	s.ApplicationResponse = v
+	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetAppOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationResponse != nil {
+		v := s.ApplicationResponse
+
+		e.SetFields(protocol.PayloadTarget, "ApplicationResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type GetApplicationSettingsInput struct {
@@ -7058,6 +9412,17 @@ func (s *GetApplicationSettingsInput) SetApplicationId(v string) *GetApplication
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetApplicationSettingsInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type GetApplicationSettingsOutput struct {
 	_ struct{} `type:"structure" payload:"ApplicationSettingsResource"`
 
@@ -7081,6 +9446,99 @@ func (s GetApplicationSettingsOutput) GoString() string {
 func (s *GetApplicationSettingsOutput) SetApplicationSettingsResource(v *ApplicationSettingsResource) *GetApplicationSettingsOutput {
 	s.ApplicationSettingsResource = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetApplicationSettingsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationSettingsResource != nil {
+		v := s.ApplicationSettingsResource
+
+		e.SetFields(protocol.PayloadTarget, "ApplicationSettingsResource", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
+type GetAppsInput struct {
+	_ struct{} `type:"structure"`
+
+	PageSize *string `location:"querystring" locationName:"page-size" type:"string"`
+
+	Token *string `location:"querystring" locationName:"token" type:"string"`
+}
+
+// String returns the string representation
+func (s GetAppsInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetAppsInput) GoString() string {
+	return s.String()
+}
+
+// SetPageSize sets the PageSize field's value.
+func (s *GetAppsInput) SetPageSize(v string) *GetAppsInput {
+	s.PageSize = &v
+	return s
+}
+
+// SetToken sets the Token field's value.
+func (s *GetAppsInput) SetToken(v string) *GetAppsInput {
+	s.Token = &v
+	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetAppsInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.PageSize != nil {
+		v := *s.PageSize
+
+		e.SetValue(protocol.QueryTarget, "page-size", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Token != nil {
+		v := *s.Token
+
+		e.SetValue(protocol.QueryTarget, "token", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+type GetAppsOutput struct {
+	_ struct{} `type:"structure" payload:"ApplicationsResponse"`
+
+	// Get Applications Result.
+	//
+	// ApplicationsResponse is a required field
+	ApplicationsResponse *ApplicationsResponse `type:"structure" required:"true"`
+}
+
+// String returns the string representation
+func (s GetAppsOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetAppsOutput) GoString() string {
+	return s.String()
+}
+
+// SetApplicationsResponse sets the ApplicationsResponse field's value.
+func (s *GetAppsOutput) SetApplicationsResponse(v *ApplicationsResponse) *GetAppsOutput {
+	s.ApplicationsResponse = v
+	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetAppsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationsResponse != nil {
+		v := s.ApplicationsResponse
+
+		e.SetFields(protocol.PayloadTarget, "ApplicationsResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type GetCampaignActivitiesInput struct {
@@ -7147,6 +9605,32 @@ func (s *GetCampaignActivitiesInput) SetToken(v string) *GetCampaignActivitiesIn
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetCampaignActivitiesInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.CampaignId != nil {
+		v := *s.CampaignId
+
+		e.SetValue(protocol.PathTarget, "campaign-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.PageSize != nil {
+		v := *s.PageSize
+
+		e.SetValue(protocol.QueryTarget, "page-size", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Token != nil {
+		v := *s.Token
+
+		e.SetValue(protocol.QueryTarget, "token", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type GetCampaignActivitiesOutput struct {
 	_ struct{} `type:"structure" payload:"ActivitiesResponse"`
 
@@ -7170,6 +9654,17 @@ func (s GetCampaignActivitiesOutput) GoString() string {
 func (s *GetCampaignActivitiesOutput) SetActivitiesResponse(v *ActivitiesResponse) *GetCampaignActivitiesOutput {
 	s.ActivitiesResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetCampaignActivitiesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ActivitiesResponse != nil {
+		v := s.ActivitiesResponse
+
+		e.SetFields(protocol.PayloadTarget, "ActivitiesResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type GetCampaignInput struct {
@@ -7220,6 +9715,22 @@ func (s *GetCampaignInput) SetCampaignId(v string) *GetCampaignInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetCampaignInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.CampaignId != nil {
+		v := *s.CampaignId
+
+		e.SetValue(protocol.PathTarget, "campaign-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type GetCampaignOutput struct {
 	_ struct{} `type:"structure" payload:"CampaignResponse"`
 
@@ -7243,6 +9754,17 @@ func (s GetCampaignOutput) GoString() string {
 func (s *GetCampaignOutput) SetCampaignResponse(v *CampaignResponse) *GetCampaignOutput {
 	s.CampaignResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetCampaignOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CampaignResponse != nil {
+		v := s.CampaignResponse
+
+		e.SetFields(protocol.PayloadTarget, "CampaignResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type GetCampaignVersionInput struct {
@@ -7305,6 +9827,27 @@ func (s *GetCampaignVersionInput) SetVersion(v string) *GetCampaignVersionInput 
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetCampaignVersionInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.CampaignId != nil {
+		v := *s.CampaignId
+
+		e.SetValue(protocol.PathTarget, "campaign-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		e.SetValue(protocol.PathTarget, "version", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type GetCampaignVersionOutput struct {
 	_ struct{} `type:"structure" payload:"CampaignResponse"`
 
@@ -7328,6 +9871,17 @@ func (s GetCampaignVersionOutput) GoString() string {
 func (s *GetCampaignVersionOutput) SetCampaignResponse(v *CampaignResponse) *GetCampaignVersionOutput {
 	s.CampaignResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetCampaignVersionOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CampaignResponse != nil {
+		v := s.CampaignResponse
+
+		e.SetFields(protocol.PayloadTarget, "CampaignResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type GetCampaignVersionsInput struct {
@@ -7394,6 +9948,32 @@ func (s *GetCampaignVersionsInput) SetToken(v string) *GetCampaignVersionsInput 
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetCampaignVersionsInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.CampaignId != nil {
+		v := *s.CampaignId
+
+		e.SetValue(protocol.PathTarget, "campaign-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.PageSize != nil {
+		v := *s.PageSize
+
+		e.SetValue(protocol.QueryTarget, "page-size", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Token != nil {
+		v := *s.Token
+
+		e.SetValue(protocol.QueryTarget, "token", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type GetCampaignVersionsOutput struct {
 	_ struct{} `type:"structure" payload:"CampaignsResponse"`
 
@@ -7417,6 +9997,17 @@ func (s GetCampaignVersionsOutput) GoString() string {
 func (s *GetCampaignVersionsOutput) SetCampaignsResponse(v *CampaignsResponse) *GetCampaignVersionsOutput {
 	s.CampaignsResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetCampaignVersionsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CampaignsResponse != nil {
+		v := s.CampaignsResponse
+
+		e.SetFields(protocol.PayloadTarget, "CampaignsResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type GetCampaignsInput struct {
@@ -7471,6 +10062,27 @@ func (s *GetCampaignsInput) SetToken(v string) *GetCampaignsInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetCampaignsInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.PageSize != nil {
+		v := *s.PageSize
+
+		e.SetValue(protocol.QueryTarget, "page-size", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Token != nil {
+		v := *s.Token
+
+		e.SetValue(protocol.QueryTarget, "token", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type GetCampaignsOutput struct {
 	_ struct{} `type:"structure" payload:"CampaignsResponse"`
 
@@ -7494,6 +10106,17 @@ func (s GetCampaignsOutput) GoString() string {
 func (s *GetCampaignsOutput) SetCampaignsResponse(v *CampaignsResponse) *GetCampaignsOutput {
 	s.CampaignsResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetCampaignsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CampaignsResponse != nil {
+		v := s.CampaignsResponse
+
+		e.SetFields(protocol.PayloadTarget, "CampaignsResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type GetEmailChannelInput struct {
@@ -7532,6 +10155,17 @@ func (s *GetEmailChannelInput) SetApplicationId(v string) *GetEmailChannelInput 
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetEmailChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type GetEmailChannelOutput struct {
 	_ struct{} `type:"structure" payload:"EmailChannelResponse"`
 
@@ -7555,6 +10189,17 @@ func (s GetEmailChannelOutput) GoString() string {
 func (s *GetEmailChannelOutput) SetEmailChannelResponse(v *EmailChannelResponse) *GetEmailChannelOutput {
 	s.EmailChannelResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetEmailChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.EmailChannelResponse != nil {
+		v := s.EmailChannelResponse
+
+		e.SetFields(protocol.PayloadTarget, "EmailChannelResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type GetEndpointInput struct {
@@ -7605,6 +10250,22 @@ func (s *GetEndpointInput) SetEndpointId(v string) *GetEndpointInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetEndpointInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.EndpointId != nil {
+		v := *s.EndpointId
+
+		e.SetValue(protocol.PathTarget, "endpoint-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type GetEndpointOutput struct {
 	_ struct{} `type:"structure" payload:"EndpointResponse"`
 
@@ -7628,6 +10289,17 @@ func (s GetEndpointOutput) GoString() string {
 func (s *GetEndpointOutput) SetEndpointResponse(v *EndpointResponse) *GetEndpointOutput {
 	s.EndpointResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetEndpointOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.EndpointResponse != nil {
+		v := s.EndpointResponse
+
+		e.SetFields(protocol.PayloadTarget, "EndpointResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type GetEventStreamInput struct {
@@ -7668,6 +10340,17 @@ func (s *GetEventStreamInput) SetApplicationId(v string) *GetEventStreamInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetEventStreamInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type GetEventStreamOutput struct {
 	_ struct{} `type:"structure" payload:"EventStream"`
 
@@ -7691,6 +10374,17 @@ func (s GetEventStreamOutput) GoString() string {
 func (s *GetEventStreamOutput) SetEventStream(v *EventStream) *GetEventStreamOutput {
 	s.EventStream = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetEventStreamOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.EventStream != nil {
+		v := s.EventStream
+
+		e.SetFields(protocol.PayloadTarget, "EventStream", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type GetGcmChannelInput struct {
@@ -7729,6 +10423,17 @@ func (s *GetGcmChannelInput) SetApplicationId(v string) *GetGcmChannelInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetGcmChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type GetGcmChannelOutput struct {
 	_ struct{} `type:"structure" payload:"GCMChannelResponse"`
 
@@ -7752,6 +10457,17 @@ func (s GetGcmChannelOutput) GoString() string {
 func (s *GetGcmChannelOutput) SetGCMChannelResponse(v *GCMChannelResponse) *GetGcmChannelOutput {
 	s.GCMChannelResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetGcmChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.GCMChannelResponse != nil {
+		v := s.GCMChannelResponse
+
+		e.SetFields(protocol.PayloadTarget, "GCMChannelResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type GetImportJobInput struct {
@@ -7802,6 +10518,22 @@ func (s *GetImportJobInput) SetJobId(v string) *GetImportJobInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetImportJobInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.JobId != nil {
+		v := *s.JobId
+
+		e.SetValue(protocol.PathTarget, "job-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type GetImportJobOutput struct {
 	_ struct{} `type:"structure" payload:"ImportJobResponse"`
 
@@ -7823,6 +10555,17 @@ func (s GetImportJobOutput) GoString() string {
 func (s *GetImportJobOutput) SetImportJobResponse(v *ImportJobResponse) *GetImportJobOutput {
 	s.ImportJobResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetImportJobOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ImportJobResponse != nil {
+		v := s.ImportJobResponse
+
+		e.SetFields(protocol.PayloadTarget, "ImportJobResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type GetImportJobsInput struct {
@@ -7877,6 +10620,27 @@ func (s *GetImportJobsInput) SetToken(v string) *GetImportJobsInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetImportJobsInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.PageSize != nil {
+		v := *s.PageSize
+
+		e.SetValue(protocol.QueryTarget, "page-size", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Token != nil {
+		v := *s.Token
+
+		e.SetValue(protocol.QueryTarget, "token", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type GetImportJobsOutput struct {
 	_ struct{} `type:"structure" payload:"ImportJobsResponse"`
 
@@ -7900,6 +10664,17 @@ func (s GetImportJobsOutput) GoString() string {
 func (s *GetImportJobsOutput) SetImportJobsResponse(v *ImportJobsResponse) *GetImportJobsOutput {
 	s.ImportJobsResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetImportJobsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ImportJobsResponse != nil {
+		v := s.ImportJobsResponse
+
+		e.SetFields(protocol.PayloadTarget, "ImportJobsResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type GetSegmentImportJobsInput struct {
@@ -7966,6 +10741,32 @@ func (s *GetSegmentImportJobsInput) SetToken(v string) *GetSegmentImportJobsInpu
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetSegmentImportJobsInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.PageSize != nil {
+		v := *s.PageSize
+
+		e.SetValue(protocol.QueryTarget, "page-size", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.SegmentId != nil {
+		v := *s.SegmentId
+
+		e.SetValue(protocol.PathTarget, "segment-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Token != nil {
+		v := *s.Token
+
+		e.SetValue(protocol.QueryTarget, "token", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type GetSegmentImportJobsOutput struct {
 	_ struct{} `type:"structure" payload:"ImportJobsResponse"`
 
@@ -7989,6 +10790,17 @@ func (s GetSegmentImportJobsOutput) GoString() string {
 func (s *GetSegmentImportJobsOutput) SetImportJobsResponse(v *ImportJobsResponse) *GetSegmentImportJobsOutput {
 	s.ImportJobsResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetSegmentImportJobsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ImportJobsResponse != nil {
+		v := s.ImportJobsResponse
+
+		e.SetFields(protocol.PayloadTarget, "ImportJobsResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type GetSegmentInput struct {
@@ -8039,6 +10851,22 @@ func (s *GetSegmentInput) SetSegmentId(v string) *GetSegmentInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetSegmentInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.SegmentId != nil {
+		v := *s.SegmentId
+
+		e.SetValue(protocol.PathTarget, "segment-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type GetSegmentOutput struct {
 	_ struct{} `type:"structure" payload:"SegmentResponse"`
 
@@ -8062,6 +10890,17 @@ func (s GetSegmentOutput) GoString() string {
 func (s *GetSegmentOutput) SetSegmentResponse(v *SegmentResponse) *GetSegmentOutput {
 	s.SegmentResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetSegmentOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.SegmentResponse != nil {
+		v := s.SegmentResponse
+
+		e.SetFields(protocol.PayloadTarget, "SegmentResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type GetSegmentVersionInput struct {
@@ -8124,6 +10963,27 @@ func (s *GetSegmentVersionInput) SetVersion(v string) *GetSegmentVersionInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetSegmentVersionInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.SegmentId != nil {
+		v := *s.SegmentId
+
+		e.SetValue(protocol.PathTarget, "segment-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		e.SetValue(protocol.PathTarget, "version", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type GetSegmentVersionOutput struct {
 	_ struct{} `type:"structure" payload:"SegmentResponse"`
 
@@ -8147,6 +11007,17 @@ func (s GetSegmentVersionOutput) GoString() string {
 func (s *GetSegmentVersionOutput) SetSegmentResponse(v *SegmentResponse) *GetSegmentVersionOutput {
 	s.SegmentResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetSegmentVersionOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.SegmentResponse != nil {
+		v := s.SegmentResponse
+
+		e.SetFields(protocol.PayloadTarget, "SegmentResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type GetSegmentVersionsInput struct {
@@ -8213,6 +11084,32 @@ func (s *GetSegmentVersionsInput) SetToken(v string) *GetSegmentVersionsInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetSegmentVersionsInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.PageSize != nil {
+		v := *s.PageSize
+
+		e.SetValue(protocol.QueryTarget, "page-size", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.SegmentId != nil {
+		v := *s.SegmentId
+
+		e.SetValue(protocol.PathTarget, "segment-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Token != nil {
+		v := *s.Token
+
+		e.SetValue(protocol.QueryTarget, "token", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type GetSegmentVersionsOutput struct {
 	_ struct{} `type:"structure" payload:"SegmentsResponse"`
 
@@ -8236,6 +11133,17 @@ func (s GetSegmentVersionsOutput) GoString() string {
 func (s *GetSegmentVersionsOutput) SetSegmentsResponse(v *SegmentsResponse) *GetSegmentVersionsOutput {
 	s.SegmentsResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetSegmentVersionsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.SegmentsResponse != nil {
+		v := s.SegmentsResponse
+
+		e.SetFields(protocol.PayloadTarget, "SegmentsResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type GetSegmentsInput struct {
@@ -8290,6 +11198,27 @@ func (s *GetSegmentsInput) SetToken(v string) *GetSegmentsInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetSegmentsInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.PageSize != nil {
+		v := *s.PageSize
+
+		e.SetValue(protocol.QueryTarget, "page-size", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Token != nil {
+		v := *s.Token
+
+		e.SetValue(protocol.QueryTarget, "token", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type GetSegmentsOutput struct {
 	_ struct{} `type:"structure" payload:"SegmentsResponse"`
 
@@ -8313,6 +11242,17 @@ func (s GetSegmentsOutput) GoString() string {
 func (s *GetSegmentsOutput) SetSegmentsResponse(v *SegmentsResponse) *GetSegmentsOutput {
 	s.SegmentsResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetSegmentsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.SegmentsResponse != nil {
+		v := s.SegmentsResponse
+
+		e.SetFields(protocol.PayloadTarget, "SegmentsResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type GetSmsChannelInput struct {
@@ -8351,6 +11291,17 @@ func (s *GetSmsChannelInput) SetApplicationId(v string) *GetSmsChannelInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetSmsChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type GetSmsChannelOutput struct {
 	_ struct{} `type:"structure" payload:"SMSChannelResponse"`
 
@@ -8374,6 +11325,17 @@ func (s GetSmsChannelOutput) GoString() string {
 func (s *GetSmsChannelOutput) SetSMSChannelResponse(v *SMSChannelResponse) *GetSmsChannelOutput {
 	s.SMSChannelResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *GetSmsChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.SMSChannelResponse != nil {
+		v := s.SMSChannelResponse
+
+		e.SetFields(protocol.PayloadTarget, "SMSChannelResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type ImportJobRequest struct {
@@ -8471,6 +11433,52 @@ func (s *ImportJobRequest) SetSegmentName(v string) *ImportJobRequest {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *ImportJobRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DefineSegment != nil {
+		v := *s.DefineSegment
+
+		e.SetValue(protocol.BodyTarget, "DefineSegment", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.ExternalId != nil {
+		v := *s.ExternalId
+
+		e.SetValue(protocol.BodyTarget, "ExternalId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Format != nil {
+		v := *s.Format
+
+		e.SetValue(protocol.BodyTarget, "Format", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.RegisterEndpoints != nil {
+		v := *s.RegisterEndpoints
+
+		e.SetValue(protocol.BodyTarget, "RegisterEndpoints", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.RoleArn != nil {
+		v := *s.RoleArn
+
+		e.SetValue(protocol.BodyTarget, "RoleArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.S3Url != nil {
+		v := *s.S3Url
+
+		e.SetValue(protocol.BodyTarget, "S3Url", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.SegmentId != nil {
+		v := *s.SegmentId
+
+		e.SetValue(protocol.BodyTarget, "SegmentId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.SegmentName != nil {
+		v := *s.SegmentName
+
+		e.SetValue(protocol.BodyTarget, "SegmentName", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type ImportJobResource struct {
 	_ struct{} `type:"structure"`
 
@@ -8564,6 +11572,52 @@ func (s *ImportJobResource) SetSegmentId(v string) *ImportJobResource {
 func (s *ImportJobResource) SetSegmentName(v string) *ImportJobResource {
 	s.SegmentName = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *ImportJobResource) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DefineSegment != nil {
+		v := *s.DefineSegment
+
+		e.SetValue(protocol.BodyTarget, "DefineSegment", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.ExternalId != nil {
+		v := *s.ExternalId
+
+		e.SetValue(protocol.BodyTarget, "ExternalId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Format != nil {
+		v := *s.Format
+
+		e.SetValue(protocol.BodyTarget, "Format", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.RegisterEndpoints != nil {
+		v := *s.RegisterEndpoints
+
+		e.SetValue(protocol.BodyTarget, "RegisterEndpoints", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.RoleArn != nil {
+		v := *s.RoleArn
+
+		e.SetValue(protocol.BodyTarget, "RoleArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.S3Url != nil {
+		v := *s.S3Url
+
+		e.SetValue(protocol.BodyTarget, "S3Url", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.SegmentId != nil {
+		v := *s.SegmentId
+
+		e.SetValue(protocol.BodyTarget, "SegmentId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.SegmentName != nil {
+		v := *s.SegmentName
+
+		e.SetValue(protocol.BodyTarget, "SegmentName", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type ImportJobResponse struct {
@@ -8701,6 +11755,85 @@ func (s *ImportJobResponse) SetType(v string) *ImportJobResponse {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *ImportJobResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.CompletedPieces != nil {
+		v := *s.CompletedPieces
+
+		e.SetValue(protocol.BodyTarget, "CompletedPieces", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.CompletionDate != nil {
+		v := *s.CompletionDate
+
+		e.SetValue(protocol.BodyTarget, "CompletionDate", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.CreationDate != nil {
+		v := *s.CreationDate
+
+		e.SetValue(protocol.BodyTarget, "CreationDate", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Definition != nil {
+		v := s.Definition
+
+		e.SetFields(protocol.BodyTarget, "Definition", v, protocol.Metadata{})
+	}
+	if s.FailedPieces != nil {
+		v := *s.FailedPieces
+
+		e.SetValue(protocol.BodyTarget, "FailedPieces", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if len(s.Failures) > 0 {
+		v := s.Failures
+
+		e.SetList(protocol.BodyTarget, "Failures", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		e.SetValue(protocol.BodyTarget, "Id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.JobStatus != nil {
+		v := *s.JobStatus
+
+		e.SetValue(protocol.BodyTarget, "JobStatus", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.TotalFailures != nil {
+		v := *s.TotalFailures
+
+		e.SetValue(protocol.BodyTarget, "TotalFailures", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.TotalPieces != nil {
+		v := *s.TotalPieces
+
+		e.SetValue(protocol.BodyTarget, "TotalPieces", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.TotalProcessed != nil {
+		v := *s.TotalProcessed
+
+		e.SetValue(protocol.BodyTarget, "TotalProcessed", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.Type != nil {
+		v := *s.Type
+
+		e.SetValue(protocol.BodyTarget, "Type", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeImportJobResponseList(vs []*ImportJobResponse) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
+}
+
 // Import job list.
 type ImportJobsResponse struct {
 	_ struct{} `type:"structure"`
@@ -8735,6 +11868,22 @@ func (s *ImportJobsResponse) SetNextToken(v string) *ImportJobsResponse {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *ImportJobsResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Item) > 0 {
+		v := s.Item
+
+		e.SetList(protocol.BodyTarget, "Item", encodeImportJobResponseList(v), protocol.Metadata{})
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type Message struct {
 	_ struct{} `type:"structure"`
 
@@ -8765,6 +11914,10 @@ type Message struct {
 
 	// The URL that points to the media resource, for example a .mp4 or .gif file.
 	MediaUrl *string `type:"string"`
+
+	// The Raw JSON formatted string to be used as the payload. This value overrides
+	// the message.
+	RawContent *string `type:"string"`
 
 	// Indicates if the message should display on the users device.Silent pushes
 	// can be used for Remote Configuration and Phone Home use cases.
@@ -8830,6 +11983,12 @@ func (s *Message) SetMediaUrl(v string) *Message {
 	return s
 }
 
+// SetRawContent sets the RawContent field's value.
+func (s *Message) SetRawContent(v string) *Message {
+	s.RawContent = &v
+	return s
+}
+
 // SetSilentPush sets the SilentPush field's value.
 func (s *Message) SetSilentPush(v bool) *Message {
 	s.SilentPush = &v
@@ -8846,6 +12005,67 @@ func (s *Message) SetTitle(v string) *Message {
 func (s *Message) SetUrl(v string) *Message {
 	s.Url = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *Message) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Action != nil {
+		v := *s.Action
+
+		e.SetValue(protocol.BodyTarget, "Action", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Body != nil {
+		v := *s.Body
+
+		e.SetValue(protocol.BodyTarget, "Body", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ImageIconUrl != nil {
+		v := *s.ImageIconUrl
+
+		e.SetValue(protocol.BodyTarget, "ImageIconUrl", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ImageSmallIconUrl != nil {
+		v := *s.ImageSmallIconUrl
+
+		e.SetValue(protocol.BodyTarget, "ImageSmallIconUrl", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ImageUrl != nil {
+		v := *s.ImageUrl
+
+		e.SetValue(protocol.BodyTarget, "ImageUrl", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.JsonBody != nil {
+		v := *s.JsonBody
+
+		e.SetValue(protocol.BodyTarget, "JsonBody", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.MediaUrl != nil {
+		v := *s.MediaUrl
+
+		e.SetValue(protocol.BodyTarget, "MediaUrl", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.RawContent != nil {
+		v := *s.RawContent
+
+		e.SetValue(protocol.BodyTarget, "RawContent", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.SilentPush != nil {
+		v := *s.SilentPush
+
+		e.SetValue(protocol.BodyTarget, "SilentPush", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.Title != nil {
+		v := *s.Title
+
+		e.SetValue(protocol.BodyTarget, "Title", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Url != nil {
+		v := *s.Url
+
+		e.SetValue(protocol.BodyTarget, "Url", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Simple message object.
@@ -8879,6 +12099,22 @@ func (s *MessageBody) SetMessage(v string) *MessageBody {
 func (s *MessageBody) SetRequestID(v string) *MessageBody {
 	s.RequestID = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *MessageBody) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Message != nil {
+		v := *s.Message
+
+		e.SetValue(protocol.BodyTarget, "Message", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.RequestID != nil {
+		v := *s.RequestID
+
+		e.SetValue(protocol.BodyTarget, "RequestID", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Message configuration for a campaign.
@@ -8943,6 +12179,37 @@ func (s *MessageConfiguration) SetSMSMessage(v *CampaignSmsMessage) *MessageConf
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *MessageConfiguration) MarshalFields(e protocol.FieldEncoder) error {
+	if s.APNSMessage != nil {
+		v := s.APNSMessage
+
+		e.SetFields(protocol.BodyTarget, "APNSMessage", v, protocol.Metadata{})
+	}
+	if s.DefaultMessage != nil {
+		v := s.DefaultMessage
+
+		e.SetFields(protocol.BodyTarget, "DefaultMessage", v, protocol.Metadata{})
+	}
+	if s.EmailMessage != nil {
+		v := s.EmailMessage
+
+		e.SetFields(protocol.BodyTarget, "EmailMessage", v, protocol.Metadata{})
+	}
+	if s.GCMMessage != nil {
+		v := s.GCMMessage
+
+		e.SetFields(protocol.BodyTarget, "GCMMessage", v, protocol.Metadata{})
+	}
+	if s.SMSMessage != nil {
+		v := s.SMSMessage
+
+		e.SetFields(protocol.BodyTarget, "SMSMessage", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Send message request.
 type MessageRequest struct {
 	_ struct{} `type:"structure"`
@@ -8983,6 +12250,27 @@ func (s *MessageRequest) SetContext(v map[string]*string) *MessageRequest {
 func (s *MessageRequest) SetMessageConfiguration(v *DirectMessageConfiguration) *MessageRequest {
 	s.MessageConfiguration = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *MessageRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Addresses) > 0 {
+		v := s.Addresses
+
+		e.SetMap(protocol.BodyTarget, "Addresses", encodeAddressConfigurationMap(v), protocol.Metadata{})
+	}
+	if len(s.Context) > 0 {
+		v := s.Context
+
+		e.SetMap(protocol.BodyTarget, "Context", protocol.EncodeStringMap(v), protocol.Metadata{})
+	}
+	if s.MessageConfiguration != nil {
+		v := s.MessageConfiguration
+
+		e.SetFields(protocol.BodyTarget, "MessageConfiguration", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Send message response.
@@ -9027,6 +12315,27 @@ func (s *MessageResponse) SetRequestId(v string) *MessageResponse {
 func (s *MessageResponse) SetResult(v map[string]*MessageResult) *MessageResponse {
 	s.Result = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *MessageResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.RequestId != nil {
+		v := *s.RequestId
+
+		e.SetValue(protocol.BodyTarget, "RequestId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Result) > 0 {
+		v := s.Result
+
+		e.SetMap(protocol.BodyTarget, "Result", encodeMessageResultMap(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // The result from sending a message to an address.
@@ -9078,6 +12387,40 @@ func (s *MessageResult) SetStatusMessage(v string) *MessageResult {
 func (s *MessageResult) SetUpdatedToken(v string) *MessageResult {
 	s.UpdatedToken = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *MessageResult) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DeliveryStatus != nil {
+		v := *s.DeliveryStatus
+
+		e.SetValue(protocol.BodyTarget, "DeliveryStatus", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.StatusCode != nil {
+		v := *s.StatusCode
+
+		e.SetValue(protocol.BodyTarget, "StatusCode", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.StatusMessage != nil {
+		v := *s.StatusMessage
+
+		e.SetValue(protocol.BodyTarget, "StatusMessage", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.UpdatedToken != nil {
+		v := *s.UpdatedToken
+
+		e.SetValue(protocol.BodyTarget, "UpdatedToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeMessageResultMap(vs map[string]*MessageResult) func(protocol.MapEncoder) {
+	return func(me protocol.MapEncoder) {
+		for k, v := range vs {
+			me.MapSetFields(k, v)
+		}
+	}
 }
 
 type PutEventStreamInput struct {
@@ -9132,6 +12475,22 @@ func (s *PutEventStreamInput) SetWriteEventStream(v *WriteEventStream) *PutEvent
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *PutEventStreamInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.WriteEventStream != nil {
+		v := s.WriteEventStream
+
+		e.SetFields(protocol.PayloadTarget, "WriteEventStream", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type PutEventStreamOutput struct {
 	_ struct{} `type:"structure" payload:"EventStream"`
 
@@ -9155,6 +12514,17 @@ func (s PutEventStreamOutput) GoString() string {
 func (s *PutEventStreamOutput) SetEventStream(v *EventStream) *PutEventStreamOutput {
 	s.EventStream = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *PutEventStreamOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.EventStream != nil {
+		v := s.EventStream
+
+		e.SetFields(protocol.PayloadTarget, "EventStream", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Quiet Time
@@ -9188,6 +12558,22 @@ func (s *QuietTime) SetEnd(v string) *QuietTime {
 func (s *QuietTime) SetStart(v string) *QuietTime {
 	s.Start = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *QuietTime) MarshalFields(e protocol.FieldEncoder) error {
+	if s.End != nil {
+		v := *s.End
+
+		e.SetValue(protocol.BodyTarget, "End", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Start != nil {
+		v := *s.Start
+
+		e.SetValue(protocol.BodyTarget, "Start", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Define how a segment based on recency of use.
@@ -9226,6 +12612,22 @@ func (s *RecencyDimension) SetRecencyType(v string) *RecencyDimension {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *RecencyDimension) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Duration != nil {
+		v := *s.Duration
+
+		e.SetValue(protocol.BodyTarget, "Duration", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.RecencyType != nil {
+		v := *s.RecencyType
+
+		e.SetValue(protocol.BodyTarget, "RecencyType", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // SMS Channel Request
 type SMSChannelRequest struct {
 	_ struct{} `type:"structure"`
@@ -9259,11 +12661,27 @@ func (s *SMSChannelRequest) SetSenderId(v string) *SMSChannelRequest {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *SMSChannelRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Enabled != nil {
+		v := *s.Enabled
+
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.SenderId != nil {
+		v := *s.SenderId
+
+		e.SetValue(protocol.BodyTarget, "SenderId", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // SMS Channel Response.
 type SMSChannelResponse struct {
 	_ struct{} `type:"structure"`
 
-	// Application id
+	// The unique ID of the application to which the SMS channel belongs.
 	ApplicationId *string `type:"string"`
 
 	// The date that the settings were last updated in ISO 8601 format.
@@ -9373,6 +12791,67 @@ func (s *SMSChannelResponse) SetVersion(v int64) *SMSChannelResponse {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *SMSChannelResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.CreationDate != nil {
+		v := *s.CreationDate
+
+		e.SetValue(protocol.BodyTarget, "CreationDate", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Enabled != nil {
+		v := *s.Enabled
+
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		e.SetValue(protocol.BodyTarget, "Id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.IsArchived != nil {
+		v := *s.IsArchived
+
+		e.SetValue(protocol.BodyTarget, "IsArchived", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.LastModifiedBy != nil {
+		v := *s.LastModifiedBy
+
+		e.SetValue(protocol.BodyTarget, "LastModifiedBy", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.LastModifiedDate != nil {
+		v := *s.LastModifiedDate
+
+		e.SetValue(protocol.BodyTarget, "LastModifiedDate", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Platform != nil {
+		v := *s.Platform
+
+		e.SetValue(protocol.BodyTarget, "Platform", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.SenderId != nil {
+		v := *s.SenderId
+
+		e.SetValue(protocol.BodyTarget, "SenderId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ShortCode != nil {
+		v := *s.ShortCode
+
+		e.SetValue(protocol.BodyTarget, "ShortCode", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		e.SetValue(protocol.BodyTarget, "Version", protocol.Int64Value(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // SMS Message.
 type SMSMessage struct {
 	_ struct{} `type:"structure"`
@@ -9421,6 +12900,37 @@ func (s *SMSMessage) SetSenderId(v string) *SMSMessage {
 func (s *SMSMessage) SetSubstitutions(v map[string][]*string) *SMSMessage {
 	s.Substitutions = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *SMSMessage) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Body != nil {
+		v := *s.Body
+
+		e.SetValue(protocol.BodyTarget, "Body", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.MessageType != nil {
+		v := *s.MessageType
+
+		e.SetValue(protocol.BodyTarget, "MessageType", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.SenderId != nil {
+		v := *s.SenderId
+
+		e.SetValue(protocol.BodyTarget, "SenderId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Substitutions) > 0 {
+		v := s.Substitutions
+
+		e.SetMap(protocol.BodyTarget, "Substitutions", func(me protocol.MapEncoder) {
+			for k, item := range v {
+				v := item
+				me.MapSetList(k, protocol.EncodeStringList(v))
+			}
+		}, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Shcedule that defines when a campaign is run.
@@ -9495,6 +13005,42 @@ func (s *Schedule) SetTimezone(v string) *Schedule {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *Schedule) MarshalFields(e protocol.FieldEncoder) error {
+	if s.EndTime != nil {
+		v := *s.EndTime
+
+		e.SetValue(protocol.BodyTarget, "EndTime", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Frequency != nil {
+		v := *s.Frequency
+
+		e.SetValue(protocol.BodyTarget, "Frequency", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.IsLocalTime != nil {
+		v := *s.IsLocalTime
+
+		e.SetValue(protocol.BodyTarget, "IsLocalTime", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.QuietTime != nil {
+		v := s.QuietTime
+
+		e.SetFields(protocol.BodyTarget, "QuietTime", v, protocol.Metadata{})
+	}
+	if s.StartTime != nil {
+		v := *s.StartTime
+
+		e.SetValue(protocol.BodyTarget, "StartTime", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Timezone != nil {
+		v := *s.Timezone
+
+		e.SetValue(protocol.BodyTarget, "Timezone", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Segment behavior dimensions
 type SegmentBehaviors struct {
 	_ struct{} `type:"structure"`
@@ -9517,6 +13063,17 @@ func (s SegmentBehaviors) GoString() string {
 func (s *SegmentBehaviors) SetRecency(v *RecencyDimension) *SegmentBehaviors {
 	s.Recency = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *SegmentBehaviors) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Recency != nil {
+		v := s.Recency
+
+		e.SetFields(protocol.BodyTarget, "Recency", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Segment demographic dimensions
@@ -9588,6 +13145,42 @@ func (s *SegmentDemographics) SetPlatform(v *SetDimension) *SegmentDemographics 
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *SegmentDemographics) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AppVersion != nil {
+		v := s.AppVersion
+
+		e.SetFields(protocol.BodyTarget, "AppVersion", v, protocol.Metadata{})
+	}
+	if s.Channel != nil {
+		v := s.Channel
+
+		e.SetFields(protocol.BodyTarget, "Channel", v, protocol.Metadata{})
+	}
+	if s.DeviceType != nil {
+		v := s.DeviceType
+
+		e.SetFields(protocol.BodyTarget, "DeviceType", v, protocol.Metadata{})
+	}
+	if s.Make != nil {
+		v := s.Make
+
+		e.SetFields(protocol.BodyTarget, "Make", v, protocol.Metadata{})
+	}
+	if s.Model != nil {
+		v := s.Model
+
+		e.SetFields(protocol.BodyTarget, "Model", v, protocol.Metadata{})
+	}
+	if s.Platform != nil {
+		v := s.Platform
+
+		e.SetFields(protocol.BodyTarget, "Platform", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Segment dimensions
 type SegmentDimensions struct {
 	_ struct{} `type:"structure"`
@@ -9646,6 +13239,37 @@ func (s *SegmentDimensions) SetLocation(v *SegmentLocation) *SegmentDimensions {
 func (s *SegmentDimensions) SetUserAttributes(v map[string]*AttributeDimension) *SegmentDimensions {
 	s.UserAttributes = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *SegmentDimensions) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Attributes) > 0 {
+		v := s.Attributes
+
+		e.SetMap(protocol.BodyTarget, "Attributes", encodeAttributeDimensionMap(v), protocol.Metadata{})
+	}
+	if s.Behavior != nil {
+		v := s.Behavior
+
+		e.SetFields(protocol.BodyTarget, "Behavior", v, protocol.Metadata{})
+	}
+	if s.Demographic != nil {
+		v := s.Demographic
+
+		e.SetFields(protocol.BodyTarget, "Demographic", v, protocol.Metadata{})
+	}
+	if s.Location != nil {
+		v := s.Location
+
+		e.SetFields(protocol.BodyTarget, "Location", v, protocol.Metadata{})
+	}
+	if len(s.UserAttributes) > 0 {
+		v := s.UserAttributes
+
+		e.SetMap(protocol.BodyTarget, "UserAttributes", encodeAttributeDimensionMap(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Segment import definition.
@@ -9720,6 +13344,42 @@ func (s *SegmentImportResource) SetSize(v int64) *SegmentImportResource {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *SegmentImportResource) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.ChannelCounts) > 0 {
+		v := s.ChannelCounts
+
+		e.SetMap(protocol.BodyTarget, "ChannelCounts", protocol.EncodeInt64Map(v), protocol.Metadata{})
+	}
+	if s.ExternalId != nil {
+		v := *s.ExternalId
+
+		e.SetValue(protocol.BodyTarget, "ExternalId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Format != nil {
+		v := *s.Format
+
+		e.SetValue(protocol.BodyTarget, "Format", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.RoleArn != nil {
+		v := *s.RoleArn
+
+		e.SetValue(protocol.BodyTarget, "RoleArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.S3Url != nil {
+		v := *s.S3Url
+
+		e.SetValue(protocol.BodyTarget, "S3Url", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Size != nil {
+		v := *s.Size
+
+		e.SetValue(protocol.BodyTarget, "Size", protocol.Int64Value(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Segment location dimensions
 type SegmentLocation struct {
 	_ struct{} `type:"structure"`
@@ -9742,6 +13402,17 @@ func (s SegmentLocation) GoString() string {
 func (s *SegmentLocation) SetCountry(v *SetDimension) *SegmentLocation {
 	s.Country = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *SegmentLocation) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Country != nil {
+		v := s.Country
+
+		e.SetFields(protocol.BodyTarget, "Country", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Segment definition.
@@ -9846,6 +13517,65 @@ func (s *SegmentResponse) SetVersion(v int64) *SegmentResponse {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *SegmentResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.CreationDate != nil {
+		v := *s.CreationDate
+
+		e.SetValue(protocol.BodyTarget, "CreationDate", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Dimensions != nil {
+		v := s.Dimensions
+
+		e.SetFields(protocol.BodyTarget, "Dimensions", v, protocol.Metadata{})
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		e.SetValue(protocol.BodyTarget, "Id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.ImportDefinition != nil {
+		v := s.ImportDefinition
+
+		e.SetFields(protocol.BodyTarget, "ImportDefinition", v, protocol.Metadata{})
+	}
+	if s.LastModifiedDate != nil {
+		v := *s.LastModifiedDate
+
+		e.SetValue(protocol.BodyTarget, "LastModifiedDate", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "Name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.SegmentType != nil {
+		v := *s.SegmentType
+
+		e.SetValue(protocol.BodyTarget, "SegmentType", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		e.SetValue(protocol.BodyTarget, "Version", protocol.Int64Value(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeSegmentResponseList(vs []*SegmentResponse) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
+}
+
 // Segments in your account.
 type SegmentsResponse struct {
 	_ struct{} `type:"structure"`
@@ -9878,6 +13608,22 @@ func (s *SegmentsResponse) SetItem(v []*SegmentResponse) *SegmentsResponse {
 func (s *SegmentsResponse) SetNextToken(v string) *SegmentsResponse {
 	s.NextToken = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *SegmentsResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Item) > 0 {
+		v := s.Item
+
+		e.SetList(protocol.BodyTarget, "Item", encodeSegmentResponseList(v), protocol.Metadata{})
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type SendMessagesInput struct {
@@ -9930,6 +13676,22 @@ func (s *SendMessagesInput) SetMessageRequest(v *MessageRequest) *SendMessagesIn
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *SendMessagesInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.MessageRequest != nil {
+		v := s.MessageRequest
+
+		e.SetFields(protocol.PayloadTarget, "MessageRequest", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type SendMessagesOutput struct {
 	_ struct{} `type:"structure" payload:"MessageResponse"`
 
@@ -9953,6 +13715,17 @@ func (s SendMessagesOutput) GoString() string {
 func (s *SendMessagesOutput) SetMessageResponse(v *MessageResponse) *SendMessagesOutput {
 	s.MessageResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *SendMessagesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.MessageResponse != nil {
+		v := s.MessageResponse
+
+		e.SetFields(protocol.PayloadTarget, "MessageResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Dimension specification of a segment.
@@ -9987,6 +13760,22 @@ func (s *SetDimension) SetDimensionType(v string) *SetDimension {
 func (s *SetDimension) SetValues(v []*string) *SetDimension {
 	s.Values = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *SetDimension) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DimensionType != nil {
+		v := *s.DimensionType
+
+		e.SetValue(protocol.BodyTarget, "DimensionType", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Values) > 0 {
+		v := s.Values
+
+		e.SetList(protocol.BodyTarget, "Values", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Treatment resource
@@ -10067,6 +13856,55 @@ func (s *TreatmentResource) SetTreatmentName(v string) *TreatmentResource {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *TreatmentResource) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Id != nil {
+		v := *s.Id
+
+		e.SetValue(protocol.BodyTarget, "Id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.MessageConfiguration != nil {
+		v := s.MessageConfiguration
+
+		e.SetFields(protocol.BodyTarget, "MessageConfiguration", v, protocol.Metadata{})
+	}
+	if s.Schedule != nil {
+		v := s.Schedule
+
+		e.SetFields(protocol.BodyTarget, "Schedule", v, protocol.Metadata{})
+	}
+	if s.SizePercent != nil {
+		v := *s.SizePercent
+
+		e.SetValue(protocol.BodyTarget, "SizePercent", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.State != nil {
+		v := s.State
+
+		e.SetFields(protocol.BodyTarget, "State", v, protocol.Metadata{})
+	}
+	if s.TreatmentDescription != nil {
+		v := *s.TreatmentDescription
+
+		e.SetValue(protocol.BodyTarget, "TreatmentDescription", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.TreatmentName != nil {
+		v := *s.TreatmentName
+
+		e.SetValue(protocol.BodyTarget, "TreatmentName", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeTreatmentResourceList(vs []*TreatmentResource) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
+}
+
 type UpdateApnsChannelInput struct {
 	_ struct{} `type:"structure" payload:"APNSChannelRequest"`
 
@@ -10117,6 +13955,22 @@ func (s *UpdateApnsChannelInput) SetApplicationId(v string) *UpdateApnsChannelIn
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UpdateApnsChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.APNSChannelRequest != nil {
+		v := s.APNSChannelRequest
+
+		e.SetFields(protocol.PayloadTarget, "APNSChannelRequest", v, protocol.Metadata{})
+	}
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type UpdateApnsChannelOutput struct {
 	_ struct{} `type:"structure" payload:"APNSChannelResponse"`
 
@@ -10140,6 +13994,17 @@ func (s UpdateApnsChannelOutput) GoString() string {
 func (s *UpdateApnsChannelOutput) SetAPNSChannelResponse(v *APNSChannelResponse) *UpdateApnsChannelOutput {
 	s.APNSChannelResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UpdateApnsChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.APNSChannelResponse != nil {
+		v := s.APNSChannelResponse
+
+		e.SetFields(protocol.PayloadTarget, "APNSChannelResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type UpdateApnsSandboxChannelInput struct {
@@ -10192,6 +14057,22 @@ func (s *UpdateApnsSandboxChannelInput) SetApplicationId(v string) *UpdateApnsSa
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UpdateApnsSandboxChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.APNSSandboxChannelRequest != nil {
+		v := s.APNSSandboxChannelRequest
+
+		e.SetFields(protocol.PayloadTarget, "APNSSandboxChannelRequest", v, protocol.Metadata{})
+	}
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type UpdateApnsSandboxChannelOutput struct {
 	_ struct{} `type:"structure" payload:"APNSSandboxChannelResponse"`
 
@@ -10215,6 +14096,17 @@ func (s UpdateApnsSandboxChannelOutput) GoString() string {
 func (s *UpdateApnsSandboxChannelOutput) SetAPNSSandboxChannelResponse(v *APNSSandboxChannelResponse) *UpdateApnsSandboxChannelOutput {
 	s.APNSSandboxChannelResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UpdateApnsSandboxChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.APNSSandboxChannelResponse != nil {
+		v := s.APNSSandboxChannelResponse
+
+		e.SetFields(protocol.PayloadTarget, "APNSSandboxChannelResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type UpdateApplicationSettingsInput struct {
@@ -10267,6 +14159,22 @@ func (s *UpdateApplicationSettingsInput) SetWriteApplicationSettingsRequest(v *W
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UpdateApplicationSettingsInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.WriteApplicationSettingsRequest != nil {
+		v := s.WriteApplicationSettingsRequest
+
+		e.SetFields(protocol.PayloadTarget, "WriteApplicationSettingsRequest", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type UpdateApplicationSettingsOutput struct {
 	_ struct{} `type:"structure" payload:"ApplicationSettingsResource"`
 
@@ -10290,6 +14198,17 @@ func (s UpdateApplicationSettingsOutput) GoString() string {
 func (s *UpdateApplicationSettingsOutput) SetApplicationSettingsResource(v *ApplicationSettingsResource) *UpdateApplicationSettingsOutput {
 	s.ApplicationSettingsResource = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UpdateApplicationSettingsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationSettingsResource != nil {
+		v := s.ApplicationSettingsResource
+
+		e.SetFields(protocol.PayloadTarget, "ApplicationSettingsResource", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type UpdateCampaignInput struct {
@@ -10354,6 +14273,27 @@ func (s *UpdateCampaignInput) SetWriteCampaignRequest(v *WriteCampaignRequest) *
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UpdateCampaignInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.CampaignId != nil {
+		v := *s.CampaignId
+
+		e.SetValue(protocol.PathTarget, "campaign-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.WriteCampaignRequest != nil {
+		v := s.WriteCampaignRequest
+
+		e.SetFields(protocol.PayloadTarget, "WriteCampaignRequest", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type UpdateCampaignOutput struct {
 	_ struct{} `type:"structure" payload:"CampaignResponse"`
 
@@ -10377,6 +14317,17 @@ func (s UpdateCampaignOutput) GoString() string {
 func (s *UpdateCampaignOutput) SetCampaignResponse(v *CampaignResponse) *UpdateCampaignOutput {
 	s.CampaignResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UpdateCampaignOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CampaignResponse != nil {
+		v := s.CampaignResponse
+
+		e.SetFields(protocol.PayloadTarget, "CampaignResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type UpdateEmailChannelInput struct {
@@ -10429,6 +14380,22 @@ func (s *UpdateEmailChannelInput) SetEmailChannelRequest(v *EmailChannelRequest)
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UpdateEmailChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.EmailChannelRequest != nil {
+		v := s.EmailChannelRequest
+
+		e.SetFields(protocol.PayloadTarget, "EmailChannelRequest", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type UpdateEmailChannelOutput struct {
 	_ struct{} `type:"structure" payload:"EmailChannelResponse"`
 
@@ -10452,6 +14419,17 @@ func (s UpdateEmailChannelOutput) GoString() string {
 func (s *UpdateEmailChannelOutput) SetEmailChannelResponse(v *EmailChannelResponse) *UpdateEmailChannelOutput {
 	s.EmailChannelResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UpdateEmailChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.EmailChannelResponse != nil {
+		v := s.EmailChannelResponse
+
+		e.SetFields(protocol.PayloadTarget, "EmailChannelResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type UpdateEndpointInput struct {
@@ -10516,6 +14494,27 @@ func (s *UpdateEndpointInput) SetEndpointRequest(v *EndpointRequest) *UpdateEndp
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UpdateEndpointInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.EndpointId != nil {
+		v := *s.EndpointId
+
+		e.SetValue(protocol.PathTarget, "endpoint-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.EndpointRequest != nil {
+		v := s.EndpointRequest
+
+		e.SetFields(protocol.PayloadTarget, "EndpointRequest", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type UpdateEndpointOutput struct {
 	_ struct{} `type:"structure" payload:"MessageBody"`
 
@@ -10539,6 +14538,17 @@ func (s UpdateEndpointOutput) GoString() string {
 func (s *UpdateEndpointOutput) SetMessageBody(v *MessageBody) *UpdateEndpointOutput {
 	s.MessageBody = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UpdateEndpointOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.MessageBody != nil {
+		v := s.MessageBody
+
+		e.SetFields(protocol.PayloadTarget, "MessageBody", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type UpdateEndpointsBatchInput struct {
@@ -10591,6 +14601,22 @@ func (s *UpdateEndpointsBatchInput) SetEndpointBatchRequest(v *EndpointBatchRequ
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UpdateEndpointsBatchInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.EndpointBatchRequest != nil {
+		v := s.EndpointBatchRequest
+
+		e.SetFields(protocol.PayloadTarget, "EndpointBatchRequest", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type UpdateEndpointsBatchOutput struct {
 	_ struct{} `type:"structure" payload:"MessageBody"`
 
@@ -10614,6 +14640,17 @@ func (s UpdateEndpointsBatchOutput) GoString() string {
 func (s *UpdateEndpointsBatchOutput) SetMessageBody(v *MessageBody) *UpdateEndpointsBatchOutput {
 	s.MessageBody = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UpdateEndpointsBatchOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.MessageBody != nil {
+		v := s.MessageBody
+
+		e.SetFields(protocol.PayloadTarget, "MessageBody", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type UpdateGcmChannelInput struct {
@@ -10666,6 +14703,22 @@ func (s *UpdateGcmChannelInput) SetGCMChannelRequest(v *GCMChannelRequest) *Upda
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UpdateGcmChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.GCMChannelRequest != nil {
+		v := s.GCMChannelRequest
+
+		e.SetFields(protocol.PayloadTarget, "GCMChannelRequest", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type UpdateGcmChannelOutput struct {
 	_ struct{} `type:"structure" payload:"GCMChannelResponse"`
 
@@ -10689,6 +14742,17 @@ func (s UpdateGcmChannelOutput) GoString() string {
 func (s *UpdateGcmChannelOutput) SetGCMChannelResponse(v *GCMChannelResponse) *UpdateGcmChannelOutput {
 	s.GCMChannelResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UpdateGcmChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.GCMChannelResponse != nil {
+		v := s.GCMChannelResponse
+
+		e.SetFields(protocol.PayloadTarget, "GCMChannelResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type UpdateSegmentInput struct {
@@ -10753,6 +14817,27 @@ func (s *UpdateSegmentInput) SetWriteSegmentRequest(v *WriteSegmentRequest) *Upd
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UpdateSegmentInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.SegmentId != nil {
+		v := *s.SegmentId
+
+		e.SetValue(protocol.PathTarget, "segment-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.WriteSegmentRequest != nil {
+		v := s.WriteSegmentRequest
+
+		e.SetFields(protocol.PayloadTarget, "WriteSegmentRequest", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type UpdateSegmentOutput struct {
 	_ struct{} `type:"structure" payload:"SegmentResponse"`
 
@@ -10776,6 +14861,17 @@ func (s UpdateSegmentOutput) GoString() string {
 func (s *UpdateSegmentOutput) SetSegmentResponse(v *SegmentResponse) *UpdateSegmentOutput {
 	s.SegmentResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UpdateSegmentOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.SegmentResponse != nil {
+		v := s.SegmentResponse
+
+		e.SetFields(protocol.PayloadTarget, "SegmentResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 type UpdateSmsChannelInput struct {
@@ -10828,6 +14924,22 @@ func (s *UpdateSmsChannelInput) SetSMSChannelRequest(v *SMSChannelRequest) *Upda
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UpdateSmsChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		e.SetValue(protocol.PathTarget, "application-id", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.SMSChannelRequest != nil {
+		v := s.SMSChannelRequest
+
+		e.SetFields(protocol.PayloadTarget, "SMSChannelRequest", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
 type UpdateSmsChannelOutput struct {
 	_ struct{} `type:"structure" payload:"SMSChannelResponse"`
 
@@ -10851,6 +14963,17 @@ func (s UpdateSmsChannelOutput) GoString() string {
 func (s *UpdateSmsChannelOutput) SetSMSChannelResponse(v *SMSChannelResponse) *UpdateSmsChannelOutput {
 	s.SMSChannelResponse = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *UpdateSmsChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.SMSChannelResponse != nil {
+		v := s.SMSChannelResponse
+
+		e.SetFields(protocol.PayloadTarget, "SMSChannelResponse", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Creating application setting request
@@ -10888,6 +15011,22 @@ func (s *WriteApplicationSettingsRequest) SetLimits(v *CampaignLimits) *WriteApp
 func (s *WriteApplicationSettingsRequest) SetQuietTime(v *QuietTime) *WriteApplicationSettingsRequest {
 	s.QuietTime = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *WriteApplicationSettingsRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Limits != nil {
+		v := s.Limits
+
+		e.SetFields(protocol.BodyTarget, "Limits", v, protocol.Metadata{})
+	}
+	if s.QuietTime != nil {
+		v := s.QuietTime
+
+		e.SetFields(protocol.BodyTarget, "QuietTime", v, protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Used to create a campaign.
@@ -11015,6 +15154,72 @@ func (s *WriteCampaignRequest) SetTreatmentName(v string) *WriteCampaignRequest 
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *WriteCampaignRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.AdditionalTreatments) > 0 {
+		v := s.AdditionalTreatments
+
+		e.SetList(protocol.BodyTarget, "AdditionalTreatments", encodeWriteTreatmentResourceList(v), protocol.Metadata{})
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		e.SetValue(protocol.BodyTarget, "Description", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.HoldoutPercent != nil {
+		v := *s.HoldoutPercent
+
+		e.SetValue(protocol.BodyTarget, "HoldoutPercent", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.IsPaused != nil {
+		v := *s.IsPaused
+
+		e.SetValue(protocol.BodyTarget, "IsPaused", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.Limits != nil {
+		v := s.Limits
+
+		e.SetFields(protocol.BodyTarget, "Limits", v, protocol.Metadata{})
+	}
+	if s.MessageConfiguration != nil {
+		v := s.MessageConfiguration
+
+		e.SetFields(protocol.BodyTarget, "MessageConfiguration", v, protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "Name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Schedule != nil {
+		v := s.Schedule
+
+		e.SetFields(protocol.BodyTarget, "Schedule", v, protocol.Metadata{})
+	}
+	if s.SegmentId != nil {
+		v := *s.SegmentId
+
+		e.SetValue(protocol.BodyTarget, "SegmentId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.SegmentVersion != nil {
+		v := *s.SegmentVersion
+
+		e.SetValue(protocol.BodyTarget, "SegmentVersion", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.TreatmentDescription != nil {
+		v := *s.TreatmentDescription
+
+		e.SetValue(protocol.BodyTarget, "TreatmentDescription", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.TreatmentName != nil {
+		v := *s.TreatmentName
+
+		e.SetValue(protocol.BodyTarget, "TreatmentName", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Request to save an EventStream.
 type WriteEventStream struct {
 	_ struct{} `type:"structure"`
@@ -11051,6 +15256,22 @@ func (s *WriteEventStream) SetRoleArn(v string) *WriteEventStream {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *WriteEventStream) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DestinationStreamArn != nil {
+		v := *s.DestinationStreamArn
+
+		e.SetValue(protocol.BodyTarget, "DestinationStreamArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.RoleArn != nil {
+		v := *s.RoleArn
+
+		e.SetValue(protocol.BodyTarget, "RoleArn", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Segment definition.
 type WriteSegmentRequest struct {
 	_ struct{} `type:"structure"`
@@ -11082,6 +15303,22 @@ func (s *WriteSegmentRequest) SetDimensions(v *SegmentDimensions) *WriteSegmentR
 func (s *WriteSegmentRequest) SetName(v string) *WriteSegmentRequest {
 	s.Name = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *WriteSegmentRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Dimensions != nil {
+		v := s.Dimensions
+
+		e.SetFields(protocol.BodyTarget, "Dimensions", v, protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "Name", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Used to create a campaign treatment.
@@ -11142,6 +15379,45 @@ func (s *WriteTreatmentResource) SetTreatmentDescription(v string) *WriteTreatme
 func (s *WriteTreatmentResource) SetTreatmentName(v string) *WriteTreatmentResource {
 	s.TreatmentName = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *WriteTreatmentResource) MarshalFields(e protocol.FieldEncoder) error {
+	if s.MessageConfiguration != nil {
+		v := s.MessageConfiguration
+
+		e.SetFields(protocol.BodyTarget, "MessageConfiguration", v, protocol.Metadata{})
+	}
+	if s.Schedule != nil {
+		v := s.Schedule
+
+		e.SetFields(protocol.BodyTarget, "Schedule", v, protocol.Metadata{})
+	}
+	if s.SizePercent != nil {
+		v := *s.SizePercent
+
+		e.SetValue(protocol.BodyTarget, "SizePercent", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.TreatmentDescription != nil {
+		v := *s.TreatmentDescription
+
+		e.SetValue(protocol.BodyTarget, "TreatmentDescription", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.TreatmentName != nil {
+		v := *s.TreatmentName
+
+		e.SetValue(protocol.BodyTarget, "TreatmentName", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeWriteTreatmentResourceList(vs []*WriteTreatmentResource) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
 }
 
 const (

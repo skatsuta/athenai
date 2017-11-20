@@ -17,19 +17,18 @@ const opCreateFileSystem = "CreateFileSystem"
 
 // CreateFileSystemRequest generates a "aws/request.Request" representing the
 // client's request for the CreateFileSystem operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See CreateFileSystem for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the CreateFileSystem method directly
-// instead.
+// See CreateFileSystem for more information on using the CreateFileSystem
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the CreateFileSystemRequest method.
 //    req, resp := client.CreateFileSystemRequest(params)
@@ -154,19 +153,18 @@ const opCreateMountTarget = "CreateMountTarget"
 
 // CreateMountTargetRequest generates a "aws/request.Request" representing the
 // client's request for the CreateMountTarget operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See CreateMountTarget for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the CreateMountTarget method directly
-// instead.
+// See CreateMountTarget for more information on using the CreateMountTarget
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the CreateMountTargetRequest method.
 //    req, resp := client.CreateMountTargetRequest(params)
@@ -371,19 +369,18 @@ const opCreateTags = "CreateTags"
 
 // CreateTagsRequest generates a "aws/request.Request" representing the
 // client's request for the CreateTags operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See CreateTags for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the CreateTags method directly
-// instead.
+// See CreateTags for more information on using the CreateTags
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the CreateTagsRequest method.
 //    req, resp := client.CreateTagsRequest(params)
@@ -467,19 +464,18 @@ const opDeleteFileSystem = "DeleteFileSystem"
 
 // DeleteFileSystemRequest generates a "aws/request.Request" representing the
 // client's request for the DeleteFileSystem operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DeleteFileSystem for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DeleteFileSystem method directly
-// instead.
+// See DeleteFileSystem for more information on using the DeleteFileSystem
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DeleteFileSystemRequest method.
 //    req, resp := client.DeleteFileSystemRequest(params)
@@ -575,19 +571,18 @@ const opDeleteMountTarget = "DeleteMountTarget"
 
 // DeleteMountTargetRequest generates a "aws/request.Request" representing the
 // client's request for the DeleteMountTarget operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DeleteMountTarget for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DeleteMountTarget method directly
-// instead.
+// See DeleteMountTarget for more information on using the DeleteMountTarget
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DeleteMountTargetRequest method.
 //    req, resp := client.DeleteMountTargetRequest(params)
@@ -693,19 +688,18 @@ const opDeleteTags = "DeleteTags"
 
 // DeleteTagsRequest generates a "aws/request.Request" representing the
 // client's request for the DeleteTags operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DeleteTags for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DeleteTags method directly
-// instead.
+// See DeleteTags for more information on using the DeleteTags
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DeleteTagsRequest method.
 //    req, resp := client.DeleteTagsRequest(params)
@@ -790,19 +784,18 @@ const opDescribeFileSystems = "DescribeFileSystems"
 
 // DescribeFileSystemsRequest generates a "aws/request.Request" representing the
 // client's request for the DescribeFileSystems operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DescribeFileSystems for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DescribeFileSystems method directly
-// instead.
+// See DescribeFileSystems for more information on using the DescribeFileSystems
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DescribeFileSystemsRequest method.
 //    req, resp := client.DescribeFileSystemsRequest(params)
@@ -903,19 +896,18 @@ const opDescribeMountTargetSecurityGroups = "DescribeMountTargetSecurityGroups"
 
 // DescribeMountTargetSecurityGroupsRequest generates a "aws/request.Request" representing the
 // client's request for the DescribeMountTargetSecurityGroups operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DescribeMountTargetSecurityGroups for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DescribeMountTargetSecurityGroups method directly
-// instead.
+// See DescribeMountTargetSecurityGroups for more information on using the DescribeMountTargetSecurityGroups
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DescribeMountTargetSecurityGroupsRequest method.
 //    req, resp := client.DescribeMountTargetSecurityGroupsRequest(params)
@@ -1004,19 +996,18 @@ const opDescribeMountTargets = "DescribeMountTargets"
 
 // DescribeMountTargetsRequest generates a "aws/request.Request" representing the
 // client's request for the DescribeMountTargets operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DescribeMountTargets for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DescribeMountTargets method directly
-// instead.
+// See DescribeMountTargets for more information on using the DescribeMountTargets
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DescribeMountTargetsRequest method.
 //    req, resp := client.DescribeMountTargetsRequest(params)
@@ -1102,19 +1093,18 @@ const opDescribeTags = "DescribeTags"
 
 // DescribeTagsRequest generates a "aws/request.Request" representing the
 // client's request for the DescribeTags operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See DescribeTags for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the DescribeTags method directly
-// instead.
+// See DescribeTags for more information on using the DescribeTags
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the DescribeTagsRequest method.
 //    req, resp := client.DescribeTagsRequest(params)
@@ -1195,19 +1185,18 @@ const opModifyMountTargetSecurityGroups = "ModifyMountTargetSecurityGroups"
 
 // ModifyMountTargetSecurityGroupsRequest generates a "aws/request.Request" representing the
 // client's request for the ModifyMountTargetSecurityGroups operation. The "output" return
-// value can be used to capture response data after the request's "Send" method
-// is called.
+// value will be populated with the request's response once the request complets
+// successfuly.
 //
-// See ModifyMountTargetSecurityGroups for usage and error information.
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
 //
-// Creating a request object using this method should be used when you want to inject
-// custom logic into the request's lifecycle using a custom handler, or if you want to
-// access properties on the request object before or after sending the request. If
-// you just want the service response, call the ModifyMountTargetSecurityGroups method directly
-// instead.
+// See ModifyMountTargetSecurityGroups for more information on using the ModifyMountTargetSecurityGroups
+// API call, and error handling.
 //
-// Note: You must call the "Send" method on the returned request object in order
-// to execute the request.
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
 //
 //    // Example sending a request using the ModifyMountTargetSecurityGroupsRequest method.
 //    req, resp := client.ModifyMountTargetSecurityGroupsRequest(params)
@@ -1317,6 +1306,32 @@ type CreateFileSystemInput struct {
 	// CreationToken is a required field
 	CreationToken *string `min:"1" type:"string" required:"true"`
 
+	// A boolean value that, if true, creates an encrypted file system. When creating
+	// an encrypted file system, you have the option of specifying a CreateFileSystemRequest$KmsKeyId
+	// for an existing AWS Key Management Service (AWS KMS) customer master key
+	// (CMK). If you don't specify a CMK, then the default CMK for Amazon EFS, /aws/elasticfilesystem,
+	// is used to protect the encrypted file system.
+	Encrypted *bool `type:"boolean"`
+
+	// The id of the AWS KMS CMK that will be used to protect the encrypted file
+	// system. This parameter is only required if you want to use a non-default
+	// CMK. If this parameter is not specified, the default CMK for Amazon EFS is
+	// used. This id can be in one of the following formats:
+	//
+	//    * Key ID - A unique identifier of the key. For example, 1234abcd-12ab-34cd-56ef-1234567890ab.
+	//
+	//    * ARN - An Amazon Resource Name for the key. For example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
+	//
+	//    * Key alias - A previously created display name for a key. For example,
+	//    alias/projectKey1.
+	//
+	//    * Key alias ARN - An Amazon Resource Name for a key alias. For example,
+	//    arn:aws:kms:us-west-2:444455556666:alias/projectKey1.
+	//
+	// Note that if the KmsKeyId is specified, the CreateFileSystemRequest$Encrypted
+	// parameter must be set to true.
+	KmsKeyId *string `min:"1" type:"string"`
+
 	// The PerformanceMode of the file system. We recommend generalPurpose performance
 	// mode for most file systems. File systems using the maxIO performance mode
 	// can scale to higher levels of aggregate throughput and operations per second
@@ -1344,6 +1359,9 @@ func (s *CreateFileSystemInput) Validate() error {
 	if s.CreationToken != nil && len(*s.CreationToken) < 1 {
 		invalidParams.Add(request.NewErrParamMinLen("CreationToken", 1))
 	}
+	if s.KmsKeyId != nil && len(*s.KmsKeyId) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("KmsKeyId", 1))
+	}
 
 	if invalidParams.Len() > 0 {
 		return invalidParams
@@ -1357,10 +1375,48 @@ func (s *CreateFileSystemInput) SetCreationToken(v string) *CreateFileSystemInpu
 	return s
 }
 
+// SetEncrypted sets the Encrypted field's value.
+func (s *CreateFileSystemInput) SetEncrypted(v bool) *CreateFileSystemInput {
+	s.Encrypted = &v
+	return s
+}
+
+// SetKmsKeyId sets the KmsKeyId field's value.
+func (s *CreateFileSystemInput) SetKmsKeyId(v string) *CreateFileSystemInput {
+	s.KmsKeyId = &v
+	return s
+}
+
 // SetPerformanceMode sets the PerformanceMode field's value.
 func (s *CreateFileSystemInput) SetPerformanceMode(v string) *CreateFileSystemInput {
 	s.PerformanceMode = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CreateFileSystemInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CreationToken != nil {
+		v := *s.CreationToken
+
+		e.SetValue(protocol.BodyTarget, "CreationToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Encrypted != nil {
+		v := *s.Encrypted
+
+		e.SetValue(protocol.BodyTarget, "Encrypted", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.KmsKeyId != nil {
+		v := *s.KmsKeyId
+
+		e.SetValue(protocol.BodyTarget, "KmsKeyId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.PerformanceMode != nil {
+		v := *s.PerformanceMode
+
+		e.SetValue(protocol.BodyTarget, "PerformanceMode", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/CreateMountTargetRequest
@@ -1435,6 +1491,32 @@ func (s *CreateMountTargetInput) SetSubnetId(v string) *CreateMountTargetInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CreateMountTargetInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.FileSystemId != nil {
+		v := *s.FileSystemId
+
+		e.SetValue(protocol.BodyTarget, "FileSystemId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.IpAddress != nil {
+		v := *s.IpAddress
+
+		e.SetValue(protocol.BodyTarget, "IpAddress", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.SecurityGroups) > 0 {
+		v := s.SecurityGroups
+
+		e.SetList(protocol.BodyTarget, "SecurityGroups", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+	if s.SubnetId != nil {
+		v := *s.SubnetId
+
+		e.SetValue(protocol.BodyTarget, "SubnetId", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/CreateTagsRequest
 type CreateTagsInput struct {
 	_ struct{} `type:"structure"`
@@ -1499,6 +1581,22 @@ func (s *CreateTagsInput) SetTags(v []*Tag) *CreateTagsInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CreateTagsInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.FileSystemId != nil {
+		v := *s.FileSystemId
+
+		e.SetValue(protocol.PathTarget, "FileSystemId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Tags) > 0 {
+		v := s.Tags
+
+		e.SetList(protocol.BodyTarget, "Tags", encodeTagList(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/CreateTagsOutput
 type CreateTagsOutput struct {
 	_ struct{} `type:"structure"`
@@ -1512,6 +1610,12 @@ func (s CreateTagsOutput) String() string {
 // GoString returns the string representation
 func (s CreateTagsOutput) GoString() string {
 	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *CreateTagsOutput) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DeleteFileSystemRequest
@@ -1553,6 +1657,17 @@ func (s *DeleteFileSystemInput) SetFileSystemId(v string) *DeleteFileSystemInput
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteFileSystemInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.FileSystemId != nil {
+		v := *s.FileSystemId
+
+		e.SetValue(protocol.PathTarget, "FileSystemId", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DeleteFileSystemOutput
 type DeleteFileSystemOutput struct {
 	_ struct{} `type:"structure"`
@@ -1566,6 +1681,12 @@ func (s DeleteFileSystemOutput) String() string {
 // GoString returns the string representation
 func (s DeleteFileSystemOutput) GoString() string {
 	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteFileSystemOutput) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DeleteMountTargetRequest
@@ -1607,6 +1728,17 @@ func (s *DeleteMountTargetInput) SetMountTargetId(v string) *DeleteMountTargetIn
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteMountTargetInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.MountTargetId != nil {
+		v := *s.MountTargetId
+
+		e.SetValue(protocol.PathTarget, "MountTargetId", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DeleteMountTargetOutput
 type DeleteMountTargetOutput struct {
 	_ struct{} `type:"structure"`
@@ -1620,6 +1752,12 @@ func (s DeleteMountTargetOutput) String() string {
 // GoString returns the string representation
 func (s DeleteMountTargetOutput) GoString() string {
 	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteMountTargetOutput) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DeleteTagsRequest
@@ -1675,6 +1813,22 @@ func (s *DeleteTagsInput) SetTagKeys(v []*string) *DeleteTagsInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteTagsInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.FileSystemId != nil {
+		v := *s.FileSystemId
+
+		e.SetValue(protocol.PathTarget, "FileSystemId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.TagKeys) > 0 {
+		v := s.TagKeys
+
+		e.SetList(protocol.BodyTarget, "TagKeys", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DeleteTagsOutput
 type DeleteTagsOutput struct {
 	_ struct{} `type:"structure"`
@@ -1688,6 +1842,12 @@ func (s DeleteTagsOutput) String() string {
 // GoString returns the string representation
 func (s DeleteTagsOutput) GoString() string {
 	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DeleteTagsOutput) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DescribeFileSystemsRequest
@@ -1765,6 +1925,32 @@ func (s *DescribeFileSystemsInput) SetMaxItems(v int64) *DescribeFileSystemsInpu
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DescribeFileSystemsInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CreationToken != nil {
+		v := *s.CreationToken
+
+		e.SetValue(protocol.QueryTarget, "CreationToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.FileSystemId != nil {
+		v := *s.FileSystemId
+
+		e.SetValue(protocol.QueryTarget, "FileSystemId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Marker != nil {
+		v := *s.Marker
+
+		e.SetValue(protocol.QueryTarget, "Marker", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.MaxItems != nil {
+		v := *s.MaxItems
+
+		e.SetValue(protocol.QueryTarget, "MaxItems", protocol.Int64Value(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DescribeFileSystemsResponse
 type DescribeFileSystemsOutput struct {
 	_ struct{} `type:"structure"`
@@ -1808,6 +1994,27 @@ func (s *DescribeFileSystemsOutput) SetNextMarker(v string) *DescribeFileSystems
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DescribeFileSystemsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.FileSystems) > 0 {
+		v := s.FileSystems
+
+		e.SetList(protocol.BodyTarget, "FileSystems", encodeFileSystemDescriptionList(v), protocol.Metadata{})
+	}
+	if s.Marker != nil {
+		v := *s.Marker
+
+		e.SetValue(protocol.BodyTarget, "Marker", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.NextMarker != nil {
+		v := *s.NextMarker
+
+		e.SetValue(protocol.BodyTarget, "NextMarker", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DescribeMountTargetSecurityGroupsRequest
 type DescribeMountTargetSecurityGroupsInput struct {
 	_ struct{} `type:"structure"`
@@ -1847,6 +2054,17 @@ func (s *DescribeMountTargetSecurityGroupsInput) SetMountTargetId(v string) *Des
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DescribeMountTargetSecurityGroupsInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.MountTargetId != nil {
+		v := *s.MountTargetId
+
+		e.SetValue(protocol.PathTarget, "MountTargetId", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DescribeMountTargetSecurityGroupsResponse
 type DescribeMountTargetSecurityGroupsOutput struct {
 	_ struct{} `type:"structure"`
@@ -1871,6 +2089,17 @@ func (s DescribeMountTargetSecurityGroupsOutput) GoString() string {
 func (s *DescribeMountTargetSecurityGroupsOutput) SetSecurityGroups(v []*string) *DescribeMountTargetSecurityGroupsOutput {
 	s.SecurityGroups = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DescribeMountTargetSecurityGroupsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.SecurityGroups) > 0 {
+		v := s.SecurityGroups
+
+		e.SetList(protocol.BodyTarget, "SecurityGroups", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DescribeMountTargetsRequest
@@ -1942,6 +2171,32 @@ func (s *DescribeMountTargetsInput) SetMountTargetId(v string) *DescribeMountTar
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DescribeMountTargetsInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.FileSystemId != nil {
+		v := *s.FileSystemId
+
+		e.SetValue(protocol.QueryTarget, "FileSystemId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Marker != nil {
+		v := *s.Marker
+
+		e.SetValue(protocol.QueryTarget, "Marker", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.MaxItems != nil {
+		v := *s.MaxItems
+
+		e.SetValue(protocol.QueryTarget, "MaxItems", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.MountTargetId != nil {
+		v := *s.MountTargetId
+
+		e.SetValue(protocol.QueryTarget, "MountTargetId", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DescribeMountTargetsResponse
 type DescribeMountTargetsOutput struct {
 	_ struct{} `type:"structure"`
@@ -1986,6 +2241,27 @@ func (s *DescribeMountTargetsOutput) SetMountTargets(v []*MountTargetDescription
 func (s *DescribeMountTargetsOutput) SetNextMarker(v string) *DescribeMountTargetsOutput {
 	s.NextMarker = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DescribeMountTargetsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Marker != nil {
+		v := *s.Marker
+
+		e.SetValue(protocol.BodyTarget, "Marker", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.MountTargets) > 0 {
+		v := s.MountTargets
+
+		e.SetList(protocol.BodyTarget, "MountTargets", encodeMountTargetDescriptionList(v), protocol.Metadata{})
+	}
+	if s.NextMarker != nil {
+		v := *s.NextMarker
+
+		e.SetValue(protocol.BodyTarget, "NextMarker", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DescribeTagsRequest
@@ -2051,6 +2327,27 @@ func (s *DescribeTagsInput) SetMaxItems(v int64) *DescribeTagsInput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DescribeTagsInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.FileSystemId != nil {
+		v := *s.FileSystemId
+
+		e.SetValue(protocol.PathTarget, "FileSystemId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Marker != nil {
+		v := *s.Marker
+
+		e.SetValue(protocol.QueryTarget, "Marker", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.MaxItems != nil {
+		v := *s.MaxItems
+
+		e.SetValue(protocol.QueryTarget, "MaxItems", protocol.Int64Value(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DescribeTagsResponse
 type DescribeTagsOutput struct {
 	_ struct{} `type:"structure"`
@@ -2098,6 +2395,27 @@ func (s *DescribeTagsOutput) SetTags(v []*Tag) *DescribeTagsOutput {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *DescribeTagsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Marker != nil {
+		v := *s.Marker
+
+		e.SetValue(protocol.BodyTarget, "Marker", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.NextMarker != nil {
+		v := *s.NextMarker
+
+		e.SetValue(protocol.BodyTarget, "NextMarker", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.Tags) > 0 {
+		v := s.Tags
+
+		e.SetList(protocol.BodyTarget, "Tags", encodeTagList(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Description of the file system.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/FileSystemDescription
 type FileSystemDescription struct {
@@ -2113,10 +2431,17 @@ type FileSystemDescription struct {
 	// CreationToken is a required field
 	CreationToken *string `min:"1" type:"string" required:"true"`
 
+	// A boolean value that, if true, indicates that the file system is encrypted.
+	Encrypted *bool `type:"boolean"`
+
 	// ID of the file system, assigned by Amazon EFS.
 	//
 	// FileSystemId is a required field
 	FileSystemId *string `type:"string" required:"true"`
+
+	// The id of an AWS Key Management Service (AWS KMS) customer master key (CMK)
+	// that was used to protect the encrypted file system.
+	KmsKeyId *string `min:"1" type:"string"`
 
 	// Lifecycle phase of the file system.
 	//
@@ -2181,9 +2506,21 @@ func (s *FileSystemDescription) SetCreationToken(v string) *FileSystemDescriptio
 	return s
 }
 
+// SetEncrypted sets the Encrypted field's value.
+func (s *FileSystemDescription) SetEncrypted(v bool) *FileSystemDescription {
+	s.Encrypted = &v
+	return s
+}
+
 // SetFileSystemId sets the FileSystemId field's value.
 func (s *FileSystemDescription) SetFileSystemId(v string) *FileSystemDescription {
 	s.FileSystemId = &v
+	return s
+}
+
+// SetKmsKeyId sets the KmsKeyId field's value.
+func (s *FileSystemDescription) SetKmsKeyId(v string) *FileSystemDescription {
+	s.KmsKeyId = &v
 	return s
 }
 
@@ -2221,6 +2558,75 @@ func (s *FileSystemDescription) SetPerformanceMode(v string) *FileSystemDescript
 func (s *FileSystemDescription) SetSizeInBytes(v *FileSystemSize) *FileSystemDescription {
 	s.SizeInBytes = v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *FileSystemDescription) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CreationTime != nil {
+		v := *s.CreationTime
+
+		e.SetValue(protocol.BodyTarget, "CreationTime", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.CreationToken != nil {
+		v := *s.CreationToken
+
+		e.SetValue(protocol.BodyTarget, "CreationToken", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Encrypted != nil {
+		v := *s.Encrypted
+
+		e.SetValue(protocol.BodyTarget, "Encrypted", protocol.BoolValue(v), protocol.Metadata{})
+	}
+	if s.FileSystemId != nil {
+		v := *s.FileSystemId
+
+		e.SetValue(protocol.BodyTarget, "FileSystemId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.KmsKeyId != nil {
+		v := *s.KmsKeyId
+
+		e.SetValue(protocol.BodyTarget, "KmsKeyId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.LifeCycleState != nil {
+		v := *s.LifeCycleState
+
+		e.SetValue(protocol.BodyTarget, "LifeCycleState", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		e.SetValue(protocol.BodyTarget, "Name", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.NumberOfMountTargets != nil {
+		v := *s.NumberOfMountTargets
+
+		e.SetValue(protocol.BodyTarget, "NumberOfMountTargets", protocol.Int64Value(v), protocol.Metadata{})
+	}
+	if s.OwnerId != nil {
+		v := *s.OwnerId
+
+		e.SetValue(protocol.BodyTarget, "OwnerId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.PerformanceMode != nil {
+		v := *s.PerformanceMode
+
+		e.SetValue(protocol.BodyTarget, "PerformanceMode", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.SizeInBytes != nil {
+		v := s.SizeInBytes
+
+		e.SetFields(protocol.BodyTarget, "SizeInBytes", v, protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeFileSystemDescriptionList(vs []*FileSystemDescription) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
 }
 
 // Latest known metered size (in bytes) of data stored in the file system, in
@@ -2265,6 +2671,22 @@ func (s *FileSystemSize) SetTimestamp(v time.Time) *FileSystemSize {
 func (s *FileSystemSize) SetValue(v int64) *FileSystemSize {
 	s.Value = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *FileSystemSize) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Timestamp != nil {
+		v := *s.Timestamp
+
+		e.SetValue(protocol.BodyTarget, "Timestamp", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, protocol.Metadata{})
+	}
+	if s.Value != nil {
+		v := *s.Value
+
+		e.SetValue(protocol.BodyTarget, "Value", protocol.Int64Value(v), protocol.Metadata{})
+	}
+
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/ModifyMountTargetSecurityGroupsRequest
@@ -2315,6 +2737,22 @@ func (s *ModifyMountTargetSecurityGroupsInput) SetSecurityGroups(v []*string) *M
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *ModifyMountTargetSecurityGroupsInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.MountTargetId != nil {
+		v := *s.MountTargetId
+
+		e.SetValue(protocol.PathTarget, "MountTargetId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if len(s.SecurityGroups) > 0 {
+		v := s.SecurityGroups
+
+		e.SetList(protocol.BodyTarget, "SecurityGroups", protocol.EncodeStringList(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/ModifyMountTargetSecurityGroupsOutput
 type ModifyMountTargetSecurityGroupsOutput struct {
 	_ struct{} `type:"structure"`
@@ -2328,6 +2766,12 @@ func (s ModifyMountTargetSecurityGroupsOutput) String() string {
 // GoString returns the string representation
 func (s ModifyMountTargetSecurityGroupsOutput) GoString() string {
 	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *ModifyMountTargetSecurityGroupsOutput) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
 }
 
 // Provides a description of a mount target.
@@ -2418,6 +2862,55 @@ func (s *MountTargetDescription) SetSubnetId(v string) *MountTargetDescription {
 	return s
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *MountTargetDescription) MarshalFields(e protocol.FieldEncoder) error {
+	if s.FileSystemId != nil {
+		v := *s.FileSystemId
+
+		e.SetValue(protocol.BodyTarget, "FileSystemId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.IpAddress != nil {
+		v := *s.IpAddress
+
+		e.SetValue(protocol.BodyTarget, "IpAddress", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.LifeCycleState != nil {
+		v := *s.LifeCycleState
+
+		e.SetValue(protocol.BodyTarget, "LifeCycleState", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.MountTargetId != nil {
+		v := *s.MountTargetId
+
+		e.SetValue(protocol.BodyTarget, "MountTargetId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.NetworkInterfaceId != nil {
+		v := *s.NetworkInterfaceId
+
+		e.SetValue(protocol.BodyTarget, "NetworkInterfaceId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.OwnerId != nil {
+		v := *s.OwnerId
+
+		e.SetValue(protocol.BodyTarget, "OwnerId", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.SubnetId != nil {
+		v := *s.SubnetId
+
+		e.SetValue(protocol.BodyTarget, "SubnetId", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeMountTargetDescriptionList(vs []*MountTargetDescription) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
+}
+
 // A tag is a key-value pair. Allowed characters: letters, whitespace, and numbers,
 // representable in UTF-8, and the following characters: + - = . _ : /
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/Tag
@@ -2474,6 +2967,30 @@ func (s *Tag) SetKey(v string) *Tag {
 func (s *Tag) SetValue(v string) *Tag {
 	s.Value = &v
 	return s
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s *Tag) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Key != nil {
+		v := *s.Key
+
+		e.SetValue(protocol.BodyTarget, "Key", protocol.StringValue(v), protocol.Metadata{})
+	}
+	if s.Value != nil {
+		v := *s.Value
+
+		e.SetValue(protocol.BodyTarget, "Value", protocol.StringValue(v), protocol.Metadata{})
+	}
+
+	return nil
+}
+
+func encodeTagList(vs []*Tag) func(protocol.ListEncoder) {
+	return func(le protocol.ListEncoder) {
+		for _, v := range vs {
+			le.ListAddFields(v)
+		}
+	}
 }
 
 const (
